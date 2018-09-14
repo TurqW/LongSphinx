@@ -1,0 +1,261 @@
+servers:
+    '443869685054701569':
+        name: The Realm
+        channel:
+          bot-commands
+        greetingChannel:
+          portal
+        validRoles:
+            Dwarf:
+                secondaryRoles:
+                    - Humanoids
+            Elf:
+                secondaryRoles:
+                    - Humanoids
+            Fairy:
+                secondaryRoles:
+                    - Humanoids
+            Goblin:
+                secondaryRoles:
+                    - Humanoids
+            Gnome:
+                secondaryRoles:
+                    - Humanoids
+            Halfling:
+                secondaryRoles:
+                    - Humanoids
+            Human:
+                secondaryRoles:
+                    - Humanoids
+            Mermaid:
+                secondaryRoles:
+                    - Humanoids
+            Vampire:
+                secondaryRoles:
+                    - Humanoids
+            Werewolf:
+                secondaryRoles:
+                    - Humanoids
+            Witch:
+                secondaryRoles:
+                    - Humanoids
+            Wizard:
+                secondaryRoles:
+                    - Humanoids
+            Zombie:
+                secondaryRoles:
+                    - Humanoids
+            
+            Basilisk:
+                secondaryRoles:
+                    - Beasts
+            Chimera:
+                secondaryRoles:
+                    - Beasts
+            Centaur:
+                secondaryRoles:
+                    - Beasts
+            Cyclops:
+                secondaryRoles:
+                    - Beasts
+            Dragon:
+                secondaryRoles:
+                    - Beasts
+            Gryphon:
+                secondaryRoles:
+                    - Beasts
+            Loch Ness Monster:
+                secondaryRoles:
+                    - Beasts
+            Ogre:
+                secondaryRoles:
+                    - Beasts
+            Pegasus:
+                secondaryRoles:
+                    - Beasts
+            Phoenix:
+                secondaryRoles:
+                    - Beasts
+            Sasquatch:
+                secondaryRoles:
+                    - Beasts
+            Sphinx:
+                secondaryRoles:
+                    - Beasts
+            Unicorn:
+                secondaryRoles:
+                    - Beasts
+            
+            Angel:
+                secondaryRoles:
+                    - Spirits
+            Banshee:
+                secondaryRoles:
+                    - Spirits
+            Demon:
+                secondaryRoles:
+                    - Spirits
+            Deity:
+                secondaryRoles:
+                    - Spirits
+            Djinn:
+                secondaryRoles:
+                    - Spirits
+            Ghost:
+                secondaryRoles:
+                    - Spirits
+            Ghoul:
+                secondaryRoles:
+                    - Spirits
+            Grim:
+                secondaryRoles:
+                    - Spirits
+            Kobold:
+                secondaryRoles:
+                    - Spirits
+            Poltergeist:
+                secondaryRoles:
+                    - Spirits
+            Skeleton:
+                secondaryRoles:
+                    - Spirits
+            Sylph:
+                secondaryRoles:
+                    - Spirits
+            Wraith:
+                secondaryRoles:
+                    - Spirits
+        removeOnUpdate:
+        - Beasts
+        - Spirits
+        - Humanoids
+    '489197880809095168':
+        name: test server
+        channel: 
+          bot-commands
+        greetingChannel:
+          portal
+        validRoles:
+            Dwarf:
+                secondaryRoles:
+                    - Humanoids
+            Elf:
+                secondaryRoles:
+                    - Humanoids
+            Fairy:
+                secondaryRoles:
+                    - Humanoids
+            Goblin:
+                secondaryRoles:
+                    - Humanoids
+            Gnome:
+                secondaryRoles:
+                    - Humanoids
+            Halfling:
+                secondaryRoles:
+                    - Humanoids
+            Human:
+                secondaryRoles:
+                    - Humanoids
+            Mermaid:
+                secondaryRoles:
+                    - Humanoids
+            Vampire:
+                secondaryRoles:
+                    - Humanoids
+            Werewolf:
+                secondaryRoles:
+                    - Humanoids
+            Witch:
+                secondaryRoles:
+                    - Humanoids
+            Wizard:
+                secondaryRoles:
+                    - Humanoids
+            Zombie:
+                secondaryRoles:
+                    - Humanoids
+            
+            Basilisk:
+                secondaryRoles:
+                    - Beasts
+            Chimera:
+                secondaryRoles:
+                    - Beasts
+            Centaur:
+                secondaryRoles:
+                    - Beasts
+            Cyclops:
+                secondaryRoles:
+                    - Beasts
+            Dragon:
+                secondaryRoles:
+                    - Beasts
+            Gryphon:
+                secondaryRoles:
+                    - Beasts
+            Loch Ness Monster:
+                secondaryRoles:
+                    - Beasts
+            Ogre:
+                secondaryRoles:
+                    - Beasts
+            Pegasus:
+                secondaryRoles:
+                    - Beasts
+            Phoenix:
+                secondaryRoles:
+                    - Beasts
+            Sasquatch:
+                secondaryRoles:
+                    - Beasts
+            Sphinx:
+                secondaryRoles:
+                    - Beasts
+            Unicorn:
+                secondaryRoles:
+                    - Beasts
+            
+            Angel:
+                secondaryRoles:
+                    - Spirits
+            Banshee:
+                secondaryRoles:
+                    - Spirits
+            Demon:
+                secondaryRoles:
+                    - Spirits
+            Deity:
+                secondaryRoles:
+                    - Spirits
+            Djinn:
+                secondaryRoles:
+                    - Spirits
+            Ghost:
+                secondaryRoles:
+                    - Spirits
+            Ghoul:
+                secondaryRoles:
+                    - Spirits
+            Grim:
+                secondaryRoles:
+                    - Spirits
+            Kobold:
+                secondaryRoles:
+                    - Spirits
+            Poltergeist:
+                secondaryRoles:
+                    - Spirits
+            Skeleton:
+                secondaryRoles:
+                    - Spirits
+            Sylph:
+                secondaryRoles:
+                    - Spirits
+            Wraith:
+                secondaryRoles:
+                    - Spirits
+        removeOnUpdate:
+        - Beasts
+        - Spirits
+        - Humanoids
