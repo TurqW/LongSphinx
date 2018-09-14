@@ -20,6 +20,9 @@ def get_object(server_id, *hierarchy):
 			log.error('Could not find {0} out of {1} on server {2}'.format(level, hierarchy, server_id))
 	return found
 
+def get_string(server_id, stringname):
+	return get_object(server_id, 'strings', stringname)
+
 def update_config():
 	global lastmod
 	global config
@@ -31,5 +34,5 @@ def update_config():
 				config = yaml.load(stream)
 				lastmod = newlastmod
 			except yaml.YAMLError as exc:
-				log.error(exc)
+				log.exception(exc)
 				log.error('YAML invalid, sticking with version from {0}'.format(lastmod))

@@ -129,6 +129,15 @@ servers:
         - Beasts
         - Spirits
         - Humanoids
+        strings:
+          roleChange:
+            '{0.author.mention}, you are now a {1}.'
+          invalidRole:
+            '{0.author.mention}, role {1} is not on the valid list.'
+          welcome:
+            'Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps?
+            
+My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'
     '489197880809095168':
         name: test server
         channel: 
@@ -259,3 +268,12 @@ servers:
         - Beasts
         - Spirits
         - Humanoids
+        strings:
+          roleChange:
+            '{0.author.mention}, you are now a {1}.'
+          invalidRole:
+            '{0.author.mention}, role {1} is not on the valid list.'
+          welcome:
+            'Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps?
+
+My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'

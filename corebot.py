@@ -49,9 +49,9 @@ async def on_message(message):
 			try:
 				newRole = await change_role(message.author, ' '.join(words))
 				#todo "an elf" etc
-				msg = '{0.author.mention}, you are now a {1}'.format(message, newRole.name)
+				msg = conf.get_string(message.server.id, 'roleChange').format(message, newRole.name)
 			except (NameError):
-				msg = '{0.author.mention}, role {1} is not on the valid list.'.format(message, ' '.join(words))
+				msg = conf.get_string(message.server.id, 'invalidRole').format(message, ' '.join(words))
 			await client.send_message(message.channel, msg)
 
 		if message.content.startswith('&join'):
@@ -69,8 +69,7 @@ async def on_member_join(member):
 	role = random.choice(get_valid_role_set(member.server))
 	log.debug('{0.mention} joined {0.server} and has been assigned role {1.name}'.format(member, role))
 	await change_role(member, role.name)
-	msg = '''Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps?
-My crystal ball has been foggy of late. If I\'m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'''.format(member.server, member, role, find_channel(conf.get_object(member.server.id, 'channel'), member.server))
+	msg = conf.get_string(member.server.id, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server.id, 'channel'), member.server))
 	await client.send_message(channel, msg)
 
 
