@@ -86,7 +86,7 @@ async def on_ready():
 async def on_member_join(member):
 	channel = find_channel(conf.get_object(member.server.id, 'greetingChannel'), member.server)
 	role = random.choice(get_valid_role_set(member.server))
-	log.debug('{0.mention} joined {0.server} and has been assigned role {1.name}'.format(member, role))
+	log.debug('{0.name} joined {0.server} and has been assigned role {1.name}'.format(member, role))
 	await change_role(member, role.name)
 	msg = conf.get_string(member.server.id, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server.id, 'channel'), member.server))
 	await client.send_message(channel, msg)
