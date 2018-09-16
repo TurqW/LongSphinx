@@ -138,6 +138,10 @@ servers:
             'Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps?
             
 My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'
+          diceResults:
+            '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
+          roleList:
+            'My bestiary includes {0}. You may be one of these, just say "!role rolename".'
     '489197880809095168':
         name: test server
         channel: 
@@ -277,3 +281,7 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
             'Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps?
 
 My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'
+          diceResults:
+            '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
+          roleList:
+            'My bestiary includes {0}. You may be one of these, just say "!role rolename".'

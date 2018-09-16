@@ -1,8 +1,9 @@
 # GENERAL TODOs WITHOUT A PLACE TO LIVE:
-# - load all strings from conf
-# - start on boot?
+# - start on boot? (https://www.raspberrypi.org/forums/viewtopic.php?t=66206#p485866 ?)
 # - write uncaught exceptions to log (instead of stderr)
 # - change conf through chat?
+# - fortune?
+# - !help
 
 import discord
 import random
@@ -14,6 +15,7 @@ log = logging.getLogger('CoreBot')
 
 import namegen
 import botconfig as conf
+import botdice as dice
 
 with open('token.txt', 'r') as tokenfile:
 	TOKEN = tokenfile.readline()[:-1]
@@ -31,6 +33,7 @@ async def on_message(message):
 	if message.author == client.user:
 		return
 
+	# TODO: more robust plugin/command parser module?
 	if message.channel.name in conf.get_object(message.server.id, 'channel'):
 		if message.content.startswith('!hello'):
 			# Hello debug message, just to make sure the bot is on
@@ -52,6 +55,22 @@ async def on_message(message):
 				msg = conf.get_string(message.server.id, 'roleChange').format(message, newRole.name)
 			except (NameError):
 				msg = conf.get_string(message.server.id, 'invalidRole').format(message, ' '.join(words))
+			await client.send_message(message.channel, msg)
+
+		if message.content.startswith('!list'):
+			roles = [x.name for x in get_valid_role_set(message.server)]
+			roles.sort()
+			# TODO add an 'or' before the last option.
+			msg = conf.get_string(message.server.id, 'roleList').format(', '.join(roles))
+			await client.send_message(message.channel, msg)
+
+		if message.content.startswith('!roll'):
+			#dice
+			toRoll = message.content.split()
+			toRoll.pop(0)
+			results = dice.roll_command(toRoll)
+			resultString = ', '.join([str(i) for i in results])
+			msg = conf.get_string(message.server.id, 'diceResults').format(message, resultString, sum(results))
 			await client.send_message(message.channel, msg)
 
 		if message.content.startswith('&join'):
