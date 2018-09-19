@@ -27,7 +27,11 @@ todo = []
 @client.event
 async def on_message(message):
 	for member, role in todo:
-		await add_role(member, role)
+		try:
+			await add_role(member, role)
+		except discord.errors.NotFound:
+			# If they've already left, we wantto know, but to remove it from todo
+			log.info('Member {0.name} not found on server {0.server}'.format(member))
 	todo.clear()
 	# we do not want the bot to reply to itself
 	conf.update_config()
@@ -61,9 +65,9 @@ async def on_message(message):
 		if message.content.startswith('!list'):
 			roles = [x.name for x in get_valid_role_set(message.server)]
 			roles.sort()
-			# TODO add an 'or' before the last option.
 			msg = conf.get_string(message.server.id, 'roleList').format(', '.join(roles))
-			await client.send_message(message.channel, msg)
+			embed = discord.Embed().set_image(url=conf.get_object(message.server.id, 'urls', 'roleImage'))
+			await client.send_message(message.channel, msg, embed=embed)
 
 		if message.content.startswith('!roll'):
 			#dice
@@ -91,7 +95,7 @@ async def on_member_join(member):
 	log.debug('{0.name} joined {0.server}'.format(member))
 	role = random.choice(get_valid_role_set(member.server))
 	await change_role(member, role.name)
-	msg = conf.get_string(member.server.id, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server.id, 'channel'), member.server))
+	msg = conf.get_string(member.server.id, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server.id, 'greetingChannel'), member.server))
 	await client.send_message(channel, msg)
 
 async def random_role(member):
