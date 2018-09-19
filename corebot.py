@@ -40,49 +40,23 @@ async def on_message(message):
 
 	# TODO: more robust plugin/command parser module?
 	if message.channel.name in conf.get_object(message.server.id, 'channels'):
-		if message.content.startswith('!hello'):
-			# Hello debug message, just to make sure the bot is on
-			msg = 'Hello {0.author.mention}'.format(message)
-			await client.send_message(message.channel, msg)
-
 		if message.content.startswith('!name'):
 			# Generate random fantasy name
-			msg = 'Your generated name: {0}'.format(namegen.generate_name())
-			await client.send_message(message.channel, msg)
+			await gen_name(message)
 
 		if message.content.startswith('!role'):
 			# Role requests
-			words = message.content.split()
-			words.pop(0)
-			try:
-				newRole = await change_role(message.author, ' '.join(words))
-				#todo "an elf" etc
-				msg = conf.get_string(message.server.id, 'roleChange').format(message, newRole.name)
-			except (NameError):
-				msg = conf.get_string(message.server.id, 'invalidRole').format(message, ' '.join(words))
-			await client.send_message(message.channel, msg)
+			await request_role(message)
 
 		if message.content.startswith('!list'):
-			roles = [x.name for x in get_valid_role_set(message.server)]
-			roles.sort()
-			msg = conf.get_string(message.server.id, 'roleList').format(', '.join(roles))
-			embed = discord.Embed().set_image(url=conf.get_object(message.server.id, 'urls', 'roleImage'))
-			await client.send_message(message.channel, msg, embed=embed)
+			await list_roles(message)
 
 		if message.content.startswith('!roll'):
 			#dice
-			toRoll = message.content.split()
-			toRoll.pop(0)
-			results = dice.roll_command(toRoll)
-			resultString = ', '.join([str(i) for i in results])
-			msg = conf.get_string(message.server.id, 'diceResults').format(message, resultString, sum(results))
-			await client.send_message(message.channel, msg)
+			await roll_dice(message)
 
 		if message.content.startswith('!rerole'):
-			# Randomize role for member, as though they just joined (for debug purposes)
-			role = await random_role(message.author)
-			msg = conf.get_string(message.server.id, 'rerole').format(message, role)
-			await client.send_message(message.channel, msg)
+			await rerole(message)
 
 @client.event
 async def on_ready():
@@ -97,6 +71,43 @@ async def on_member_join(member):
 	await change_role(member, role.name)
 	msg = conf.get_string(member.server.id, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server.id, 'greetingChannel'), member.server))
 	await client.send_message(channel, msg)
+
+async def gen_name(message):
+	msg = 'Your generated name: {0}'.format(namegen.generate_name())
+	await client.send_message(message.channel, msg)
+
+async def request_role(message):
+	words = message.content.split()
+	words.pop(0)
+	try:
+		newRole = await change_role(message.author, ' '.join(words))
+		#todo "an elf" etc
+		msg = conf.get_string(message.server.id, 'roleChange').format(message, newRole.name)
+	except (NameError):
+		msg = conf.get_string(message.server.id, 'invalidRole').format(message, ' '.join(words))
+	await client.send_message(message.channel, msg)
+
+async def list_roles(message):
+	roles = [x.name for x in get_valid_role_set(message.server)]
+	roles.sort()
+	msg = conf.get_string(message.server.id, 'roleList').format(', '.join(roles))
+	imgurl = conf.get_object(message.server.id, 'urls', 'roleImage')
+	if imgurl:
+		embed = discord.Embed().set_image(url=imgurl)
+	await client.send_message(message.channel, msg, embed=embed)
+
+async def roll_dice(message):
+	toRoll = message.content.split()
+	toRoll.pop(0)
+	results = dice.roll_command(toRoll)
+	resultString = ', '.join([str(i) for i in results])
+	msg = conf.get_string(message.server.id, 'diceResults').format(message, resultString, sum(results))
+	await client.send_message(message.channel, msg)
+
+async def rerole(message):
+	role = await random_role(message.author)
+	msg = conf.get_string(message.server.id, 'rerole').format(message, role)
+	await client.send_message(message.channel, msg)
 
 async def random_role(member):
 	role = random.choice(get_valid_role_set(member.server))

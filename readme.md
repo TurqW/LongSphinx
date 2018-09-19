@@ -2,8 +2,6 @@
 
 ## Implemented commands:
 
-* !hello
-    * Debug message, responds with a "hello" and mentions the requester.
 * !role <rolename>
     * Changes the requester to <rolename>, with all secondary roles, if <rolename> is in the list of valid roles for the server.
 * !list
