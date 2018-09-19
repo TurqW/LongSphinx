@@ -1,8 +1,9 @@
 servers:
     '443869685054701569':
         name: The Realm
-        channel:
-          bot-commands
+        channels:
+        - bot-commands
+        - command-line
         greetingChannel:
           portal
         validRoles:
@@ -142,10 +143,12 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
             '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
           roleList:
             'My bestiary includes {0}. You may be one of these, just say "!role rolename".'
+          rerole:
+            'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'
     '489197880809095168':
         name: test server
-        channel: 
-          bot-commands
+        channels: 
+        - bot-commands
         greetingChannel:
           portal
         validRoles:
@@ -285,3 +288,5 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
             '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
           roleList:
             'My bestiary includes {0}. You may be one of these, just say "!role rolename".'
+          rerole:
+            'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'

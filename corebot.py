@@ -2,6 +2,7 @@
 # - start on boot? (https://www.raspberrypi.org/forums/viewtopic.php?t=66206#p485866 ?)
 # - write uncaught exceptions to log (instead of stderr)
 # - change conf through chat?
+#    - add/remove roles
 # - fortune?
 # - !help
 
@@ -34,7 +35,7 @@ async def on_message(message):
 		return
 
 	# TODO: more robust plugin/command parser module?
-	if message.channel.name in conf.get_object(message.server.id, 'channel'):
+	if message.channel.name in conf.get_object(message.server.id, 'channels'):
 		if message.content.startswith('!hello'):
 			# Hello debug message, just to make sure the bot is on
 			msg = 'Hello {0.author.mention}'.format(message)
@@ -73,10 +74,12 @@ async def on_message(message):
 			msg = conf.get_string(message.server.id, 'diceResults').format(message, resultString, sum(results))
 			await client.send_message(message.channel, msg)
 
-		if message.content.startswith('&join'):
+		if message.content.startswith('!rerole'):
 			# Randomize role for member, as though they just joined (for debug purposes)
-			await on_member_join(message.author)
-		
+			role = await random_role(message.author)
+			msg = conf.get_string(message.server.id, 'rerole').format(message, role)
+			await client.send_message(message.channel, msg)
+
 @client.event
 async def on_ready():
 	log.debug('Bot logged in as {0.user.name}'.format(client))
@@ -85,12 +88,16 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
 	channel = find_channel(conf.get_object(member.server.id, 'greetingChannel'), member.server)
+	log.debug('{0.name} joined {0.server}'.format(member))
 	role = random.choice(get_valid_role_set(member.server))
-	log.debug('{0.name} joined {0.server} and has been assigned role {1.name}'.format(member, role))
 	await change_role(member, role.name)
 	msg = conf.get_string(member.server.id, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server.id, 'channel'), member.server))
 	await client.send_message(channel, msg)
 
+async def random_role(member):
+	role = random.choice(get_valid_role_set(member.server))
+	await change_role(member, role.name)
+	return role
 
 async def add_role(member, role):
 	log.debug('adding {0.name} to {1.name} on {2.name}'.format(role, member, member.server))
