@@ -16,3 +16,5 @@
     * Simulates a visit to the wandmaker.
 * !summon
     * Summons an animal companion.
+* !help
+    * Provides a helpful link to this readme.

@@ -13,10 +13,15 @@ modifier:
 - 'giant '
 - 'miniature '
 - 'ghost '
+- 'ethereal '
 - 'killer '
 - 'clockwork '
 - 'mechanized '
 - were
+- 'obese '
+- 'aquatic '
+- 'non-euclidean '
+- 'eldritch '
 creature:
 - bunny
 - goldfish
@@ -51,6 +56,11 @@ creature:
 - panda
 - pegasus
 - goat
+- hedgehog
+- armadillo
+- gelatinous cube
+- otter
+- jellyfish
 ability:
 - bite your face off
 - burrow through the earth faster than you can run
@@ -63,3 +73,10 @@ ability:
 - float about four feet off the ground
 - '**[REDACTED]**'
 - learn simple spells
+- roll around at the speed of sound
+- mimic any sound it hears
+- sing any song
+- translate between any two languages, so long nobody present speaks either of them
+- find a needle in a haystack
+- sniff out even the smallest scraps of chocolate
+- create a day old loaf of bread with the magic of its voice

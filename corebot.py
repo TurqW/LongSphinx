@@ -66,6 +66,9 @@ async def on_message(message):
 		if message.content.startswith('!summon'):
 			await gen_companion(message)
 
+		if message.content.startswith('!help'):
+			await give_help(message)
+
 @client.event
 async def on_ready():
 	log.debug('Bot logged in as {0.user.name}'.format(client))
@@ -123,6 +126,10 @@ async def roll_dice(message):
 async def rerole(message):
 	role = await random_role(message.author)
 	msg = conf.get_string(message.server.id, 'rerole').format(message, role)
+	await client.send_message(message.channel, msg)
+
+async def give_help(message):
+	msg = 'Please view the readme at <https://github.com/walterw9000/LongSphinx>'
 	await client.send_message(message.channel, msg)
 
 async def random_role(member):
