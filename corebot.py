@@ -16,6 +16,7 @@ log = logging.getLogger('LongSphinx')
 
 import namegen
 import wandgen
+import companiongen
 import botconfig as conf
 import botdice as dice
 
@@ -62,6 +63,9 @@ async def on_message(message):
 		if message.content.startswith('!wand'):
 			await gen_wand(message)
 
+		if message.content.startswith('!summon'):
+			await gen_companion(message)
+
 @client.event
 async def on_ready():
 	log.debug('Bot logged in as {0.user.name}'.format(client))
@@ -82,6 +86,10 @@ async def gen_name(message):
 
 async def gen_wand(message):
 	msg = wandgen.generate_wand()
+	await client.send_message(message.channel, msg)
+
+async def gen_companion(message):
+	msg = companiongen.generate_companion()
 	await client.send_message(message.channel, msg)
 
 async def request_role(message):

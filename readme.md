@@ -14,3 +14,5 @@
     * Picks a new role for the requester from the available roles.
 * !wand
     * Simulates a visit to the wandmaker.
+* !summon
+    * Summons an animal companion.
