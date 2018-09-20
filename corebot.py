@@ -66,7 +66,7 @@ async def on_message(message):
 		if message.content.startswith('!summon'):
 			await gen_companion(message)
 
-		if message.content.startswith('!help'):
+		if message.content.startswith('!readme'):
 			await give_help(message)
 
 @client.event
