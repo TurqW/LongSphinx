@@ -12,9 +12,10 @@ import yaml
 import logging
 logging.basicConfig(filename='ubeast.log',level=logging.DEBUG)
 
-log = logging.getLogger('CoreBot')
+log = logging.getLogger('LongSphinx')
 
 import namegen
+import wandgen
 import botconfig as conf
 import botdice as dice
 
@@ -58,6 +59,9 @@ async def on_message(message):
 		if message.content.startswith('!rerole'):
 			await rerole(message)
 
+		if message.content.startswith('!wand'):
+			await gen_wand(message)
+
 @client.event
 async def on_ready():
 	log.debug('Bot logged in as {0.user.name}'.format(client))
@@ -74,6 +78,10 @@ async def on_member_join(member):
 
 async def gen_name(message):
 	msg = 'Your generated name: {0}'.format(namegen.generate_name())
+	await client.send_message(message.channel, msg)
+
+async def gen_wand(message):
+	msg = wandgen.generate_wand()
 	await client.send_message(message.channel, msg)
 
 async def request_role(message):

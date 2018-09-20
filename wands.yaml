@@ -1,0 +1,163 @@
+woods:
+- acacia
+- alder
+- applewood
+- ash
+- aspen
+- beech
+- blackthorn
+- black walnut
+- cedar
+- cherry
+- chestnut
+- cyprus
+- dogwood
+- ebony
+- elder
+- elm
+- English oak
+- fir
+- hawthorn
+- hazel
+- holly
+- hornbeam
+- larch
+- laurel
+- maple
+- pear
+- pine
+- poplar
+- red oak
+- redwood
+- rowan
+- silver lime
+- spruce
+- sycamore
+- vine
+- walnut
+- willow
+- yew
+cores:
+- dragon heartstring
+- phoenix feather
+- unicorn tail hair
+- veela hair
+- thestral tail hair
+- troll whisker
+- coral
+- dittany stalk
+- thunderbird tail feather
+- wampus cat hair
+- white river monster spine
+- rougarou hair
+- horned serpent horn
+- snallygaster heartstring
+- jackalope antler
+- kneazle whisker
+- kelpie hair
+- basilisk horn
+length int:
+- eight
+- nine
+- ten
+- eleven
+- twelve
+- thirteen
+- fourteen
+- fifteen
+length fraction:
+- one eighth
+- a quarter
+- three eighths
+- a half
+- five eighths
+- three quarters
+- seven eighths
+flexibility:
+- frighteningly pliable
+- fairly flexible
+- rather firm
+- quite stiff
+- hard as stone
+- springy
+- rather bendy
+- nice and flexible
+- quite whippy
+- supple
+- swishy
+- pliable
+effects:
+- A tiny {0} spark appears at the end, but little else happens.
+- A flow of {0} sparks pour forth from the end, curling back to coalesce around your hand. Just as you start to notice an uncomfortable warmth, the wandmaker snatches the wand away.
+- A sucker-covered {0} tentacle slowly squeezes its way from the tip of the wand. The wandmaker snatches it out of your hands just before the tentacle manages to reach back to you.
+- In a burst of {0} smoke, you find yourself on the street outside the shop. You stumble back in and hand the wand back to the wandmaker.
+- A burst of {0} sparks shoot out, knocking the wandmaker's hat off.
+- The wands on the shelf behind you begin to rearrange themselves, much to the wandmaker's consternation.
+- Your head feels a bit odd. You see your reflection in the shop window; your hair has turned {0} and become terribly curly.
+- You notice a faint scent of lavender. The wandmaker hurriedly snatches the wand away, more frightened than you've ever seen him.
+- There is a flash of {0} light, then the room goes completely dark.
+- A spiraling {0} unicorn horn grows from your forehead. "Not again..." the wandmaker groans, pulling a handsaw from a nearby drawer.
+- You are surrounded by spirits, one whispers to you, "Soon..."  You give the wand back, deeply shaken.
+- A thick {0} liquid oozes from the end. It does not smell pleasant.
+- A deep feeling of contentment fills you. The wandmaker snatches it back, muttering something about not giving away the good stuff.
+- A thick {0} smoke fills the room. When it clears, you are back in the alley and the wandmaker's shop is gone.
+- As you grasp it, it turns into a common pencil. From the back of the shop you hear "Be with you in a moment."
+- You give it a little flick and it puffs a puff of {0} smoke.
+- As soon as your fingers touch it, the wand leaps from your hand and back into the drawer.
+- It turns into a rubber chicken. The wandmaker throws it in a bin, muttering, "Damn Weasleys."
+- The wand feels good in your hand, and you smile tentatively. The wandmaker says, "Interesting... Interesting. This wand has a brother..." You quickly hand the wand back and say, "I am *not* the Chosen One."
+- You are blinded by a {0} light. When you can see again, everything in the room has become huge. Or have you become smaller? The wandmaker shakes his head, waves his wand, and you return to normal size.
+- You suddenly feel light and begin to bounce around the room. "Nope, not that one," says the wandmaker. He quickly stops your bouncing before you can destroy everything in his shop.
+- The wand turns {0} and becomes extremely cold. 
+- The wand is electrified, and your hand seizes up on it. You are unable to let go until the wandmaker releases you. The shop now smells of burning hair.
+- Sunflowers with faces begin sprouting from the wand's tip. They start to laugh maniacally and dance around the shop. "Fan of Van Vogh? You know he was a wizard, right?" says the wandmaker.
+- Hundreds of brooms begin to climb out of the wand and try to clean the shop and the alley it inhabits.
+colors:
+- purple
+- green
+- blue
+- pink
+- brown
+- red
+- light blue
+- teal
+- orange
+- light green
+- magenta
+- yellow
+- sky blue
+- grey
+- lime green
+- light purple
+- violet
+- dark green
+- turqoise
+- lavender
+- dark blue
+- tan
+- cyan
+- aqua
+- forest green
+- mauve
+- dark purple
+- bright green
+- maroon
+- olive
+- salmon
+- beige
+- royal blue
+- navy blue
+- lilac
+- black
+- hot pink
+- light brown
+- pale green
+- peach
+- olive green
+- dark pink
+- periwinkle
+- sea green
+- lime
+- indigo
+- mustard
+- light pink
