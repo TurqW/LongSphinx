@@ -2,9 +2,8 @@ import random
 import os
 import logging
 import yaml
-import colorgen
-log = logging.getLogger('LongSphix.Wands')
-filename = 'wands.yaml'
+log = logging.getLogger('LongSphix.Colors')
+filename = 'colors.yaml'
 lastmod = os.stat(filename).st_mtime
 
 with open(filename, 'r') as stream:
@@ -13,16 +12,9 @@ with open(filename, 'r') as stream:
 	except yaml.YAMLError as exc:
 		sys.exit()
 
-def generate_wand():
+def generate_color():
 	update_config()
-	wood = random.choice(config['woods'])
-	core = random.choice(config['cores'])
-	length = '{0} and {1} inches'.format(random.choice(config['length int']), random.choice(config['length fraction']))
-	flexibility = random.choice(config['flexibility'])
-	effect = random.choice(config['effects']).format(colorgen.generate_color())
-
-	msg = 'The wandmaker hands you a {0} {1} wand, {2} with a {3} core. {4}'.format(flexibility, wood, length, core, effect)
-	return msg
+	return random.choice(config['colors'])
 
 def update_config():
 	global lastmod
