@@ -24,4 +24,4 @@ class ConfigManager:
 					self.lastmod = newlastmod
 				except yaml.YAMLError as exc:
 					log.exception(exc)
-					log.error('YAML invalid, sticking with version from {0}'.format(lastmod))
+					log.error('YAML invalid, sticking with version from {0}'.format(self.lastmod))

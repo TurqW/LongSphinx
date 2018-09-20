@@ -17,6 +17,6 @@ def generate_companion():
 	creature = random.choice(conf.config['creature'])
 	ability = random.choice(conf.config['ability'])
 
-	msg = 'As you complete the summoning spell, there is a burst of {0} smoke. Once it clears, you see a {1} {2} {3} with the ability to {4}.'.format(effect_color, color, modifier, creature, ability)
+	msg = 'As you complete the summoning spell, there is a burst of {0} smoke. Once it clears, you see a {1} {2}{3} with the ability to {4}.'.format(effect_color, color, modifier, creature, ability)
 	return msg
 
