@@ -14,6 +14,8 @@ modifier:
 - miniature
 - ghost
 - killer
+- clockwork
+- mechanized
 creature:
 - bunny
 - goldfish
@@ -35,6 +37,18 @@ creature:
 - condor
 - eagle
 - camel
+- raccoon
+- ferret
+- snake
+- moose
+- flying squirrel
+- pseudodragon
+- duck
+- porg
+- zebra
+- koala
+- panda
+- pegasus
 ability:
 - bite your face off
 - burrow through the earth faster than you can run
