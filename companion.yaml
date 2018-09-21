@@ -22,6 +22,23 @@ modifier:
 - 'aquatic '
 - 'non-euclidean '
 - 'eldritch '
+- 'electrified '
+- 'flaming '
+- 'angelic '
+- 'magitech '
+- 'crystalline '
+- 'vampire '
+- 'zombie '
+- 'divine '
+- 'icy '
+- 'spectral '
+- 'metallic '
+- 'spirit '
+- 'spellwarped '
+- 'six-legged '
+- 'man-faced '
+- 'shimmering '
+- 'gilded '
 creature:
 - bunny
 - goldfish
@@ -61,6 +78,8 @@ creature:
 - gelatinous cube
 - otter
 - jellyfish
+- bat
+- scorpion
 ability:
 - bite your face off
 - burrow through the earth faster than you can run
@@ -80,3 +99,42 @@ ability:
 - find a needle in a haystack
 - sniff out even the smallest scraps of chocolate
 - create a day old loaf of bread with the magic of its voice
+- breathe fire
+- breathe lighting
+- breathe poison
+- spray acid
+- swim in lava
+- shift between dimensions
+- dissolve into sand
+- create small sandstorms
+- draw nourishment from the earth
+- negate all magic in a 10-foot radius
+- emit colored flashes of light
+- lure predators
+- flip any size of pancake on the first try
+- make a really great quesadilla
+- dominate the minds of small creatures or constructs
+- rapidly grow vines around itself
+- wield a surprisingly large battleaxe
+- leap small buildings in a single bound
+- fling icicles at its opponents
+- win any staring contest
+- eat just about anything
+- withstand any poison
+- hide in any terrain
+- summon the north wind
+- work well with others
+- blow out up to 15 birthday candles
+- drain the strength from its foes
+- deafen you with its shriek
+- track its foes unerringly
+- disguise itself as a stone
+- channel dark magicks
+- identify the choicest cuts of meat
+- accurately appraise the value of any piece of jewelry
+- create illusory copies of itself
+- eat its master's nightmares
+- hold its breath for hours
+- regrow any of its limbs
+- see in complete darkness
+- detect any form of magic
