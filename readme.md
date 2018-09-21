@@ -12,3 +12,9 @@
     * Rolls dice. Syntax: !roll 1d20 2d4 will roll a twenty-sided die and two four-sided dice and give you the results in order, with the sum at the end.
 * !rerole
     * Picks a new role for the requester from the available roles.
+* !wand
+    * Simulates a visit to the wandmaker.
+* !summon
+    * Summons an animal companion.
+* !readme
+    * Provides a helpful link to this readme.
