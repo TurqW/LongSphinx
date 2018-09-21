@@ -59,6 +59,7 @@ creature:
 - whale
 - condor
 - eagle
+- hawk
 - camel
 - raccoon
 - ferret
@@ -80,6 +81,9 @@ creature:
 - jellyfish
 - bat
 - scorpion
+- iguana
+- abomination
+- homunculus
 ability:
 - bite your face off
 - burrow through the earth faster than you can run
@@ -139,3 +143,4 @@ ability:
 - see in complete darkness
 - detect any form of magic
 - break the fourth wall
+- look directly into the sun
