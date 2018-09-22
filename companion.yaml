@@ -39,6 +39,8 @@ modifier:
 - 'man-faced '
 - 'shimmering '
 - 'gilded '
+- 'spiky '
+- 'horned '
 creature:
 - bunny
 - goldfish

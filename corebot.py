@@ -17,6 +17,7 @@ log = logging.getLogger('LongSphinx')
 import namegen
 import wandgen
 import companiongen
+import potiongen
 import botconfig as conf
 import botdice as dice
 
@@ -69,6 +70,12 @@ async def on_message(message):
 		if message.content.startswith('!readme'):
 			await give_help(message)
 
+		if message.content.startswith('!potion'):
+			await gen_potion(message)
+
+		if message.content.startswith('&join'):
+			await on_member_join(message.author)
+
 @client.event
 async def on_ready():
 	log.debug('Bot logged in as {0.user.name}'.format(client))
@@ -80,7 +87,7 @@ async def on_member_join(member):
 	log.debug('{0.name} joined {0.server}'.format(member))
 	role = random.choice(get_valid_role_set(member.server))
 	await change_role(member, role.name)
-	msg = conf.get_string(member.server.id, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server.id, 'greetingChannel'), member.server))
+	msg = conf.get_string(member.server.id, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server.id, 'defaultChannel'), member.server))
 	await client.send_message(channel, msg)
 
 async def gen_name(message):
@@ -93,6 +100,10 @@ async def gen_wand(message):
 
 async def gen_companion(message):
 	msg = companiongen.generate_companion()
+	await client.send_message(message.channel, msg)
+
+async def gen_potion(message):
+	msg = potiongen.generate_potion()
 	await client.send_message(message.channel, msg)
 
 async def request_role(message):

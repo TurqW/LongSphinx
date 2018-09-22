@@ -4,6 +4,8 @@ servers:
         channels:
         - bot-commands
         - command-line
+        defaultChannel:
+          bot-commands
         greetingChannel:
           portal
         validRoles:
@@ -152,6 +154,8 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
         name: test server
         channels: 
         - bot-commands
+        defaultChannel:
+          bot-commands
         greetingChannel:
           portal
         validRoles:

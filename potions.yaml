@@ -1,0 +1,43 @@
+liquids:
+- bubbly
+- translucent
+- glowing
+- viscous
+- runny
+- murky
+- milky
+- fizzy
+- effervescent
+- swirly
+- cloudy
+- metallic
+- oily
+- pulsating
+- smoking
+bottles:
+- tiny vial
+- clay jar
+- square bottle
+- heavy jug
+- copper flask
+- silver flask
+- bronze flask
+- waterskin
+- bucket
+- spherical glass bottle
+- dirty beer bottle
+- green glass bottle
+- clear glass bottle
+- pint glass
+- golden goblet
+- silver goblet
+- dragonhide waterskin
+- magical fluid suspension device
+- heavy mug
+- glass jar
+- chamber pot
+- particularly heavy bottle
+- pitcher
+- long-necked bottle
+effects:
+- you silently wonder whether any of these potions actually do anything #This line will be removed once we have some actual effects here.
