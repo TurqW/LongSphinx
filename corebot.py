@@ -1,5 +1,4 @@
 # GENERAL TODOs WITHOUT A PLACE TO LIVE:
-# - start on boot? (https://www.raspberrypi.org/forums/viewtopic.php?t=66206#p485866 ?)
 # - write uncaught exceptions to log (instead of stderr)
 # - change conf through chat?
 #    - add/remove roles
@@ -10,7 +9,7 @@ import discord
 import random
 import yaml
 import logging
-logging.basicConfig(filename='ubeast.log',level=logging.DEBUG)
+logging.basicConfig(filename='logs/ubeast.log',level=logging.DEBUG)
 
 log = logging.getLogger('LongSphinx')
 
