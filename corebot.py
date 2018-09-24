@@ -4,6 +4,8 @@
 #    - add/remove roles
 # - fortune?
 # - !help
+# - Respond to mentions?
+# - respond to thanks?
 
 import discord
 import random

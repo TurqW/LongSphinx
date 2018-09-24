@@ -16,5 +16,7 @@
     * Simulates a visit to the wandmaker.
 * !summon
     * Summons an animal companion.
+* !potion
+    * Find a potion.
 * !readme
     * Provides a helpful link to this readme.
