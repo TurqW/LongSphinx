@@ -125,3 +125,5 @@ effect:
 - Motes of {color} light come out of the end and dance around the room. When they start pushing merchandise off of shelves, the wandmaker takes the wand back.
 - It fits your hand perfectly, with a comfortable warmth. You pay the wandmaker and head out.
 - It fits your hand perfectly, but you're not sure that it's actually magical. You hand it back to the wandmaker.
+- For just a moment, you feel as though you can {summon.ability}. You're not sure whether that's a good thing.
+- The moment it touches your hand, it dissolves into {potion.modifier} {color} liquid and splatters to the floor.
