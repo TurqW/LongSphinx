@@ -87,8 +87,10 @@ async def gen_name(message):
 	await client.send_message(message.channel, msg)
 
 async def generate(message):
-	msg = generator.generate(message.content[1:]) # Everything but the !
-	await client.send_message(message.channel, msg)
+	genname = message.content[1:] # Everything but the !
+	if genname in conf.get_object(message.server.id, 'generators'):
+		msg = generator.generate(genname)
+		await client.send_message(message.channel, msg)
 
 async def request_role(message):
 	words = message.content.split()

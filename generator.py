@@ -7,7 +7,6 @@ log = logging.getLogger('LongSphinx.Generators')
 conf = {}
 
 #TODO: incorporate the name generator?
-#TODO: configure list of available generators per-server
 def generate(name):
 	parsed_name = name.split('.')
 	generator = parsed_name[0]

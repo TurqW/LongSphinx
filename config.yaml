@@ -8,6 +8,10 @@ servers:
           bot-commands
         greetingChannel:
           portal
+        generators:
+        - potion
+        - wand
+        - summon
         validRoles:
             Dwarf:
                 secondaryRoles:
@@ -158,6 +162,10 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
           bot-commands
         greetingChannel:
           portal
+        generators:
+        - potion
+        - wand
+        - summon
         validRoles:
             Dwarf:
                 secondaryRoles:
