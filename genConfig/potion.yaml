@@ -1,4 +1,6 @@
-liquids:
+root:
+- You find a {potion.bottle} full of {potion.modifier} {color} liquid. When you drink it, {potion.effect}.
+modifier:
 - bubbly
 - translucent
 - glowing
@@ -14,7 +16,7 @@ liquids:
 - oily
 - pulsating
 - smoking
-bottles:
+bottle:
 - tiny vial
 - clay jar
 - square bottle
@@ -40,7 +42,7 @@ bottles:
 - pitcher
 - long-necked bottle
 - wooden bowl
-effects:
+effect:
 - nothing happens
 - you begin to feel light-headed. This is a fairly pleasant experience, up until your head bumps against the ceiling
 - you feel vaguely ill

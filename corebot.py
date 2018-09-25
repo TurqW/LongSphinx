@@ -15,10 +15,7 @@ logging.basicConfig(filename='logs/ubeast.log',level=logging.DEBUG)
 
 log = logging.getLogger('LongSphinx')
 
-import namegen
-import wandgen
-import companiongen
-import potiongen
+import generator
 import botconfig as conf
 import botdice as dice
 
@@ -48,34 +45,28 @@ async def on_message(message):
 			# Generate random fantasy name
 			await gen_name(message)
 
-		if message.content.startswith('!role'):
+		elif message.content.startswith('!role'):
 			# Role requests
 			await request_role(message)
 
-		if message.content.startswith('!list'):
+		elif message.content.startswith('!list'):
 			await list_roles(message)
 
-		if message.content.startswith('!roll'):
+		elif message.content.startswith('!roll'):
 			#dice
 			await roll_dice(message)
 
-		if message.content.startswith('!rerole'):
+		elif message.content.startswith('!rerole'):
 			await rerole(message)
 
-		if message.content.startswith('!wand'):
-			await gen_wand(message)
-
-		if message.content.startswith('!summon'):
-			await gen_companion(message)
-
-		if message.content.startswith('!readme'):
+		elif message.content.startswith('!readme'):
 			await give_help(message)
 
-		if message.content.startswith('!potion'):
-			await gen_potion(message)
-
-		if message.content.startswith('&join'):
+		elif message.content.startswith('&join'):
 			await on_member_join(message.author)
+		
+		elif message.content.startswith('!'):
+			await generate(message)
 
 @client.event
 async def on_ready():
@@ -95,16 +86,8 @@ async def gen_name(message):
 	msg = 'Your generated name: {0}'.format(namegen.generate_name())
 	await client.send_message(message.channel, msg)
 
-async def gen_wand(message):
-	msg = wandgen.generate_wand()
-	await client.send_message(message.channel, msg)
-
-async def gen_companion(message):
-	msg = companiongen.generate_companion()
-	await client.send_message(message.channel, msg)
-
-async def gen_potion(message):
-	msg = potiongen.generate_potion()
+async def generate(message):
+	msg = generator.generate(message.content[1:]) # Everything but the !
 	await client.send_message(message.channel, msg)
 
 async def request_role(message):

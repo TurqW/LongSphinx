@@ -1,4 +1,6 @@
-woods:
+root:
+- 'The wandmaker hands you a {wand.flexibility} {wand.wood} wand, {wand.length_int}{wand.length_fraction} inches with a {wand.core} core. {wand.effect}'
+wood:
 - acacia
 - alder
 - applewood
@@ -38,7 +40,7 @@ woods:
 - white willow
 - willow
 - yew
-cores:
+core:
 - dragon heartstring
 - phoenix feather
 - unicorn tail hair
@@ -57,7 +59,7 @@ cores:
 - kneazle whisker
 - kelpie hair
 - basilisk horn
-length int:
+length_int:
 - eight
 - nine
 - ten
@@ -66,14 +68,15 @@ length int:
 - thirteen
 - fourteen
 - fifteen
-length fraction:
-- one eighth
-- a quarter
-- three eighths
-- a half
-- five eighths
-- three quarters
-- seven eighths
+length_fraction:
+- ' and one eighth'
+- ' and a quarter'
+- ' and three eighths'
+- ' and a half'
+- ' and five eighths'
+- ' and three quarters'
+- ' and seven eighths'
+- ''
 flexibility:
 - frighteningly pliable
 - fairly flexible
@@ -87,7 +90,7 @@ flexibility:
 - supple
 - swishy
 - pliable
-effects:
+effect:
 - A tiny {0} spark appears at the end, but little else happens.
 - A flow of {0} sparks pour forth from the end, curling back to coalesce around your hand. Just as you start to notice an uncomfortable warmth, the wandmaker snatches the wand away.
 - A sucker-covered {0} tentacle slowly squeezes its way from the tip of the wand. The wandmaker snatches it out of your hands just before the tentacle manages to reach back to you.
@@ -120,3 +123,5 @@ effects:
 - You notice the name "Roonil Wazlib" clumsily scratched into the handle.
 - Music begins to play, moving you to tears with its beauty. You fumble for your money, but the wandmaker takes the wand back instead. "Most spells work better without tears in your eyes."
 - Motes of {0} light come out of the end and dance around the room. When they start pushing merchandise off of shelves, the wandmaker takes the wand back.
+- It fits your hand perfectly, with a comfortable warmth. You pay the wandmaker and head out.
+- It fits your hand perfectly, but you're not sure that it's actually magical. You hand it back to the wandmaker.

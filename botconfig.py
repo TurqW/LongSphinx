@@ -1,5 +1,4 @@
 import yaml
-import os
 import logging
 import configmanager
 log = logging.getLogger('LongSphinx.Config')

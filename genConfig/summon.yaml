@@ -1,3 +1,5 @@
+root:
+- 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.'
 modifier:
 - 'dire '
 - 'celestial '
@@ -41,7 +43,7 @@ modifier:
 - 'gilded '
 - 'spiky '
 - 'horned '
-creature:
+species:
 - bunny
 - goldfish
 - shark
