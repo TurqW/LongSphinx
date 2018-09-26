@@ -1,5 +1,14 @@
 root:
+- 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.' #including this multiple times so it's more likely
 - 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.'
+- 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.'
+- 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.'
+- 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.'
+- 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.'
+- 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}. Its name is {name}.'
+- 'The egg bursts with a violet splatter of {potion.modifier} {color} fluid. Inside is a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.'
+- 'Your summoning spell goes awry and produces something other than a creature. {potion}'
+- 'You attempt a summoning spell. Nothing happens.'
 modifier:
 - 'dire '
 - 'celestial '
@@ -43,6 +52,7 @@ modifier:
 - 'gilded '
 - 'spiky '
 - 'horned '
+- 'plantkin '
 species:
 - bunny
 - goldfish

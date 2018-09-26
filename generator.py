@@ -2,12 +2,15 @@ import random
 import logging
 import yaml
 import configmanager
+import namegen
 log = logging.getLogger('LongSphinx.Generators')
 
 conf = {}
 
-#TODO: incorporate the name generator?
 def generate(name):
+	if name == 'name':
+		#TODO: There must be a less hardcoded way to do this.
+		return namegen.generate_name()
 	parsed_name = name.split('.')
 	generator = parsed_name[0]
 	if generator not in conf:
