@@ -19,7 +19,10 @@ def generate(name):
 	if len(parsed_name) == 1:
 		string = random.choice(conf[generator].config['root'])
 	else:
-		string = random.choice(conf[generator].config[parsed_name[1]])
+		option_set = conf[generator].config
+		for level in parsed_name[1:]:
+			option_set = option_set[level]
+		string = random.choice(option_set)
 	return populate_string(string)
 	
 

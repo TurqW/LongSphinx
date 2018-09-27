@@ -1,25 +1,23 @@
-# GENERAL TODOs WITHOUT A PLACE TO LIVE:
-# - write uncaught exceptions to log (instead of stderr)
-# - change conf through chat?
-#    - add/remove roles
-# - fortune?
-# - !help
-# - Respond to mentions?
-# - respond to thanks?
-
 import discord
 import random
 import yaml
+import sys
 import logging
-logging.basicConfig(filename='logs/ubeast.log',level=logging.DEBUG)
-
-log = logging.getLogger('LongSphinx')
 
 import generator
 import botconfig as conf
 import botdice as dice
 
-with open('token.txt', 'r') as tokenfile:
+logging.basicConfig(filename='logs/ubeast.log',level=logging.DEBUG)
+
+log = logging.getLogger('LongSphinx')
+
+tokenfilename = 'token.txt'
+
+if len(sys.argv) > 1:
+	tokenfilename = sys.argv[1]
+	
+with open(tokenfilename, 'r') as tokenfile:
 	TOKEN = tokenfile.readline()[:-1]
 
 client = discord.Client()
@@ -31,7 +29,7 @@ async def on_message(message):
 		try:
 			await add_role(member, role)
 		except discord.errors.NotFound:
-			# If they've already left, we wantto know, but to remove it from todo
+			# If they've already left, we want to know, but to remove it from todo
 			log.info('Member {0.name} not found on server {0.server}'.format(member))
 	todo.clear()
 	# we do not want the bot to reply to itself
@@ -39,7 +37,6 @@ async def on_message(message):
 	if message.author == client.user:
 		return
 
-	# TODO: more robust plugin/command parser module?
 	if message.channel.name in conf.get_object(message.server.id, 'channels'):
 		if message.content.startswith('!name'):
 			# Generate random fantasy name
@@ -66,6 +63,7 @@ async def on_message(message):
 			await on_member_join(message.author)
 		
 		elif message.content.startswith('!'):
+			# Attempts to generate something.
 			await generate(message)
 
 @client.event
@@ -97,7 +95,6 @@ async def request_role(message):
 	words.pop(0)
 	try:
 		newRole = await change_role(message.author, ' '.join(words))
-		#todo "an elf" etc
 		msg = conf.get_string(message.server.id, 'roleChange').format(message, newRole.name)
 	except (NameError):
 		msg = conf.get_string(message.server.id, 'invalidRole').format(message, ' '.join(words))

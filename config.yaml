@@ -12,6 +12,7 @@ servers:
         - potion
         - wand
         - summon
+        - jewelry
         validRoles:
             Dwarf:
                 secondaryRoles:
@@ -308,3 +309,45 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
         urls:
           roleImage:
             'https://cdn.discordapp.com/attachments/445271158502457345/490208979767656478/The_Realm_Roles1.png'
+    '494373430637101058':
+        name: Test
+        channels:
+        - bot-commands
+        - command-line
+        defaultChannel:
+          bot-commands
+        greetingChannel:
+          portal
+        generators:
+        - potion
+        - wand
+        - summon
+        - jewelry
+        validRoles:
+          Solar:
+            secondaryRoles:
+          Lunar:
+            secondaryRoles:
+          Gaian:
+            secondaryRoles:
+        removeOnUpdate:
+        - Beasts
+        - Spirits
+        - Humanoids
+        strings:
+          roleChange:
+            '{0.author.mention}, you are now a {1}.'
+          invalidRole:
+            '{0.author.mention}, role {1} is not on the valid list. Perhaps have a look at my bestiary with !list, or I can choose for you with !rerole .'
+          welcome:
+            'Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps?
+            
+My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'
+          diceResults:
+            '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
+          roleList:
+            'Have a look at my bestiary. You may be one of these, just say "!role rolename".'
+          rerole:
+            'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'
+        urls:
+          roleImage:

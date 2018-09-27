@@ -10,7 +10,6 @@ def roll_dice(parsed):
 	return results
 
 def roll_command(command):
-	# TODO modifiers, handle "+" etc, advantage?
 	if not command:
 		command = ['1d20']
 	res = []

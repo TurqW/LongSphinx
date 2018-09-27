@@ -1,0 +1,44 @@
+root:
+- a {jewelry.material} {jewelry.article} engraved with a {summon.modifier}{summon.species}. When you wear it, you gain the ability to {summon.ability}.
+- a {jewelry.material} {jewelry.article} bearing a {gem}. When you wear it, you gain the ability to {summon.ability}.
+- a {jewelry.material} {jewelry.article} engraved with a {summon.modifier}{summon.species}. It seems entirely mundane.
+- a {jewelry.material} {jewelry.article} bearing a {gem}. It seems entirely mundane.
+material:
+- gold
+- rose gold
+- white gold
+- silver
+- sterling silver
+- platinum
+- copper
+- bronze
+- brass
+- iron
+- steel
+- lead
+- tin
+- zinc
+- '{summon.species} bone'
+- '{wand.wood} wood'
+article:
+- ring
+- bracelet
+- crown
+- amulet
+- necklace
+- pendant
+- earring
+- tiara
+- diadem
+- choker
+- armlet
+- bangle
+- cufflink
+- brooch
+- toe ring
+- anklet
+- locket
+- medallion
+- thumb ring
+- signet ring
+- pin

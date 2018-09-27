@@ -1,0 +1,80 @@
+root:
+- '{gem.size} {gem.type}'
+- '{gem.size} {gem.type}'
+- '{gem.size} {gem.type} {gem.oddity}'
+size:
+- puny
+- tiny
+- small
+- fairly small
+- large
+- huge
+- gigantic
+type:
+- agate
+- alexandrite
+- amazonite
+- amber
+- amethyst
+- ammolite
+- andalusite
+- apatite
+- aquamarine
+- aventurine
+- azurite
+- beryl
+- carnelian
+- chalsedony
+- charoite
+- chrysoberyl
+- chrysocolla
+- chrysoprase
+- citrine
+- danburite
+- diamond
+- emerald
+- fire agate
+- fluorite
+- fuchsite
+- garnet
+- heliodor
+- hematite
+- howlite
+- iolite
+- kyanite
+- lapis lazuli
+- larimar
+- lazurite
+- lepidolite
+- malachite
+- moonstone
+- morganite
+- obsidian
+- onyx
+- opal
+- orthoclase
+- pearl
+- peridot
+- prasiolite
+- quartz
+- rhodonite
+- ruby
+- sapphire
+- scapolite
+- selenite
+- serpentine
+- spectrolite
+- sphalerite
+- spinel
+- sugilite
+- sunstone
+- tanzanite
+- tiger eye
+- topaz
+- tourmaline
+- turquoise
+- verdite
+- zircon
+oddity:
+- which glows with {color} light
+- with an oddly {color} tint
