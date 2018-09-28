@@ -2,7 +2,7 @@
 
 ## Implemented commands:
 
-* !role <rolename>
+* !creature <rolename>
     * Changes the requester to <rolename>, with all secondary roles, if <rolename> is in the list of valid roles for the server.
 * !list
     * Lists the available roles.
