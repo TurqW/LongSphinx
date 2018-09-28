@@ -13,7 +13,9 @@ servers:
         - wand
         - summon
         - jewelry
-        validRoles:
+        defaultRoleset: creature
+        rolesets:
+          creature:
             Dwarf:
                 secondaryRoles:
                     - Humanoids
@@ -133,10 +135,10 @@ servers:
             Wraith:
                 secondaryRoles:
                     - Spirits
-        removeOnUpdate:
-        - Beasts
-        - Spirits
-        - Humanoids
+            removeOnUpdate:
+            - Beasts
+            - Spirits
+            - Humanoids
         strings:
           roleChange:
             '{0.author.mention}, you are now a {1}.'
@@ -148,15 +150,16 @@ servers:
 My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'
           diceResults:
             '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
-          roleList:
-            'Have a look at my bestiary. You may be one of these, just say "!role rolename".'
+          creatureRoleList:
+            'Have a look at my bestiary. You may be one of these, just say "!creature creaturename".'
           rerole:
             'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'
         urls:
           roleImage:
-            'https://cdn.discordapp.com/attachments/445271158502457345/490208979767656478/The_Realm_Roles1.png'
+            creature:
+              'https://cdn.discordapp.com/attachments/445271158502457345/490208979767656478/The_Realm_Roles1.png'
     '489197880809095168':
-        name: test server
+        name: Walt's realm
         channels: 
         - bot-commands
         defaultChannel:
@@ -168,6 +171,7 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
         - wand
         - summon
         validRoles:
+          creature:
             Dwarf:
                 secondaryRoles:
                     - Humanoids
@@ -287,10 +291,10 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
             Wraith:
                 secondaryRoles:
                     - Spirits
-        removeOnUpdate:
-        - Beasts
-        - Spirits
-        - Humanoids
+            removeOnUpdate:
+            - Beasts
+            - Spirits
+            - Humanoids
         strings:
           roleChange:
             '{0.author.mention}, you are now a {1}.'
@@ -323,13 +327,21 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
         - wand
         - summon
         - jewelry
-        validRoles:
-          Solar:
-            secondaryRoles:
-          Lunar:
-            secondaryRoles:
-          Gaian:
-            secondaryRoles:
+        defaultRoleset:
+          element
+        rolesets:
+          element:
+            Solar:
+            Lunar:
+            Gaian:
+            removeOnUpdate:
+              - Beasts
+              - Spirits
+              - Humanoids
+          job:
+            Soldier:
+            Mage:
+            Archer:
         removeOnUpdate:
         - Beasts
         - Spirits
@@ -345,8 +357,10 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
 My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'
           diceResults:
             '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
-          roleList:
-            'Have a look at my bestiary. You may be one of these, just say "!role rolename".'
+          elementRoleList:
+            'The elements are as follows: {0}. You may choose your alignment with "!element elementname".'
+          jobRoleList:
+            'The jobs are as follows: {0}. You may choose your job with "!job jobname".'
           rerole:
             'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'
         urls:

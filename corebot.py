@@ -25,9 +25,9 @@ todo = []
 
 @client.event
 async def on_message(message):
-	for member, role in todo:
+	for member, roleinfo in todo:
 		try:
-			await add_role(member, role)
+			await add_role(member, roleinfo[0], roleinfo[1])
 		except discord.errors.NotFound:
 			# If they've already left, we want to know, but to remove it from todo
 			log.info('Member {0.name} not found on server {0.server}'.format(member))
@@ -42,11 +42,8 @@ async def on_message(message):
 			# Generate random fantasy name
 			await gen_name(message)
 
-		elif message.content.startswith('!role'):
-			# Role requests
-			await request_role(message)
-
 		elif message.content.startswith('!list'):
+			# TODO lists for each roleset
 			await list_roles(message)
 
 		elif message.content.startswith('!roll'):
@@ -63,8 +60,7 @@ async def on_message(message):
 			await on_member_join(message.author)
 		
 		elif message.content.startswith('!'):
-			# Attempts to generate something.
-			await generate(message)
+			await parse(message)
 
 @client.event
 async def on_ready():
@@ -73,10 +69,10 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
+	print(conf.get_object(member.server.id, 'defaultRoleset'))
 	channel = find_channel(conf.get_object(member.server.id, 'greetingChannel'), member.server)
 	log.debug('{0.name} joined {0.server}'.format(member))
-	role = random.choice(get_valid_role_set(member.server))
-	await change_role(member, role.name)
+	role = await random_role(member, conf.get_object(member.server.id, 'defaultRoleset'))
 	msg = conf.get_string(member.server.id, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server.id, 'defaultChannel'), member.server))
 	await client.send_message(channel, msg)
 
@@ -84,30 +80,42 @@ async def gen_name(message):
 	msg = 'Your generated name: {0}'.format(namegen.generate_name())
 	await client.send_message(message.channel, msg)
 
-async def generate(message):
-	genname = message.content[1:] # Everything but the !
-	if genname in conf.get_object(message.server.id, 'generators'):
-		msg = generator.generate(genname)
+async def parse(message):
+	command = message.content.split(' ')[0][1:]
+	if command in conf.get_object(message.server.id, 'rolesets').keys():
+		await request_role(message)
+	elif command in conf.get_object(message.server.id, 'generators'):
+		msg = generator.generate(command)
 		await client.send_message(message.channel, msg)
 
-async def request_role(message):
+async def request_role(message): # TODO roleset
 	words = message.content.split()
-	words.pop(0)
+	roleset = words.pop(0)[1:]
 	try:
-		newRole = await change_role(message.author, ' '.join(words))
+		newRole = await change_role(message.author, ' '.join(words), roleset)
 		msg = conf.get_string(message.server.id, 'roleChange').format(message, newRole.name)
 	except (NameError):
 		msg = conf.get_string(message.server.id, 'invalidRole').format(message, ' '.join(words))
 	await client.send_message(message.channel, msg)
 
 async def list_roles(message):
-	roles = [x.name for x in get_valid_role_set(message.server)]
+	try:
+		roleset = message.content.split(' ')[1]
+	except (IndexError):
+		roleset = None
+	if not roleset:
+		roleset = conf.get_object(message.server.id, 'defaultRoleset')
+	roles = [x.name for x in get_roleset(message.server, roleset)]
 	roles.sort()
-	msg = conf.get_string(message.server.id, 'roleList').format(', '.join(roles))
-	imgurl = conf.get_object(message.server.id, 'urls', 'roleImage')
+	msg = conf.get_string(message.server.id, roleset + 'RoleList').format(', '.join(roles))
+	imgurl = None
+	if conf.get_object(message.server.id, 'urls', 'roleImage'):
+		imgurl = conf.get_object(message.server.id, 'urls', 'roleImage', roleset)
 	if imgurl:
 		embed = discord.Embed().set_image(url=imgurl)
-	await client.send_message(message.channel, msg, embed=embed)
+		await client.send_message(message.channel, msg, embed=embed)
+	else:
+		await client.send_message(message.channel, msg)
 
 async def roll_dice(message):
 	toRoll = message.content.split()
@@ -118,7 +126,7 @@ async def roll_dice(message):
 	await client.send_message(message.channel, msg)
 
 async def rerole(message):
-	role = await random_role(message.author)
+	role = await random_role(message.author, conf.get_object(message.server.id, 'defaultRoleset'))
 	msg = conf.get_string(message.server.id, 'rerole').format(message, role)
 	await client.send_message(message.channel, msg)
 
@@ -126,16 +134,16 @@ async def give_help(message):
 	msg = 'Please view the readme at <https://github.com/walterw9000/LongSphinx>'
 	await client.send_message(message.channel, msg)
 
-async def random_role(member):
-	role = random.choice(get_valid_role_set(member.server))
-	await change_role(member, role.name)
+async def random_role(member, roleset):
+	role = random.choice(get_roleset(member.server, roleset))
+	await change_role(member, role.name, roleset)
 	return role
 
-async def add_role(member, role):
+async def add_role(member, role, roleset):
 	log.debug('adding {0.name} to {1.name} on {2.name}'.format(role, member, member.server))
 	roles = [role]
-	if role.name in conf.get_object(member.server.id, 'validRoles').keys():
-		for roleName in conf.get_object(member.server.id, 'validRoles', role.name, 'secondaryRoles'):
+	if conf.get_object(member.server.id, 'rolesets', roleset, role.name) and 'secondaryRoles' in conf.get_object(member.server.id, 'rolesets', roleset, role.name):
+		for roleName in conf.get_object(member.server.id, 'rolesets', roleset, role.name, 'secondaryRoles'):
 			secondRole = discord.utils.find(lambda r: r.name.lower() == roleName.lower(),   member.server.roles)
 			if secondRole not in member.roles:
 				roles = roles + [secondRole]
@@ -147,21 +155,24 @@ def find_channel(channel_name, server):
 			return x
 	log.error('channel {0} not found on server {1.name}'.format(channel_name, server))
 
-async def change_role(member, roleName):
-	if any(role.name.lower() == roleName.lower() for role in get_valid_role_set(member.server)):
+async def change_role(member, roleName, roleset):
+	if any(role.name.lower() == roleName.lower() for role in get_roleset(member.server, roleset)):
 		role = discord.utils.find(lambda r: r.name.lower() == roleName.lower(), member.server.roles)
-		await client.remove_roles(member, *get_roles_to_remove(member.server))
-		todo.append((member, role))
+		await client.remove_roles(member, *get_roles_to_remove(member.server, roleset))
+		todo.append((member, [role, roleset]))
 		return role
 	else:
 		raise NameError(roleName)
 
-def get_valid_role_set(server):
-	roleNames = conf.get_object(server.id, 'validRoles').keys()
+def get_roleset(server, roleset):
+	roleNames = conf.get_object(server.id, 'rolesets', roleset).keys()
 	validRoles = [x for x in server.roles if x.name in roleNames]
 	return validRoles
 
-def get_roles_to_remove(server):
-	return get_valid_role_set(server) + [x for x in server.roles if x.name in conf.get_object(server.id, 'removeOnUpdate')]
+def get_roles_to_remove(server, roleset):
+	roles = get_roleset(server, roleset)
+	if 'removeOnUpdate' in conf.get_object(server.id, 'rolesets', roleset):
+		roles += [x for x in server.roles if x.name in conf.get_object(server.id, 'rolesets', roleset, 'removeOnUpdate')]
+	return roles
 
 client.run(TOKEN)
