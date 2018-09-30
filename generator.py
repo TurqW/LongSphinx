@@ -2,15 +2,15 @@ import random
 import logging
 import yaml
 import configmanager
-import namegen
+import mcgenerator
 log = logging.getLogger('LongSphinx.Generators')
 
 conf = {}
 
 def generate(name):
-	if name == 'name':
-		#TODO: There must be a less hardcoded way to do this.
-		return namegen.generate_name()
+	if name.startswith('mc:'):
+		#TODO: There may be a less hardcoded way to do this.
+		return mcgenerator.generate(name[3:])
 	parsed_name = name.split('.')
 	generator = parsed_name[0]
 	if generator not in conf:

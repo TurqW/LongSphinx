@@ -1,6 +1,7 @@
 import yaml
 import os
 import logging
+import sys
 log = logging.getLogger('LongSphinx.ConfigManager')
 
 class ConfigManager:
@@ -12,7 +13,8 @@ class ConfigManager:
 			try:
 				self.config = yaml.load(stream)
 			except yaml.YAMLError as exc:
-				sys.exit()
+				log.exception(exc)
+				print('Configuration load failed for {0}'.format(filename))
 
 	def update_config(self):
 		newlastmod = os.stat(self.filename).st_mtime

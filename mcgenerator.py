@@ -1,12 +1,18 @@
 import random
-# TODO: the list of names should be in config
-PLACES = ['Adara', 'Adena', 'Adrianne', 'Alarice', 'Alvita', 'Amara', 'Ambika', 'Antonia', 'Araceli', 'Balandria', 'Basha',
-'Beryl', 'Bryn', 'Callia', 'Caryssa', 'Cassandra', 'Casondrah', 'Chatha', 'Ciara', 'Cynara', 'Cytheria', 'Dabria', 'Darcei',
-'Deandra', 'Deirdre', 'Delores', 'Desdomna', 'Devi', 'Dominique', 'Drucilla', 'Duvessa', 'Ebony', 'Fantine', 'Fuscienne',
-'Gabi', 'Gallia', 'Hanna', 'Hedda', 'Jerica', 'Jetta', 'Joby', 'Kacila', 'Kagami', 'Kala', 'Kallie', 'Keelia', 'Kerry',
-'Kerry-Ann', 'Kimberly', 'Killian', 'Kory', 'Lilith', 'Lucretia', 'Lysha', 'Mercedes', 'Mia', 'Maura', 'Perdita', 'Quella',
-'Riona', 'Safiya', 'Salina', 'Severin', 'Sidonia', 'Sirena', 'Solita', 'Tempest', 'Thea', 'Treva', 'Trista', 'Vala', 'Winta']
-	
+import logging
+import yaml
+import configmanager
+log = logging.getLogger('LongSphinx.Generators')
+
+mcDataPath = 'genConfig/mcSources/'
+conf = {}
+
+def generate(name):
+	if name not in conf:
+		conf[name] = configmanager.ConfigManager('{0}{1}.yaml'.format(mcDataPath, name))
+	conf[name].update_config()
+	return MName(conf[name].config).New()
+
 class Mdict:
     def __init__(self):
         self.d = {}
@@ -28,7 +34,7 @@ class MName:
     """
     A name from a Markov chain
     """
-    def __init__(self, chainlen = 2):
+    def __init__(self, dataset, chainlen = 2):
         """
         Building the dictionary
         """
@@ -39,7 +45,7 @@ class MName:
         oldnames = []
         self.chainlen = chainlen
     
-        for l in PLACES:
+        for l in dataset:
             l = l.strip()
             oldnames.append(l)
             s = " " * chainlen + l
@@ -62,6 +68,3 @@ class MName:
                 name = name + suffix
                 prefix = prefix[1:] + suffix
         return name.capitalize()  
-
-def generate_name():
-	return MName().New()

@@ -5,7 +5,7 @@ root:
 - 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.'
 - 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.'
 - 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.'
-- 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}. Its name is {name}.'
+- 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}. Its name is {mc:name}.'
 - 'The egg bursts with a violet splatter of {potion.modifier} {color} fluid. Inside is a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.'
 - 'Your summoning spell goes awry and produces something other than a creature. {potion}'
 - 'You attempt a summoning spell. Nothing happens.'
@@ -160,7 +160,7 @@ ability:
 - break the fourth wall
 - look directly into the sun
 - serve as a flying mount
-- set or break camp
+- set or break camp in mere moments
 - soothe even the most angry beings with nothing more than a soft touch
 - Get Help™
 - release clouds of spores

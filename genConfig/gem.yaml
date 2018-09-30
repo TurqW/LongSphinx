@@ -2,6 +2,7 @@ root:
 - '{gem.size} {gem.type}'
 - '{gem.size} {gem.type}'
 - '{gem.size} {gem.type} {gem.oddity}'
+- 'the eye of {mc:name}'
 size:
 - puny
 - tiny

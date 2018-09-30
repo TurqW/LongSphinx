@@ -38,11 +38,7 @@ async def on_message(message):
 		return
 
 	if message.channel.name in conf.get_object(message.server.id, 'channels'):
-		if message.content.startswith('!name'):
-			# Generate random fantasy name
-			await gen_name(message)
-
-		elif message.content.startswith('!list'):
+		if message.content.startswith('!list'):
 			# TODO lists for each roleset
 			await list_roles(message)
 
@@ -76,10 +72,6 @@ async def on_member_join(member):
 	msg = conf.get_string(member.server.id, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server.id, 'defaultChannel'), member.server))
 	await client.send_message(channel, msg)
 
-async def gen_name(message):
-	msg = 'Your generated name: {0}'.format(namegen.generate_name())
-	await client.send_message(message.channel, msg)
-
 async def parse(message):
 	command = message.content.split(' ')[0][1:]
 	if command in conf.get_object(message.server.id, 'rolesets').keys():
@@ -109,7 +101,7 @@ async def list_roles(message):
 	roles.sort()
 	msg = conf.get_string(message.server.id, roleset + 'RoleList').format(', '.join(roles))
 	imgurl = None
-	if conf.get_object(message.server.id, 'urls', 'roleImage'):
+	if roleset in conf.get_object(message.server.id, 'urls', 'roleImage'):
 		imgurl = conf.get_object(message.server.id, 'urls', 'roleImage', roleset)
 	if imgurl:
 		embed = discord.Embed().set_image(url=imgurl)

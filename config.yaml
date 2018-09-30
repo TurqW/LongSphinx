@@ -13,6 +13,7 @@ servers:
         - wand
         - summon
         - jewelry
+        - name
         defaultRoleset: creature
         rolesets:
           creature:
@@ -139,6 +140,18 @@ servers:
             - Beasts
             - Spirits
             - Humanoids
+          class:
+            Barbarian:
+            Bard:
+            Brawler:
+            Cleric:
+            Druid:
+            Mage:
+            Monk:
+            Paladin:
+            Ranger:
+            Rogue:
+            Soldier:
         strings:
           roleChange:
             '{0.author.mention}, you are now a {1}.'
@@ -152,6 +165,8 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
             '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
           creatureRoleList:
             'Have a look at my bestiary. You may be one of these, just say "!creature creaturename".'
+          classRoleList:
+            'Looking for a career change, eh? {0}... Take your pick with "!class classname".'
           rerole:
             'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'
         urls:
@@ -170,6 +185,7 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
         - potion
         - wand
         - summon
+        - name
         validRoles:
           creature:
             Dwarf:
@@ -327,6 +343,7 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
         - wand
         - summon
         - jewelry
+        - name
         defaultRoleset:
           element
         rolesets:
