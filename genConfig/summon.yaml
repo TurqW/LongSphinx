@@ -1,3 +1,5 @@
+description:
+  Summons a randomly generated animal companion.
 root:
 - 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.' #including this multiple times so it's more likely
 - 'As you complete the summoning spell, there is a burst of {color} smoke. Once it clears, you see a {color} {summon.modifier}{summon.species} with the ability to {summon.ability}.'

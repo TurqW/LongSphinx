@@ -1,3 +1,5 @@
+description:
+  Simulates a visit to the wandmaker.
 root:
 - 'The wandmaker hands you a {wand.flexibility} {wand.wood} wand, {wand.length_int}{wand.length_fraction} inches with a {wand.core} core. {wand.effect}'
 wood:

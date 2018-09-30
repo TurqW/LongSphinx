@@ -155,6 +155,8 @@ servers:
         strings:
           roleChange:
             '{0.author.mention}, you are now a {1}.'
+          roleClear:
+            '{0.author.mention}, your {1} has been cleared.'
           invalidRole:
             '{0.author.mention}, role {1} is not on the valid list. Perhaps have a look at my bestiary with !list, or I can choose for you with !rerole .'
           welcome:
@@ -359,10 +361,7 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
             Soldier:
             Mage:
             Archer:
-        removeOnUpdate:
-        - Beasts
-        - Spirits
-        - Humanoids
+            removeOnUpdate:
         strings:
           roleChange:
             '{0.author.mention}, you are now a {1}.'

@@ -13,9 +13,7 @@ def generate(name):
 		return mcgenerator.generate(name[3:])
 	parsed_name = name.split('.')
 	generator = parsed_name[0]
-	if generator not in conf:
-		conf[generator] = configmanager.ConfigManager('genConfig/{0}.yaml'.format(generator))
-	conf[generator].update_config()
+	load_config(generator)
 	if len(parsed_name) == 1:
 		string = random.choice(conf[generator].config['root'])
 	else:
@@ -33,3 +31,17 @@ def populate_string(string):
 		replacement = generate(string[start+1:end])
 		string = string[:start] + replacement + string[end+1:]
 	return string
+
+def load_config(name):
+	if name not in conf:
+		conf[name] = configmanager.ConfigManager('genConfig/{0}.yaml'.format(name))
+	conf[name].update_config()
+
+def readme(generators):
+	msg = ''
+	for gen_name in generators:
+		load_config(gen_name)
+		msg += '* `!' + gen_name + '`: '
+		msg += conf[gen_name].config['description']
+		msg += '\n'
+	return msg

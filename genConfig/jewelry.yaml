@@ -1,3 +1,5 @@
+description:
+  Generates a random (potentially magical) accessory. Intended for use in a loot generator.
 root:
 - a {jewelry.material} {jewelry.article} engraved with a {summon.modifier}{summon.species}. When you wear it, you gain the ability to {summon.ability}.
 - a {jewelry.material} {jewelry.article} bearing a {gem}. When you wear it, you gain the ability to {summon.ability}.

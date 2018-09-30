@@ -65,7 +65,6 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-	print(conf.get_object(member.server.id, 'defaultRoleset'))
 	channel = find_channel(conf.get_object(member.server.id, 'greetingChannel'), member.server)
 	log.debug('{0.name} joined {0.server}'.format(member))
 	role = await random_role(member, conf.get_object(member.server.id, 'defaultRoleset'))
@@ -80,14 +79,18 @@ async def parse(message):
 		msg = generator.generate(command)
 		await client.send_message(message.channel, msg)
 
-async def request_role(message): # TODO roleset
+async def request_role(message):
 	words = message.content.split()
 	roleset = words.pop(0)[1:]
-	try:
-		newRole = await change_role(message.author, ' '.join(words), roleset)
-		msg = conf.get_string(message.server.id, 'roleChange').format(message, newRole.name)
-	except (NameError):
-		msg = conf.get_string(message.server.id, 'invalidRole').format(message, ' '.join(words))
+	if words[0].lower() == 'none' and roleset != conf.get_object(message.server.id, 'defaultRoleset'):
+		await client.remove_roles(message.author, *get_roles_to_remove(message.author.server, roleset))
+		msg = conf.get_string(message.server.id, 'roleClear').format(message, roleset)
+	else:
+		try:
+			newRole = await change_role(message.author, ' '.join(words), roleset)
+			msg = conf.get_string(message.server.id, 'roleChange').format(message, newRole.name)
+		except (NameError):
+			msg = conf.get_string(message.server.id, 'invalidRole').format(message, ' '.join(words))
 	await client.send_message(message.channel, msg)
 
 async def list_roles(message):
@@ -123,8 +126,23 @@ async def rerole(message):
 	await client.send_message(message.channel, msg)
 
 async def give_help(message):
-	msg = 'Please view the readme at <https://github.com/walterw9000/LongSphinx>'
+	msg = 'Role operations:\n'
+	msg += role_readme(message.server.id)
+	msg += 'Generators:\n'
+	msg += generator.readme(conf.get_object(message.server.id, 'generators'))
+	msg += 'Other commands:\n'
+	msg += '* `!roll NdM`: rolls a `M`-sided die `N` times. Multiple sets of dice can be used. Examples: `!roll 1d6`, `!roll 2d20`, `!roll 1d20 3d6`.\n'
+	msg += '* `!readme`: displays this helpful message.'
 	await client.send_message(message.channel, msg)
+
+def role_readme(server):
+	msg = ''
+	for roleset in conf.get_object(server, 'rolesets').keys():
+		msg += '* `!list {0}`: Lists all roles in roleset {0}.\n'.format(roleset)
+		msg += '* `!{0} <{0}name>`: You become the chosen {0}. Example: `!{0} {1}`\n'.format(roleset, [a for a in list(conf.get_object(server, 'rolesets', roleset).keys()) if a != 'removeOnUpdate'][0])
+		if roleset != conf.get_object(server, 'defaultRoleset'):
+			msg += '* `!{0} none`: Removes any roles you have from the {0} roleset.'.format(roleset)
+	return msg
 
 async def random_role(member, roleset):
 	role = random.choice(get_roleset(member.server, roleset))

@@ -1,3 +1,5 @@
+description:
+  You find a randomly generated potion.
 root:
 - You find a {potion.bottle} full of {potion.modifier} {color} liquid. When you drink it, {potion.effect}.
 modifier:
