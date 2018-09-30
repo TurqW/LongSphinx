@@ -141,7 +141,7 @@ def role_readme(server):
 		msg += '* `!list {0}`: Lists all roles in roleset {0}.\n'.format(roleset)
 		msg += '* `!{0} <{0}name>`: You become the chosen {0}. Example: `!{0} {1}`\n'.format(roleset, [a for a in list(conf.get_object(server, 'rolesets', roleset).keys()) if a != 'removeOnUpdate'][0])
 		if roleset != conf.get_object(server, 'defaultRoleset'):
-			msg += '* `!{0} none`: Removes any roles you have from the {0} roleset.'.format(roleset)
+			msg += '* `!{0} none`: Removes any roles you have from the {0} roleset.\n'.format(roleset)
 	return msg
 
 async def random_role(member, roleset):
