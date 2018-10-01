@@ -17,3 +17,5 @@ def roll_command(command):
 		res = res + roll_dice(parse_die(com))
 	return res
 
+def readme():
+	return '* `!roll NdM`: rolls a `M`-sided die `N` times. Multiple sets of dice can be used. Examples: `!roll 1d6`, `!roll 2d20`, `!roll 1d20 3d6`.\n'

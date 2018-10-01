@@ -1,6 +1,7 @@
 import random
 import logging
 import yaml
+from num2words import num2words
 import configmanager
 import mcgenerator
 log = logging.getLogger('LongSphinx.Generators')
@@ -11,6 +12,9 @@ def generate(name):
 	if name.startswith('mc:'):
 		#TODO: There may be a less hardcoded way to do this.
 		return mcgenerator.generate(name[3:])
+	if name.startswith('num:'):
+		rangeends = name[4:].split('-')
+		return num2words(random.randrange(int(rangeends[0]), int(rangeends[1])))
 	parsed_name = name.split('.')
 	generator = parsed_name[0]
 	load_config(generator)

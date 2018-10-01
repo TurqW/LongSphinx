@@ -9,7 +9,8 @@ import botconfig as conf
 import botdice as dice
 
 logging.basicConfig(filename='logs/ubeast.log',level=logging.DEBUG)
-
+logging.getLogger('discord').setLevel(logging.WARNING)
+logging.getLogger('websockets').setLevel(logging.WARNING)
 log = logging.getLogger('LongSphinx')
 
 tokenfilename = 'token.txt'
@@ -37,26 +38,28 @@ async def on_message(message):
 	if message.author == client.user:
 		return
 
-	if message.channel.name in conf.get_object(message.server.id, 'channels'):
-		if message.content.startswith('!list'):
-			# TODO lists for each roleset
-			await list_roles(message)
+	try:
+		if message.channel.name in conf.get_object(message.server.id, 'channels'):
+			if message.content.startswith('!list'):
+				await list_roles(message)
 
-		elif message.content.startswith('!roll'):
-			#dice
-			await roll_dice(message)
+			elif message.content.startswith('!roll'):
+				#dice
+				await roll_dice(message)
 
-		elif message.content.startswith('!rerole'):
-			await rerole(message)
+			elif message.content.startswith('!rerole'):
+				await rerole(message)
 
-		elif message.content.startswith('!readme'):
-			await give_help(message)
+			elif message.content.startswith('!readme'):
+				await give_help(message)
 
-		elif message.content.startswith('&join'):
-			await on_member_join(message.author)
-		
-		elif message.content.startswith('!'):
-			await parse(message)
+			elif message.content.startswith('&join'):
+				await on_member_join(message.author)
+			
+			elif message.content.startswith('!'):
+				await parse(message)
+	except:
+		log.exception('Exception in on_message:')
 
 @client.event
 async def on_ready():
@@ -114,11 +117,14 @@ async def list_roles(message):
 
 async def roll_dice(message):
 	toRoll = message.content.split()
-	toRoll.pop(0)
-	results = dice.roll_command(toRoll)
+	results = dice.roll_command(toRoll[1:])
 	resultString = ', '.join([str(i) for i in results])
 	msg = conf.get_string(message.server.id, 'diceResults').format(message, resultString, sum(results))
-	await client.send_message(message.channel, msg)
+	try:
+		await client.send_message(message.channel, msg)
+	except discord.errors.HTTPException:
+		msg = conf.get_string(message.server.id, 'diceResults').format(message, 'they show many numbers', sum(results))
+		await client.send_message(message.channel, msg)
 
 async def rerole(message):
 	role = await random_role(message.author, conf.get_object(message.server.id, 'defaultRoleset'))
@@ -131,7 +137,7 @@ async def give_help(message):
 	msg += 'Generators:\n'
 	msg += generator.readme(conf.get_object(message.server.id, 'generators'))
 	msg += 'Other commands:\n'
-	msg += '* `!roll NdM`: rolls a `M`-sided die `N` times. Multiple sets of dice can be used. Examples: `!roll 1d6`, `!roll 2d20`, `!roll 1d20 3d6`.\n'
+	msg += dice.readme()
 	msg += '* `!readme`: displays this helpful message.'
 	await client.send_message(message.channel, msg)
 

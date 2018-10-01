@@ -1,0 +1,15 @@
+description:
+  Generates a small number of coins. For use in loot generator.
+root:
+- '{coin.quantity} {jewelry.material} coins'
+- '{coin.quantity} {jewelry.material} coins engraved with a {summon.species}'
+- 'a single large {jewelry.material} coin'
+- 'a single {jewelry.material} coin engraved with a {summon.species}'
+quantity:
+- a handful of
+- '{num:2-10}'
+- '{num:2-20}'
+- '{num:2-30}'
+- a large pile of
+- '{num:2-5} rolls of'
+- a purse full of

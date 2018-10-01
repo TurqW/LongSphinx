@@ -1,0 +1,16 @@
+description:
+  Generates a pile of loot.
+root:
+- 'You open the chest. Inside, you find:
+
+{loot.list}'
+list:
+- '- {loot.piece}
+
+{loot.list}'
+- '- {loot.piece}'
+piece:
+- 'a {gem}'
+- '{coin}'
+- '{jewelry}'
+- '{potion.core}'

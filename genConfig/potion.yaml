@@ -1,7 +1,9 @@
 description:
   You find a randomly generated potion.
 root:
-- You find a {potion.bottle} full of {potion.modifier} {color} liquid. When you drink it, {potion.effect}.
+- You find {potion.core}
+core:
+- a {potion.bottle} full of {potion.modifier} {color} liquid. When you drink it, {potion.effect}.
 modifier:
 - bubbly
 - translucent
@@ -110,6 +112,7 @@ effect:
 - you are briefly paralyzed
 - you begin to vomit slugs
 - you gain the ability to {summon.ability}
-- everyone begins to call you {name}
+- everyone begins to call you {mc:name}
 - you cough up a {gem}
 - you painfully cough up {jewelry}
+- you vomit {coin}

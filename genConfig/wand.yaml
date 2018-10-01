@@ -1,7 +1,7 @@
 description:
   Simulates a visit to the wandmaker.
 root:
-- 'The wandmaker hands you a {wand.flexibility} {wand.wood} wand, {wand.length_int}{wand.length_fraction} inches with a {wand.core} core. {wand.effect}'
+- 'The wandmaker hands you a {wand.flexibility} {wand.wood} wand, {num:8-16}{wand.length_fraction} inches with a {wand.core} core. {wand.effect}'
 wood:
 - acacia
 - alder
@@ -61,15 +61,6 @@ core:
 - kneazle whisker
 - kelpie hair
 - basilisk horn
-length_int:
-- eight
-- nine
-- ten
-- eleven
-- twelve
-- thirteen
-- fourteen
-- fifteen
 length_fraction:
 - ' and one eighth'
 - ' and a quarter'

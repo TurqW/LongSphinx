@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # Used by supervise to start at boot (and keep running)
-/usr/bin/python3.5 corebot.py > logs/errors.log
+/usr/bin/python3.5 corebot.py > logs/errors.log 2>&1

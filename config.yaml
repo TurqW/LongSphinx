@@ -12,8 +12,8 @@ servers:
         - potion
         - wand
         - summon
-        - jewelry
         - name
+        - loot
         defaultRoleset: creature
         rolesets:
           creature:
@@ -177,8 +177,9 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
               'https://cdn.discordapp.com/attachments/445271158502457345/490208979767656478/The_Realm_Roles1.png'
     '489197880809095168':
         name: Walt's realm
-        channels: 
+        channels:
         - bot-commands
+        - command-line
         defaultChannel:
           bot-commands
         greetingChannel:
@@ -188,7 +189,9 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
         - wand
         - summon
         - name
-        validRoles:
+        - loot
+        defaultRoleset: creature
+        rolesets:
           creature:
             Dwarf:
                 secondaryRoles:
@@ -313,24 +316,41 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
             - Beasts
             - Spirits
             - Humanoids
+          class:
+            Barbarian:
+            Bard:
+            Brawler:
+            Cleric:
+            Druid:
+            Mage:
+            Monk:
+            Paladin:
+            Ranger:
+            Rogue:
+            Soldier:
         strings:
           roleChange:
             '{0.author.mention}, you are now a {1}.'
+          roleClear:
+            '{0.author.mention}, your {1} has been cleared.'
           invalidRole:
-            '{0.author.mention}, role {1} is not on the valid list.'
+            '{0.author.mention}, role {1} is not on the valid list. Perhaps have a look at my bestiary with !list, or I can choose for you with !rerole .'
           welcome:
             'Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps?
-
+            
 My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'
           diceResults:
             '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
-          roleList:
-            'Have a look at my bestiary. You may be one of these, just say "!role rolename".'
+          creatureRoleList:
+            'Have a look at my bestiary. You may be one of these, just say "!creature creaturename".'
+          classRoleList:
+            'Looking for a career change, eh? {0}... Take your pick with "!class classname".'
           rerole:
             'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'
         urls:
           roleImage:
-            'https://cdn.discordapp.com/attachments/445271158502457345/490208979767656478/The_Realm_Roles1.png'
+            creature:
+              'https://cdn.discordapp.com/attachments/445271158502457345/490208979767656478/The_Realm_Roles1.png'
     '494373430637101058':
         name: Test
         channels:
@@ -345,6 +365,7 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
         - wand
         - summon
         - jewelry
+        - loot
         - name
         defaultRoleset:
           element

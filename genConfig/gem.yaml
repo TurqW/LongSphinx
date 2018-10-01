@@ -2,7 +2,6 @@ root:
 - '{gem.size} {gem.type}'
 - '{gem.size} {gem.type}'
 - '{gem.size} {gem.type} {gem.oddity}'
-- 'the eye of {mc:name}'
 size:
 - puny
 - tiny
@@ -79,3 +78,4 @@ type:
 oddity:
 - which glows with {color} light
 - with an oddly {color} tint
+- known as the Eye of {mc:name}
