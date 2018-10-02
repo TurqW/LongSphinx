@@ -157,8 +157,10 @@ servers:
             '{0.author.mention}, you are now a {1}.'
           roleClear:
             '{0.author.mention}, your {1} has been cleared.'
-          invalidRole:
-            '{0.author.mention}, role {1} is not on the valid list. Perhaps have a look at my bestiary with !list, or I can choose for you with !rerole .'
+          invalidcreature:
+            '{0.author.mention}, role {1} is not on the valid list. Perhaps have a look at my bestiary with `!creature`, or I can choose for you with `!rerole`.'
+          invalidclass:
+            '{0.author.mention}, role {1} is not on the valid list. You can see the options with `!class`.'
           welcome:
             'Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps?
             
@@ -166,9 +168,9 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
           diceResults:
             '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
           creatureRoleList:
-            'Have a look at my bestiary. You may be one of these, just say "!creature creaturename".'
+            'Have a look at my bestiary. You may be one of these, just say `!creature creaturename`.'
           classRoleList:
-            'Looking for a career change, eh? {0}... Take your pick with "!class classname".'
+            'Looking for a career change, eh? {0}... Take your pick of these with `!class classname`.'
           rerole:
             'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'
         urls:
@@ -318,23 +320,36 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
             - Humanoids
           class:
             Barbarian:
+              description: A warrior from the wilds who draws strength from his rage.
             Bard:
+              description: A performer of such skill that their performances can have magical effects.
             Brawler:
+              description: A fighter who relies on brawn and street smarts rather than grueling training.
             Cleric:
+              description: A priest of a specific deity or pantheon. Best known for their healing magic.
             Druid:
+              description: A magic user deeply in tune with nature. Can often transform into animals.
             Mage:
+              description: A skilled magic user who has studied or been granted the arcane arts.
             Monk:
+              description: An agile warrior trained in the martial arts of a faraway land.
             Paladin:
+              description: A holy knight, gifted with both physical prowess and holy magic.
             Ranger:
+              description: A tracker, hunter, and/or woodsman. May know some relevant magic.
             Rogue:
+              description: A thief or assassin. Quick, sneaky, and best not let out of your sight.
             Soldier:
+              description: A disciplined warrior accustomed to fighting together with their comrades-in-arms.
         strings:
           roleChange:
             '{0.author.mention}, you are now a {1}.'
           roleClear:
             '{0.author.mention}, your {1} has been cleared.'
-          invalidRole:
-            '{0.author.mention}, role {1} is not on the valid list. Perhaps have a look at my bestiary with !list, or I can choose for you with !rerole .'
+          invalidcreature:
+            '{0.author.mention}, role {1} is not on the valid list. Perhaps have a look at my bestiary with `!creature`, or I can choose for you with `!rerole`.'
+          invalidclass:
+            '{0.author.mention}, role {1} is not on the valid list. You can see the options with `!class`.'
           welcome:
             'Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps?
             
@@ -342,9 +357,9 @@ My crystal ball has been foggy of late. If I''m wrong, quest to the pinned messa
           diceResults:
             '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
           creatureRoleList:
-            'Have a look at my bestiary. You may be one of these, just say "!creature creaturename".'
+            'Have a look at my bestiary. You may be one of these, just say `!creature creaturename`.'
           classRoleList:
-            'Looking for a career change, eh? {0}... Take your pick with "!class classname".'
+            'Looking for a career change, eh? {0}... Take your pick of these with `!class classname`.'
           rerole:
             'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'
         urls:

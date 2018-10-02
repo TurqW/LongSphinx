@@ -85,7 +85,9 @@ async def parse(message):
 async def request_role(message):
 	words = message.content.split()
 	roleset = words.pop(0)[1:]
-	if words[0].lower() == 'none' and roleset != conf.get_object(message.server.id, 'defaultRoleset'):
+	if len(words) == 0:
+		return await list_roles(message)
+	elif words[0].lower() == 'none' and roleset != conf.get_object(message.server.id, 'defaultRoleset'):
 		await client.remove_roles(message.author, *get_roles_to_remove(message.author.server, roleset))
 		msg = conf.get_string(message.server.id, 'roleClear').format(message, roleset)
 	else:
@@ -93,26 +95,19 @@ async def request_role(message):
 			newRole = await change_role(message.author, ' '.join(words), roleset)
 			msg = conf.get_string(message.server.id, 'roleChange').format(message, newRole.name)
 		except (NameError):
-			msg = conf.get_string(message.server.id, 'invalidRole').format(message, ' '.join(words))
+			msg = conf.get_string(message.server.id, 'invalid' + roleset).format(message, ' '.join(words))
 	await client.send_message(message.channel, msg)
 
 async def list_roles(message):
-	try:
-		roleset = message.content.split(' ')[1]
-	except (IndexError):
-		roleset = None
-	if not roleset:
-		roleset = conf.get_object(message.server.id, 'defaultRoleset')
+	roleset = message.content[1:]
 	roles = [x.name for x in get_roleset(message.server, roleset)]
 	roles.sort()
 	msg = conf.get_string(message.server.id, roleset + 'RoleList').format(', '.join(roles))
-	imgurl = None
-	if roleset in conf.get_object(message.server.id, 'urls', 'roleImage'):
+	try:
 		imgurl = conf.get_object(message.server.id, 'urls', 'roleImage', roleset)
-	if imgurl:
 		embed = discord.Embed().set_image(url=imgurl)
 		await client.send_message(message.channel, msg, embed=embed)
-	else:
+	except:
 		await client.send_message(message.channel, msg)
 
 async def roll_dice(message):
@@ -144,7 +139,7 @@ async def give_help(message):
 def role_readme(server):
 	msg = ''
 	for roleset in conf.get_object(server, 'rolesets').keys():
-		msg += '* `!list {0}`: Lists all roles in roleset {0}.\n'.format(roleset)
+		msg += '* `!{0}`: Lists all roles in roleset {0}.\n'.format(roleset)
 		msg += '* `!{0} <{0}name>`: You become the chosen {0}. Example: `!{0} {1}`\n'.format(roleset, [a for a in list(conf.get_object(server, 'rolesets', roleset).keys()) if a != 'removeOnUpdate'][0])
 		if roleset != conf.get_object(server, 'defaultRoleset'):
 			msg += '* `!{0} none`: Removes any roles you have from the {0} roleset.\n'.format(roleset)
