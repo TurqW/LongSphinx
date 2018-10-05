@@ -30,11 +30,8 @@ def generate(name):
 	
 
 def populate_string(string):
-	while '{' in string:
-		start = string.find('{')
-		end = string.find('}')
-		replacement = generate(string[start+1:end])
-		string = string[:start] + replacement + string[end+1:]
+	for toReplace in re.findall(r'{[\w.:]+}', string):
+		string = string.replace(toReplace, generate(toReplace[1:-1]), 1)
 	return fix_articles(string)
 
 def fix_articles(string):
