@@ -1,0 +1,83 @@
+root:
+- 'a {jewelry.material} {weapon.type}'
+- 'a {jewelry.material} {weapon.type} engraved with elaborate patterns'
+- 'a {jewelry.material} {weapon.type} set with a {gem}'
+type:
+- spiked gauntlet
+- cutlass
+- falchion
+- khopesh
+- saber
+- scimitar
+- arming sword
+- broadsword
+- epee
+- estoc
+- flamberge
+- longsword
+- rapier
+- spadroon
+- katana
+- boar sword
+- claymore
+- heading sword
+- flambard
+- zweihander
+- baselard
+- cinquedea
+- gladius
+- smallsword
+- kukri
+- hook sword
+- dagger
+- dirk
+- sickle
+- mattock
+- pickaxe
+- war pick
+- warhammer
+- bardiche
+- battleaxe
+- broadaxe
+- handaxe
+- hatchet
+- labrys
+- tomahawk
+- club
+- bludgeon
+- cudgel
+- boomerang
+- flail
+- frying pan
+- hammer
+- mace
+- morning star
+- roundhead mace
+- sai
+- shillelagh
+- scepter
+- sledgehammer
+- tonfa
+- wrench
+- bo
+- quarterstaff
+- boar spear
+- lance
+- pike
+- pitchfork
+- spetum
+- swordstaff
+- trident
+- bardiche
+- glaive
+- guisarme
+- halberd
+- naginata
+- poleaxe
+- javelin
+- harpoon
+- pilum
+- chakram
+- shuriken
+- kunai
+- throwing knife

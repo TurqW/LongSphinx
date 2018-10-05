@@ -96,6 +96,7 @@ async def request_role(message):
 			msg = conf.get_string(message.server.id, 'roleChange').format(message, newRole.name)
 		except (NameError):
 			msg = conf.get_string(message.server.id, 'invalid' + roleset).format(message, ' '.join(words))
+	msg = generator.fix_articles(msg)
 	await client.send_message(message.channel, msg)
 
 async def list_roles(message):

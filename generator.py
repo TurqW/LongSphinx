@@ -2,6 +2,7 @@ import random
 import logging
 import yaml
 from num2words import num2words
+import re
 import configmanager
 import mcgenerator
 log = logging.getLogger('LongSphinx.Generators')
@@ -34,7 +35,11 @@ def populate_string(string):
 		end = string.find('}')
 		replacement = generate(string[start+1:end])
 		string = string[:start] + replacement + string[end+1:]
-	return string
+	return fix_articles(string)
+
+def fix_articles(string):
+	# relevant: https://stackoverflow.com/questions/2763750/how-to-replace-only-part-of-the-match-with-python-re-sub
+	return re.sub(r"(^|\W)a( [aAeEiIoOuU](?!ni))", r'\1an\2', string)
 
 def load_config(name):
 	if name not in conf:
