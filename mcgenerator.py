@@ -62,7 +62,7 @@ class MName:
         suffix = ""
         while True:
             suffix = self.mcd.get_suffix(prefix)
-            if suffix == "\n" or len(name) > 9:
+            if suffix == "\n" or len(name) > 99:
                 break
             else:
                 name = name + suffix

@@ -8,8 +8,9 @@ conf = configmanager.ConfigManager(filename)
 def get_object(server_id, *hierarchy):
 	found = conf.config['servers'][server_id]
 	for level in hierarchy:
-		found = found[level]
-		if not found:
+		try:
+			found = found[level]
+		except:
 			log.error('Could not find {0} out of {1} on server {2}'.format(level, hierarchy, server_id))
 	return found
 

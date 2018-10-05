@@ -1,419 +1,222 @@
 servers:
-    '443869685054701569':
-        name: The Realm
-        channels:
-        - bot-commands
-        - command-line
-        defaultChannel:
-          bot-commands
-        greetingChannel:
-          portal
-        generators:
-        - potion
-        - wand
-        - summon
-        - name
-        - loot
-        defaultRoleset: creature
-        rolesets:
-          creature:
-            Dwarf:
-                secondaryRoles:
-                    - Humanoids
-            Elf:
-                secondaryRoles:
-                    - Humanoids
-            Fairy:
-                secondaryRoles:
-                    - Humanoids
-            Goblin:
-                secondaryRoles:
-                    - Humanoids
-            Gnome:
-                secondaryRoles:
-                    - Humanoids
-            Halfling:
-                secondaryRoles:
-                    - Humanoids
-            Human:
-                secondaryRoles:
-                    - Humanoids
-            Mermaid:
-                secondaryRoles:
-                    - Humanoids
-            Vampire:
-                secondaryRoles:
-                    - Humanoids
-            Werewolf:
-                secondaryRoles:
-                    - Humanoids
-            Witch:
-                secondaryRoles:
-                    - Humanoids
-            Wizard:
-                secondaryRoles:
-                    - Humanoids
-            Zombie:
-                secondaryRoles:
-                    - Humanoids
-            
-            Basilisk:
-                secondaryRoles:
-                    - Beasts
-            Chimera:
-                secondaryRoles:
-                    - Beasts
-            Centaur:
-                secondaryRoles:
-                    - Beasts
-            Cyclops:
-                secondaryRoles:
-                    - Beasts
-            Dragon:
-                secondaryRoles:
-                    - Beasts
-            Gryphon:
-                secondaryRoles:
-                    - Beasts
-            Loch Ness Monster:
-                secondaryRoles:
-                    - Beasts
-            Ogre:
-                secondaryRoles:
-                    - Beasts
-            Pegasus:
-                secondaryRoles:
-                    - Beasts
-            Phoenix:
-                secondaryRoles:
-                    - Beasts
-            Sasquatch:
-                secondaryRoles:
-                    - Beasts
-            Sphinx:
-                secondaryRoles:
-                    - Beasts
-            Unicorn:
-                secondaryRoles:
-                    - Beasts
-            
-            Angel:
-                secondaryRoles:
-                    - Spirits
-            Banshee:
-                secondaryRoles:
-                    - Spirits
-            Demon:
-                secondaryRoles:
-                    - Spirits
-            Deity:
-                secondaryRoles:
-                    - Spirits
-            Djinn:
-                secondaryRoles:
-                    - Spirits
-            Ghost:
-                secondaryRoles:
-                    - Spirits
-            Ghoul:
-                secondaryRoles:
-                    - Spirits
-            Grim:
-                secondaryRoles:
-                    - Spirits
-            Kobold:
-                secondaryRoles:
-                    - Spirits
-            Poltergeist:
-                secondaryRoles:
-                    - Spirits
-            Skeleton:
-                secondaryRoles:
-                    - Spirits
-            Sylph:
-                secondaryRoles:
-                    - Spirits
-            Wraith:
-                secondaryRoles:
-                    - Spirits
-            removeOnUpdate:
-            - Beasts
-            - Spirits
-            - Humanoids
-          class:
-            Barbarian:
-            Bard:
-            Brawler:
-            Cleric:
-            Druid:
-            Mage:
-            Monk:
-            Paladin:
-            Ranger:
-            Rogue:
-            Soldier:
-        strings:
-          roleChange:
-            '{0.author.mention}, you are now a {1}.'
-          roleClear:
-            '{0.author.mention}, your {1} has been cleared.'
-          invalidcreature:
-            '{0.author.mention}, role {1} is not on the valid list. Perhaps have a look at my bestiary with `!creature`, or I can choose for you with `!rerole`.'
-          invalidclass:
-            '{0.author.mention}, role {1} is not on the valid list. You can see the options with `!class`.'
-          welcome:
-            'Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps?
-            
-My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'
-          diceResults:
-            '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
-          creatureRoleList:
-            'Have a look at my bestiary. You may be one of these, just say `!creature creaturename`.'
-          classRoleList:
-            'Looking for a career change, eh? {0}... Take your pick of these with `!class classname`.'
-          rerole:
-            'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'
-        urls:
-          roleImage:
-            creature:
-              'https://cdn.discordapp.com/attachments/445271158502457345/490208979767656478/The_Realm_Roles1.png'
-    '489197880809095168':
-        name: Walt's realm
-        channels:
-        - bot-commands
-        - command-line
-        defaultChannel:
-          bot-commands
-        greetingChannel:
-          portal
-        generators:
-        - potion
-        - wand
-        - summon
-        - name
-        - loot
-        defaultRoleset: creature
-        rolesets:
-          creature:
-            Dwarf:
-                secondaryRoles:
-                    - Humanoids
-            Elf:
-                secondaryRoles:
-                    - Humanoids
-            Fairy:
-                secondaryRoles:
-                    - Humanoids
-            Goblin:
-                secondaryRoles:
-                    - Humanoids
-            Gnome:
-                secondaryRoles:
-                    - Humanoids
-            Halfling:
-                secondaryRoles:
-                    - Humanoids
-            Human:
-                secondaryRoles:
-                    - Humanoids
-            Mermaid:
-                secondaryRoles:
-                    - Humanoids
-            Vampire:
-                secondaryRoles:
-                    - Humanoids
-            Werewolf:
-                secondaryRoles:
-                    - Humanoids
-            Witch:
-                secondaryRoles:
-                    - Humanoids
-            Wizard:
-                secondaryRoles:
-                    - Humanoids
-            Zombie:
-                secondaryRoles:
-                    - Humanoids
-            
-            Basilisk:
-                secondaryRoles:
-                    - Beasts
-            Chimera:
-                secondaryRoles:
-                    - Beasts
-            Centaur:
-                secondaryRoles:
-                    - Beasts
-            Cyclops:
-                secondaryRoles:
-                    - Beasts
-            Dragon:
-                secondaryRoles:
-                    - Beasts
-            Gryphon:
-                secondaryRoles:
-                    - Beasts
-            Loch Ness Monster:
-                secondaryRoles:
-                    - Beasts
-            Ogre:
-                secondaryRoles:
-                    - Beasts
-            Pegasus:
-                secondaryRoles:
-                    - Beasts
-            Phoenix:
-                secondaryRoles:
-                    - Beasts
-            Sasquatch:
-                secondaryRoles:
-                    - Beasts
-            Sphinx:
-                secondaryRoles:
-                    - Beasts
-            Unicorn:
-                secondaryRoles:
-                    - Beasts
-            
-            Angel:
-                secondaryRoles:
-                    - Spirits
-            Banshee:
-                secondaryRoles:
-                    - Spirits
-            Demon:
-                secondaryRoles:
-                    - Spirits
-            Deity:
-                secondaryRoles:
-                    - Spirits
-            Djinn:
-                secondaryRoles:
-                    - Spirits
-            Ghost:
-                secondaryRoles:
-                    - Spirits
-            Ghoul:
-                secondaryRoles:
-                    - Spirits
-            Grim:
-                secondaryRoles:
-                    - Spirits
-            Kobold:
-                secondaryRoles:
-                    - Spirits
-            Poltergeist:
-                secondaryRoles:
-                    - Spirits
-            Skeleton:
-                secondaryRoles:
-                    - Spirits
-            Sylph:
-                secondaryRoles:
-                    - Spirits
-            Wraith:
-                secondaryRoles:
-                    - Spirits
-            removeOnUpdate:
-            - Beasts
-            - Spirits
-            - Humanoids
-          class:
-            Barbarian:
-              description: A warrior from the wilds who draws strength from his rage.
-            Bard:
-              description: A performer of such skill that their performances can have magical effects.
-            Brawler:
-              description: A fighter who relies on brawn and street smarts rather than grueling training.
-            Cleric:
-              description: A priest of a specific deity or pantheon. Best known for their healing magic.
-            Druid:
-              description: A magic user deeply in tune with nature. Can often transform into animals.
-            Mage:
-              description: A skilled magic user who has studied or been granted the arcane arts.
-            Monk:
-              description: An agile warrior trained in the martial arts of a faraway land.
-            Paladin:
-              description: A holy knight, gifted with both physical prowess and holy magic.
-            Ranger:
-              description: A tracker, hunter, and/or woodsman. May know some relevant magic.
-            Rogue:
-              description: A thief or assassin. Quick, sneaky, and best not let out of your sight.
-            Soldier:
-              description: A disciplined warrior accustomed to fighting together with their comrades-in-arms.
-        strings:
-          roleChange:
-            '{0.author.mention}, you are now a {1}.'
-          roleClear:
-            '{0.author.mention}, your {1} has been cleared.'
-          invalidcreature:
-            '{0.author.mention}, role {1} is not on the valid list. Perhaps have a look at my bestiary with `!creature`, or I can choose for you with `!rerole`.'
-          invalidclass:
-            '{0.author.mention}, role {1} is not on the valid list. You can see the options with `!class`.'
-          welcome:
-            'Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps?
-            
-My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'
-          diceResults:
-            '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
-          creatureRoleList:
-            'Have a look at my bestiary. You may be one of these, just say `!creature creaturename`.'
-          classRoleList:
-            'Looking for a career change, eh? {0}... Take your pick of these with `!class classname`.'
-          rerole:
-            'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'
-        urls:
-          roleImage:
-            creature:
-              'https://cdn.discordapp.com/attachments/445271158502457345/490208979767656478/The_Realm_Roles1.png'
-    '494373430637101058':
-        name: Test
-        channels:
-        - bot-commands
-        - command-line
-        defaultChannel:
-          bot-commands
-        greetingChannel:
-          portal
-        generators:
-        - potion
-        - wand
-        - summon
-        - jewelry
-        - loot
-        - name
-        defaultRoleset:
-          element
-        rolesets:
-          element:
-            Solar:
-            Lunar:
-            Gaian:
-            removeOnUpdate:
-              - Beasts
-              - Spirits
-              - Humanoids
-          job:
-            Soldier:
-            Mage:
-            Archer:
-            removeOnUpdate:
-        strings:
-          roleChange:
-            '{0.author.mention}, you are now a {1}.'
-          invalidRole:
-            '{0.author.mention}, role {1} is not on the valid list. Perhaps have a look at my bestiary with !list, or I can choose for you with !rerole .'
-          welcome:
-            'Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps?
-            
-My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'
-          diceResults:
-            '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
-          elementRoleList:
-            'The elements are as follows: {0}. You may choose your alignment with "!element elementname".'
-          jobRoleList:
-            'The jobs are as follows: {0}. You may choose your job with "!job jobname".'
-          rerole:
-            'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'
-        urls:
-          roleImage:
+  default: &defaults
+    channels:
+    - bot-commands
+    defaultChannel:
+      bot-commands
+    greetingChannel:
+      portal
+    generators:
+    - potion
+    - wand
+    - summon
+    - name
+    - loot
+    - country
+    strings: &defaultStrings
+      roleChange:
+        '{0.author.mention}, you are now a {1}.'
+      roleClear:
+        '{0.author.mention}, your {1} has been cleared.'
+      diceResults:
+        '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
+      rerole:
+        'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'
+    urls:
+      roleImage:
+  '443869685054701569': &realm
+    name: The Realm
+    channels:
+    - bot-commands
+    - command-line
+    defaultRoleset: creature
+    rolesets:
+      creature:
+        Dwarf:
+          secondaryRoles:
+          - Humanoids
+        Elf:
+          secondaryRoles:
+          - Humanoids
+        Fairy:
+          secondaryRoles:
+          - Humanoids
+        Goblin:
+          secondaryRoles:
+          - Humanoids
+        Gnome:
+          secondaryRoles:
+          - Humanoids
+        Halfling:
+          secondaryRoles:
+          - Humanoids
+        Human:
+          secondaryRoles:
+          - Humanoids
+        Mermaid:
+          secondaryRoles:
+          - Humanoids
+        Vampire:
+          secondaryRoles:
+          - Humanoids
+        Werewolf:
+          secondaryRoles:
+          - Humanoids
+        Witch:
+          secondaryRoles:
+          - Humanoids
+        Wizard:
+          secondaryRoles:
+          - Humanoids
+        Zombie:
+          secondaryRoles:
+          - Humanoids
+        
+        Basilisk:
+          secondaryRoles:
+          - Beasts
+        Chimera:
+          secondaryRoles:
+          - Beasts
+        Centaur:
+          secondaryRoles:
+          - Beasts
+        Cyclops:
+          secondaryRoles:
+          - Beasts
+        Dragon:
+          secondaryRoles:
+          - Beasts
+        Gryphon:
+          secondaryRoles:
+          - Beasts
+        Loch Ness Monster:
+          secondaryRoles:
+          - Beasts
+        Ogre:
+          secondaryRoles:
+          - Beasts
+        Pegasus:
+          secondaryRoles:
+          - Beasts
+        Phoenix:
+          secondaryRoles:
+          - Beasts
+        Sasquatch:
+          secondaryRoles:
+          - Beasts
+        Sphinx:
+          secondaryRoles:
+          - Beasts
+        Unicorn:
+          secondaryRoles:
+          - Beasts
+        
+        Angel:
+          secondaryRoles:
+          - Spirits
+        Banshee:
+          secondaryRoles:
+          - Spirits
+        Demon:
+          secondaryRoles:
+          - Spirits
+        Deity:
+          secondaryRoles:
+          - Spirits
+        Djinn:
+          secondaryRoles:
+          - Spirits
+        Ghost:
+          secondaryRoles:
+          - Spirits
+        Ghoul:
+          secondaryRoles:
+          - Spirits
+        Grim:
+          secondaryRoles:
+          - Spirits
+        Kobold:
+          secondaryRoles:
+          - Spirits
+        Poltergeist:
+          secondaryRoles:
+          - Spirits
+        Skeleton:
+          secondaryRoles:
+          - Spirits
+        Sylph:
+          secondaryRoles:
+          - Spirits
+        Wraith:
+          secondaryRoles:
+          - Spirits
+        removeOnUpdate:
+        - Beasts
+        - Spirits
+        - Humanoids
+      class:
+        Barbarian:
+          description: A warrior from the wilds who draws strength from his rage.
+        Bard:
+          description: A performer of such skill that their performances can have magical effects.
+        Brawler:
+          description: A fighter who relies on brawn and street smarts rather than grueling training.
+        Cleric:
+          description: A priest of a specific deity or pantheon. Best known for their healing magic.
+        Druid:
+          description: A magic user deeply in tune with nature. Can often transform into animals.
+        Mage:
+          description: A skilled magic user who has studied or been granted the arcane arts.
+        Monk:
+          description: An agile warrior trained in the martial arts of a faraway land.
+        Paladin:
+          description: A holy knight, gifted with both physical prowess and holy magic.
+        Ranger:
+          description: A tracker, hunter, and/or woodsman. May know some relevant magic.
+        Rogue:
+          description: A thief or assassin. Quick, sneaky, and best not let out of your sight.
+        Soldier:
+          description: A disciplined warrior accustomed to fighting together with their comrades-in-arms.
+    strings:
+      invalidcreature:
+        '{0.author.mention}, role {1} is not on the valid list. Perhaps have a look at my bestiary with `!creature`, or I can choose for you with `!rerole`.'
+      invalidclass:
+        '{0.author.mention}, role {1} is not on the valid list. You can see the options with `!class`.'
+      welcome:
+        'Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps? My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'
+      creatureRoleList:
+        'Have a look at my bestiary. You may be one of these, just say `!creature creaturename`. For instance, `!creature dragon`'
+      classRoleList:
+        'Looking for a career change, eh? {0}... Take your pick of these with `!class classname`. For instance, `!class soldier`'
+      <<: *defaultStrings
+    urls:
+      roleImage:
+        creature:
+          'https://cdn.discordapp.com/attachments/445271158502457345/490208979767656478/The_Realm_Roles1.png'
+    <<: *defaults
+  '489197880809095168': *realm
+  '494373430637101058':
+    name: Test
+    defaultRoleset:
+      element
+    rolesets:
+      element:
+        Solar:
+        Lunar:
+        Gaian:
+      job:
+        Soldier:
+        Mage:
+        Archer:
+    strings:
+      welcome:
+        'Welcome to {0.name}, {1.mention}. You have an aura of {2.name} magic around you. If you''d like to change it, see the pinned message in {3.mention}.'
+      elementRoleList:
+        'The elements are as follows: {0}. You may choose your alignment with "!element elementname".'
+      jobRoleList:
+        'The jobs are as follows: {0}. You may choose your job with "!job jobname".'
+      rerole:
+        'Another peek at my crystal ball... {0.author.mention}, are attuned to {1.name} magic?'
+      <<: *defaultStrings
+    <<: *defaults
