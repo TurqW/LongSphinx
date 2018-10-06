@@ -40,10 +40,7 @@ async def on_message(message):
 
 	try:
 		if not message.server or message.channel.name in conf.get_object(message.server, 'channels'):
-			if message.content.startswith('!list'):
-				await list_roles(message)
-
-			elif message.content.startswith('!roll'):
+			if message.content.startswith('!roll'):
 				#dice
 				await roll_dice(message)
 
@@ -76,11 +73,20 @@ async def on_member_join(member):
 
 async def parse(message):
 	command = message.content.split(' ')[0][1:]
-	if command in conf.get_object(message.server, 'rolesets').keys():
+	if isRolesetCommand(command, message.server):
 		await request_role(message)
 	elif command in conf.get_object(message.server, 'generators'):
 		msg = generator.generate(command)
 		await client.send_message(message.channel, msg)
+
+def isRolesetCommand(command, server):
+	if (
+		command in conf.get_object(server, 'rolesets').keys() or
+		(command.endswith('s') and command[:-1] in conf.get_object(server, 'rolesets').keys()) or
+		(command.endswith('es') and command[:-2] in conf.get_object(server, 'rolesets').keys())
+		):
+		return True
+	return False
 
 async def request_role(message):
 	words = message.content.split()
