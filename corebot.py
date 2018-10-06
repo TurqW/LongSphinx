@@ -39,7 +39,7 @@ async def on_message(message):
 		return
 
 	try:
-		if message.channel.name in conf.get_object(message.server.id, 'channels'):
+		if not message.server or message.channel.name in conf.get_object(message.server, 'channels'):
 			if message.content.startswith('!list'):
 				await list_roles(message)
 
@@ -68,17 +68,17 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-	channel = find_channel(conf.get_object(member.server.id, 'greetingChannel'), member.server)
+	channel = find_channel(conf.get_object(member.server, 'greetingChannel'), member.server)
 	log.debug('{0.name} joined {0.server}'.format(member))
-	role = await random_role(member, conf.get_object(member.server.id, 'defaultRoleset'))
-	msg = conf.get_string(member.server.id, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server.id, 'defaultChannel'), member.server))
+	role = await random_role(member, conf.get_object(member.server, 'defaultRoleset'))
+	msg = conf.get_string(member.server.id, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server, 'defaultChannel'), member.server))
 	await client.send_message(channel, msg)
 
 async def parse(message):
 	command = message.content.split(' ')[0][1:]
-	if command in conf.get_object(message.server.id, 'rolesets').keys():
+	if command in conf.get_object(message.server, 'rolesets').keys():
 		await request_role(message)
-	elif command in conf.get_object(message.server.id, 'generators'):
+	elif command in conf.get_object(message.server, 'generators'):
 		msg = generator.generate(command)
 		await client.send_message(message.channel, msg)
 
@@ -87,15 +87,15 @@ async def request_role(message):
 	roleset = words.pop(0)[1:]
 	if len(words) == 0:
 		return await list_roles(message)
-	elif words[0].lower() == 'none' and roleset != conf.get_object(message.server.id, 'defaultRoleset'):
+	elif words[0].lower() == 'none' and roleset != conf.get_object(message.server, 'defaultRoleset'):
 		await client.remove_roles(message.author, *get_roles_to_remove(message.author.server, roleset))
-		msg = conf.get_string(message.server.id, 'roleClear').format(message, roleset)
+		msg = conf.get_string(message.server, 'roleClear').format(message, roleset)
 	else:
 		try:
 			newRole = await change_role(message.author, ' '.join(words), roleset)
-			msg = conf.get_string(message.server.id, 'roleChange').format(message, newRole.name)
+			msg = conf.get_string(message.server, 'roleChange').format(message, newRole.name)
 		except (NameError):
-			msg = conf.get_string(message.server.id, 'invalid' + roleset).format(message, ' '.join(words))
+			msg = conf.get_string(message.server, 'invalid' + roleset).format(message, ' '.join(words))
 	msg = generator.fix_articles(msg)
 	await client.send_message(message.channel, msg)
 
@@ -103,9 +103,9 @@ async def list_roles(message):
 	roleset = message.content[1:]
 	roles = [x.name for x in get_roleset(message.server, roleset)]
 	roles.sort()
-	msg = conf.get_string(message.server.id, roleset + 'RoleList').format(', '.join(roles))
+	msg = conf.get_string(message.server, roleset + 'RoleList').format(', '.join(roles))
 	try:
-		imgurl = conf.get_object(message.server.id, 'urls', 'roleImage', roleset)
+		imgurl = conf.get_object(message.server, 'urls', 'roleImage', roleset)
 		embed = discord.Embed().set_image(url=imgurl)
 		await client.send_message(message.channel, msg, embed=embed)
 	except:
@@ -115,23 +115,25 @@ async def roll_dice(message):
 	toRoll = message.content.split()
 	results = dice.roll_command(toRoll[1:])
 	resultString = ', '.join([str(i) for i in results])
-	msg = conf.get_string(message.server.id, 'diceResults').format(message, resultString, sum(results))
+	msg = conf.get_string(message.server, 'diceResults').format(message, resultString, sum(results))
 	try:
 		await client.send_message(message.channel, msg)
 	except discord.errors.HTTPException:
-		msg = conf.get_string(message.server.id, 'diceResults').format(message, 'they show many numbers', sum(results))
+		msg = conf.get_string(message.server, 'diceResults').format(message, 'they show many numbers', sum(results))
 		await client.send_message(message.channel, msg)
 
 async def rerole(message):
-	role = await random_role(message.author, conf.get_object(message.server.id, 'defaultRoleset'))
-	msg = conf.get_string(message.server.id, 'rerole').format(message, role)
+	role = await random_role(message.author, conf.get_object(message.server, 'defaultRoleset'))
+	msg = conf.get_string(message.server, 'rerole').format(message, role)
 	await client.send_message(message.channel, msg)
 
 async def give_help(message):
-	msg = 'Role operations:\n'
-	msg += role_readme(message.server.id)
+	msg = ''
+	if conf.get_object(message.server, 'rolesets'):
+		msg += 'Role operations:\n'
+		msg += role_readme(message.server)
 	msg += 'Generators:\n'
-	msg += generator.readme(conf.get_object(message.server.id, 'generators'))
+	msg += generator.readme(conf.get_object(message.server, 'generators'))
 	msg += 'Other commands:\n'
 	msg += dice.readme()
 	msg += '* `!readme`: displays this helpful message.'
@@ -154,8 +156,8 @@ async def random_role(member, roleset):
 async def add_role(member, role, roleset):
 	log.debug('adding {0.name} to {1.name} on {2.name}'.format(role, member, member.server))
 	roles = [role]
-	if conf.get_object(member.server.id, 'rolesets', roleset, role.name) and 'secondaryRoles' in conf.get_object(member.server.id, 'rolesets', roleset, role.name):
-		for roleName in conf.get_object(member.server.id, 'rolesets', roleset, role.name, 'secondaryRoles'):
+	if conf.get_object(member.server, 'rolesets', roleset, role.name) and 'secondaryRoles' in conf.get_object(member.server, 'rolesets', roleset, role.name):
+		for roleName in conf.get_object(member.server, 'rolesets', roleset, role.name, 'secondaryRoles'):
 			secondRole = discord.utils.find(lambda r: r.name.lower() == roleName.lower(),   member.server.roles)
 			if secondRole not in member.roles:
 				roles = roles + [secondRole]
@@ -177,14 +179,14 @@ async def change_role(member, roleName, roleset):
 		raise NameError(roleName)
 
 def get_roleset(server, roleset):
-	roleNames = conf.get_object(server.id, 'rolesets', roleset).keys()
+	roleNames = conf.get_object(server, 'rolesets', roleset).keys()
 	validRoles = [x for x in server.roles if x.name in roleNames]
 	return validRoles
 
 def get_roles_to_remove(server, roleset):
 	roles = get_roleset(server, roleset)
-	if 'removeOnUpdate' in conf.get_object(server.id, 'rolesets', roleset):
-		roles += [x for x in server.roles if x.name in conf.get_object(server.id, 'rolesets', roleset, 'removeOnUpdate')]
+	if 'removeOnUpdate' in conf.get_object(server, 'rolesets', roleset):
+		roles += [x for x in server.roles if x.name in conf.get_object(server, 'rolesets', roleset, 'removeOnUpdate')]
 	return roles
 
 client.run(TOKEN)
