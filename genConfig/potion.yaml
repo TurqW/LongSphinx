@@ -25,7 +25,7 @@ bottle:
 - clay jar
 - square bottle
 - heavy jug
-- {jewelry.material} flask
+- '{jewelry.material} flask'
 - waterskin
 - bucket
 - spherical glass bottle
@@ -33,7 +33,7 @@ bottle:
 - green glass bottle
 - clear glass bottle
 - pint glass
-- {jewelry.material} goblet
+- '{jewelry.material} goblet'
 - dragonhide waterskin
 - magical fluid suspension device
 - heavy mug
@@ -43,12 +43,12 @@ bottle:
 - pitcher
 - long-necked bottle
 - wooden bowl
-- {summon.species} hide waterskin
-- {jewelry.material} pitcher
-- {jewelry.material} vial
-- {jewelry.material} stein
-- {jewelry.material} jug
-- {jewelry.material} bucket
+- '{summon.species} hide waterskin'
+- '{jewelry.material} pitcher'
+- '{jewelry.material} vial'
+- '{jewelry.material} stein'
+- '{jewelry.material} jug'
+- '{jewelry.material} bucket'
 effect:
 - nothing happens
 - you begin to feel light-headed. This is a fairly pleasant experience, up until your head bumps against the ceiling

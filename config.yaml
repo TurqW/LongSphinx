@@ -71,7 +71,17 @@ servers:
         Zombie:
           secondaryRoles:
           - Humanoids
-        
+
+        Orc:
+          secondaryRoles:
+          - Beasts
+        Giant:
+          secondaryRoles:
+          - Humanoids
+        Ascended:
+          secondaryRoles:
+          - Spirits
+
         Basilisk:
           secondaryRoles:
           - Beasts
@@ -166,6 +176,7 @@ servers:
           description: A priest of a specific deity or pantheon. Best known for their healing magic.
         Druid:
           description: A magic user deeply in tune with nature. Can often transform into animals.
+        Fighter:
         Mage:
           description: A skilled magic user who has studied or been granted the arcane arts.
         Monk:
@@ -178,6 +189,8 @@ servers:
           description: A thief or assassin. Quick, sneaky, and best not let out of your sight.
         Soldier:
           description: A disciplined warrior accustomed to fighting together with their comrades-in-arms.
+        Sorceror:
+        Warlock:
     strings:
       invalidcreature:
         '{0.author.mention}, role {1} is not on the valid list. Perhaps have a look at my bestiary with `!creature`, or I can choose for you with `!rerole`.'
@@ -217,6 +230,6 @@ servers:
       jobRoleList:
         'The jobs are as follows: {0}. You may choose your job with "!job jobname".'
       rerole:
-        'Another peek at my crystal ball... {0.author.mention}, are attuned to {1.name} magic?'
+        'Another peek at my crystal ball... {0.author.mention}, are you attuned to {1.name} magic?'
       <<: *defaultStrings
     <<: *defaults

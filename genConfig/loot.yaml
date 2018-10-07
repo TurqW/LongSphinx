@@ -8,6 +8,13 @@ list:
 - '- {loot.piece}
 
 {loot.list}'
+- '- {loot.piece}
+
+{loot.list}'
+- '- {loot.piece}
+
+{loot.list}'
+- '- {loot.piece}'
 - '- {loot.piece}'
 piece:
 - 'a {gem}'

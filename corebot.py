@@ -3,10 +3,12 @@ import random
 import yaml
 import sys
 import logging
+import nltk
 
 import generator
 import botconfig as conf
 import botdice as dice
+import reminder
 
 logging.basicConfig(filename='logs/ubeast.log',level=logging.DEBUG)
 logging.getLogger('discord').setLevel(logging.WARNING)
@@ -14,6 +16,7 @@ logging.getLogger('websockets').setLevel(logging.WARNING)
 log = logging.getLogger('LongSphinx')
 
 tokenfilename = 'token.txt'
+COMMAND_CHAR = '!'
 
 if len(sys.argv) > 1:
 	tokenfilename = sys.argv[1]
@@ -40,21 +43,24 @@ async def on_message(message):
 
 	try:
 		if not message.server or message.channel.name in conf.get_object(message.server, 'channels'):
-			if message.content.startswith('!roll'):
-				#dice
-				await roll_dice(message)
+			if message.content.startswith(COMMAND_CHAR):
+				command = message.content[1:].strip()
+				if isCommand(command, 'roll'):
+					#dice
+					await roll_dice(message)
 
-			elif message.content.startswith('!rerole'):
-				await rerole(message)
+				elif isCommand(command, 'rerole'):
+					await rerole(message)
 
-			elif message.content.startswith('!readme'):
-				await give_help(message)
+				elif isCommand(command, 'readme'):
+					await give_help(message)
 
+				elif isCommand(command, 'remind'):
+					set_reminder(message)
+				else:
+					await parse(message)
 			elif message.content.startswith('&join'):
 				await on_member_join(message.author)
-			
-			elif message.content.startswith('!'):
-				await parse(message)
 	except:
 		log.exception('Exception in on_message:')
 
@@ -68,31 +74,32 @@ async def on_member_join(member):
 	channel = find_channel(conf.get_object(member.server, 'greetingChannel'), member.server)
 	log.debug('{0.name} joined {0.server}'.format(member))
 	role = await random_role(member, conf.get_object(member.server, 'defaultRoleset'))
-	msg = conf.get_string(member.server.id, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server, 'defaultChannel'), member.server))
+	msg = conf.get_string(member.server, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server, 'defaultChannel'), member.server))
 	await client.send_message(channel, msg)
 
 async def parse(message):
-	command = message.content.split(' ')[0][1:]
-	if isRolesetCommand(command, message.server):
-		await request_role(message)
-	elif command in conf.get_object(message.server, 'generators'):
-		msg = generator.generate(command)
-		await client.send_message(message.channel, msg)
+	if conf.get_object(message.server, 'rolesets'):
+		for roleset in conf.get_object(message.server, 'rolesets').keys():
+			if isCommand(message.content, roleset):
+				return await request_role(message, roleset)
+	for gen in conf.get_object(message.server, 'generators'):
+		if isCommand(message.content, gen):
+			msg = generator.generate(gen)
+			return await client.send_message(message.channel, msg)
 
-def isRolesetCommand(command, server):
-	if (
-		command in conf.get_object(server, 'rolesets').keys() or
-		(command.endswith('s') and command[:-1] in conf.get_object(server, 'rolesets').keys()) or
-		(command.endswith('es') and command[:-2] in conf.get_object(server, 'rolesets').keys())
-		):
+def isCommand(string, command):
+	string = string.strip(' !')
+	p = nltk.PorterStemmer()
+	if p.stem(string.split()[0]) == p.stem(command):
 		return True
 	return False
 
-async def request_role(message):
-	words = message.content.split()
-	roleset = words.pop(0)[1:]
+async def request_role(message, roleset):
+	words = message.content.split()[1:]
+	if isCommand(words[0], roleset):
+		words.pop()
 	if len(words) == 0:
-		return await list_roles(message)
+		return await list_roles(message, roleset)
 	elif words[0].lower() == 'none' and roleset != conf.get_object(message.server, 'defaultRoleset'):
 		await client.remove_roles(message.author, *get_roles_to_remove(message.author.server, roleset))
 		msg = conf.get_string(message.server, 'roleClear').format(message, roleset)
@@ -105,8 +112,7 @@ async def request_role(message):
 	msg = generator.fix_articles(msg)
 	await client.send_message(message.channel, msg)
 
-async def list_roles(message):
-	roleset = message.content[1:]
+async def list_roles(message, roleset):
 	roles = [x.name for x in get_roleset(message.server, roleset)]
 	roles.sort()
 	msg = conf.get_string(message.server, roleset + 'RoleList').format(', '.join(roles))
@@ -183,6 +189,10 @@ async def change_role(member, roleName, roleset):
 		return role
 	else:
 		raise NameError(roleName)
+
+def set_reminder(message):
+	delay = int(message.content.split()[1])
+	reminder.create_reminder(delay, client, message.channel, 'reminder: {0}'.format(message.content))
 
 def get_roleset(server, roleset):
 	roleNames = conf.get_object(server, 'rolesets', roleset).keys()

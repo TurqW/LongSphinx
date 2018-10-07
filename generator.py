@@ -30,7 +30,7 @@ def generate(name):
 	
 
 def populate_string(string):
-	for toReplace in re.findall(r'{[\w.:]+}', string):
+	for toReplace in re.findall(r'{[\w.:-]+}', string):
 		string = string.replace(toReplace, generate(toReplace[1:-1]), 1)
 	return fix_articles(string)
 

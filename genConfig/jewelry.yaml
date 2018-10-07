@@ -6,6 +6,7 @@ root:
 - a {jewelry.material} {jewelry.article} engraved with a {summon.modifier}{summon.species}. It seems entirely mundane.
 - a {jewelry.material} {jewelry.article} bearing a {gem}. It seems entirely mundane.
 - the {jewelry.article} of {mc:name}. When you wear it, you gain the ability to {summon.ability}.
+- a {jewelry.material} {jewelry.article} engraved with the crest of {mc:country}. When you wear it, you gain the ability to {summon.ability}.
 material:
 - gold
 - rose gold
