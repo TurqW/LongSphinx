@@ -57,6 +57,8 @@ async def on_message(message):
 
 				elif isCommand(command, 'remind'):
 					set_reminder(message)
+				elif isCommand(command, 'spank'):
+					await show_card(message)
 				else:
 					await parse(message)
 			elif message.content.startswith('&join'):
@@ -96,7 +98,7 @@ def isCommand(string, command):
 
 async def request_role(message, roleset):
 	words = message.content.split()[1:]
-	if isCommand(words[0], roleset):
+	if words and isCommand(words[0], roleset):
 		words.pop()
 	if len(words) == 0:
 		return await list_roles(message, roleset)
@@ -122,6 +124,11 @@ async def list_roles(message, roleset):
 		await client.send_message(message.channel, msg, embed=embed)
 	except:
 		await client.send_message(message.channel, msg)
+
+async def show_card(message):
+	imgur = 'https://i.imgur.com/3ZERxgc.png'
+	embed = discord.Embed().set_image(url=imgur)
+	await client.send_message(message.channel, '', embed=embed)
 
 async def roll_dice(message):
 	toRoll = message.content.split()
