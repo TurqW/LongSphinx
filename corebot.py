@@ -63,6 +63,8 @@ async def on_message(message):
 					await parse(message)
 			elif message.content.startswith('&join'):
 				await on_member_join(message.author)
+			elif message.content.startswith('<:Tim:'):
+				await client.send_message(message.channel, 'You rang?')
 	except:
 		log.exception('Exception in on_message:')
 

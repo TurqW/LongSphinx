@@ -12,7 +12,7 @@ servers:
     - summon
     - name
     - loot
-    - country
+    - encounter
     strings: &defaultStrings
       roleChange:
         '{0.author.mention}, you are now a {1}.'

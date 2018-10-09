@@ -8,7 +8,7 @@ do
 	if ! git diff --quiet; then
 		echo 'something changed'
 		git pull
-		pkill -9 -p $BASHPID
+		pkill -9 -P $BASHPID
 		exit
 	fi
 	sleep 300
