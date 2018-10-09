@@ -1,4 +1,15 @@
 #!/bin/bash
 
-# Used by supervise to start at boot (and keep running)
-/usr/bin/python3.5 corebot.py > logs/errors.log 2>&1
+/usr/bin/python3.5 corebot.py > logs/errors.log &
+
+while :
+do
+	git fetch
+	if ! git diff --quiet; then
+		echo 'something changed'
+		git pull
+		pkill -9 -p $BASHPID
+		exit
+	fi
+	sleep 300
+done
