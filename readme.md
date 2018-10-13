@@ -86,7 +86,7 @@ element:
 
 In general, you probably just want to make sure your formatting matches that of the existing servers for any given field.
 
-Fields:
+### Fields:
 
 * name: the name of the server. Not actually used; just meant as an aid in navigating the config file.
 * channels: a `list` of channels in which the bot should respond to messages.
