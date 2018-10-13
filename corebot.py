@@ -22,7 +22,7 @@ if len(sys.argv) > 1:
 	tokenfilename = sys.argv[1]
 	
 with open(tokenfilename, 'r') as tokenfile:
-	TOKEN = tokenfile.readline()[:-1]
+	TOKEN = tokenfile.readline().strip()
 
 client = discord.Client()
 todo = []
@@ -77,8 +77,11 @@ async def on_ready():
 async def on_member_join(member):
 	channel = find_channel(conf.get_object(member.server, 'greetingChannel'), member.server)
 	log.debug('{0.name} joined {0.server}'.format(member))
-	role = await random_role(member, conf.get_object(member.server, 'defaultRoleset'))
-	msg = conf.get_string(member.server, 'welcome').format(member.server, member, role, find_channel(conf.get_object(member.server, 'defaultChannel'), member.server))
+	if conf.get_object(member.server, 'defaultRoleset'):
+		role = await random_role(member, conf.get_object(member.server, 'defaultRoleset'))
+		msg = conf.get_string(member.server, 'welcome').format(member.mention, role.name)
+	else:
+		msg = conf.get_string(member.server, 'welcome').format(member.mention)
 	await client.send_message(channel, msg)
 
 async def parse(message):
@@ -106,13 +109,13 @@ async def request_role(message, roleset):
 		return await list_roles(message, roleset)
 	elif words[0].lower() == 'none' and roleset != conf.get_object(message.server, 'defaultRoleset'):
 		await client.remove_roles(message.author, *get_roles_to_remove(message.author.server, roleset))
-		msg = conf.get_string(message.server, 'roleClear').format(message, roleset)
+		msg = conf.get_string(message.server, 'roleClear').format(message.author.mention, roleset)
 	else:
 		try:
 			newRole = await change_role(message.author, ' '.join(words), roleset)
-			msg = conf.get_string(message.server, 'roleChange').format(message, newRole.name)
+			msg = conf.get_string(message.server, 'roleChange').format(message.author.mention, newRole.name)
 		except (NameError):
-			msg = conf.get_string(message.server, 'invalid' + roleset).format(message, ' '.join(words))
+			msg = conf.get_string(message.server, 'invalid' + roleset).format(message.author.mention, ' '.join(words))
 	msg = generator.fix_articles(msg)
 	await client.send_message(message.channel, msg)
 
@@ -136,16 +139,16 @@ async def roll_dice(message):
 	toRoll = message.content.split()
 	results = dice.roll_command(toRoll[1:])
 	resultString = ', '.join([str(i) for i in results])
-	msg = conf.get_string(message.server, 'diceResults').format(message, resultString, sum(results))
+	msg = conf.get_string(message.server, 'diceResults').format(message.author.mention, resultString, sum(results))
 	try:
 		await client.send_message(message.channel, msg)
 	except discord.errors.HTTPException:
-		msg = conf.get_string(message.server, 'diceResults').format(message, 'they show many numbers', sum(results))
+		msg = conf.get_string(message.server, 'diceResults').format(message.author.mention, 'they show many numbers', sum(results))
 		await client.send_message(message.channel, msg)
 
 async def rerole(message):
 	role = await random_role(message.author, conf.get_object(message.server, 'defaultRoleset'))
-	msg = conf.get_string(message.server, 'rerole').format(message, role)
+	msg = conf.get_string(message.server, 'rerole').format(message.author.mention, role.name)
 	await client.send_message(message.channel, msg)
 
 async def give_help(message):

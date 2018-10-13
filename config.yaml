@@ -2,8 +2,6 @@ servers:
   default: &defaults
     channels:
     - bot-commands
-    defaultChannel:
-      bot-commands
     greetingChannel:
       portal
     generators:
@@ -15,13 +13,13 @@ servers:
     - encounter
     strings: &defaultStrings
       roleChange:
-        '{0.author.mention}, you are now a {1}.'
+        '{0}, you are now a {1}.'
       roleClear:
-        '{0.author.mention}, your {1} has been cleared.'
+        '{0}, your {1} has been cleared.'
       diceResults:
-        '{0.author.mention}, the fates have spoken: {1}, for a total of {2}.'
+        '{0}, the fates have spoken: {1}, for a total of {2}.'
       rerole:
-        'Another peek at my crystal ball... {0.author.mention}, are you perhaps a {1.name}?'
+        'Another peek at my crystal ball... {0}, are you perhaps a {1}?'
     urls:
       roleImage:
   '443869685054701569': &realm
@@ -193,11 +191,11 @@ servers:
         Warlock:
     strings:
       invalidcreature:
-        '{0.author.mention}, role {1} is not on the valid list. Perhaps have a look at my bestiary with `!creature`, or I can choose for you with `!rerole`.'
+        '{0}, role {1} is not on the valid list. Perhaps have a look at my bestiary with `!creature`, or I can choose for you with `!rerole`.'
       invalidclass:
-        '{0.author.mention}, role {1} is not on the valid list. You can see the options with `!class`.'
+        '{0}, role {1} is not on the valid list. You can see the options with `!class`.'
       welcome:
-        'Welcome to {0.name}, {1.mention}. You seem to be a ... {2.name}, perhaps? My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in {3.mention} to change your character, adventurer!'
+        'Welcome to The Realm, {0}. You seem to be a ... {1}, perhaps? My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in <#445271158502457345> to change your character, adventurer!'
       creatureRoleList:
         'Have a look at my bestiary. You may be one of these, just say `!creature creaturename`. For instance, `!creature dragon`'
       classRoleList:
@@ -224,12 +222,12 @@ servers:
         Archer:
     strings:
       welcome:
-        'Welcome to {0.name}, {1.mention}. You have an aura of {2.name} magic around you. If you''d like to change it, see the pinned message in {3.mention}.'
+        'Welcome, {0}. You have an aura of {1} magic around you. If you''d like to change it, see the pinned message in <#494374610545147905>.'
       elementRoleList:
         'The elements are as follows: {0}. You may choose your alignment with "!element elementname".'
       jobRoleList:
         'The jobs are as follows: {0}. You may choose your job with "!job jobname".'
       rerole:
-        'Another peek at my crystal ball... {0.author.mention}, are you attuned to {1.name} magic?'
+        'Another peek at my crystal ball... {0}, are you attuned to {1} magic?'
       <<: *defaultStrings
     <<: *defaults
