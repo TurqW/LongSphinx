@@ -124,7 +124,7 @@ A roleset is a `map` of `map`s (of `list`s). At its most basic, it should look l
 
 <rolesetname> is the name of the roleset; this is used as-is as the command for viewing the list of, requesting, and clearing roles in this roleset, so choose it appropriately. (However, it can be changed later without any loss of data.)
 
-Each <rolename> is the literal name of the role. Behavior is undefined if you have multiple roles on your server with that name.
+Each <rolename> is the literal name of the role. Behavior is undefined if you have multiple roles on your server with that name. Do not leave off the colon on each line.
 
 Optionally, each role may include a list of `secondaryRoles` which will also be applied when that role is assigned or requested. These will not be cleared on role update or role clear unless they're included in the `removeOnUpdate` list, which should be a sibling to the individual roles.
 
