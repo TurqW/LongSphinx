@@ -9,7 +9,10 @@ import generator
 import botconfig as conf
 import botdice as dice
 import reminder
+import os
 
+if not os.path.exists('logs'):
+	os.makedirs('logs')
 logging.basicConfig(filename='logs/ubeast.log',level=logging.DEBUG)
 logging.getLogger('discord').setLevel(logging.WARNING)
 logging.getLogger('websockets').setLevel(logging.WARNING)

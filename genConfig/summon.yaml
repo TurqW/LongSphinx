@@ -175,3 +175,5 @@ ability:
 - detect even the smallest traces of poison
 - find the best tacos within a day's hike
 - spit a {potion.modifier} {color} fluid up to 30 feet
+- summon a spectral {weapon.type}
+- project the form of a spectral {summon.species}
