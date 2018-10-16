@@ -39,9 +39,13 @@ servers:
         Fairy:
           secondaryRoles:
           - Humanoids
+        Giant:
+          secondaryRoles:
+          - Humanoids
         Goblin:
           secondaryRoles:
           - Humanoids
+          random: False
         Gnome:
           secondaryRoles:
           - Humanoids
@@ -54,6 +58,7 @@ servers:
         Mermaid:
           secondaryRoles:
           - Humanoids
+          random: False
         Vampire:
           secondaryRoles:
           - Humanoids
@@ -63,22 +68,14 @@ servers:
         Witch:
           secondaryRoles:
           - Humanoids
+          random: False
         Wizard:
           secondaryRoles:
           - Humanoids
+          random: False
         Zombie:
           secondaryRoles:
           - Humanoids
-
-        Orc:
-          secondaryRoles:
-          - Beasts
-        Giant:
-          secondaryRoles:
-          - Humanoids
-        Ascended:
-          secondaryRoles:
-          - Spirits
 
         Basilisk:
           secondaryRoles:
@@ -104,6 +101,11 @@ servers:
         Ogre:
           secondaryRoles:
           - Beasts
+          random: False
+        Orc:
+          secondaryRoles:
+          - Beasts
+          random: False
         Pegasus:
           secondaryRoles:
           - Beasts
@@ -113,19 +115,24 @@ servers:
         Sasquatch:
           secondaryRoles:
           - Beasts
+          random: False
         Sphinx:
           secondaryRoles:
           - Beasts
         Unicorn:
           secondaryRoles:
           - Beasts
-        
+
         Angel:
+          secondaryRoles:
+          - Spirits
+        Ascended:
           secondaryRoles:
           - Spirits
         Banshee:
           secondaryRoles:
           - Spirits
+          random: False
         Demon:
           secondaryRoles:
           - Spirits

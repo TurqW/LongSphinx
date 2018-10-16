@@ -59,7 +59,7 @@ async def on_message(message):
 					await give_help(message)
 
 				elif isCommand(command, 'remind'):
-					set_reminder(message)
+					await set_reminder(message)
 				elif isCommand(command, 'spank'):
 					await show_card(message)
 				else:
@@ -176,7 +176,7 @@ def role_readme(server):
 	return msg
 
 async def random_role(member, roleset):
-	role = random.choice(get_roleset(member.server, roleset))
+	role = random.choice(get_randomables(member.server, roleset))
 	await change_role(member, role.name, roleset)
 	return role
 
@@ -205,15 +205,20 @@ async def change_role(member, roleName, roleset):
 	else:
 		raise NameError(roleName)
 
-def set_reminder(message):
-	delay = int(message.content.split()[1])
-	reminder.create_reminder(delay, client, message.channel, 'reminder: {0}'.format(message.content))
+async def set_reminder(message):
+	await reminder.create_reminder(' '.join(message.content.split()[1:]), client, message.channel, 'reminder: {0}'.format(message.content))
 
 def get_roleset(server, roleset):
 	roleNames = conf.get_object(server, 'rolesets', roleset).keys()
 	validRoles = [x for x in server.roles if x.name in roleNames]
 	return validRoles
 
+def get_randomables(server, roleset):
+	roleNames = conf.get_object(server, 'rolesets', roleset)
+	roles = [k for k,v in roleNames.items() if not v or 'random' not in v or v['random']]
+	validRoles = [x for x in server.roles if x.name in roles]
+	return validRoles
+	
 def get_roles_to_remove(server, roleset):
 	roles = get_roleset(server, roleset)
 	if 'removeOnUpdate' in conf.get_object(server, 'rolesets', roleset):
