@@ -27,6 +27,7 @@ servers:
     channels:
     - bot-commands
     - command-line
+    - tourney
     defaultRoleset: creature
     rolesets:
       creature:
