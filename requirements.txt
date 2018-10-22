@@ -3,3 +3,4 @@ num2words==0.5.7
 discord==0.0.2
 nltk==3.3
 PyYAML==3.13
+dateparser==0.7.0
