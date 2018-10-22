@@ -4,12 +4,12 @@ import yaml
 import sys
 import logging
 import nltk
+import os
 
 import generator
 import botconfig as conf
 import botdice as dice
 import reminder
-import os
 
 if not os.path.exists('logs'):
 	os.makedirs('logs')
@@ -60,8 +60,6 @@ async def on_message(message):
 
 				elif isCommand(command, 'remind'):
 					await set_reminder(message)
-				elif isCommand(command, 'spank'):
-					await show_card(message)
 				else:
 					await parse(message)
 			elif message.content.startswith('&join'):
@@ -96,6 +94,10 @@ async def parse(message):
 		if isCommand(message.content, gen):
 			msg = generator.generate(gen)
 			return await client.send_message(message.channel, msg)
+	if conf.get_object(message.server, 'static'):
+		for entry in conf.get_object(message.server, 'static').keys():
+			if isCommand(message.content, entry):
+				return await static_message(message, entry)
 
 def isCommand(string, command):
 	string = string.strip(' !')
@@ -133,7 +135,13 @@ async def list_roles(message, roleset):
 	except:
 		await client.send_message(message.channel, msg)
 
-async def show_card(message):
+async def static_message(message, value):
+	msg = conf.get_object(message.server, 'static', value)
+	if msg.startswith('http'):
+		embed = discord.Embed().set_image(url=msg)
+		return await client.send_message(message.channel, '', embed=embed)
+	else:
+		return await client.send_message(message.channel, msg)
 	imgur = 'https://i.imgur.com/3ZERxgc.png'
 	embed = discord.Embed().set_image(url=imgur)
 	await client.send_message(message.channel, '', embed=embed)

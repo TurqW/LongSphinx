@@ -22,6 +22,9 @@ servers:
         'Another peek at my crystal ball... {0}, are you perhaps a {1}?'
     urls:
       roleImage:
+    static:
+      spank: https://i.imgur.com/3ZERxgc.png
+      charge: https://cdn.discordapp.com/attachments/444030298406125568/503820387864281089/annoyedcatTim2.png
   '443869685054701569': &realm
     name: The Realm
     channels:
