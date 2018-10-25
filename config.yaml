@@ -215,7 +215,7 @@ servers:
     urls:
       roleImage:
         creature:
-          'https://cdn.discordapp.com/attachments/445271158502457345/490208979767656478/The_Realm_Roles1.png'
+          'https://cdn.discordapp.com/attachments/443869685058895872/505078761750790166/The-Realm-Roles.png'
     <<: *defaults
   '489197880809095168': *realm
   '494373430637101058':
