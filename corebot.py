@@ -5,6 +5,7 @@ import sys
 import logging
 import nltk
 import os
+from pathlib import Path
 
 import generator
 import botconfig as conf
@@ -128,12 +129,12 @@ async def list_roles(message, roleset):
 	roles = [x.name for x in get_roleset(message.server, roleset)]
 	roles.sort()
 	msg = conf.get_string(message.server, roleset + 'RoleList').format(', '.join(roles))
-	try:
-		imgurl = conf.get_object(message.server, 'urls', 'roleImage', roleset)
-		embed = discord.Embed().set_image(url=imgurl)
-		await client.send_message(message.channel, msg, embed=embed)
-	except:
-		await client.send_message(message.channel, msg)
+	await client.send_message(message.channel, msg)
+
+	p = Path('.')
+	filename = message.server.id + '_' + roleset + '.png'
+	imagePath = p / 'roleImages' / filename
+	await client.send_file(message.channel, imagePath)
 
 async def static_message(message, value):
 	msg = conf.get_object(message.server, 'static', value)
@@ -142,9 +143,6 @@ async def static_message(message, value):
 		return await client.send_message(message.channel, '', embed=embed)
 	else:
 		return await client.send_message(message.channel, msg)
-	imgur = 'https://i.imgur.com/3ZERxgc.png'
-	embed = discord.Embed().set_image(url=imgur)
-	await client.send_message(message.channel, '', embed=embed)
 
 async def roll_dice(message):
 	toRoll = message.content.split()

@@ -20,8 +20,6 @@ servers:
         '{0}, the fates have spoken: {1}, for a total of {2}.'
       rerole:
         'Another peek at my crystal ball... {0}, are you perhaps a {1}?'
-    urls:
-      roleImage:
     static:
       spank: https://i.imgur.com/3ZERxgc.png
       charge: https://cdn.discordapp.com/attachments/444030298406125568/503820387864281089/annoyedcatTim2.png
@@ -212,10 +210,6 @@ servers:
       classRoleList:
         'Looking for a career change, eh? {0}... Take your pick of these with `!class classname`. For instance, `!class soldier`'
       <<: *defaultStrings
-    urls:
-      roleImage:
-        creature:
-          'https://cdn.discordapp.com/attachments/445271158502457345/490208979767656478/The_Realm_Roles1.png'
     <<: *defaults
   '489197880809095168': *realm
   '494373430637101058':
