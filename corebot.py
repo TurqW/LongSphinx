@@ -134,7 +134,7 @@ async def list_roles(message, roleset):
 	p = Path('.')
 	filename = message.server.id + '_' + roleset + '.png'
 	imagePath = p / 'roleImages' / filename
-	await client.send_file(message.channel, imagePath)
+	await client.send_file(message.channel, str(imagePath))
 
 async def static_message(message, value):
 	msg = conf.get_object(message.server, 'static', value)
