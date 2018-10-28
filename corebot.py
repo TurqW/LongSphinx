@@ -11,6 +11,7 @@ import generator
 import botconfig as conf
 import botdice as dice
 import reminder
+import colors
 
 if not os.path.exists('logs'):
 	os.makedirs('logs')
@@ -61,6 +62,10 @@ async def on_message(message):
 
 				elif isCommand(command, 'remind'):
 					await set_reminder(message)
+				
+				elif isCommand(command, 'color'):
+					await show_swatch(message)
+				
 				else:
 					await parse(message)
 			elif message.content.startswith('&join'):
@@ -136,6 +141,12 @@ async def list_roles(message, roleset):
 	imagePath = p / 'roleImages' / filename
 	await client.send_file(message.channel, str(imagePath))
 
+async def show_swatch(message):
+	color = message.content.split()[1]
+	log.error(color)
+	swatch = colors.get_swatch(color)
+	await client.send_file(message.channel, swatch, filename=color + '.png')
+
 async def static_message(message, value):
 	msg = conf.get_object(message.server, 'static', value)
 	if msg.startswith('http'):
@@ -169,6 +180,7 @@ async def give_help(message):
 	msg += generator.readme(conf.get_object(message.server, 'generators'))
 	msg += 'Other commands:\n'
 	msg += dice.readme()
+	msg += colors.readme()
 	msg += '* `!readme`: displays this helpful message.'
 	await client.send_message(message.channel, msg)
 
