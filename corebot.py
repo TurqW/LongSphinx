@@ -98,7 +98,7 @@ async def parse(message):
 				return await request_role(message, roleset)
 	for gen in conf.get_object(message.server, 'generators'):
 		if isCommand(message.content, gen):
-			msg = generator.generate(gen)
+			msg = message.author.mention +', ' + generator.generate(gen)
 			return await client.send_message(message.channel, msg)
 	if conf.get_object(message.server, 'static'):
 		for entry in conf.get_object(message.server, 'static').keys():

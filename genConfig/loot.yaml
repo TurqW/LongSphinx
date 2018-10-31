@@ -1,7 +1,7 @@
 description:
   Generates a pile of loot.
 root:
-- 'You open the chest. Inside, you find:
+- 'you open the chest. Inside, you find:
 
 {loot.list}'
 list:
