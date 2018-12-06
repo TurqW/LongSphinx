@@ -12,6 +12,7 @@ import botconfig as conf
 import botdice as dice
 import reminder
 import colors
+import pet
 
 if not os.path.exists('logs'):
 	os.makedirs('logs')
@@ -63,6 +64,12 @@ async def on_message(message):
 				elif isCommand(command, 'remind'):
 					await set_reminder(message)
 				
+				elif isCommand(command, 'feed'):
+					await client.send_message(message.channel, pet.feed())
+
+				elif isCommand(command, 'pet'):
+					await client.send_message(message.channel, pet.pet())
+
 				elif isCommand(command, 'color'):
 					await show_swatch(message)
 				
