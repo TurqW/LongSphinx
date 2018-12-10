@@ -2,6 +2,9 @@
 token.txt
 dev-token.txt
 
+#save data
+data/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
