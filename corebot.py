@@ -7,10 +7,7 @@ import nltk
 import os
 from pathlib import Path
 
-if not os.path.exists('logs'):
-	os.makedirs('logs')
-if not os.path.exists('data'):
-	os.makedirs('data')
+
 
 import generator
 import botconfig as conf
@@ -18,6 +15,12 @@ import botdice as dice
 import reminder
 import colors
 import pet
+
+def check_path(name):
+	if not os.path.exists(name):
+		os.makedirs(name)
+check_path("logs")
+check_path("data")
 
 logging.basicConfig(filename='logs/ubeast.log',level=logging.DEBUG)
 logging.getLogger('discord').setLevel(logging.WARNING)
@@ -115,10 +118,10 @@ async def parse(message):
 			if isCommand(message.content, entry):
 				return await static_message(message, entry)
 
-def isCommand(string, command):
-	string = string.strip(' !')
+def isCommand(mystring, command):
+	mystring = mystring.strip(' !')
 	p = nltk.PorterStemmer()
-	if p.stem(string.split()[0]) == p.stem(command):
+	if p.stem(mystring.split()[0]) == p.stem(command):
 		return True
 	return False
 
