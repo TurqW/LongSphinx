@@ -7,20 +7,15 @@ import nltk
 import os
 from pathlib import Path
 
-
-
 import generator
 import botconfig as conf
 import botdice as dice
 import reminder
 import colors
 import pet
+import utils
 
-def check_path(name):
-	if not os.path.exists(name):
-		os.makedirs(name)
-check_path("logs")
-check_path("data")
+utils.check_path("logs")
 
 logging.basicConfig(filename='logs/ubeast.log',level=logging.DEBUG)
 logging.getLogger('discord').setLevel(logging.WARNING)

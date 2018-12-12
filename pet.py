@@ -1,5 +1,8 @@
 import datetime
 import shelve
+import utils
+
+utils.check_path("data")
 
 tick = datetime.timedelta(minutes=40)
 
@@ -11,8 +14,11 @@ happyGain = 6
 
 dbname = 'data/pets'
 
-fullGaugeChar = '■'
-emptyGaugeChar = '□'
+fullGaugeChar = '='
+emptyGaugeChar = ' '
+
+def drawGauge(value, max):
+	return '[' + fullGaugeChar*value + emptyGaugeChar*(max-value) + ']'
 
 class Pet:
 	def __init__(self):
@@ -41,7 +47,7 @@ class Pet:
 		return message + '\n' + self.render()
 
 	def render(self):
-		return '```\nFamiliar:\n Fed:\n' + (fullGaugeChar*self.food) + (emptyGaugeChar*(maxFood-self.food)) + '\n Happiness:\n' + (fullGaugeChar*self.happy) + (emptyGaugeChar*(maxHappy-self.happy)) + '\n```'
+		return '```\nFamiliar:\n Fed:\n' + drawGauge(self.food, maxFood) + '\n Happiness:\n' + drawGauge(self.happy, maxHappy) + '\n```'
 
 	def update(self):
 		temp = self.lastCheck + tick
