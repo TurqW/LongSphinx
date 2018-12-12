@@ -11,6 +11,9 @@ happyGain = 6
 
 dbname = 'data/pets'
 
+fullGaugeChar = '■'
+emptyGaugeChar = '□'
+
 class Pet:
 	def __init__(self):
 		self.food = 0
@@ -33,12 +36,12 @@ class Pet:
 		elif factor < 0.75:
 			message = 'You scratch the wizard\'s familiar under the chin. She chitters contentedly.'
 		else:
-			message = 'The wizard\'s familiar rubs against you, squealing happily.'
+			message = 'The wizard\'s familiar rubs against you, trilling happily.'
 		self.happy = min(maxHappy, int(self.happy + (happyGain * factor)))
 		return message + '\n' + self.render()
 
 	def render(self):
-		return '```\nFamiliar:\n Fed:\n[' + ('-'*self.food) + (' '*(maxFood-self.food)) + ']\n Happiness:\n[' + ('-'*self.happy) + (' '*(maxHappy-self.happy)) + ']\n```'
+		return '```\nFamiliar:\n Fed:\n' + (fullGaugeChar*self.food) + (emptyGaugeChar*(maxFood-self.food)) + '\n Happiness:\n' + (fullGaugeChar*self.happy) + (emptyGaugeChar*(maxHappy-self.happy)) + '\n```'
 
 	def update(self):
 		temp = self.lastCheck + tick
