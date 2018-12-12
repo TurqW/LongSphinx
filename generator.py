@@ -14,29 +14,29 @@ def generate(name):
 		#TODO: There may be a less hardcoded way to do this.
 		return mcgenerator.generate(name[3:])
 	if name.startswith('num:'):
-		rangeends = name[4:].split('-')
+		rangeends = name.strip("num: ").split('-')
 		return num2words(random.randrange(int(rangeends[0]), int(rangeends[1])))
 	parsed_name = name.split('.')
 	generator = parsed_name[0]
 	load_config(generator)
 	if len(parsed_name) == 1:
-		string = random.choice(conf[generator].config['root'])
+		mystring = random.choice(conf[generator].config['root'])
 	else:
 		option_set = conf[generator].config
 		for level in parsed_name[1:]:
 			option_set = option_set[level]
-		string = random.choice(option_set)
-	return populate_string(string)
+		mystring = random.choice(option_set)
+	return populate_string(mystring)
 	
 
-def populate_string(string):
-	for toReplace in re.findall(r'{[\w.:-]+}', string):
-		string = string.replace(toReplace, generate(toReplace[1:-1]), 1)
-	return fix_articles(string)
+def populate_string(mystring):
+	for toReplace in re.findall(r'{[\w.:-]+}', mystring):
+		mystring = mystring.replace(toReplace, generate(toReplace[1:-1]), 1)
+	return fix_articles(mystring)
 
-def fix_articles(string):
+def fix_articles(mystring):
 	# relevant: https://stackoverflow.com/questions/2763750/how-to-replace-only-part-of-the-match-with-python-re-sub
-	return re.sub(r"(^|\W)a( [aAeEiIoOuU](?!ni))", r'\1an\2', string)
+	return re.sub(r"(^|\W)a( [aAeEiIoOuU](?!ni))", r'\1an\2', mystring)
 
 def load_config(name):
 	if name not in conf:
@@ -47,7 +47,6 @@ def readme(generators):
 	msg = ''
 	for gen_name in generators:
 		load_config(gen_name)
-		msg += '* `!' + gen_name + '`: '
-		msg += conf[gen_name].config['description']
-		msg += '\n'
+		msg += '* `!' + gen_name + '`: %s\n' % (conf[gen_name].config['description'])
+	
 	return msg
