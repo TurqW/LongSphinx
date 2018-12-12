@@ -3,8 +3,7 @@ import shelve
 
 tick = datetime.timedelta(minutes=40)
 
-maxFood = 30
-maxHappy = 30
+max_food, max_happy = 30, 30
 
 foodGain = 6
 happyGain = 6
@@ -29,17 +28,18 @@ class Pet:
 		factor = self.food/maxFood
 		message = ''
 		if factor < 0.3:
-			message = 'You try to pet the wizard\'s familiar. She tries to bite your hand. Perhaps she\'s hungry?'
+			message = 'You try to pet the wizard\'s familiar. She tries to bite your hand. Perhaps she\'s hungry?\n'
 		elif factor < 0.75:
-			message = 'You scratch the wizard\'s familiar under the chin. She chitters contentedly.'
+			message = 'You scratch the wizard\'s familiar under the chin. She chitters contentedly.\n'
 		else:
-			message = 'The wizard\'s familiar rubs against you, squealing happily.'
+			message = 'The wizard\'s familiar rubs against you, squealing happily.\n'
 		self.happy = min(maxHappy, int(self.happy + (happyGain * factor)))
-		return message + '\n' + self.render()
+		return message + self.render()
 
 	def render(self):
-		return '```\nFamiliar:\n Fed:\n[' + ('-'*self.food) + (' '*(maxFood-self.food)) + ']\n Happiness:\n[' + ('-'*self.happy) + (' '*(maxHappy-self.happy)) + ']\n```'
-
+		#return '```\nFamiliar:\n Fed:\n[' + ('-'*self.food) + (' '*(maxFood-self.food)) + ']\n Happiness:\n[' + ('-'*self.happy) + (' '*(maxHappy-self.happy)) + ']\n```'
+		return ('```\nFamiliar:\n Fed:\n[%s%s']\n Happiness:\n[%s%s+']\n```' % (('-'*self.food), (' '*(maxFood-self.food)), ('-'*self.happy), (' '*(maxHappy-self.happy))))
+	
 	def update(self):
 		temp = self.lastCheck + tick
 		if temp < datetime.datetime.now():
