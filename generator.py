@@ -20,23 +20,23 @@ def generate(name):
 	generator = parsed_name[0]
 	load_config(generator)
 	if len(parsed_name) == 1:
-		string = random.choice(conf[generator].config['root'])
+		name_string = random.choice(conf[generator].config['root'])
 	else:
 		option_set = conf[generator].config
 		for level in parsed_name[1:]:
 			option_set = option_set[level]
-		string = random.choice(option_set)
-	return populate_string(string)
+		name_string = random.choice(option_set)
+	return populate_string(name_string)
 	
 
-def populate_string(string):
-	for toReplace in re.findall(r'{[\w.:-]+}', string):
-		string = string.replace(toReplace, generate(toReplace[1:-1]), 1)
-	return fix_articles(string)
+def populate_string(name_string):
+	for toReplace in re.findall(r'{[\w.:-]+}', name_string):
+		name_string = name_string.replace(toReplace, generate(toReplace[1:-1]), 1)
+	return fix_articles(name_string)
 
-def fix_articles(string):
+def fix_articles(name_string):
 	# relevant: https://stackoverflow.com/questions/2763750/how-to-replace-only-part-of-the-match-with-python-re-sub
-	return re.sub(r"(^|\W)a( [aAeEiIoOuU](?!ni))", r'\1an\2', string)
+	return re.sub(r"(^|\W)a( [aAeEiIoOuU](?!ni))", r'\1an\2', name_string)
 
 def load_config(name):
 	if name not in conf:
