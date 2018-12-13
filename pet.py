@@ -14,12 +14,6 @@ happyGain = 6
 
 dbname = 'data/pets'
 
-fullGaugeChar = '='
-emptyGaugeChar = ' '
-
-def drawGauge(value, max):
-	return '[' + fullGaugeChar*value + emptyGaugeChar*(max-value) + ']'
-
 class Pet:
 	def __init__(self):
 		self.food = 0
@@ -47,7 +41,7 @@ class Pet:
 		return message + '\n' + self.render()
 
 	def render(self):
-		return '```\nFamiliar:\n Fed:\n' + drawGauge(self.food, maxFood) + '\n Happiness:\n' + drawGauge(self.happy, maxHappy) + '\n```'
+		return '```\nFamiliar:\n Fed:\n' + utils.drawGauge(self.food, maxFood) + '\n Happiness:\n' + utils.drawGauge(self.happy, maxHappy) + '\n```'
 
 	def update(self):
 		temp = self.lastCheck + tick
