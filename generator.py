@@ -31,8 +31,8 @@ def generate(name):
 
 def populate_string(partial):
 	for toReplace in re.findall(r'{[\w.:-]+}', partial):
-		populated = partial.replace(toReplace, generate(toReplace[1:-1]), 1)
-	return fix_articles(populated)
+		partial = partial.replace(toReplace, generate(toReplace[1:-1]), 1)
+	return fix_articles(partial)
 
 def fix_articles(text):
 	# relevant: https://stackoverflow.com/questions/2763750/how-to-replace-only-part-of-the-match-with-python-re-sub
