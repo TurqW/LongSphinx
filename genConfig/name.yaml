@@ -1,4 +1,5 @@
 description:
   Generates a random fantasy name.
 root:
-- 'Your generated name: {mc:name}'
+- text: 'Your generated name: {name}'
+  name: 'mc.name'

@@ -1,48 +1,73 @@
 description:
   Generates a random (potentially magical) accessory. Intended for use in a loot generator.
 root:
-- a {jewelry.material} {jewelry.article} engraved with a {summon.modifier}{summon.species}. When you wear it, you gain the ability to {summon.ability}.
-- a {jewelry.material} {jewelry.article} bearing a {gem}. When you wear it, you gain the ability to {summon.ability}.
-- a {jewelry.material} {jewelry.article} engraved with a {summon.modifier}{summon.species}. It seems entirely mundane.
-- a {jewelry.material} {jewelry.article} bearing a {gem}. It seems entirely mundane.
-- the {jewelry.article} of {mc:name}. When you wear it, you gain the ability to {summon.ability}.
-- a {jewelry.material} {jewelry.article} engraved with the crest of {mc:england}. When you wear it, you gain the ability to {summon.ability}.
+- text: a {material} {article} engraved with a {modifier}{species}. When you wear it, you gain the ability to {ability}.
+  material: jewelry.material
+  article: jewelry.article
+  modifier: summon.modifier
+  species: summon.species
+  ability: summon.ability
+- text: a {material} {article} bearing a {gem}. When you wear it, you gain the ability to {ability}.
+  material: jewelry.material
+  article: jewelry.article
+  gem: gem
+  ability: summon.ability
+- text: a {material} {article} engraved with a {modifier}{species}. It seems entirely mundane.
+  material: jewelry.material
+  article: jewelry.article
+  modifier: summon.modifier
+  species: summon.species
+- text: a {material} {article} bearing a {gem}. It seems entirely mundane.
+  material: jewelry.material
+  article: jewelry.article
+  gem: gem
+- text: the {article} of {name}. When you wear it, you gain the ability to {ability}.
+  article: jewelry.article
+  name: 'mc.name'
+  ability: summon.ability
+- text: a {material} {article} engraved with the crest of {place}. When you wear it, you gain the ability to {ability}.
+  material: jewelry.material
+  article: jewelry.article
+  place: 'mc.england'
+  ability: summon.ability
 material:
-- gold
-- rose gold
-- white gold
-- silver
-- sterling silver
-- platinum
-- copper
-- bronze
-- brass
-- iron
-- steel
-- lead
-- tin
-- zinc
-- '{summon.species} bone'
-- '{wand.wood} wood'
+- text: gold
+- text: rose gold
+- text: white gold
+- text: silver
+- text: sterling silver
+- text: platinum
+- text: copper
+- text: bronze
+- text: brass
+- text: iron
+- text: steel
+- text: lead
+- text: tin
+- text: zinc
+- text: '{species} bone'
+  species: summon.species
+- text: '{wood} wood'
+  wood: wand.wood
 article:
-- ring
-- bracelet
-- crown
-- amulet
-- necklace
-- pendant
-- earring
-- tiara
-- diadem
-- choker
-- armlet
-- bangle
-- cufflink
-- brooch
-- toe ring
-- anklet
-- locket
-- medallion
-- thumb ring
-- signet ring
-- pin
+- text: ring
+- text: bracelet
+- text: crown
+- text: amulet
+- text: necklace
+- text: pendant
+- text: earring
+- text: tiara
+- text: diadem
+- text: choker
+- text: armlet
+- text: bangle
+- text: cufflink
+- text: brooch
+- text: toe ring
+- text: anklet
+- text: locket
+- text: medallion
+- text: thumb ring
+- text: signet ring
+- text: pin

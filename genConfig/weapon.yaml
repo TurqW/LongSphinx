@@ -1,83 +1,90 @@
 root:
-- 'a {jewelry.material} {weapon.type}'
-- 'a {jewelry.material} {weapon.type} engraved with elaborate patterns'
-- 'a {jewelry.material} {weapon.type} set with a {gem}'
+- text: 'a {material} {type}'
+  material: jewelry.material
+  type: weapon.type
+- text: 'a {material} {type} engraved with elaborate patterns'
+  material: jewelry.material
+  type: weapon.type
+- text: 'a {material} {type} set with a {gem}'
+  material: jewelry.material
+  type: weapon.type
+  gem: gem
 type:
-- spiked gauntlet
-- cutlass
-- falchion
-- khopesh
-- saber
-- scimitar
-- arming sword
-- broadsword
-- epee
-- estoc
-- flamberge
-- longsword
-- rapier
-- spadroon
-- katana
-- boar sword
-- claymore
-- heading sword
-- flambard
-- zweihander
-- baselard
-- cinquedea
-- gladius
-- smallsword
-- kukri
-- hook sword
-- dagger
-- dirk
-- sickle
-- mattock
-- pickaxe
-- war pick
-- warhammer
-- bardiche
-- battleaxe
-- broadaxe
-- handaxe
-- hatchet
-- labrys
-- tomahawk
-- club
-- bludgeon
-- cudgel
-- boomerang
-- flail
-- frying pan
-- hammer
-- mace
-- morning star
-- roundhead mace
-- sai
-- shillelagh
-- scepter
-- sledgehammer
-- tonfa
-- wrench
-- bo
-- quarterstaff
-- boar spear
-- lance
-- pike
-- pitchfork
-- spetum
-- swordstaff
-- trident
-- bardiche
-- glaive
-- guisarme
-- halberd
-- naginata
-- poleaxe
-- javelin
-- harpoon
-- pilum
-- chakram
-- shuriken
-- kunai
-- throwing knife
+- text: arming sword
+- text: bardiche
+- text: bardiche
+- text: baselard
+- text: battleaxe
+- text: bludgeon
+- text: bo
+- text: boar spear
+- text: boar sword
+- text: boomerang
+- text: broadaxe
+- text: broadsword
+- text: chakram
+- text: cinquedea
+- text: claymore
+- text: club
+- text: cudgel
+- text: cutlass
+- text: dagger
+- text: dirk
+- text: epee
+- text: estoc
+- text: falchion
+- text: flail
+- text: flambard
+- text: flamberge
+- text: frying pan
+- text: gladius
+- text: glaive
+- text: guisarme
+- text: halberd
+- text: hammer
+- text: handaxe
+- text: harpoon
+- text: hatchet
+- text: heading sword
+- text: hook sword
+- text: javelin
+- text: katana
+- text: khopesh
+- text: kukri
+- text: kunai
+- text: labrys
+- text: lance
+- text: longsword
+- text: mace
+- text: mattock
+- text: morning star
+- text: naginata
+- text: pickaxe
+- text: pike
+- text: pilum
+- text: pitchfork
+- text: poleaxe
+- text: quarterstaff
+- text: rapier
+- text: roundhead mace
+- text: saber
+- text: sai
+- text: scepter
+- text: scimitar
+- text: shillelagh
+- text: shuriken
+- text: sickle
+- text: sledgehammer
+- text: smallsword
+- text: spadroon
+- text: spetum
+- text: spiked gauntlet
+- text: swordstaff
+- text: throwing knife
+- text: tomahawk
+- text: tonfa
+- text: trident
+- text: war pick
+- text: warhammer
+- text: wrench
+- text: zweihander

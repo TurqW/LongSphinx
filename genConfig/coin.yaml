@@ -1,15 +1,27 @@
 description:
   Generates a small number of coins. For use in loot generator.
 root:
-- '{coin.quantity} {jewelry.material} coins'
-- '{coin.quantity} {jewelry.material} coins engraved with a {summon.species}'
-- 'a single large {jewelry.material} coin'
-- 'a single {jewelry.material} coin engraved with a {summon.species}'
+- text: '{quantity} {material} coins'
+  quantity: coin.quantity
+  material: jewelry.material
+- text: '{quantity} {material} coins engraved with a {animal}'
+  quantity: coin.quantity
+  material: jewelry.material
+  animal: summon.species
+- text: 'a single large {material} coin'
+  material: jewelry.material
+- text: 'a single {material} coin engraved with a {species}'
+  material: jewelry.material
+  species: summon.species
 quantity:
-- a handful of
-- '{num:2-10}'
-- '{num:2-20}'
-- '{num:2-30}'
-- a large pile of
-- '{num:2-5} rolls of'
-- a purse full of
+- text: a handful of
+- text: '{number}'
+  number: num.2-10
+- text: '{number}'
+  number: num.2-20
+- text: '{number}'
+  number: num.2-30
+- text: a large pile of
+- text: '{number} rolls of'
+  number: num.2-5
+- text: a purse full of

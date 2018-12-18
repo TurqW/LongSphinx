@@ -1,121 +1,141 @@
 description:
   You find a randomly generated potion.
 root:
-- You find {potion.core}
+- text: You find {potion}
+  potion: potion.core
 core:
-- a {potion.bottle} full of {potion.modifier} {color} liquid. When you drink it, {potion.effect}.
+- text: a {bottle} full of {modifier} {color} liquid. When you drink it, {effect}.
+  bottle: potion.bottle
+  modifier: potion.modifier
+  color: color
+  effect: potion.effect
 modifier:
-- bubbly
-- translucent
-- glowing
-- viscous
-- runny
-- murky
-- milky
-- fizzy
-- effervescent
-- swirly
-- cloudy
-- metallic
-- oily
-- pulsating
-- smoking
+- text: bubbly
+- text: translucent
+- text: glowing
+- text: viscous
+- text: runny
+- text: murky
+- text: milky
+- text: fizzy
+- text: effervescent
+- text: swirly
+- text: cloudy
+- text: metallic
+- text: oily
+- text: pulsating
+- text: smoking
 bottle:
-- tiny vial
-- clay jar
-- square bottle
-- heavy jug
-- '{jewelry.material} flask'
-- waterskin
-- bucket
-- spherical glass bottle
-- dirty beer bottle
-- green glass bottle
-- clear glass bottle
-- pint glass
-- '{jewelry.material} goblet'
-- dragonhide waterskin
-- magical fluid suspension device
-- heavy mug
-- glass jar
-- chamber pot
-- particularly heavy bottle
-- pitcher
-- long-necked bottle
-- wooden bowl
-- '{summon.species} hide waterskin'
-- '{jewelry.material} pitcher'
-- '{jewelry.material} vial'
-- '{jewelry.material} stein'
-- '{jewelry.material} jug'
-- '{jewelry.material} bucket'
+- text: tiny vial
+- text: clay jar
+- text: square bottle
+- text: heavy jug
+- text: '{material} flask'
+  material: jewelry.material
+- text: waterskin
+- text: bucket
+- text: spherical glass bottle
+- text: dirty beer bottle
+- text: green glass bottle
+- text: clear glass bottle
+- text: pint glass
+- text: '{material} goblet'
+  material: jewelry.material
+- text: dragonhide waterskin
+- text: magical fluid suspension device
+- text: heavy mug
+- text: glass jar
+- text: chamber pot
+- text: particularly heavy bottle
+- text: pitcher
+- text: long-necked bottle
+- text: wooden bowl
+- text: '{species} hide waterskin'
+  species: summon.species
+- text: '{material} pitcher'
+  material: jewelry.material
+- text: '{material} vial'
+  material: jewelry.material
+- text: '{material} stein'
+  material: jewelry.material
+- text: '{material} jug'
+  material: jewelry.material
+- text: '{material} bucket'
+  material: jewelry.material
 effect:
-- nothing happens
-- you begin to feel light-headed. This is a fairly pleasant experience, up until your head bumps against the ceiling
-- you feel vaguely ill
-- you forget what you were trying to do
-- every piece of food in your line of sight begins to glow gently
-- you feel more skillful
-- you learn how to cast Feather Fall
-- everything seems to move faster
-- everything seems to move slower
-- you slowly melt into the floor, drip down from the ceiling on the floor below, and reform with seemingly no ill effects
-- you can walk into walls. Not through them, just into them
-- everything looks a bit rosy. You take off a brand new pair of rose colored glasses
-- you can unerringly point north
-- you have great breath
-- you feel inexorably drawn to send Tim the Diviner all your gold
-- you can breathe fire
-- you feel lucky
-- you gain the ability to guess lottery numbers. Unfortunately, you don't know which lottery it is
-- your face feels mushy. You look in a mirror, and looking back is the face of the last person you kissed
-- you are able to travel forward in time, but only at the rate of 1 second per second
-- you have ice breath
-- briefly you percieve that you are on a tremendous table, surrounded by giants who roll immense dice.  This vision quickly fades and you are left deeply shook
-- you are immune to getting dizzy
-- you know a great lasagna recipe
-- you know how to forge a greatsword
-- you feel a sudden need to fix your hair
-- you detect a faint whiff of lavender
-- you discover it's a laxative
-- it burns slightly and you feel more confident. "Who would leave perfectly good liquor lying around?" you wonder
-- it tastes of elderberries
-- your hands glow like flashlights
-- you know the location of every paperclip in a 20 foot radius
-- you know the exact count of writing instruments within 100 feet
-- you gain the gift of gab
-- your next joke will succeed
-- your next joke will fall flat
-- you can make a perfect snowman
-- you grow razor-sharp claws
-- you feel exceedingly honest
-- it tastes like fruit juice
-- you become confused
-- your wounds and scars begin to fade
-- everything begins to look particularly colorful
-- you feel, in a general and hard to pin down sense, better
-- you grow incredibly sleepy
-- you briefly go completely blind
-- you turn invisible
-- you sense the presence of foes
-- you feel incredibly self-aware
-- you float a few inches off the ground
-- it burns horribly
-- it goes down very smoothly
-- you feel strong
-- you feel smart
-- you feel wise
-- you feel agile
-- you feel tough
-- you feel charismatic
-- you feel the gentle tug of the moon
-- you feel particularly stable
-- you have an uneasy feeling
-- your eyesight becomes incredibly sharp. You spend several minutes examining the intricate patterns on a grain of sand. The potion wears off
-- you are briefly paralyzed
-- you begin to vomit slugs
-- you gain the ability to {summon.ability}
-- everyone begins to call you {mc:name}
-- you cough up a {gem}
-- you painfully cough up {jewelry}
-- you vomit {coin}
+- text: nothing happens
+- text: you begin to feel light-headed. This is a fairly pleasant experience, up until your head bumps against the ceiling
+- text: you feel vaguely ill
+- text: you forget what you were trying to do
+- text: every piece of food in your line of sight begins to glow gently
+- text: you feel more skillful
+- text: you learn how to cast Feather Fall
+- text: everything seems to move faster
+- text: everything seems to move slower
+- text: you slowly melt into the floor, drip down from the ceiling on the floor below, and reform with seemingly no ill effects
+- text: you can walk into walls. Not through them, just into them
+- text: everything looks a bit rosy. You take off a brand new pair of rose colored glasses
+- text: you can unerringly point north
+- text: you have great breath
+- text: you feel inexorably drawn to send Tim the Diviner all your gold
+- text: you can breathe fire
+- text: you feel lucky
+- text: you gain the ability to guess lottery numbers. Unfortunately, you don't know which lottery it is
+- text: your face feels mushy. You look in a mirror, and looking back is the face of the last person you kissed
+- text: you are able to travel forward in time, but only at the rate of 1 second per second
+- text: you have ice breath
+- text: briefly you percieve that you are on a tremendous table, surrounded by giants who roll immense dice.  This vision quickly fades and you are left deeply shook
+- text: you are immune to getting dizzy
+- text: you know a great lasagna recipe
+- text: you know how to forge a greatsword
+- text: you feel a sudden need to fix your hair
+- text: you detect a faint whiff of lavender
+- text: you discover it's a laxative
+- text: it burns slightly and you feel more confident. "Who would leave perfectly good liquor lying around?" you wonder
+- text: it tastes of elderberries
+- text: your hands glow like flashlights
+- text: 'you know the location of every paperclip in a {number} foot radius'
+  number: 'num.10-50'
+- text: you know the exact count of writing instruments within {number} feet
+  number: 'num.10-200'
+- text: you gain the gift of gab
+- text: your next joke will succeed
+- text: your next joke will fall flat
+- text: you can make a perfect snowman
+- text: you grow razor-sharp claws
+- text: you feel exceedingly honest
+- text: it tastes like fruit juice
+- text: you become confused
+- text: your wounds and scars begin to fade
+- text: everything begins to look particularly colorful
+- text: you feel, in a general and hard to pin down sense, better
+- text: you grow incredibly sleepy
+- text: you briefly go completely blind
+- text: you turn invisible
+- text: you sense the presence of foes
+- text: you feel incredibly self-aware
+- text: you float a few inches off the ground
+- text: it burns horribly
+- text: it goes down very smoothly
+- text: you feel strong
+- text: you feel smart
+- text: you feel wise
+- text: you feel agile
+- text: you feel tough
+- text: you feel charismatic
+- text: you feel the gentle tug of the moon
+- text: you feel particularly stable
+- text: you have an uneasy feeling
+- text: your eyesight becomes incredibly sharp. You spend several minutes examining the intricate patterns on a grain of sand. The potion wears off
+- text: you are briefly paralyzed
+- text: you begin to vomit slugs
+- text: you gain the ability to {ability}
+  ability: summon.ability
+- text: everyone begins to call you {name}
+  name: 'mc.name'
+- text: you cough up a {gem}
+  gem: gem
+- text: you painfully cough up {jewelry}
+  jewelry: jewelry
+- text: you vomit {coin}
+  coin: coin

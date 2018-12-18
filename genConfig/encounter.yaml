@@ -1,41 +1,49 @@
-root:
-- 'You encounter {num:2-7} {encounter.sentients}. They are {encounter.sentientActivities}'
 description:
   A random encounter along the road.
-sentients:
-- goblins
-- bugbears
-- dusklings
-- drow
-- kenku
-- kobolds
-- lizardfolk
-- ogres
-- orcs
-- trogolodytes
-- trolls
-- yuan-ti
-sentientActivities:
-- huddled around a small fire.
-- playing some sort of dice game.
-- sleeping.
-- squabbling over a few scraps of food.
-- 'squabbling over {weapon}.'
-- sharpening their weapons.
-- already in combat formation, shouting at you in an incomprehensible language.
-- cooking a large, unidentifiable piece of meat over a small fire.
-- 'in the process of skinning a {summon.species}.'
-- counting the coin they got from the last set of travelers.
-- busily engaged in small rectangular lighted tablets, the whole practice seems mysterious and somewhat pointless.
-- attempting to do laundry in a tiny stream of water.
-- gathered around a large pot, making a stew of some sort.
-- gathered around a large pot, making lingonberry jam.
-- gathered around a large pot, making wish stew.  The biggest one looks at you and says "Boys, our wish came true."
-- paired off and intently watching the stars, the closest one shushes you and motions towards the sky, where you see a shooting star.  You are pretty sure they're on a date...
-- 'dancing around a pole holding up a large {summon.species} pelt.'
-- dancing around a pole festooned with ribbons.
-- 'waving {wand.wood} sticks and shouting in some arcane tongue. A particularly bossy one seems to be correcting their pronunciation.'
-- clearly in a hurry to be elsewhere.
-- sharing a keg of ale with some clearly uncomfortable travelers.
-- 'walking a {summon.species} on a leash.'
-- carrying pickaxes and whistling an oddly familiar tune.
+root:
+- text: 'You encounter {number} {sentient}. They are {activity}'
+  number: 'num.2-7'
+  sentient: encounter.sentient
+  activity: encounter.sentientActivity
+sentient:
+- text: goblins
+- text: bugbears
+- text: dusklings
+- text: drow
+- text: kenku
+- text: kobolds
+- text: lizardfolk
+- text: ogres
+- text: orcs
+- text: trogolodytes
+- text: trolls
+- text: yuan-ti
+sentientActivity:
+- text: huddled around a small fire.
+- text: playing some sort of dice game.
+- text: sleeping.
+- text: squabbling over a few scraps of food.
+- text: 'squabbling over {weapon}.'
+  weapon: weapon
+- text: sharpening their weapons.
+- text: already in combat formation, shouting at you in an incomprehensible language.
+- text: cooking a large, unidentifiable piece of meat over a small fire.
+- text: 'in the process of skinning a {species}.'
+  species: summon.species
+- text: counting the coin they got from the last set of travelers.
+- text: busily engaged in small rectangular lighted tablets, the whole practice seems mysterious and somewhat pointless.
+- text: attempting to do laundry in a tiny stream of water.
+- text: gathered around a large pot, making a stew of some sort.
+- text: gathered around a large pot, making lingonberry jam.
+- text: gathered around a large pot, making wish stew.  The biggest one looks at you and says "Boys, our wish came true."
+- text: paired off and intently watching the stars, the closest one shushes you and motions towards the sky, where you see a shooting star.  You are pretty sure they're on a date...
+- text: 'dancing around a pole holding up a large {species} pelt.'
+  species: summon.species
+- text: dancing around a pole festooned with ribbons.
+- text: 'waving {wood} sticks and shouting in some arcane tongue. A particularly bossy one seems to be correcting their pronunciation.'
+  wood: wand.wood
+- text: clearly in a hurry to be elsewhere.
+- text: sharing a keg of ale with some clearly uncomfortable travelers.
+- text: 'walking a {species} on a leash.'
+  species: summon.species
+- text: carrying pickaxes and whistling an oddly familiar tune.
