@@ -28,7 +28,6 @@ def generate(name):
 			for level in parsed_name[1:]:
 				option_set = option_set[level]
 			result = copy.deepcopy(random.choice(option_set))
-	print(result)
 	return populate(result)
 
 
