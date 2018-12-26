@@ -64,12 +64,15 @@ async def on_message(message):
 
 				elif isCommand(command, 'remind'):
 					await set_reminder(message)
-				
+					
+				elif isCommand(command, 'summon'):
+					await client.send_message(message.channel, pet.summon(message.author.id))
+					
 				elif isCommand(command, 'feed'):
-					await client.send_message(message.channel, pet.feed())
+					await client.send_message(message.channel, pet.feed(message.author.id))
 
 				elif isCommand(command, 'pet'):
-					await client.send_message(message.channel, pet.pet())
+					await client.send_message(message.channel, pet.pet(message.author.id))
 
 				elif isCommand(command, 'color'):
 					await show_swatch(message)

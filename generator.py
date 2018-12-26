@@ -37,7 +37,7 @@ def load_config(name):
 	conf[name].update_config()
 
 def populate(object):
-	for key in (key for key in object.keys() if key != 'text'):
+	for key in (key for key in object.keys() if key != 'text' and isinstance(object[key], str)):
 		object[key] = generate(object[key])
 	return object
 

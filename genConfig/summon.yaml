@@ -53,51 +53,140 @@ modifier:
 - text: 'zombie '
 species:
 - text: abomination
+  sound:
+    text: groaning
 - text: armadillo
+  sound:
+    text: squeaking
 - text: badger
+  sound:
+    text: chittering
 - text: bat
+  sound:
+    text: squeaking
 - text: bee
+  sound:
+    text: buzzing
 - text: bunny
+  sound:
+    text: squeaking
 - text: camel
+  sound:
+    text: grunting
 - text: cat
+  sound:
+    text: meowing
 - text: condor
+  sound:
+    text: snorting
 - text: dog
+  sound:
+    text: barking
 - text: duck
+  sound:
+    text: quacking
 - text: eagle
+  sound:
+    text: screeching
 - text: emu
+  sound:
+    text: grunting
 - text: ferret
+  sound:
+    text: dooking
 - text: flying squirrel
+  sound:
+    text: chittering
 - text: fox
+  sound:
+    text: mewling
 - text: gelatinous cube
+  sound:
+    text: jiggling
 - text: goat
+  sound:
+    text: bleating
 - text: goldfish
+  sound:
+    text: bubbling
 - text: hamster
+  sound:
+    text: squeaking
 - text: hawk
+  sound:
+    text: chirping
 - text: hedgehog
+  sound:
+    text: squeaking
 - text: homunculus
+  sound:
+    text: TODO
 - text: iguana
+  sound:
+    text: clicking
 - text: jellyfish
+  sound:
+    text: squishing
 - text: koala
+  sound:
+    text: grunting
 - text: lemur
+  sound:
+    text: purring
 - text: moose
+  sound:
+    text: bellowing
 - text: otter
+  sound:
+    text: chittering
 - text: owl
+  sound:
+    text: hooting
 - text: panda
+  sound:
+    text: huffing
 - text: pegasus
+  sound:
+    text: nickering
 - text: penguin
+  sound:
+    text: calling
 - text: porg
+  sound:
+    text: squawking
 - text: pseudodragon
+  sound:
+    text: whistling
 - text: raccoon
+  sound:
+    text: trilling
 - text: scorpion
-- text: shark
+  sound:
+    text: clacking
 - text: snake
+  sound:
+    text: hissing
 - text: spider
+  sound:
+    text: creeping
 - text: swallow
+  sound:
+    text: chirping
 - text: tribble
+  sound:
+    text: purring
 - text: turtle
+  sound:
+    text: chirping
 - text: whale
+  sound:
+    text: singing
 - text: wolf
+  sound:
+    text: howling
 - text: zebra
+  sound:
+    text: nickering
 ability:
 - text: '**[REDACTED]**'
 - text: accurately appraise the value of any piece of jewelry

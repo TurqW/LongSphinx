@@ -7,7 +7,6 @@ servers:
     generators:
     - potion
     - wand
-    - summon
     - name
     - loot
     - encounter
