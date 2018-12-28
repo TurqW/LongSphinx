@@ -5,8 +5,11 @@ def parse_die(com):
 
 def roll_dice(parsed):
 	results = []
-	for i in range(parsed[0]):
-		results.append(random.randint(1, parsed[1]))
+	if parsed[0] <= 1000:
+		for i in range(parsed[0]):
+			results.append(random.randint(1, parsed[1]))
+	else:
+		raise ValueError('Oh come on, do you really need more than 1000 dice?')
 	return results
 
 def roll_command(command):

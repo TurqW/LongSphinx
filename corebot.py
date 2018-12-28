@@ -168,7 +168,11 @@ async def static_message(message, value):
 
 async def roll_dice(message):
 	toRoll = message.content.split()
-	results = dice.roll_command(toRoll[1:])
+	try:
+		results = dice.roll_command(toRoll[1:])
+	except ValueError as e:
+		await client.send_message(message.channel, str(e))
+		return
 	resultString = ', '.join([str(i) for i in results])
 	msg = conf.get_string(message.server, 'diceResults').format(message.author.mention, resultString, sum(results))
 	try:
