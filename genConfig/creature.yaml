@@ -262,9 +262,9 @@ ability:
   spitColor: color
 - text: spray acid
 - text: stare into anothers soul
-- text: creature a spectral {weapon}
+- text: summon a spectral {weapon}
   weapon: weapon.type
-- text: creature the north wind
+- text: summon the north wind
 - text: swim in lava
 - text: teleport short distances
 - text: track foes unerringly
