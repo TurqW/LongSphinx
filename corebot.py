@@ -68,11 +68,19 @@ async def on_message(message):
 				elif isCommand(command, 'summon'):
 					await client.send_message(message.channel, pet.summon(message.author.id))
 					
-				elif isCommand(command, 'feed'):
-					await client.send_message(message.channel, pet.feed(message.author.id))
+				elif isCommand(command, 'feed'): # TODO: this and pet should be able to be done for another person
+					try:
+						target = utils.getMentionTarget(message)
+						await client.send_message(message.channel, pet.feed(target.id))
+					except ValueError:
+						await client.send_message(message.channel, "Too many targets!")
 
 				elif isCommand(command, 'pet'):
-					await client.send_message(message.channel, pet.pet(message.author.id))
+					try:
+						target = utils.getMentionTarget(message)
+						await client.send_message(message.channel, pet.pet(target.id))
+					except ValueError:
+						await client.send_message(message.channel, "Too many targets!")
 
 				elif isCommand(command, 'color'):
 					await show_swatch(message)

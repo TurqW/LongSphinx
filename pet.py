@@ -47,16 +47,12 @@ class Pet:
 		self.happy = min(maxHappy, int(self.happy + (happyGain * factor)))
 		return message + '\n' + self.render()
 
-	def renderDesc(self):
-		return 'a {color} {mod}{species}\nAbility: {ability}.'.format(
-			color=generator.extract_text(self.desc['creatureColor']),
-			mod=generator.extract_text(self.desc['modifier']),
-			species=generator.extract_text(self.desc['species']),
-			ability=generator.extract_text(self.desc['ability']))
-
 	def render(self):
 		try:
-			about = self.name + ', ' + self.renderDesc()[:-1]
+			about = '{name}, {description}\nAbility: {ability}'.format(
+				name = self.name,
+				description=generator.extract_text(self.desc['description']),
+				ability=generator.extract_text(self.desc['ability']))
 		except AttributeError:
 			about = 'Familiar'
 		return '```\n' + about + '\n Fed:\n' + utils.drawGauge(self.food, maxFood) + '\n Happiness:\n' + utils.drawGauge(self.happy, maxHappy) + '\n```'
@@ -77,7 +73,7 @@ class Pet:
 		self.fullText = 'You offer {} a treat from your pocket, but it seems full.'.format(name)
 		self.hungryPetText = 'You try to pet {}. It tries to bite your hand. Perhaps it\'s hungry?'.format(name)
 		self.midPetText = 'You scratch {} under the chin. It looks at you contentedly.'.format(name)
-		self.fullPetText = '{} rubs against you, {} happily.'.format(name, desc['species']['sound']['text'])
+		self.fullPetText = '{} rubs against you, {} happily.'.format(name, desc['description']['species']['sound']['text'])
 
 
 def loadPet(name):
@@ -109,8 +105,9 @@ def pet(id = '0'):
 
 def summon(id):
 	myPet = Pet()
-	myPet.setStats(generator.generate('mc.name')['text'], generator.generate('summon'))
-	message = generator.extract_text(myPet.desc) + ' Its name is {}.'.format(myPet.name)
+	summon = generator.generate('creature')
+	myPet.setStats(generator.generate('mc.name')['text'], summon['core'])
+	message = generator.extract_text(summon) + ' Its name is {}.'.format(myPet.name)
 	savePet(myPet, id)
 	return message
 

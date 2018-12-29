@@ -7,12 +7,12 @@ root:
 - text: '{quantity} {material} coins engraved with a {animal}'
   quantity: coin.quantity
   material: jewelry.material
-  animal: summon.species
+  animal: creature.species
 - text: 'a single large {material} coin'
   material: jewelry.material
 - text: 'a single {material} coin engraved with a {species}'
   material: jewelry.material
-  species: summon.species
+  species: creature.species
 quantity:
 - text: a handful of
 - text: '{number}'
