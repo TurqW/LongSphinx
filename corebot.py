@@ -1,18 +1,19 @@
+import dateparser
 import discord
-import random
-import yaml
-import sys
 import logging
 import nltk
 import os
+import random
+import sys
+import yaml
 from pathlib import Path
 
-import generator
 import botconfig as conf
 import botdice as dice
-import reminder
 import colors
+import generator
 import pet
+import reminder
 import utils
 
 utils.check_path("logs")
@@ -63,7 +64,7 @@ async def on_message(message):
 					await give_help(message)
 
 				elif isCommand(command, 'remind'):
-					await set_reminder(message)
+					await message_reminder(message)
 					
 				elif isCommand(command, 'summon'):
 					await client.send_message(message.channel, pet.summon(message.author.id))
@@ -98,6 +99,10 @@ async def on_message(message):
 async def on_ready():
 	log.debug('Bot logged in as {0.user.name}'.format(client))
 	print('Bot started')
+	for server in client.servers:
+		schedule = conf.get_object(server, 'scheduled')
+		for event in schedule:
+			await set_scheduled_event(server, event)
 
 @client.event
 async def on_member_join(member):
@@ -246,8 +251,14 @@ async def change_role(member, roleName, roleset):
 	else:
 		raise NameError(roleName)
 
-async def set_reminder(message):
+async def message_reminder(message):
 	await reminder.create_reminder(' '.join(message.content.split()[1:]), client, message.channel, 'reminder: {0}'.format(message.content))
+
+async def set_scheduled_event(server, event):
+	when_time = dateparser.parse(event['time'])
+	channel = find_channel(event['channel'], server)
+	msg = event['message']
+	await reminder.set_reminder(when_time, client, channel, msg)
 
 def get_roleset(server, roleset):
 	roleNames = conf.get_object(server, 'rolesets', roleset).keys()

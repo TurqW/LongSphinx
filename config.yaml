@@ -20,9 +20,6 @@ servers:
         '{0}, the fates have spoken: {1}, for a total of {2}.'
       rerole:
         'Another peek at my crystal ball... {0}, are you perhaps a {1}?'
-    static:
-      spank: https://i.imgur.com/3ZERxgc.png
-      charge: https://cdn.discordapp.com/attachments/444030298406125568/503820387864281089/annoyedcatTim2.png
   '443869685054701569': &realm
     name: The Realm
     channels:
@@ -210,8 +207,118 @@ servers:
       classRoleList:
         'Looking for a career change, eh? {0}... Take your pick of these with `!class classname`. For instance, `!class soldier`'
       <<: *defaultStrings
+    static:
+      spank: https://i.imgur.com/3ZERxgc.png
+      charge: https://cdn.discordapp.com/attachments/444030298406125568/503820387864281089/annoyedcatTim2.png
+    scheduled:
+    - time: 2018-12-31T02:00
+      channel: announcements
+      message: The new year begins! The first places to celebrate 2019 are Kiritimati and Samoa!
+    - time: 2018-12-31T03:00
+      channel: announcements
+      message: Happy New Year to Antarctica's McMurdo Station!
+    - time: 2018-12-31T04:00
+      channel: announcements
+      message: 2019 has reached a continental mainland! It's now the new year in Russia's Kamchatka Time zone!
+    - time: 2018-12-31T05:00
+      channel: announcements
+      message: Happy New Year to our Aussie friends in New South Wales and Victoria! This includes Sydney, Melbourne, Canberra, and Newcastle!
+    - time: 2018-12-31T05:30
+      channel: announcements
+      message: Happy New Year to our friends in Adelaide!
+    - time: 2018-12-31T06:00
+      channel: announcements
+      message: Happy New Year to our friends in Guam, Papua New Guinea, and Brisbane, Australia!
+    - time: 2018-12-31T06:30
+      channel: announcements
+      message: Happy New Year to our friends in Darwin!
+    - time: 2018-12-31T07:00
+      channel: announcements
+      message: Happy New Year to our friends in Tokyo and Seoul!
+    - time: 2018-12-31T08:00
+      channel: announcements
+      message: Happy New Year to our friends in Perth, Singapore, the Philippines, Taiwan, and all of China!
+    - time: 2018-12-31T09:00
+      channel: announcements
+      message: Happy New Year to our friends in Vietnam, Thailand, and Indonesia!
+    - time: 2018-12-31T09:30
+      channel: announcements
+      message: Happy New Year to our friends in Myanmar!
+    - time: 2018-12-31T10:00
+      channel: announcements
+      message: Happy New Year to our friends in Bangladesh, Kazakhstan, and Kyrgyzstan!
+    - time: 2018-12-31T10:15
+      channel: announcements
+      message: Happy New Year to our friends in Nepal!
+    - time: 2018-12-31T10:30
+      channel: announcements
+      message: Happy New Year to our friends in India and Sri Lanka!
+    - time: 2018-12-31T11:00
+      channel: announcements
+      message: Happy New Year to our friends in Pakistan, the Maldives, and Uzbekistan!
+    - time: 2018-12-31T11:30
+      channel: announcements
+      message: Happy New Year to our friends in Afghanistan!
+    - time: 2018-12-31T12:00
+      channel: announcements
+      message: Happy New Year to our friends in Armenia, Georgia, and Dubai!
+    - time: 2018-12-31T12:30
+      channel: announcements
+      message: Happy New Year to our friends in Iran!
+    - time: 2018-12-31T13:00
+      channel: announcements
+      message: Happy New Year to our friends in Turkey, Saudi Arabia, Qatar, Yemen, Madagascar, Kenya, Uganda, and Moscow!
+    - time: 2018-12-31T14:00
+      channel: announcements
+      message: Happy New Year to our friends in Jordan, Egypt, South Africa, Greece, Ukraine, Israel, and Palestine!
+    - time: 2018-12-31T15:00
+      channel: announcements
+      message: Happy New Year to our friends in Belgium, the Netherlands, Croatia, Germany, France, Spain, Italy, Sweden, Norway, Morocco, Nigeria, and EVE Online!
+    - time: 2018-12-31T16:00
+      channel: announcements
+      message: Happy New Year to our friends in the United Kingdom, Portugal, Ireland, Liberia, Mali, Iceland, and the International Space Station!
+    - time: 2018-12-31T18:00
+      channel: announcements
+      message: Happy New Year to our friends in Sao Paulo and other parts of Brazil!
+    - time: 2018-12-31T19:00
+      channel: announcements
+      message: Happy New Year to our friends in Argentina and most of Greenland and Brazil!
+    - time: 2018-12-31T19:30
+      channel: announcements
+      message: Happy New Year to our friends in Newfoundland!
+    - time: 2018-12-31T20:00
+      channel: announcements
+      message: Happy New Year to our friends in Venezuela, the Dominican Republic, and Barbados!
+    - time: 2018-12-31T21:00
+      channel: announcements
+      message: Happy New Year to our friends in New York, Toronto, Montreal, Atlanta, Cuba, Jamaica, Chile, and the Bahamas!
+    - time: 2018-12-31T22:00
+      channel: announcements
+      message: Happy New Year to our friends in Mexico City, Chicago, Winnipeg, Nashville, Belize, and Honduras!
+    - time: 2018-12-31T23:00
+      channel: announcements
+      message: Happy New Year to our friends in Edmonton, Denver, Phoenix, and Mazatlan!
+    - time: 2019-01-01T00:00
+      channel: announcements
+      message: Happy New Year to our friends in Sacramento, Seattle, Modesto, San Francisco, and Vancouver!
+    - time: 2019-01-01T01:00
+      channel: announcements
+      message: Happy New Year to our friends in Alaska!
+    - time: 2019-01-01T02:00
+      channel: announcements
+      message: Happy New Year to our friends in Hawaii and Alaska's Aleutian Islands!
+    - time: 2019-01-01T03:00
+      channel: announcements
+      message: Happy New Year to our friends in American Samoa and Niue!
+    - time: 2019-01-01T04:00
+      channel: announcements
+      message: '2018 is officially over! If you had an IEEE 802 ballot with an "Anywhere on Earth" deadline, the deadline has now passed!'
+    - time: 2018-12-30T12:00
+      channel: command-line
+      message: This is a test message to confirm that the New Years messages are set up correctly. It should appear in the command-line channel at noon PST on December 30.
     <<: *defaults
-  '489197880809095168': *realm
+  '489197880809095168':
+    <<: *realm
   '494373430637101058':
     name: Test
     defaultRoleset:

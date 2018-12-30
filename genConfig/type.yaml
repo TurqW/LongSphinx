@@ -1,0 +1,26 @@
+description:
+  Generates a random Pokemon type
+root:
+- text: 'your chosen types: {type1}, {type2}'
+  type1: type.type
+  type2: type.type
+
+type:
+- text: Normal
+- text: Fire
+- text: Fighting
+- text: Water
+- text: Flying
+- text: Grass
+- text: Poison
+- text: Electric
+- text: Ground
+- text: Psychic
+- text: Rock
+- text: Ice
+- text: Bug
+- text: Dragon
+- text: Ghost
+- text: Dark
+- text: Steel
+- text: Fairy
