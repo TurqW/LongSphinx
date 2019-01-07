@@ -105,12 +105,18 @@ def pet(id = '0'):
 
 def summon(id):
 	myPet = Pet()
-	summon = generator.generate('creature')
+	summon = generator.generate('beast')
 	myPet.setStats(generator.generate('mc.name')['text'], summon['core'])
 	message = generator.extract_text(summon) + ' Its name is {}.'.format(myPet.name)
 	savePet(myPet, id)
 	return message
 
+def readme():
+	return """Pets:
+* `!summon` generate a new random pet for you! **Warning: will delete your old pet if you have one.**
+* `!feed` feed your pet. @mention someone else to feed their pet instead.
+* `!pet` give your pet a pat. @mention someone else to pat their pet instead.
+"""
 try:
 	loadPet('0')
 except:

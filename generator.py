@@ -56,6 +56,6 @@ def readme(generators):
 	msg = ''
 	for gen_name in generators:
 		load_config(gen_name)
-		msg += '* `!' + gen_name + '`: %s\n' % (conf[gen_name].config['description'])
+		msg += '* `!' + gen_name + '`: %s\n' % (conf[gen_name].config['help'])
 	
 	return msg

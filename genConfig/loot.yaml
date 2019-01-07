@@ -1,4 +1,4 @@
-description:
+help:
   Generates a pile of loot.
 root:
 - text: 'you open the chest. Inside, you find:

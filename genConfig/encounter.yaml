@@ -1,4 +1,4 @@
-description:
+help:
   A random encounter along the road.
 root:
 - text: 'You encounter {number} {sentient}. They are {activity}'
@@ -29,7 +29,7 @@ sentientActivity:
 - text: already in combat formation, shouting at you in an incomprehensible language.
 - text: cooking a large, unidentifiable piece of meat over a small fire.
 - text: 'in the process of skinning a {species}.'
-  species: creature.species
+  species: beast.species
 - text: counting the coin they got from the last set of travelers.
 - text: busily engaged in small rectangular lighted tablets, the whole practice seems mysterious and somewhat pointless.
 - text: attempting to do laundry in a tiny stream of water.
@@ -38,12 +38,12 @@ sentientActivity:
 - text: gathered around a large pot, making wish stew.  The biggest one looks at you and says "Boys, our wish came true."
 - text: paired off and intently watching the stars, the closest one shushes you and motions towards the sky, where you see a shooting star.  You are pretty sure they're on a date...
 - text: 'dancing around a pole holding up a large {species} pelt.'
-  species: creature.species
+  species: beast.species
 - text: dancing around a pole festooned with ribbons.
 - text: 'waving {wood} sticks and shouting in some arcane tongue. A particularly bossy one seems to be correcting their pronunciation.'
   wood: wand.wood
 - text: clearly in a hurry to be elsewhere.
 - text: sharing a keg of ale with some clearly uncomfortable travelers.
 - text: 'walking a {species} on a leash.'
-  species: creature.species
+  species: beast.species
 - text: carrying pickaxes and whistling an oddly familiar tune.

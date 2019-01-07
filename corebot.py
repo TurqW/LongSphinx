@@ -206,6 +206,7 @@ async def give_help(message):
 		msg += role_readme(message.server)
 	msg += 'Generators:\n'
 	msg += generator.readme(conf.get_object(message.server, 'generators'))
+	msg += pet.readme()
 	msg += 'Other commands:\n'
 	msg += dice.readme()
 	msg += colors.readme()

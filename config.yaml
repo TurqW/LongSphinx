@@ -5,7 +5,7 @@ servers:
     greetingChannel:
       portal
     generators:
-    - creature
+    - beast
     - potion
     - wand
     - name

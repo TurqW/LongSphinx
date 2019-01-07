@@ -1,4 +1,4 @@
-description:
+help:
   You find a randomly generated potion.
 root:
 - text: You find {potion}
@@ -51,7 +51,7 @@ bottle:
 - text: long-necked bottle
 - text: wooden bowl
 - text: '{species} hide waterskin'
-  species: creature.species
+  species: beast.species
 - text: '{material} pitcher'
   material: jewelry.material
 - text: '{material} vial'
@@ -130,7 +130,7 @@ effect:
 - text: you are briefly paralyzed
 - text: you begin to vomit slugs
 - text: you gain the ability to {ability}
-  ability: creature.ability
+  ability: beast.ability
 - text: everyone begins to call you {name}
   name: 'mc.name'
 - text: you cough up a {gem}

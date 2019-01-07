@@ -1,4 +1,4 @@
-description:
+help:
   Generates a random fantasy name.
 root:
 - text: 'Your generated name: {name}'

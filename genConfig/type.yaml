@@ -1,4 +1,4 @@
-description:
+help:
   Generates a random Pokemon type
 root:
 - text: 'your chosen types: {type1}, {type2}'

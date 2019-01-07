@@ -1,4 +1,4 @@
-description:
+help:
   Simulates a visit to the wandmaker.
 root:
 - text: 'The wandmaker hands you a {flexibility} {wood} wand, {length}{length_fraction} inches with a {core} core. {effect}'
@@ -141,7 +141,7 @@ effect:
 - text: It fits your hand perfectly, with a comfortable warmth. You pay the wandmaker and head out.
 - text: It fits your hand perfectly, but you're not sure that it's actually magical. You hand it back to the wandmaker.
 - text: For just a moment, you feel as though you can {ability}. You're not sure whether that's a good thing.
-  ability: creature.ability
+  ability: beast.ability
 - text: The moment it touches your hand, it dissolves into {modifier} {color} liquid and splatters to the floor.
   modifier: potion.modifier
   color: color

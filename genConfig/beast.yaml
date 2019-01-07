@@ -1,18 +1,18 @@
-description:
-  creates a randomly generated animal companion.
+help:
+  Creates a randomly generated animal companion.
 root:
 - text: 'As you complete the summoning spell, there is a burst of {smokeColor} smoke. Once it clears, you see {core}.'
   smokeColor: color
-  core: creature.core
+  core: beast.core
 core:
 - text: '{description} with the ability to {ability}'
-  description: creature.description
-  ability: creature.ability
-description:
-- text: 'a {creatureColor} {modifier}{species}'
-  creatureColor: color
-  modifier: creature.modifier
-  species: creature.species
+  description: beast.appearance
+  ability: beast.ability
+appearance:
+- text: 'a {beastColor} {modifier}{species}'
+  beastColor: color
+  modifier: beast.modifier
+  species: beast.species
 modifier:
 - text: 'angelic '
 - text: 'aquatic '
@@ -241,7 +241,7 @@ ability:
 - text: make a really great quesadilla
 - text: mimic any sound
 - text: negate all magic in a 10-foot radius
-- text: project the form of a spectral {creature.species}
+- text: project the form of a spectral {beast.species}
 - text: rapidly grow vines in a 10-foot radius
 - text: regrow any limbs
 - text: release clouds of spores
