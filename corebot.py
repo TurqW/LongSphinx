@@ -253,7 +253,7 @@ async def change_role(member, roleName, roleset):
 		raise NameError(roleName)
 
 async def message_reminder(message):
-	await reminder.create_reminder(' '.join(message.content.split()[1:]), client, message.channel, 'reminder: {0}'.format(message.content))
+	await reminder.message_reminder(' '.join(message.content.split()[1:]), client, message.channel, 'reminder: {0}'.format(message.content))
 
 async def set_scheduled_event(server, event):
 	when_time = dateparser.parse(event['time'])
