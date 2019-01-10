@@ -2,7 +2,7 @@ help:
   Simulates a visit to the wandmaker.
 root:
 - text: 'The wandmaker hands you a {flexibility} {wood} wand, {length}{length_fraction} inches with a {core} core. {effect}'
-  flexibilty: wand.flexibility
+  flexibility: wand.flexibility
   wood: wand.wood
   length: 'num.8-16'
   length_fraction: wand.length_fraction
