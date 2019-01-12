@@ -92,6 +92,7 @@ async def on_message(message):
 					try:
 						target = utils.getMentionTarget(message)
 						await client.send_message(message.channel, pet.getSeed(target.id))
+					except ValueError:
 						await client.send_message(message.channel, "Too many targets!")
 
 				elif isCommand(command, 'color'):
