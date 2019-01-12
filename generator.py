@@ -10,7 +10,9 @@ log = logging.getLogger('LongSphinx.Generators')
 
 conf = {}
 
-def generate(name):
+def generate(name, seed=None):
+	if seed:
+		random.seed(seed)
 	if name.startswith('mc.'):
 		#TODO: There may be a less hardcoded way to do this.
 		result = {'text': mcgenerator.generate(name[3:])}
@@ -42,6 +44,7 @@ def populate(object):
 	return object
 
 def extract_text(object):
+	random.seed() # Doing this here so that it'll randomize the seed after each call
 	text = object['text']
 	fillings = {}
 	for key in (key for key in object.keys() if key != 'text'):

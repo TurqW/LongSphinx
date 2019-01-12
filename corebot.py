@@ -67,9 +67,14 @@ async def on_message(message):
 					await message_reminder(message)
 					
 				elif isCommand(command, 'summon'):
-					await client.send_message(message.channel, pet.summon(message.author.id))
+					seed = None
+					try:
+						seed = command.split(' ', 1)[1]
+					except IndexError:
+						pass
+					await client.send_message(message.channel, pet.summon(message.author.id, seed))
 					
-				elif isCommand(command, 'feed'): # TODO: this and pet should be able to be done for another person
+				elif isCommand(command, 'feed'):
 					try:
 						target = utils.getMentionTarget(message)
 						await client.send_message(message.channel, pet.feed(target.id))
@@ -81,6 +86,12 @@ async def on_message(message):
 						target = utils.getMentionTarget(message)
 						await client.send_message(message.channel, pet.pet(target.id))
 					except ValueError:
+						await client.send_message(message.channel, "Too many targets!")
+
+				elif isCommand(command, 'getseed'):
+					try:
+						target = utils.getMentionTarget(message)
+						await client.send_message(message.channel, pet.getSeed(target.id))
 						await client.send_message(message.channel, "Too many targets!")
 
 				elif isCommand(command, 'color'):

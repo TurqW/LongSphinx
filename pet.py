@@ -1,5 +1,7 @@
 import datetime
+import random
 import shelve
+import sys
 
 import generator
 import utils
@@ -66,7 +68,7 @@ class Pet:
 			self.food = max(0, self.food - 1)
 			self.happy = max(0, self.food - 1)
 
-	def setStats(self, name, desc):
+	def setStats(self, name, desc, seed):
 		self.name = name
 		self.desc = desc
 		self.feedText = 'You offer {} a treat from your pocket. It seems to enjoy it.'.format(name)
@@ -74,6 +76,7 @@ class Pet:
 		self.hungryPetText = 'You try to pet {}. It tries to bite your hand. Perhaps it\'s hungry?'.format(name)
 		self.midPetText = 'You scratch {} under the chin. It looks at you contentedly.'.format(name)
 		self.fullPetText = '{} rubs against you, {} happily.'.format(name, desc['description']['species']['sound']['text'])
+		self.seed = seed
 
 
 def loadPet(name):
@@ -103,10 +106,22 @@ def pet(id = '0'):
 	savePet(myPet, id)
 	return message
 
-def summon(id):
+def getSeed(id = '0'):
+	try:
+		myPet = loadPet(id)
+	except:
+		myPet = loadPet('0')
+	if myPet.seed:
+		return '{} has seed {}'.format(myPet.name, myPet.seed)
+	else:
+		return 'Seed unknown for your pet.'
+
+def summon(id, seed=None):
+	if not seed:
+		seed = str(random.randrange(sys.maxsize))
 	myPet = Pet()
-	summon = generator.generate('beast')
-	myPet.setStats(generator.generate('mc.name')['text'], summon['core'])
+	summon = generator.generate('beast', seed)
+	myPet.setStats(generator.generate('mc.name', seed)['text'], summon['core'], seed)
 	message = generator.extract_text(summon) + ' Its name is {}.'.format(myPet.name)
 	savePet(myPet, id)
 	return message
