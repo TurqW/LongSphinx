@@ -26,6 +26,7 @@ servers:
     - bot-commands
     - command-line
     - tourney
+    - adventures-in-pevar-ooc
     defaultRoleset: creature
     rolesets:
       creature:

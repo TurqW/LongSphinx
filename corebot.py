@@ -1,7 +1,6 @@
 import dateparser
 import discord
 import logging
-import nltk
 import os
 import random
 import sys
@@ -143,8 +142,7 @@ async def parse(message):
 
 def isCommand(mystring, command):
 	mystring = mystring.strip(' !')
-	p = nltk.PorterStemmer()
-	if p.stem(mystring.split()[0]) == p.stem(command):
+	if mystring.split()[0].lower() == command.lower():
 		return True
 	return False
 
@@ -192,16 +190,17 @@ async def static_message(message, value):
 		return await client.send_message(message.channel, msg)
 
 async def roll_dice(message):
-	toRoll = message.content.split()
+	toRoll = strip_command(message.content, 'roll')
 	try:
-		results = dice.roll_command(toRoll[1:])
+		embed = discord.Embed()
+		for key, value in dice.roll_command(toRoll).items():
+			embed.add_field(name=key, value=value)
+		msg = message.author.mention + " rolled!"
 	except ValueError as e:
 		await client.send_message(message.channel, str(e))
 		return
-	resultString = ', '.join([str(i) for i in results])
-	msg = conf.get_string(message.server, 'diceResults').format(message.author.mention, resultString, sum(results))
 	try:
-		await client.send_message(message.channel, msg)
+		await client.send_message(message.channel, msg, embed=embed)
 	except discord.errors.HTTPException:
 		msg = conf.get_string(message.server, 'diceResults').format(message.author.mention, 'they show many numbers', sum(results))
 		await client.send_message(message.channel, msg)
@@ -290,4 +289,6 @@ def get_roles_to_remove(server, roleset):
 		roles += [x for x in server.roles if x.name in conf.get_object(server, 'rolesets', roleset, 'removeOnUpdate')]
 	return roles
 
+def strip_command(input, command):
+	return input[(len(command)+2):]
 client.run(TOKEN)
