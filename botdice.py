@@ -1,10 +1,14 @@
 import random
 import re
+import shelve
+
+dbname = 'data/macros'
 
 def parse_die(com): #TODO: may replace this whole thing with an actual grammar/parser
-	print(com)
-	print('new entry')
-	countString, sideString = com.strip().split('d')
+	try:
+		countString, sideString = com.strip().split('d')
+	except:
+		raise ValueError(com + ' is not a valid dice roll.')
 	try:
 		count = int(countString)
 	except:
@@ -29,11 +33,36 @@ def roll_dice(parsed):
 	description = '(' + '+'.join([str(i) for i in results]) + ')' + stringy_mod(parsed[2]) + '=' + str(sum(results) + parsed[2])
 	return description
 
-def roll_command(command):
+def roll_command(user, command):
 	if not command:
 		command = 'd20'
+	with shelve.open(dbname) as db:
+		if command in db[user]:
+			command = db[user][command]
+		print(db[user])
 	command = command.replace(' ', '')
+	print(command)
 	return {com : roll_dice(parse_die(com)) for com in command.split(',')}
+
+def save_command(user, input):
+	command, name = [i.strip() for i in input.split(':')]
+	with shelve.open(dbname) as db:
+		if user not in db:
+			db[user] = {name: command}
+		else:
+			newVersion = db[user]
+			newVersion[name] = command
+			db[user] = newVersion
+	return command, name
+
+def clear_command(user, input):
+	name = input.strip()
+	with shelve.open(dbname) as db:
+		if user in db:
+			newVersion = db[user]
+			newVersion.pop(name)
+			db[user] = newVersion
+	return name
 
 def stringy_mod(modifier):
 	if modifier > 0:

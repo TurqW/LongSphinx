@@ -215,21 +215,6 @@ servers:
     - time: 2018-12-30T12:00
       channel: command-line
       message: This message is left solely as a syntax reminder. As it is in the past, it should never trigger.
-    - time: 2019-01-15T12:00
-      channel: games
-      message: '***TWO WEEKS REMAIN***'
-    - time: 2019-01-22T12:00
-      channel: games
-      message: '***ONE WEEK REMAINS***'
-    - time: 2019-01-26T12:00
-      channel: games
-      message: '***THREE DAYS REMAIN***'
-    - time: 2019-01-27T12:00
-      channel: games
-      message: '***TWO DAYS REMAIN***'
-    - time: 2019-01-28T12:00
-      channel: games
-      message: '***ONE DAY REMAINS***'
     <<: *defaults
   '489197880809095168':
     <<: *realm

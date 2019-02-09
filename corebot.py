@@ -15,7 +15,7 @@ import pet
 import reminder
 import utils
 
-utils.check_path("logs")
+utils.check_path('logs')
 
 logging.basicConfig(filename='logs/ubeast.log',level=logging.DEBUG)
 logging.getLogger('discord').setLevel(logging.WARNING)
@@ -56,6 +56,14 @@ async def on_message(message):
 					#dice
 					await roll_dice(message)
 
+				if isCommand(command, 'saveroll'):
+					#dice
+					await save_roll(message)
+
+				if isCommand(command, 'clearroll'):
+					#dice
+					await clear_roll(message)
+
 				elif isCommand(command, 'rerole'):
 					await rerole(message)
 
@@ -78,21 +86,21 @@ async def on_message(message):
 						target = utils.getMentionTarget(message)
 						await client.send_message(message.channel, pet.feed(target.id))
 					except ValueError:
-						await client.send_message(message.channel, "Too many targets!")
+						await client.send_message(message.channel, 'Too many targets!')
 
 				elif isCommand(command, 'pet'):
 					try:
 						target = utils.getMentionTarget(message)
 						await client.send_message(message.channel, pet.pet(target.id))
 					except ValueError:
-						await client.send_message(message.channel, "Too many targets!")
+						await client.send_message(message.channel, 'Too many targets!')
 
 				elif isCommand(command, 'getseed'):
 					try:
 						target = utils.getMentionTarget(message)
 						await client.send_message(message.channel, pet.getSeed(target.id))
 					except ValueError:
-						await client.send_message(message.channel, "Too many targets!")
+						await client.send_message(message.channel, 'Too many targets!')
 
 				elif isCommand(command, 'color'):
 					await show_swatch(message)
@@ -193,9 +201,9 @@ async def roll_dice(message):
 	toRoll = strip_command(message.content, 'roll')
 	try:
 		embed = discord.Embed()
-		for key, value in dice.roll_command(toRoll).items():
+		for key, value in dice.roll_command(str(message.author.id), toRoll).items():
 			embed.add_field(name=key, value=value)
-		msg = message.author.mention + " rolled!"
+		msg = message.author.mention + ' rolled ' + toRoll + '!'
 	except ValueError as e:
 		await client.send_message(message.channel, str(e))
 		return
@@ -204,6 +212,16 @@ async def roll_dice(message):
 	except discord.errors.HTTPException:
 		msg = conf.get_string(message.server, 'diceResults').format(message.author.mention, 'they show many numbers', sum(results))
 		await client.send_message(message.channel, msg)
+
+async def save_roll(message):
+	input = strip_command(message.content, 'saveroll')
+	command, name = dice.save_command(str(message.author.id), input)
+	await client.send_message(message.channel, message.author.mention + ' has saved ' + command + ' as ' + name)
+
+async def clear_roll(message):
+	input = strip_command(message.content, 'saveroll')
+	name = dice.clear_command(str(message.author.id), input)
+	await client.send_message(message.channel, message.author.mention + ' has deleted saved roll ' + name)
 
 async def rerole(message):
 	role = await random_role(message.author, conf.get_object(message.server, 'defaultRoleset'))
