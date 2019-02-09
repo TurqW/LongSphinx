@@ -36,10 +36,12 @@ def roll_dice(parsed):
 def roll_command(user, command):
 	if not command:
 		command = 'd20'
-	with shelve.open(dbname) as db:
-		if command in db[user]:
-			command = db[user][command]
-		print(db[user])
+	try:
+		with shelve.open(dbname) as db:
+			if command in db[user]:
+				command = db[user][command]
+	except KeyError:
+		pass
 	command = command.replace(' ', '')
 	print(command)
 	return {com : roll_dice(parse_die(com)) for com in command.split(',')}
