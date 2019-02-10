@@ -38,13 +38,19 @@ def roll_command(user, command):
 		command = 'd20'
 	try:
 		with shelve.open(dbname) as db:
-			if command in db[user]:
-				command = db[user][command]
+			command = db[user][command]
 	except KeyError:
 		pass
 	command = command.replace(' ', '')
-	print(command)
-	return {com : roll_dice(parse_die(com)) for com in command.split(',')}
+	results = {}
+	for com in command.split(','):
+		key = com
+		iterator = 0
+		while key in results:
+			iterator += 1
+			key = com + ' (' + str(iterator) + ')'
+		results[key] = roll_dice(parse_die(com))
+	return results
 
 def save_command(user, input):
 	command, name = [i.strip() for i in input.split(':')]
