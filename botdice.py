@@ -72,6 +72,13 @@ def clear_command(user, input):
 			db[user] = newVersion
 	return name
 
+def list_commands(user):
+	try:
+		with shelve.open(dbname) as db:
+			return db[user]
+	except KeyError:
+		return {}
+
 def stringy_mod(modifier):
 	if modifier > 0:
 		return '+' + str(modifier)

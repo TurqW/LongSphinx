@@ -56,13 +56,17 @@ async def on_message(message):
 					#dice
 					await roll_dice(message)
 
-				if isCommand(command, 'saveroll'):
+				elif isCommand(command, 'saveroll'):
 					#dice
 					await save_roll(message)
 
-				if isCommand(command, 'clearroll'):
+				elif isCommand(command, 'clearroll'):
 					#dice
 					await clear_roll(message)
+
+				elif isCommand(command, 'rolls'):
+					#dice
+					await list_rolls(message)
 
 				elif isCommand(command, 'rerole'):
 					await rerole(message)
@@ -222,6 +226,12 @@ async def clear_roll(message):
 	input = strip_command(message.content, 'saveroll')
 	name = dice.clear_command(str(message.author.id), input)
 	await client.send_message(message.channel, message.author.mention + ' has deleted saved roll ' + name)
+
+async def list_rolls(message):
+	embed = discord.Embed()
+	for key, value in dice.list_commands(str(message.author.id)).items():
+		embed.add_field(name=key, value=value)
+	await client.send_message(message.channel, message.author.mention + ' has these saved rolls.', embed=embed)
 
 async def rerole(message):
 	role = await random_role(message.author, conf.get_object(message.server, 'defaultRoleset'))
