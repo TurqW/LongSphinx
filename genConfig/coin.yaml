@@ -1,18 +1,22 @@
 help:
   Generates a small number of coins. For use in loot generator.
 root:
-- text: '{quantity} {material} coins'
+- text: '{quantity} {shape} {material} coins'
   quantity: coin.quantity
   material: jewelry.material
-- text: '{quantity} {material} coins engraved with a {animal}'
+  shape: coin.shapeDescriptor
+- text: '{quantity} {shape} {material} coins engraved with a {animal}'
   quantity: coin.quantity
   material: jewelry.material
   animal: beast.species
-- text: 'a single large {material} coin'
+  shape: coin.shapeDescriptor
+- text: 'a single {shape} {material} coin'
   material: jewelry.material
-- text: 'a single {material} coin engraved with a {species}'
+  shape: coin.shapeDescriptor
+- text: 'a single {shape} {material} coin engraved with a {species}'
   material: jewelry.material
   species: beast.species
+  shape: coin.shapeDescriptor
 quantity:
 - text: a handful of
 - text: '{number}'
@@ -25,3 +29,21 @@ quantity:
 - text: '{number} rolls of'
   number: num.2-5
 - text: a purse full of
+shapeDescriptor:
+- text: '{number}-sided'
+  number: num.5-10
+- text: '{number}-pointed'
+  number: num.5-10
+- text: circular
+- text: elliptical
+- text: oval
+- text: round
+- text: triangular
+- text: square
+- text: rectangular
+- text: shield-shaped
+- text: trapezoidal
+- text: diamond-shaped
+- text: heart-shaped
+- text: crescent-shaped
+- text: semicircular

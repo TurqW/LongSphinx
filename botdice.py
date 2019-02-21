@@ -38,7 +38,7 @@ def roll_command(user, command):
 		command = 'd20'
 	try:
 		with shelve.open(dbname) as db:
-			command = db[user][command]
+			command = db[user][command.lower()]
 	except KeyError:
 		pass
 	command = command.replace(' ', '')
@@ -53,7 +53,7 @@ def roll_command(user, command):
 	return results
 
 def save_command(user, input):
-	command, name = [i.strip() for i in input.split(':')]
+	command, name = [i.strip().lower() for i in input.split(':')]
 	with shelve.open(dbname) as db:
 		if user not in db:
 			db[user] = {name: command}
@@ -68,7 +68,7 @@ def clear_command(user, input):
 	with shelve.open(dbname) as db:
 		if user in db:
 			newVersion = db[user]
-			newVersion.pop(name)
+			newVersion.pop(name.lower())
 			db[user] = newVersion
 	return name
 

@@ -145,7 +145,7 @@ async def parse(message):
 				return await request_role(message, roleset)
 	for gen in conf.get_object(message.server, 'generators'):
 		if isCommand(message.content, gen):
-			msg = message.author.mention +', ' + generator.extract_text(generator.generate(gen))
+			msg = generator.extract_text(generator.generate(gen))
 			return await client.send_message(message.channel, msg)
 	if conf.get_object(message.server, 'static'):
 		for entry in conf.get_object(message.server, 'static').keys():
@@ -207,7 +207,7 @@ async def roll_dice(message):
 		embed = discord.Embed()
 		for key, value in dice.roll_command(str(message.author.id), toRoll).items():
 			embed.add_field(name=key, value=value)
-		msg = message.author.mention + ' rolled ' + toRoll + '!'
+		msg = message.author.mention + ' rolled ' + toRoll.lower() + '!'
 	except ValueError as e:
 		await client.send_message(message.channel, str(e))
 		return
@@ -220,12 +220,12 @@ async def roll_dice(message):
 async def save_roll(message):
 	input = strip_command(message.content, 'saveroll')
 	command, name = dice.save_command(str(message.author.id), input)
-	await client.send_message(message.channel, message.author.mention + ' has saved ' + command + ' as ' + name)
+	await client.send_message(message.channel, message.author.mention + ' has saved ' + command + ' as ' + name.lower())
 
 async def clear_roll(message):
 	input = strip_command(message.content, 'saveroll')
 	name = dice.clear_command(str(message.author.id), input)
-	await client.send_message(message.channel, message.author.mention + ' has deleted saved roll ' + name)
+	await client.send_message(message.channel, message.author.mention + ' has deleted saved roll ' + name.lower())
 
 async def list_rolls(message):
 	embed = discord.Embed()
