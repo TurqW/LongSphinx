@@ -1,6 +1,7 @@
 import random
 import re
 import shelve
+from collections import OrderedDict
 
 dbname = 'data/macros'
 
@@ -42,7 +43,7 @@ def roll_command(user, command):
 	except KeyError:
 		pass
 	command = command.replace(' ', '')
-	results = {}
+	results = OrderedDict()
 	for com in command.split(','):
 		key = com
 		iterator = 0

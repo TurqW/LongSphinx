@@ -49,6 +49,7 @@ material:
   species: beast.species
 - text: '{wood} wood'
   wood: wand.wood
+- text: coral
 article:
 - text: ring
 - text: bracelet
