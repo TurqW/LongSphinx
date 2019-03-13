@@ -80,6 +80,8 @@ def save_command(user, input):
 		parser.parse(command)
 	except LarkError:
 		raise Exception('Command was not valid.')
+	if any(char.isdigit() for char in name):
+		raise Exception('Name was not valid.')
 	with shelve.open(dbname) as db:
 		if user not in db:
 			db[user] = {name: command}

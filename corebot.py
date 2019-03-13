@@ -222,8 +222,8 @@ async def save_roll(message):
 	try:
 		command, name = dice.save_command(str(message.author.id), input)
 		await client.send_message(message.channel, message.author.mention + ' has saved ' + command + ' as ' + name.lower())
-	except Exception as err:
-		await client.send_message(message.channel, message.author.mention + ', that roll was invalid.')
+	except Exception as e:
+		await client.send_message(message.channel, str(e))
 
 async def clear_roll(message):
 	input = strip_command(message.content, 'saveroll')
