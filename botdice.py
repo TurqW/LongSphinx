@@ -3,6 +3,7 @@ import re
 import shelve
 from collections import OrderedDict
 from lark import Lark, Transformer
+from lark.exceptions import LarkError
 
 dbname = 'data/macros'
 
