@@ -2,37 +2,67 @@ import random
 import re
 import shelve
 from collections import OrderedDict
+from lark import Lark, Transformer
 
 dbname = 'data/macros'
 
-def parse_die(com): #TODO: may replace this whole thing with an actual grammar/parser
-	try:
-		countString, sideString = com.strip().split('d')
-	except:
-		raise ValueError(com + ' is not a valid dice roll.')
-	try:
-		count = int(countString)
-	except:
-		count = 1
+parser = Lark(r"""
+%import common.WS
+%ignore WS
+%import common.DIGIT
+%import common.INT
 
-	modifier = 0
-	if ('+' in sideString or '-' in sideString):
-		sides, modifier = [int(s) for s in re.split('[+-]', sideString)]
-		if ('-' in sideString):
-			modifier = -1*modifier
-	else:
-		sides = int(sideString)
-	return [count, sides, modifier]
+NZDIGIT : "1".."9"
+POSINT : DIGIT* NZDIGIT DIGIT*
+sign : /[+-]/
+mod : (sign) INT
+rollset : roll ("," roll)*
+roll : POSINT _DSEPARATOR POSINT [mod]
+count : POSINT
+size : POSINT
+_DSEPARATOR : "d"
+""", start='rollset')
 
-def roll_dice(parsed):
-	results = []
-	if parsed[0] <= 1000:
-		for i in range(parsed[0]):
-			results.append(random.randint(1, parsed[1]))
-	else:
-		raise ValueError('Oh come on, do you really need more than 1000 dice?')
-	description = '(' + '+'.join([str(i) for i in results]) + ')' + stringy_mod(parsed[2]) + '=' + str(sum(results) + parsed[2])
-	return description
+class RollsetTransformer(Transformer):
+	def rollset(self, list):
+		results = OrderedDict()
+		for (baseKey, value) in list:
+			key = baseKey
+			iterator = 0
+			while key in results:
+				iterator += 1
+				key = baseKey + ' (' + str(iterator) + ')'
+			results[key] = value
+		return results
+	def roll(self, list):
+		count = int(list[0])
+		size = int(list[1])
+		mod = 0
+		try:
+			mod = list[2]
+		except:
+			pass
+		result = 0
+		for i in range(count):
+			result += random.randint(1, size) + mod
+		name = str(count) + 'd' + str(size)
+		if mod != 0:
+			if mod > 0:
+				name = name + '+' + str(mod)
+			else:
+				name = name + str(mod)
+		return (name, result)
+	def mod(self, list):
+		return int(list[0]) * int(list[1])
+	def sign(self, sign):
+		if sign[0] == '+':
+			return 1
+		else:
+			return -1
+	def POSINT(self, num):
+		return int(num[0])
+	def INT(self, num):
+		return int(num[0])
 
 def roll_command(user, command):
 	if not command:
@@ -42,19 +72,14 @@ def roll_command(user, command):
 			command = db[user][command.lower()]
 	except KeyError:
 		pass
-	command = command.replace(' ', '')
-	results = OrderedDict()
-	for com in command.split(','):
-		key = com
-		iterator = 0
-		while key in results:
-			iterator += 1
-			key = com + ' (' + str(iterator) + ')'
-		results[key] = roll_dice(parse_die(com))
-	return results
+	return RollsetTransformer().transform(parser.parse(command))
 
 def save_command(user, input):
 	command, name = [i.strip().lower() for i in input.split(':')]
+	try:
+		parser.parse(command)
+	except LarkError:
+		raise Exception('Command was not valid.')
 	with shelve.open(dbname) as db:
 		if user not in db:
 			db[user] = {name: command}

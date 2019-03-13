@@ -208,7 +208,7 @@ async def roll_dice(message):
 		for key, value in dice.roll_command(str(message.author.id), toRoll).items():
 			embed.add_field(name=key, value=value)
 		msg = message.author.mention + ' rolled ' + toRoll.lower() + '!'
-	except ValueError as e:
+	except Exception as e:
 		await client.send_message(message.channel, str(e))
 		return
 	try:
@@ -219,8 +219,11 @@ async def roll_dice(message):
 
 async def save_roll(message):
 	input = strip_command(message.content, 'saveroll')
-	command, name = dice.save_command(str(message.author.id), input)
-	await client.send_message(message.channel, message.author.mention + ' has saved ' + command + ' as ' + name.lower())
+	try:
+		command, name = dice.save_command(str(message.author.id), input)
+		await client.send_message(message.channel, message.author.mention + ' has saved ' + command + ' as ' + name.lower())
+	except Exception as err:
+		await client.send_message(message.channel, message.author.mention + ', that roll was invalid.')
 
 async def clear_roll(message):
 	input = strip_command(message.content, 'saveroll')
