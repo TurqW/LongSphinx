@@ -27,39 +27,35 @@ _DSEPARATOR : "d"
 class RollsetTransformer(Transformer):
 	def rollset(self, list):
 		results = OrderedDict()
-		for (baseKey, value) in list:
-			key = baseKey
+		for item in list:
+			key = item['name']
 			iterator = 0
 			while key in results:
 				iterator += 1
-				key = baseKey + ' (' + str(iterator) + ')'
-			results[key] = value
+				key = item['name'] + ' (' + str(iterator) + ')'
+			results[key] = item['description']
 		return results
 	def roll(self, list):
 		count = int(list[0])
 		size = int(list[1])
-		mod = 0
+		mod = {'name': '', 'value': 0}
 		try:
 			mod = list[2]
 		except:
 			pass
-		result = 0
+		results = []
 		for i in range(count):
-			result += random.randint(1, size) + mod
-		name = str(count) + 'd' + str(size)
-		if mod != 0:
-			if mod > 0:
-				name = name + '+' + str(mod)
-			else:
-				name = name + str(mod)
-		return (name, result)
+			results.append(random.randint(1, size))
+		description = '(' + '+'.join([str(i) for i in results]) + ')' + mod['name'] + '=' + str(sum(results) + mod['value'])
+		name = str(count) + 'd' + str(size) + mod['name']
+		return {'name': name, 'description': description}
 	def mod(self, list):
-		return int(list[0]) * int(list[1])
+		return {'name': list[0]['name'] + str(list[1]), 'value': list[0]['value'] * int(list[1])}
 	def sign(self, sign):
 		if sign[0] == '+':
-			return 1
+			return {'name': '+', 'value': 1}
 		else:
-			return -1
+			return {'name': '-', 'value': -1}
 	def POSINT(self, num):
 		return int(num[0])
 	def INT(self, num):
