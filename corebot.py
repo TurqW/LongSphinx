@@ -232,7 +232,7 @@ async def clear_roll(message):
 
 async def list_rolls(message):
 	embed = discord.Embed()
-	for key, value in dice.list_commands(str(message.author.id)).items():
+	for key, value in sorted(dice.list_commands(str(message.author.id)).items()):
 		embed.add_field(name=key, value=value)
 	await client.send_message(message.channel, message.author.mention + ' has these saved rolls.', embed=embed)
 
