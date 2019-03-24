@@ -35,6 +35,7 @@ class RollsetTransformer(Transformer):
 				key = item['name'] + ' (' + str(iterator) + ')'
 			results[key] = item['description']
 		return results
+
 	def roll(self, list):
 		count = int(list[0])
 		size = int(list[1])
@@ -49,26 +50,29 @@ class RollsetTransformer(Transformer):
 		description = '(' + '+'.join([str(i) for i in results]) + ')' + mod['name'] + '=' + str(sum(results) + mod['value'])
 		name = str(count) + 'd' + str(size) + mod['name']
 		return {'name': name, 'description': description}
+
 	def mod(self, list):
 		return {'name': list[0]['name'] + str(list[1]), 'value': list[0]['value'] * int(list[1])}
+
 	def sign(self, sign):
 		if sign[0] == '+':
 			return {'name': '+', 'value': 1}
 		else:
 			return {'name': '-', 'value': -1}
+
 	def POSINT(self, num):
 		return int(num[0])
+
 	def INT(self, num):
 		return int(num[0])
 
 def roll_command(user, command):
 	if not command:
 		command = 'd20'
-	try:
-		with shelve.open(dbname) as db:
-			command = db[user][command.lower()]
-	except KeyError:
-		pass
+	with shelve.open(dbname) as db:
+		macros = db[user]
+		for key, value in {key: value for (key, value) in macros.items() if key in command}.items():
+			command = command.replace(key, value)
 	return RollsetTransformer().transform(parser.parse(command))
 
 def save_command(user, input):
