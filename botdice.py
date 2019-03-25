@@ -69,10 +69,15 @@ class RollsetTransformer(Transformer):
 def roll_command(user, command):
 	if not command:
 		command = 'd20'
-	with shelve.open(dbname) as db:
-		macros = db[user]
-		for key, value in {key: value for (key, value) in macros.items() if key in command}.items():
-			command = command.replace(key, value)
+	try:
+		with shelve.open(dbname) as db:
+			macros = db[user]
+			for key in sorted([key for key in macros.keys() if key in command], key=len, reverse=True):
+				# Sorted longest first, so we get the longest possible match
+				command = command.replace(key, macros[key])
+	except:
+		#TODO this should be way more specific
+		pass
 	return RollsetTransformer().transform(parser.parse(command))
 
 def save_command(user, input):
