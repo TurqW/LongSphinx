@@ -6,10 +6,10 @@ filename = 'config.yaml'
 conf = configmanager.ConfigManager(filename)
 
 def get_object(server, *hierarchy):
-	server_id = 'default'
-	if server and conf.config['servers'][server.id]:
-		server_id = server.id
-	found = conf.config['servers'][server_id]
+	try:
+		found = conf.config['servers'][server.id]
+	except KeyError:
+		found = conf.config['servers']['default']
 	for level in hierarchy:
 		try:
 			found = found[level]
