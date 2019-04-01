@@ -49,7 +49,7 @@ async def on_message(message):
 		return
 
 	try:
-		if not message.server or message.channel.name in conf.get_object(message.server, 'channels'):
+		if not message.server or message.channel.name in conf.get_object(message.server, 'channels') or message.channel.id in conf.get_object(message.server, 'channels'):
 			if message.content.startswith(COMMAND_CHAR):
 				command = message.content[1:].strip()
 				if isCommand(command, 'roll'):

@@ -23,10 +23,10 @@ servers:
   '443869685054701569': &realm
     name: The Realm
     channels:
-    - bot-commands
-    - command-line
-    - tourney
-    - adventures-in-pevar-ooc
+    - '445271158502457345'
+    - '447948663168303105'
+    - '503463950243987486'
+    - '542141314536439808'
     defaultRoleset: creature
     rolesets:
       creature:
