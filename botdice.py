@@ -38,6 +38,8 @@ class RollsetTransformer(Transformer):
 
 	def roll(self, list):
 		count = int(list[0])
+		if count > 1000:
+			raise Exception('Too many dice, blocking to avoid DDOS')
 		size = int(list[1])
 		mod = {'name': '', 'value': 0}
 		try:
@@ -72,9 +74,9 @@ def roll_command(user, command):
 	try:
 		with shelve.open(dbname) as db:
 			macros = db[user]
-			for key in sorted([key for key in macros.keys() if key in command], key=len, reverse=True):
+			for key in sorted([key for key in macros.keys() if key in command.lower()], key=len, reverse=True):
 				# Sorted longest first, so we get the longest possible match
-				command = command.replace(key, macros[key])
+				command = command.lower().replace(key, macros[key])
 	except:
 		#TODO this should be way more specific
 		pass

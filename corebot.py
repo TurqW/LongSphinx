@@ -205,7 +205,8 @@ async def roll_dice(message):
 	toRoll = strip_command(message.content, 'roll')
 	try:
 		embed = discord.Embed()
-		for key, value in dice.roll_command(str(message.author.id), toRoll).items():
+		results = dice.roll_command(str(message.author.id), toRoll)
+		for key, value in results.items():
 			embed.add_field(name=key, value=value)
 		msg = message.author.mention + ' rolled ' + toRoll.lower() + '!'
 	except Exception as e:
@@ -214,7 +215,7 @@ async def roll_dice(message):
 	try:
 		await client.send_message(message.channel, msg, embed=embed)
 	except discord.errors.HTTPException:
-		msg = conf.get_string(message.server, 'diceResults').format(message.author.mention, 'they show many numbers', sum(results))
+		msg = '{0}, you''ve rolled too many dice, but the sum is {1}'.format(message.author.mention, sum([int(a.split('=')[-1], 10) for a in results.values()]))
 		await client.send_message(message.channel, msg)
 
 async def save_roll(message):
