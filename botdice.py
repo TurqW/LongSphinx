@@ -16,9 +16,11 @@ parser = Lark(r"""
 NZDIGIT : "1".."9"
 POSINT : DIGIT* NZDIGIT DIGIT*
 sign : /[+-]/
-mod : (sign) INT
-rollset : roll ("," roll)*
-roll : POSINT _DSEPARATOR POSINT [mod]
+rollset : expression ("," expression)*
+expression : die -> roll
+			| POSINT -> mod
+			| expression sign expression -> math
+die : [POSINT] _DSEPARATOR POSINT
 count : POSINT
 size : POSINT
 _DSEPARATOR : "d"
@@ -33,34 +35,39 @@ class RollsetTransformer(Transformer):
 			while key in results:
 				iterator += 1
 				key = item['name'] + ' (' + str(iterator) + ')'
-			results[key] = item['description']
+			results[key] = item['description'] + '=' + str(item['value'])
 		return results
 
-	def roll(self, list):
+
+	def die(self, list):
 		count = int(list[0])
 		if count > 1000:
 			raise Exception('Too many dice, blocking to avoid DDOS')
 		size = int(list[1])
-		mod = {'name': '', 'value': 0}
-		try:
-			mod = list[2]
-		except:
-			pass
 		results = []
 		for i in range(count):
 			results.append(random.randint(1, size))
-		description = '(' + '+'.join([str(i) for i in results]) + ')' + mod['name'] + '=' + str(sum(results) + mod['value'])
-		name = str(count) + 'd' + str(size) + mod['name']
-		return {'name': name, 'description': description}
+		description = '(' + '+'.join([str(i) for i in results]) + ')'
+		name = str(count) + 'd' + str(size)
+		return {'name': name, 'description': description, 'value': sum(results)}
 
-	def mod(self, list):
-		return {'name': list[0]['name'] + str(list[1]), 'value': list[0]['value'] * int(list[1])}
+	def roll(self, list):
+		return list[0]
+
+	def math(self, list):
+		name = "".join([a['name'] for a in list])
+		description = "".join([a['description'] for a in list])
+		value = list[0]['value'] + list[1]['value'] * list[2]['value']
+		return {'name': name, 'description': description, 'value': value}
+
+	def mod(self, num):
+		return {'name': num[0], 'description': num[0], 'value': int(num[0])}
 
 	def sign(self, sign):
 		if sign[0] == '+':
-			return {'name': '+', 'value': 1}
+			return {'name': '+', 'description': '+', 'value': 1}
 		else:
-			return {'name': '-', 'value': -1}
+			return {'name': '-', 'description': '-', 'value': -1}
 
 	def POSINT(self, num):
 		return int(num[0])
