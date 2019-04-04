@@ -40,10 +40,14 @@ class RollsetTransformer(Transformer):
 
 
 	def die(self, list):
-		count = int(list[0])
+		try:
+			count = int(list[0])
+			size = int(list[1])
+		except IndexError:
+			count = 1
+			size = int(list[0])
 		if count > 1000:
 			raise Exception('Too many dice, blocking to avoid DDOS')
-		size = int(list[1])
 		results = []
 		for i in range(count):
 			results.append(random.randint(1, size))
