@@ -27,6 +27,7 @@ servers:
     - '447948663168303105'
     - '503463950243987486'
     - '542141314536439808'
+    - '566360831907069962'
     defaultRoleset: creature
     rolesets:
       creature:
