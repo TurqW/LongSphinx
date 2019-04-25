@@ -246,3 +246,9 @@ servers:
         'Another peek at my crystal ball... {0}, are you attuned to {1} magic?'
       <<: *defaultStrings
     <<: *defaults
+  '570788677937135626':
+    name: Just Write
+    channels:
+    - tims-room
+    - '570800943529197578'
+    <<: *defaults
