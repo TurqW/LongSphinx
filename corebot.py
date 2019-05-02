@@ -14,6 +14,7 @@ import generator
 import pet
 import reminder
 import utils
+import writesprint
 
 utils.check_path('logs')
 
@@ -109,6 +110,15 @@ async def on_message(message):
 				elif isCommand(command, 'color'):
 					await show_swatch(message)
 				
+				elif isCommand(command, 'makesprint'):
+					await make_sprint(message)
+
+				elif isCommand(command, 'joinsprint'):
+					await join_sprint(message)
+
+				elif isCommand(command, 'sprintwords'):
+					await sprint_words(message)
+
 				else:
 					await parse(message)
 			elif message.content.startswith('&join'):
@@ -236,6 +246,21 @@ async def list_rolls(message):
 	for key, value in sorted(dice.list_commands(str(message.author.id)).items()):
 		embed.add_field(name=key, value=value)
 	await client.send_message(message.channel, message.author.mention + ' has these saved rolls.', embed=embed)
+
+async def make_sprint(message):
+	input = strip_command(message.content, 'makesprint')
+	reply = await writesprint.make_sprint(input, client, message.channel)
+	await client.send_message(message.channel, reply)
+
+async def join_sprint(message):
+	words = int(strip_command(message.content, 'joinsprint'))
+	if words is None:
+		words = 0
+	await client.send_message(message.channel, writesprint.join_sprint(message.author, message.channel, words))
+
+async def sprint_words(message):
+	words = int(strip_command(message.content, 'sprintwords'))
+	await client.send_message(message.channel, writesprint.record_words(message.author, message.channel, words))
 
 async def rerole(message):
 	role = await random_role(message.author, conf.get_object(message.server, 'defaultRoleset'))
