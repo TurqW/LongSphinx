@@ -253,8 +253,9 @@ async def make_sprint(message):
 	await client.send_message(message.channel, reply)
 
 async def join_sprint(message):
-	words = int(strip_command(message.content, 'joinsprint'))
-	if words is None:
+	try:
+		words = int(strip_command(message.content, 'joinsprint'))
+	except:
 		words = 0
 	await client.send_message(message.channel, writesprint.join_sprint(message.author, message.channel, words))
 

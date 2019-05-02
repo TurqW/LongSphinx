@@ -58,12 +58,18 @@ async def make_sprint(command, client, channel):
 	return '{0}-minute sprint starting in {1} minutes.'.format(sprint['duration'], sprint['delay'])
 
 def join_sprint(user, channel, words=0):
-	activeSprints[channel.id]['members'][user.mention] = {'startCount': words, 'endCount': words}
-	return 'Added {0} to {1:.0f}-minute sprint starting in {2:.1f} minutes.'.format(user.mention, *describe_sprint(channel))
+	if channel.id in activeSprints:
+		activeSprints[channel.id]['members'][user.mention] = {'startCount': words, 'endCount': words}
+		return 'Added {0} to {1:.0f}-minute sprint starting in {2:.1f} minutes.'.format(user.mention, *describe_sprint(channel))
+	else:
+		return 'No active sprint.'
 
 def record_words(user, channel, words):
-	activeSprints[channel.id]['members'][user.mention]['endCount'] = words
-	return 'Word count for {0} updated to {1}'.format(user.mention, words)
+	if channel.id in activeSprints:
+		activeSprints[channel.id]['members'][user.mention]['endCount'] = words
+		return 'Word count for {0} updated to {1}'.format(user.mention, words)
+	else:
+		return 'No active sprints.'
 
 async def end_sprint(channel, client):
 	result = activeSprints.pop(channel.id)
