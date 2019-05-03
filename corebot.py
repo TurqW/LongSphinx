@@ -35,6 +35,35 @@ with open(tokenfilename, 'r') as tokenfile:
 client = discord.Client()
 todo = []
 
+async def give_help(server, channel, **kwargs):
+	msg = ''
+	if conf.get_object(server, 'rolesets'):
+		msg += 'Role operations:\n'
+		msg += role_readme(server)
+	msg += 'Generators:\n'
+	msg += generator.readme(conf.get_object(server, 'generators'))
+	msg += pet.readme()
+	msg += 'Other commands:\n'
+	msg += dice.readme()
+	msg += colors.readme()
+	msg += '* `!readme`: displays this helpful message.'
+	return msg
+
+commands = {
+	'remind': reminder.message_reminder,
+	'color': colors.show_swatch,
+	'makesprint': writesprint.make_sprint,
+	'joinsprint': writesprint.join_sprint,
+	'sprintwords': writesprint.record_words,
+	'summon': pet.summon,
+	'feed': pet.feed,
+	'pet': pet.pet,
+	'getseed': pet.getSeed,
+	'saveroll': dice.save_command,
+	'clearroll': dice.clear_command,
+	'readme': give_help
+	}
+
 @client.event
 async def on_message(message):
 	for member, roleinfo in todo:
@@ -52,18 +81,10 @@ async def on_message(message):
 	try:
 		if not message.server or message.channel.name in conf.get_object(message.server, 'channels') or message.channel.id in conf.get_object(message.server, 'channels'):
 			if message.content.startswith(COMMAND_CHAR):
-				command = message.content[1:].strip()
+				command = message.content[1:].strip().lower()
 				if isCommand(command, 'roll'):
 					#dice
 					await roll_dice(message)
-
-				elif isCommand(command, 'saveroll'):
-					#dice
-					await save_roll(message)
-
-				elif isCommand(command, 'clearroll'):
-					#dice
-					await clear_roll(message)
 
 				elif isCommand(command, 'rolls'):
 					#dice
@@ -72,53 +93,22 @@ async def on_message(message):
 				elif isCommand(command, 'rerole'):
 					await rerole(message)
 
-				elif isCommand(command, 'readme'):
-					await give_help(message)
-
-				elif isCommand(command, 'remind'):
-					await message_reminder(message)
-					
-				elif isCommand(command, 'summon'):
-					seed = None
+				elif command.split()[0] in commands.keys():
 					try:
-						seed = command.split(' ', 1)[1]
+						input = message.content.split(maxsplit=1)[1]
 					except IndexError:
-						pass
-					await client.send_message(message.channel, pet.summon(message.author.id, seed))
-					
-				elif isCommand(command, 'feed'):
-					try:
-						target = utils.getMentionTarget(message)
-						await client.send_message(message.channel, pet.feed(target.id))
-					except ValueError:
-						await client.send_message(message.channel, 'Too many targets!')
-
-				elif isCommand(command, 'pet'):
-					try:
-						target = utils.getMentionTarget(message)
-						await client.send_message(message.channel, pet.pet(target.id))
-					except ValueError:
-						await client.send_message(message.channel, 'Too many targets!')
-
-				elif isCommand(command, 'getseed'):
-					try:
-						target = utils.getMentionTarget(message)
-						await client.send_message(message.channel, pet.getSeed(target.id))
-					except ValueError:
-						await client.send_message(message.channel, 'Too many targets!')
-
-				elif isCommand(command, 'color'):
-					await show_swatch(message)
-				
-				elif isCommand(command, 'makesprint'):
-					await make_sprint(message)
-
-				elif isCommand(command, 'joinsprint'):
-					await join_sprint(message)
-
-				elif isCommand(command, 'sprintwords'):
-					await sprint_words(message)
-
+						input = None
+					await client.send_message(message.channel,
+							await commands[command.split()[0]](
+							user=message.author,
+							client=client,
+							channel=message.channel,
+							server=message.server,
+							mentionTarget=utils.getMentionTarget(message),
+							command=message.content.split()[0][1:],
+							input=input
+						)
+					)
 				else:
 					await parse(message)
 			elif message.content.startswith('&join'):
@@ -197,12 +187,6 @@ async def list_roles(message, roleset):
 	imagePath = p / 'roleImages' / filename
 	await client.send_file(message.channel, str(imagePath))
 
-async def show_swatch(message):
-	color = message.content.split()[1]
-	log.error(color)
-	swatch = colors.get_swatch(color)
-	await client.send_file(message.channel, swatch, filename=color + '.png')
-
 async def static_message(message, value):
 	msg = conf.get_object(message.server, 'static', value)
 	if msg.startswith('http'):
@@ -228,58 +212,15 @@ async def roll_dice(message):
 		msg = '{0}, you''ve rolled too many dice, but the sum is {1}'.format(message.author.mention, sum([int(a.split('=')[-1], 10) for a in results.values()]))
 		await client.send_message(message.channel, msg)
 
-async def save_roll(message):
-	input = strip_command(message.content, 'saveroll')
-	try:
-		command, name = dice.save_command(str(message.author.id), input)
-		await client.send_message(message.channel, message.author.mention + ' has saved ' + command + ' as ' + name.lower())
-	except Exception as e:
-		await client.send_message(message.channel, str(e))
-
-async def clear_roll(message):
-	input = strip_command(message.content, 'saveroll')
-	name = dice.clear_command(str(message.author.id), input)
-	await client.send_message(message.channel, message.author.mention + ' has deleted saved roll ' + name.lower())
-
 async def list_rolls(message):
 	embed = discord.Embed()
 	for key, value in sorted(dice.list_commands(str(message.author.id)).items()):
 		embed.add_field(name=key, value=value)
 	await client.send_message(message.channel, message.author.mention + ' has these saved rolls.', embed=embed)
 
-async def make_sprint(message):
-	input = strip_command(message.content, 'makesprint')
-	reply = await writesprint.make_sprint(input, client, message.channel)
-	await client.send_message(message.channel, reply)
-
-async def join_sprint(message):
-	try:
-		words = int(strip_command(message.content, 'joinsprint'))
-	except:
-		words = 0
-	await client.send_message(message.channel, writesprint.join_sprint(message.author, message.channel, words))
-
-async def sprint_words(message):
-	words = int(strip_command(message.content, 'sprintwords'))
-	await client.send_message(message.channel, writesprint.record_words(message.author, message.channel, words))
-
 async def rerole(message):
 	role = await random_role(message.author, conf.get_object(message.server, 'defaultRoleset'))
 	msg = conf.get_string(message.server, 'rerole').format(message.author.mention, role.name)
-	await client.send_message(message.channel, msg)
-
-async def give_help(message):
-	msg = ''
-	if conf.get_object(message.server, 'rolesets'):
-		msg += 'Role operations:\n'
-		msg += role_readme(message.server)
-	msg += 'Generators:\n'
-	msg += generator.readme(conf.get_object(message.server, 'generators'))
-	msg += pet.readme()
-	msg += 'Other commands:\n'
-	msg += dice.readme()
-	msg += colors.readme()
-	msg += '* `!readme`: displays this helpful message.'
 	await client.send_message(message.channel, msg)
 
 def role_readme(server):
@@ -320,9 +261,6 @@ async def change_role(member, roleName, roleset):
 		return role
 	else:
 		raise NameError(roleName)
-
-async def message_reminder(message):
-	await reminder.message_reminder(' '.join(message.content.split()[1:]), client, message.channel, 'reminder: {0}'.format(message.content))
 
 async def set_scheduled_event(server, event):
 	when_time = dateparser.parse(event['time'])

@@ -88,7 +88,11 @@ def savePet(myPet, name):
 	with shelve.open(dbname) as db:
 		db[name] = myPet
 
-def feed(id = '0'):
+async def feed(user, mentionTarget, **kwargs):
+	if mentionTarget is not None:
+		id = mentionTarget.id
+	else:
+		id = user.id
 	try:
 		myPet = loadPet(id)
 	except:
@@ -97,7 +101,11 @@ def feed(id = '0'):
 	savePet(myPet, id)
 	return message
 
-def pet(id = '0'):
+async def pet(user, mentionTarget, **kwargs):
+	if mentionTarget is not None:
+		id = mentionTarget.id
+	else:
+		id = user.id
 	try:
 		myPet = loadPet(id)
 	except:
@@ -106,7 +114,11 @@ def pet(id = '0'):
 	savePet(myPet, id)
 	return message
 
-def getSeed(id = '0'):
+async def getSeed(user, mentionTarget, **kwargs):
+	if mentionTarget is not None:
+		id = mentionTarget.id
+	else:
+		id = user.id
 	try:
 		myPet = loadPet(id)
 	except:
@@ -116,12 +128,13 @@ def getSeed(id = '0'):
 	else:
 		return 'Seed unknown for your pet.'
 
-def summon(id, seed=None):
-	if not seed:
-		seed = str(random.randrange(sys.maxsize))
+async def summon(user, input, **kwargs):
+	id = user.id
+	if not input:
+		input = str(random.randrange(sys.maxsize))
 	myPet = Pet()
-	summon = generator.generate('beast', seed)
-	myPet.setStats(generator.generate('mc.name', seed)['text'], summon['core'], seed)
+	summon = generator.generate('beast', input)
+	myPet.setStats(generator.generate('mc.name', input)['text'], summon['core'], input)
 	message = generator.extract_text(summon) + ' Its name is {}.'.format(myPet.name)
 	savePet(myPet, id)
 	return message

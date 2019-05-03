@@ -93,31 +93,31 @@ def roll_command(user, command):
 		pass
 	return RollsetTransformer().transform(parser.parse(command))
 
-def save_command(user, input):
+async def save_command(user, input, **kwargs):
 	command, name = [i.strip().lower() for i in input.split(':')]
 	try:
 		parser.parse(command)
 	except LarkError:
-		raise Exception('Command was not valid.')
+		return 'Command was not valid.'
 	if any(char.isdigit() for char in name):
-		raise Exception('Name was not valid.')
+		return 'Name was not valid.'
 	with shelve.open(dbname) as db:
-		if user not in db:
-			db[user] = {name: command}
+		if user.id not in db:
+			db[user.id] = {name: command}
 		else:
-			newVersion = db[user]
+			newVersion = db[user.id]
 			newVersion[name] = command
-			db[user] = newVersion
-	return command, name
+			db[user.id] = newVersion
+	return user.mention + ' has saved ' + command + ' as ' + name.lower()
 
-def clear_command(user, input):
+async def clear_command(user, input, **kwargs):
 	name = input.strip()
 	with shelve.open(dbname) as db:
-		if user in db:
-			newVersion = db[user]
+		if user.id in db:
+			newVersion = db[user.id]
 			newVersion.pop(name.lower())
-			db[user] = newVersion
-	return name
+			db[user.id] = newVersion
+	return user.mention + ' has deleted saved roll ' + name.lower()
 
 def list_commands(user):
 	try:

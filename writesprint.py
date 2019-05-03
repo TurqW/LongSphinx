@@ -43,8 +43,8 @@ window = datetime.timedelta(minutes=5)
 async def send_message(client, channel, msg):
 	await client.send_message(channel, msg)
 
-async def make_sprint(command, client, channel):
-	sprint = SprintTransformer().transform(parser.parse(command))
+async def make_sprint(input, client, channel, **kwargs):
+	sprint = SprintTransformer().transform(parser.parse(input))
 	if 'duration' not in sprint:
 		sprint['duration'] = DEFAULT_DURATION
 	if 'delay' not in sprint:
@@ -57,14 +57,22 @@ async def make_sprint(command, client, channel):
 	await delay_function(end_time + datetime.timedelta(minutes=1), end_sprint, (channel, client))
 	return '{0}-minute sprint starting in {1} minutes.'.format(sprint['duration'], sprint['delay'])
 
-def join_sprint(user, channel, words=0):
+async def join_sprint(user, channel, input, **kwargs):
+	try:
+		words = int(input)
+	except ValueError | TypeError:
+		words = 0
 	if channel.id in activeSprints:
 		activeSprints[channel.id]['members'][user.mention] = {'startCount': words, 'endCount': words}
 		return 'Added {0} to {1:.0f}-minute sprint starting in {2:.1f} minutes.'.format(user.mention, *describe_sprint(channel))
 	else:
 		return 'No active sprint.'
 
-def record_words(user, channel, words):
+async def record_words(user, channel, input, **kwargs):
+	try:
+		words = int(input)
+	except ValueError | TypeError:
+		words = 0
 	if channel.id in activeSprints:
 		activeSprints[channel.id]['members'][user.mention]['endCount'] = words
 		return 'Word count for {0} updated to {1}'.format(user.mention, words)

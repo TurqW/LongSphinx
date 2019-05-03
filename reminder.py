@@ -14,10 +14,11 @@ async def send_message(client, channel, msg, time):
 	else:
 		log.error('Mistimed reminder.')
 
-async def message_reminder(when, client, channel, msg):
-	when_time = dateparser.parse(when)
-	await client.send_message(channel, 'Reminder set for {0}, current time is {1}'.format(when_time.isoformat(), datetime.datetime.now().isoformat()))
+async def message_reminder(input, client, channel, **kwargs):
+	when_time = dateparser.parse(input)
+	msg = 'reminder: {0}'.format(input)
 	await set_reminder(when_time, client, channel, msg)
+	return 'Reminder set for {0}, current time is {1}'.format(when_time.isoformat(), datetime.datetime.now().isoformat())
 
 async def set_reminder(when_time, client, channel, msg):
 	if when_time > datetime.datetime.now():
