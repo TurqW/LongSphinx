@@ -44,7 +44,10 @@ async def send_message(client, channel, msg):
 	await client.send_message(channel, msg)
 
 async def make_sprint(input, client, channel, **kwargs):
-	sprint = SprintTransformer().transform(parser.parse(input))
+	if input:
+		sprint = SprintTransformer().transform(parser.parse(input))
+	else:
+		sprint = {}
 	if 'duration' not in sprint:
 		sprint['duration'] = DEFAULT_DURATION
 	if 'delay' not in sprint:
@@ -60,7 +63,7 @@ async def make_sprint(input, client, channel, **kwargs):
 async def join_sprint(user, channel, input, **kwargs):
 	try:
 		words = int(input)
-	except ValueError | TypeError:
+	except (ValueError, TypeError):
 		words = 0
 	if channel.id in activeSprints:
 		activeSprints[channel.id]['members'][user.mention] = {'startCount': words, 'endCount': words}
@@ -71,7 +74,7 @@ async def join_sprint(user, channel, input, **kwargs):
 async def record_words(user, channel, input, **kwargs):
 	try:
 		words = int(input)
-	except ValueError | TypeError:
+	except (ValueError, TypeError):
 		words = 0
 	if channel.id in activeSprints:
 		activeSprints[channel.id]['members'][user.mention]['endCount'] = words
