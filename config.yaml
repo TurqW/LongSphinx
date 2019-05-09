@@ -252,3 +252,9 @@ servers:
     - tims-room
     - '570800943529197578'
     <<: *defaults
+  '566868285791010827':
+    name: Kittens & Unicorns
+    channels:
+    - beep-boop
+    - '566880416833732613'
+    <<: *defaults
