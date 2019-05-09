@@ -84,7 +84,7 @@ async def record_words(user, channel, input, **kwargs):
 
 async def end_sprint(channel, client):
 	result = activeSprints.pop(channel.id)
-	leaderboardString = '\n'.join('{0}: {1}'.format(*a) for a in sorted([(key, value['endCount'] - value['startCount']) for key, value in result['members'].items()], key=lambda x: x[1]))
+	leaderboardString = '\n'.join('{0}: {1}'.format(*a) for a in sorted([(key, value['endCount'] - value['startCount']) for key, value in result['members'].items()], key=lambda x: x[1], reverse=true))
 	await send_message(client, channel, leaderboardString)
 	with shelve.open(dbname) as db:
 		db['::'.join([channel.id, result['start'].isoformat])] = result
