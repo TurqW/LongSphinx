@@ -41,7 +41,7 @@ class SprintTransformer(Transformer):
 window = datetime.timedelta(minutes=5)
 
 async def send_message(client, channel, msg):
-	await client.send_message(channel, msg)
+	await client.send_message(channel, msg.format(mentions=', '.join(activeSprints[channel.id]['members'].keys())))
 
 async def make_sprint(input, client, channel, **kwargs):
 	if input:
@@ -55,8 +55,8 @@ async def make_sprint(input, client, channel, **kwargs):
 	start_time = datetime.datetime.now() + datetime.timedelta(minutes=sprint['delay'])
 	end_time = start_time + datetime.timedelta(minutes=sprint['duration'])
 	activeSprints[channel.id] = {'start': start_time, 'end': end_time, 'members': {}}
-	await delay_function(start_time, send_message, (client, channel, 'Starting a {0}-minute sprint!'.format(sprint['duration'])))
-	await delay_function(end_time, send_message, (client, channel, 'Sprint has ended!'))
+	await delay_function(start_time, send_message, (client, channel, 'Starting a ' + str(sprint['duration']) + '-minute sprint with {mentions}!'))
+	await delay_function(end_time, send_message, (client, channel, 'Sprint has ended, {mentions}, you have 1 minute to submit your final word counts!'))
 	await delay_function(end_time + datetime.timedelta(minutes=1), end_sprint, (channel, client))
 	return '{0}-minute sprint starting in {1} minutes.'.format(sprint['duration'], sprint['delay'])
 
