@@ -66,5 +66,5 @@ def readme(server, conf, **kwargs):
 	msg = ''
 	for gen_name in conf.get_object(server, 'generators'):
 		load_config(gen_name)
-		msg += '* `!' + gen_name + '`: %s\n' % (genConfigs[gen_name].config['help'])
+		msg += '* `!gen ' + gen_name + '`: %s\n' % (genConfigs[gen_name].config['help'])
 	return msg
