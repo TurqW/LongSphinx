@@ -27,3 +27,6 @@ async def set_reminder(when_time, client, channel, msg):
 		loop.call_later(delay, lambda: loop.create_task(send_message(client, channel, msg, when_time)))
 	else:
 		log.warning('Ignoring scheduled event in the past: ' + str(when_time))
+
+def readme(**kwargs):
+	return 'Still under development.'

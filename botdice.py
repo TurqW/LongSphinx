@@ -1,6 +1,7 @@
 import random
 import re
 import shelve
+import discord
 from collections import OrderedDict
 from lark import Lark, Transformer
 from lark.exceptions import LarkError
@@ -126,6 +127,23 @@ def list_commands(user):
 	except KeyError:
 		return {}
 
+async def roll_dice(user, client, channel, server, mentionTarget, command, input, conf):
+	try:
+		embed = discord.Embed()
+		results = roll_command(str(user.id), input)
+		for key, value in results.items():
+			embed.add_field(name=key, value=value)
+		msg = user.mention + ' rolled ' + input.lower() + '!'
+	except Exception as e:
+		return str(e)
+	return msg, embed
+
+async def list_rolls(user, **kwargs):
+	embed = discord.Embed()
+	for key, value in sorted(list_commands(str(user.id)).items()):
+		embed.add_field(name=key, value=value)
+	return user.mention + ' has these saved rolls.', embed
+
 def stringy_mod(modifier):
 	if modifier > 0:
 		return '+' + str(modifier)
@@ -133,5 +151,10 @@ def stringy_mod(modifier):
 		return str(modifier)
 	return ''
 
-def readme():
-	return '* `!roll NdM`: rolls a `M`-sided die `N` times. Multiple sets of dice can be used. Examples: `!roll 1d6`, `!roll 2d20`, `!roll 1d20 3d6`.\n'
+def readme(**kwargs):
+	return '''* `!roll NdM`: rolls a `M`-sided die `N` times. Multiple sets of dice can be used.
+--- Examples: `!roll 1d6`, `!roll 2d20+3`, `!roll 1d20, 3d6`.
+* `!saveroll NdM: rollname`: saves NdM as rollname, so that you can roll it with just `!roll rollname`.
+--- Example: `!saveroll 1d20+5,1d8+3: hammer`
+* `!rolls`: shows your saved rolls.
+* `!clearroll rollname`: deletes a saved roll. There is no undo button.\n'''

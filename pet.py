@@ -139,7 +139,7 @@ async def summon(user, input, **kwargs):
 	savePet(myPet, id)
 	return message
 
-def readme():
+def readme(**kwargs):
 	return """Pets:
 * `!summon` generate a new random pet for you! **Warning: will delete your old pet if you have one.**
 * `!feed` feed your pet. @mention someone else to feed their pet instead.

@@ -4,6 +4,7 @@ import logging
 import os
 import random
 import sys
+import types
 import yaml
 from pathlib import Path
 
@@ -34,34 +35,50 @@ with open(tokenfilename, 'r') as tokenfile:
 
 client = discord.Client()
 todo = []
+commands = {}
 
-async def give_help(server, channel, **kwargs):
+def role_readme(server, **kwargs):
 	msg = ''
-	if conf.get_object(server, 'rolesets'):
-		msg += 'Role operations:\n'
-		msg += role_readme(server)
-	msg += 'Generators:\n'
-	msg += generator.readme(conf.get_object(server, 'generators'))
-	msg += pet.readme()
-	msg += 'Other commands:\n'
-	msg += dice.readme()
-	msg += colors.readme()
-	msg += '* `!readme`: displays this helpful message.'
+	for roleset in conf.get_object(server, 'rolesets').keys():
+		msg += '* `!{0}`: Lists all roles in roleset {0}.\n'.format(roleset)
+		msg += '* `!{0} <{0}name>`: You become the chosen {0}. Example: `!{0} {1}`\n'.format(roleset, [a for a in list(conf.get_object(server, 'rolesets', roleset).keys()) if a != 'removeOnUpdate'][0])
+		if roleset != conf.get_object(server, 'defaultRoleset'):
+			msg += '* `!{0} none`: Removes any roles you have from the {0} roleset.\n'.format(roleset)
 	return msg
 
+async def give_help(user, client, channel, server, mentionTarget, command, input, conf):
+	if input in commands.keys():
+		return commands[input][1](
+			user=user,
+			client=client,
+			channel=channel,
+			server=server,
+			mentionTarget=mentionTarget,
+			command=command,
+			input=input,
+			conf=conf)
+	return 'Implemented commands: ' + ', '.join(commands.keys()) + '\nTry `!readme <commandName>` to learn more.'
+
+def readme_readme(**kwargs):
+	return 'pick a command that you need help with.'
+
 commands = {
-	'remind': reminder.message_reminder,
-	'color': colors.show_swatch,
-	'makesprint': writesprint.make_sprint,
-	'joinsprint': writesprint.join_sprint,
-	'sprintwords': writesprint.record_words,
-	'summon': pet.summon,
-	'feed': pet.feed,
-	'pet': pet.pet,
-	'getseed': pet.getSeed,
-	'saveroll': dice.save_command,
-	'clearroll': dice.clear_command,
-	'readme': give_help
+	'remind': (reminder.message_reminder, reminder.readme),
+	'color': (colors.show_swatch, colors.readme),
+	'makesprint': (writesprint.make_sprint, writesprint.readme),
+	'joinsprint': (writesprint.join_sprint, writesprint.readme),
+	'sprintwords': (writesprint.record_words, writesprint.readme),
+	'summon': (pet.summon, pet.readme),
+	'feed': (pet.feed, pet.readme),
+	'pet': (pet.pet, pet.readme),
+	'getseed': (pet.getSeed, pet.readme),
+	'saveroll': (dice.save_command, dice.readme),
+	'clearroll': (dice.clear_command, dice.readme),
+	'gen': (generator.gen_as_text, generator.readme),
+	'roll': (dice.roll_dice, dice.readme),
+	'rolls': (dice.list_rolls, dice.readme),
+	'role': (None, role_readme),
+	'readme': (give_help, readme_readme),
 	}
 
 @client.event
@@ -73,8 +90,8 @@ async def on_message(message):
 			# If they've already left, we want to know, but to remove it from todo
 			log.info('Member {0.name} not found on server {0.server}'.format(member))
 	todo.clear()
-	# we do not want the bot to reply to itself
 	conf.update_config()
+	# we do not want the bot to reply to itself
 	if message.author == client.user:
 		return
 
@@ -82,15 +99,7 @@ async def on_message(message):
 		if not message.server or message.channel.name in conf.get_object(message.server, 'channels') or message.channel.id in conf.get_object(message.server, 'channels'):
 			if message.content.startswith(COMMAND_CHAR):
 				command = message.content[1:].strip().lower()
-				if isCommand(command, 'roll'):
-					#dice
-					await roll_dice(message)
-
-				elif isCommand(command, 'rolls'):
-					#dice
-					await list_rolls(message)
-
-				elif isCommand(command, 'rerole'):
+				if isCommand(command, 'rerole'):
 					await rerole(message)
 
 				elif command.split()[0] in commands.keys():
@@ -98,17 +107,20 @@ async def on_message(message):
 						input = message.content.split(maxsplit=1)[1]
 					except IndexError:
 						input = None
-					await client.send_message(message.channel,
-							await commands[command.split()[0]](
-							user=message.author,
-							client=client,
-							channel=message.channel,
-							server=message.server,
-							mentionTarget=utils.getMentionTarget(message),
-							command=message.content.split()[0][1:],
-							input=input
-						)
+					result = await commands[command.split()[0]][0](
+						user=message.author,
+						client=client,
+						channel=message.channel,
+						server=message.server,
+						mentionTarget=utils.getMentionTarget(message),
+						command=message.content.split()[0][1:],
+						input=input,
+						conf=conf
 					)
+					if type(result) is tuple:
+						await client.send_message(message.channel, result[0], embed=result[1])
+					else:
+						await client.send_message(message.channel, result)
 				else:
 					await parse(message)
 			elif message.content.startswith('&join'):
@@ -143,10 +155,6 @@ async def parse(message):
 		for roleset in conf.get_object(message.server, 'rolesets').keys():
 			if isCommand(message.content, roleset):
 				return await request_role(message, roleset)
-	for gen in conf.get_object(message.server, 'generators'):
-		if isCommand(message.content, gen):
-			msg = generator.extract_text(generator.generate(gen))
-			return await client.send_message(message.channel, msg)
 	if conf.get_object(message.server, 'static'):
 		for entry in conf.get_object(message.server, 'static').keys():
 			if isCommand(message.content, entry):
@@ -195,42 +203,10 @@ async def static_message(message, value):
 	else:
 		return await client.send_message(message.channel, msg)
 
-async def roll_dice(message):
-	toRoll = strip_command(message.content, 'roll')
-	try:
-		embed = discord.Embed()
-		results = dice.roll_command(str(message.author.id), toRoll)
-		for key, value in results.items():
-			embed.add_field(name=key, value=value)
-		msg = message.author.mention + ' rolled ' + toRoll.lower() + '!'
-	except Exception as e:
-		await client.send_message(message.channel, str(e))
-		return
-	try:
-		await client.send_message(message.channel, msg, embed=embed)
-	except discord.errors.HTTPException:
-		msg = '{0}, you''ve rolled too many dice, but the sum is {1}'.format(message.author.mention, sum([int(a.split('=')[-1], 10) for a in results.values()]))
-		await client.send_message(message.channel, msg)
-
-async def list_rolls(message):
-	embed = discord.Embed()
-	for key, value in sorted(dice.list_commands(str(message.author.id)).items()):
-		embed.add_field(name=key, value=value)
-	await client.send_message(message.channel, message.author.mention + ' has these saved rolls.', embed=embed)
-
 async def rerole(message):
 	role = await random_role(message.author, conf.get_object(message.server, 'defaultRoleset'))
 	msg = conf.get_string(message.server, 'rerole').format(message.author.mention, role.name)
 	await client.send_message(message.channel, msg)
-
-def role_readme(server):
-	msg = ''
-	for roleset in conf.get_object(server, 'rolesets').keys():
-		msg += '* `!{0}`: Lists all roles in roleset {0}.\n'.format(roleset)
-		msg += '* `!{0} <{0}name>`: You become the chosen {0}. Example: `!{0} {1}`\n'.format(roleset, [a for a in list(conf.get_object(server, 'rolesets', roleset).keys()) if a != 'removeOnUpdate'][0])
-		if roleset != conf.get_object(server, 'defaultRoleset'):
-			msg += '* `!{0} none`: Removes any roles you have from the {0} roleset.\n'.format(roleset)
-	return msg
 
 async def random_role(member, roleset):
 	role = random.choice(get_randomables(member.server, roleset))

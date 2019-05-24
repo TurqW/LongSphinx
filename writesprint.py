@@ -99,3 +99,15 @@ async def delay_function(when_time, function, params):
 	delay = when_time.timestamp() - datetime.datetime.now().timestamp()
 	loop = asyncio.get_event_loop()
 	loop.call_later(delay, lambda: loop.create_task(function(*params)))
+
+def readme(**kwargs):
+	return '''Writing Sprints:
+* `!makesprint`: Creates a sprint in the current channel. Defaults to a {duration}-minute sprint starting {delay} minute(s) after the command is received. These values can be overridden:
+--- `!makesprint for 30` or `makesprint 30`: 30-minute sprint starting in {delay} minute(s).
+--- `!makesprint in 10` or `makesprint {duration} 10`: {duration}-minute sprint starting in 10 minutes.
+--- `!makesprint for 30 in 10` or `makesprint 30 10`: 30-minute sprint starting in 10 minutes.
+* `!joinsprint`: Joins an existing sprint in this channel. Note that you must join your own sprint.
+--- Optionally takes a number, indicating your starting word count. e.g. `!joinsprint 253`. This is subtracted from your final word count.
+* `!sprintwords x`: x is a number. Declares your final word count.
+--- note that both joinsprint and sprintwords can be called as many times as you like per sprint, with only the last value being saved.
+'''.format(duration=DEFAULT_DURATION, delay=DEFAULT_DELAY)

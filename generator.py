@@ -8,7 +8,7 @@ import re
 import yaml
 log = logging.getLogger('LongSphinx.Generators')
 
-conf = {}
+genConfigs = {}
 
 def generate(name, seed=None):
 	if seed:
@@ -24,9 +24,9 @@ def generate(name, seed=None):
 		generator = parsed_name[0]
 		load_config(generator)
 		if len(parsed_name) == 1:
-			result = copy.deepcopy(random.choice(conf[generator].config['root']))
+			result = copy.deepcopy(random.choice(genConfigs[generator].config['root']))
 		else:
-			option_set = conf[generator].config
+			option_set = genConfigs[generator].config
 			for level in parsed_name[1:]:
 				option_set = option_set[level]
 			result = copy.deepcopy(random.choice(option_set))
@@ -34,9 +34,9 @@ def generate(name, seed=None):
 
 
 def load_config(name):
-	if name not in conf:
-		conf[name] = configmanager.ConfigManager('genConfig/{0}.yaml'.format(name))
-	conf[name].update_config()
+	if name not in genConfigs:
+		genConfigs[name] = configmanager.ConfigManager('genConfig/{0}.yaml'.format(name))
+	genConfigs[name].update_config()
 
 def populate(object):
 	for key in (key for key in object.keys() if key != 'text' and isinstance(object[key], str)):
@@ -55,10 +55,16 @@ def fix_articles(text):
 	# relevant: https://stackoverflow.com/questions/2763750/how-to-replace-only-part-of-the-match-with-python-re-sub
 	return re.sub(r"(^|\W)a( [aAeEiIoOuU](?!ni))", r'\1an\2', text)
 
-def readme(generators):
+async def gen_as_text(input, server, conf, **kwargs):
+	name = input.strip()
+	if name in conf.get_object(server, 'generators'):
+		return extract_text(generate(input.strip()))
+	else:
+		return "{} is not a recognized generator.".format(name)
+
+def readme(server, conf, **kwargs):
 	msg = ''
-	for gen_name in generators:
+	for gen_name in conf.get_object(server, 'generators'):
 		load_config(gen_name)
-		msg += '* `!' + gen_name + '`: %s\n' % (conf[gen_name].config['help'])
-	
+		msg += '* `!' + gen_name + '`: %s\n' % (genConfigs[gen_name].config['help'])
 	return msg
