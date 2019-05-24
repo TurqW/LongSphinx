@@ -9,6 +9,9 @@ root:
   size: gem.size
   type: gem.type
   oddity: gem.oddity
+- text: '{size} {type}'
+  size: gem.size
+  type: mc.gem
 size:
 - text: puny
 - text: tiny

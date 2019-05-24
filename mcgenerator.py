@@ -67,4 +67,4 @@ class MName:
             else:
                 name = name + suffix
                 prefix = prefix[1:] + suffix
-        return name.capitalize()  
+        return name
