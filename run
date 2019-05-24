@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/usr/bin/python3.6 corebot.py > logs/errors.log
+python3.6 corebot.py > logs/errors.log
