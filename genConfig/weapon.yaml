@@ -5,10 +5,33 @@ root:
 - text: 'a {material} {type} engraved with elaborate patterns'
   material: jewelry.material
   type: weapon.type
+- text: 'a {material} {type} carved with the form of a {modifier}{species}'
+  material: jewelry.material
+  type: weapon.type
+  modifier: beast.modifier
+  species: beast.species
 - text: 'a {material} {type} set with a {gem}'
   material: jewelry.material
   type: weapon.type
   gem: gem
+- text: 'a {material} {type}. {enchantment}'
+  material: jewelry.material
+  type: weapon.type
+  enchantment: weapon.enchantment
+- text: 'a {material} {type} set with a {gem}. {enchantment}'
+  material: jewelry.material
+  type: weapon.type
+  gem: gem
+  enchantment: weapon.enchantment
+- text: 'a {material} {type} engraved with arcane patterns. {enchantment}'
+  material: jewelry.material
+  type: weapon.type
+  enchantment: weapon.enchantment
+- text: 'a {material} {type} engraved with the name "{name}." {enchantment}'
+  material: jewelry.material
+  type: weapon.type
+  name: mc.elf
+  enchantment: weapon.enchantment
 type:
 - text: arming sword
 - text: bardiche
@@ -88,3 +111,47 @@ type:
 - text: warhammer
 - text: wrench
 - text: zweihander
+enchantment:
+- text: While wielding it, you gain the ability to {ability}.
+  ability: beast.ability
+- text: It glows with a {color} light in the presence of {sentients}.
+  color: color
+  sentients: encounter.sentient
+- text: It whispers suggestions in its wielder's ear during combat.
+- text: It's particularly effective against {sentients}.
+  sentients: encounter.sentient
+- text: It refuses to strike down the undeserving.
+- text: It attacks of its own accord if it has not tasted blood for {number} days.
+  number: num.2-10
+- text: It seems to be designed primarily for defense.
+- text: It disrupts magic within a {number}-foot radius.
+  number: num.5-30
+- text: It's able to strike from a distance.
+- text: It sheathes itself in {color} flames when it hears the command word, "{command}."
+  color: color
+  command: mc.elf
+- text: It gives off a perceptible chill.
+- text: It seems well-suited for channeling magic.
+- text: Once it tastes a victim's blood, it won't be satisfied until they are dead.
+- text: It channels {color} lightning.
+  color: color
+- text: It always returns to its wielder.
+- text: You feel unusually quick when wielding it.
+- text: It drains vitality from its victims to its wielder.
+- text: It drips with venom.
+- text: A single blow from it can banish otherworldly beings to their home planes.
+- text: It is terrible to look upon.
+- text: It deals particularly bloody wounds.
+- text: It forces shapeshifters to return to their natural form.
+- text: It strikes more fiercely the further the wielder is from home.
+- text: It strikes faster than the eye can see.
+- text: It seems less than reliable.
+- text: It gives off an odd smell.
+- text: Its attacks always hit - but not always the intended target.
+- text: It continuously emits {color} smoke.
+  color: color
+- text: Legends claim that its wielders always die in combat.
+- text: It seems particularly heavy.
+- text: It seems oddly light.
+- text: It's only intended for ceremonial use.
+- text: It sings you to sleep, so long as it has tasted blood that day.

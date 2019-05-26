@@ -6,18 +6,26 @@ root:
   sentient: encounter.sentient
   activity: encounter.sentientActivity
 sentient:
-- text: goblins
 - text: bugbears
-- text: dusklings
+- text: centaurs
 - text: drow
-- text: kenku
+- text: demons
+- text: dusklings
+- text: ettins
+- text: fiends
+- text: gargoyles
+- text: giants
+- text: goblins
+- text: gremlins
+- text: hobgoblins
+- text: imps
 - text: kobolds
 - text: lizardfolk
+- text: nymphs
 - text: ogres
 - text: orcs
 - text: trogolodytes
 - text: trolls
-- text: yuan-ti
 sentientActivity:
 - text: huddled around a small fire.
 - text: playing some sort of dice game.

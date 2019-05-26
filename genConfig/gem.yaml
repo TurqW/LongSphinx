@@ -92,3 +92,5 @@ oddity:
   color: color
 - text: known as the Eye of {name}
   name: 'mc.name'
+- text: containing the soul of {name}
+  name: 'mc.elf'
