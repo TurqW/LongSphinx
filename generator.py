@@ -23,6 +23,10 @@ def generate(name, seed=None):
 		parsed_name = name.split('.')
 		generator = parsed_name[0]
 		load_config(generator)
+		modifier = ''
+		if '/' in parsed_name[-1]:
+			modifier = parsed_name[-1].split('/')[-1]
+			parsed_name[-1] = parsed_name[-1].split('/')[0]
 		if len(parsed_name) == 1:
 			result = copy.deepcopy(random.choice(genConfigs[generator].config['root']))
 		else:
@@ -30,6 +34,12 @@ def generate(name, seed=None):
 			for level in parsed_name[1:]:
 				option_set = option_set[level]
 			result = copy.deepcopy(random.choice(option_set))
+		if modifier:
+			if modifier in result:
+				result = result[modifier]
+			else:
+				if modifier == 'plural':
+					result['text'] = result['text'] + 's'
 	return populate(result)
 
 

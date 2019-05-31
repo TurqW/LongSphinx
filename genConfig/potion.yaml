@@ -7,7 +7,7 @@ core:
 - text: a {bottle} full of {modifier} {color} liquid. When you drink it, {effect}.
   bottle: potion.bottle
   modifier: potion.modifier
-  color: color
+  color: core.color
   effect: potion.effect
 modifier:
 - text: bubbly
@@ -31,7 +31,7 @@ bottle:
 - text: square bottle
 - text: heavy jug
 - text: '{material} flask'
-  material: jewelry.material
+  material: core.material
 - text: waterskin
 - text: bucket
 - text: spherical glass bottle
@@ -40,7 +40,7 @@ bottle:
 - text: clear glass bottle
 - text: pint glass
 - text: '{material} goblet'
-  material: jewelry.material
+  material: core.material
 - text: dragonhide waterskin
 - text: magical fluid suspension device
 - text: heavy mug
@@ -53,15 +53,15 @@ bottle:
 - text: '{species} hide waterskin'
   species: beast.species
 - text: '{material} pitcher'
-  material: jewelry.material
+  material: core.material
 - text: '{material} vial'
-  material: jewelry.material
+  material: core.material
 - text: '{material} stein'
-  material: jewelry.material
+  material: core.material
 - text: '{material} jug'
-  material: jewelry.material
+  material: core.material
 - text: '{material} bucket'
-  material: jewelry.material
+  material: core.material
 effect:
 - text: nothing happens
 - text: you begin to feel light-headed. This is a fairly pleasant experience, up until your head bumps against the ceiling

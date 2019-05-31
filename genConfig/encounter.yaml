@@ -3,29 +3,8 @@ help:
 root:
 - text: 'You encounter {number} {sentient}. They are {activity}'
   number: 'num.2-7'
-  sentient: encounter.sentient
+  sentient: core.sentient/plural
   activity: encounter.sentientActivity
-sentient:
-- text: bugbears
-- text: centaurs
-- text: drow
-- text: demons
-- text: dusklings
-- text: ettins
-- text: fiends
-- text: gargoyles
-- text: giants
-- text: goblins
-- text: gremlins
-- text: hobgoblins
-- text: imps
-- text: kobolds
-- text: lizardfolk
-- text: nymphs
-- text: ogres
-- text: orcs
-- text: trogolodytes
-- text: trolls
 sentientActivity:
 - text: huddled around a small fire.
 - text: playing some sort of dice game.
@@ -48,8 +27,8 @@ sentientActivity:
 - text: 'dancing around a pole holding up a large {species} pelt.'
   species: beast.species
 - text: dancing around a pole festooned with ribbons.
-- text: 'waving {wood} sticks and shouting in some arcane tongue. A particularly bossy one seems to be correcting their pronunciation.'
-  wood: wand.wood
+- text: 'waving {wood} sticks and shouting in some arcane tongue. A particularly clever one seems to be correcting their pronunciation.'
+  wood: core.wood
 - text: clearly in a hurry to be elsewhere.
 - text: sharing a keg of ale with some clearly uncomfortable travelers.
 - text: 'walking a {species} on a leash.'

@@ -2,23 +2,23 @@ help:
   Generates a random (potentially magical) accessory. Intended for use in a loot generator.
 root:
 - text: a {material} {article} engraved with a {modifier}{species}. When you wear it, you gain the ability to {ability}.
-  material: jewelry.material
+  material: core.material
   article: jewelry.article
   modifier: beast.modifier
   species: beast.species
   ability: beast.ability
 - text: a {material} {article} bearing a {gem}. When you wear it, you gain the ability to {ability}.
-  material: jewelry.material
+  material: core.material
   article: jewelry.article
   gem: gem
   ability: beast.ability
 - text: a {material} {article} engraved with a {modifier}{species}. It seems entirely mundane.
-  material: jewelry.material
+  material: core.material
   article: jewelry.article
   modifier: beast.modifier
   species: beast.species
 - text: a {material} {article} bearing a {gem}. It seems entirely mundane.
-  material: jewelry.material
+  material: core.material
   article: jewelry.article
   gem: gem
 - text: the {article} of {name}. When you wear it, you gain the ability to {ability}.
@@ -26,30 +26,10 @@ root:
   name: 'mc.name'
   ability: beast.ability
 - text: a {material} {article} engraved with the crest of {place}. When you wear it, you gain the ability to {ability}.
-  material: jewelry.material
+  material: core.material
   article: jewelry.article
   place: 'mc.england'
   ability: beast.ability
-material:
-- text: gold
-- text: rose gold
-- text: white gold
-- text: silver
-- text: sterling silver
-- text: platinum
-- text: copper
-- text: bronze
-- text: brass
-- text: iron
-- text: steel
-- text: lead
-- text: tin
-- text: zinc
-- text: '{species} bone'
-  species: beast.species
-- text: '{wood} wood'
-  wood: wand.wood
-- text: coral
 article:
 - text: ring
 - text: bracelet

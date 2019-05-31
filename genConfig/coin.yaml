@@ -3,29 +3,29 @@ help:
 root:
 - text: '{quantity} {shape} {material} coins'
   quantity: coin.quantity
-  material: jewelry.material
+  material: core.material
   shape: coin.shapeDescriptor
 - text: '{quantity} {shape} {material} {denomination}'
   quantity: coin.quantity
-  material: jewelry.material
+  material: core.material
   shape: coin.shapeDescriptor
   denomination: coin.denomination
 - text: '{quantity} {shape} {material} coins engraved with a {animal}'
   quantity: coin.quantity
-  material: jewelry.material
+  material: core.material
   animal: beast.species
   shape: coin.shapeDescriptor
 - text: '{quantity} {shape} {material} {denomination} engraved with a {animal}'
   quantity: coin.quantity
-  material: jewelry.material
+  material: core.material
   animal: beast.species
   shape: coin.shapeDescriptor
   denomination: coin.denomination
 - text: 'a single {shape} {material} coin'
-  material: jewelry.material
+  material: core.material
   shape: coin.shapeDescriptor
 - text: 'a single {shape} {material} coin engraved with a {species}'
-  material: jewelry.material
+  material: core.material
   species: beast.species
   shape: coin.shapeDescriptor
 quantity:

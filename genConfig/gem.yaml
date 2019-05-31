@@ -87,9 +87,9 @@ type:
 - text: zircon
 oddity:
 - text: which glows with {color} light
-  color: color
+  color: core.color
 - text: with an oddly {color} tint
-  color: color
+  color: core.color
 - text: known as the Eye of {name}
   name: 'mc.name'
 - text: containing the soul of {name}

@@ -32,6 +32,9 @@ servers:
     - 'adventures-in-pevar-ooc'
     - 'lost-mines-rolls'
     defaultRoleset: creature
+    automod:
+      channel: 'the-dungeons'
+      role: 'In the Dungeons!'
     rolesets:
       creature:
         Dwarf:
@@ -257,4 +260,7 @@ servers:
     channels:
     - beep-boop
     - '566880416833732613'
+    automod:
+      channel: 'bridge'
+      role: 'troll'
     <<: *defaults

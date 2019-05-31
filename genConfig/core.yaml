@@ -1,0 +1,137 @@
+sentient:
+- text: bugbear
+- text: centaur
+- text: drow
+  plural:
+    text: drow
+- text: demon
+- text: duskling
+- text: ettin
+- text: fiend
+- text: gargoyle
+- text: giant
+- text: goblin
+- text: gremlin
+- text: hobgoblin
+- text: imp
+- text: kobold
+- text: lizardman
+  plural:
+    text: lizardfolk
+- text: nymph
+- text: ogre
+- text: orc
+- text: trogolodyte
+- text: troll
+color:
+- text: aqua
+- text: beige
+- text: black
+- text: blue
+- text: bright green
+- text: brown
+- text: cerulean
+- text: chartreuse
+- text: cyan
+- text: dark blue
+- text: dark green
+- text: dark pink
+- text: dark purple
+- text: forest green
+- text: green
+- text: grey
+- text: hot pink
+- text: indigo
+- text: lavender
+- text: light blue
+- text: light brown
+- text: light green
+- text: light pink
+- text: light purple
+- text: lilac
+- text: lime
+- text: lime green
+- text: magenta
+- text: maroon
+- text: mauve
+- text: muddy brown
+- text: mustard
+- text: navy blue
+- text: olive
+- text: olive green
+- text: orange
+- text: pale green
+- text: peach
+- text: periwinkle
+- text: pink
+- text: puce
+- text: purple
+- text: red
+- text: royal blue
+- text: sea green
+- text: sky blue
+- text: tan
+- text: teal
+- text: turqoise
+- text: violet
+- text: yellow
+material:
+- text: gold
+- text: rose gold
+- text: white gold
+- text: silver
+- text: sterling silver
+- text: platinum
+- text: copper
+- text: bronze
+- text: brass
+- text: iron
+- text: steel
+- text: lead
+- text: tin
+- text: zinc
+- text: '{species} bone'
+  species: beast.species
+- text: '{wood} wood'
+  wood: core.wood
+- text: coral
+wood:
+- text: acacia
+- text: alder
+- text: applewood
+- text: ash
+- text: aspen
+- text: beech
+- text: blackthorn
+- text: black walnut
+- text: cedar
+- text: cherry
+- text: chestnut
+- text: cyprus
+- text: dogwood
+- text: ebony
+- text: elder
+- text: elm
+- text: English oak
+- text: fir
+- text: hawthorn
+- text: hazel
+- text: holly
+- text: hornbeam
+- text: larch
+- text: laurel
+- text: maple
+- text: pear
+- text: pine
+- text: poplar
+- text: red oak
+- text: redwood
+- text: rowan
+- text: silver lime
+- text: spruce
+- text: sycamore
+- text: vine
+- text: walnut
+- text: white willow
+- text: willow
+- text: yew

@@ -2,7 +2,7 @@ help:
   Creates a randomly generated animal companion.
 root:
 - text: 'As you complete the summoning spell, there is a burst of {smokeColor} smoke. Once it clears, you see {core}.'
-  smokeColor: color
+  smokeColor: core.color
   core: beast.core
 core:
 - text: '{description} with the ability to {ability}'
@@ -10,7 +10,7 @@ core:
   ability: beast.ability
 appearance:
 - text: 'a {beastColor} {modifier}{species}'
-  beastColor: color
+  beastColor: core.color
   modifier: beast.modifier
   species: beast.species
 modifier:
@@ -259,7 +259,7 @@ ability:
 - text: soothe even the most angry beings with nothing more than a soft touch
 - text: spit a {modifier} {spitColor} fluid up to 30 feet
   modifier: potion.modifier
-  spitColor: color
+  spitColor: core.color
 - text: spray acid
 - text: stare into anothers soul
 - text: summon a spectral {weapon}

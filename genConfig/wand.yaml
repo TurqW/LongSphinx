@@ -3,51 +3,11 @@ help:
 root:
 - text: 'The wandmaker hands you a {flexibility} {wood} wand, {length}{length_fraction} inches with a {core} core. {effect}'
   flexibility: wand.flexibility
-  wood: wand.wood
+  wood: core.wood
   length: 'num.8-16'
   length_fraction: wand.length_fraction
   core: wand.core
   effect: wand.effect
-wood:
-- text: acacia
-- text: alder
-- text: applewood
-- text: ash
-- text: aspen
-- text: beech
-- text: blackthorn
-- text: black walnut
-- text: cedar
-- text: cherry
-- text: chestnut
-- text: cyprus
-- text: dogwood
-- text: ebony
-- text: elder
-- text: elm
-- text: English oak
-- text: fir
-- text: hawthorn
-- text: hazel
-- text: holly
-- text: hornbeam
-- text: larch
-- text: laurel
-- text: maple
-- text: pear
-- text: pine
-- text: poplar
-- text: red oak
-- text: redwood
-- text: rowan
-- text: silver lime
-- text: spruce
-- text: sycamore
-- text: vine
-- text: walnut
-- text: white willow
-- text: willow
-- text: yew
 core:
 - text: dragon heartstring
 - text: phoenix feather
@@ -91,57 +51,57 @@ flexibility:
 - text: pliable
 effect:
 - text: A tiny {color} spark appears at the end, but little else happens.
-  color: color
+  color: core.color
 - text: A flow of {color} sparks pour forth from the end, curling back to coalesce around your hand. Just as you start to notice an uncomfortable warmth, the wandmaker snatches the wand away.
-  color: color
+  color: core.color
 - text: A sucker-covered {color} tentacle slowly squeezes its way from the tip of the wand. The wandmaker snatches it out of your hands just before the tentacle manages to reach back to you.
-  color: color
+  color: core.color
 - text: In a burst of {color} smoke, you find yourself on the street outside the shop. You stumble back in and hand the wand back to the wandmaker.
-  color: color
+  color: core.color
 - text: A burst of {color} sparks shoot out, knocking the wandmaker's hat off.
-  color: color
+  color: core.color
 - text: The wands on the shelf behind you begin to rearrange themselves, much to the wandmaker's consternation.
 - text: Your head feels a bit odd. You see your reflection in the shop window; your hair has turned {color} and become terribly curly.
-  color: color
+  color: core.color
 - text: You notice a faint scent of lavender. The wandmaker hurriedly snatches the wand away, more frightened than you've ever seen him.
 - text: There is a flash of {color} light, then the room goes completely dark.
-  color: color
+  color: core.color
 - text: A spiraling {color} unicorn horn grows from your forehead. "Not again..." the wandmaker groans, pulling a handsaw from a nearby drawer.
-  color: color
+  color: core.color
 - text: You are surrounded by spirits, one whispers to you, "Soon..."  You give the wand back, deeply shaken.
 - text: A thick {color} liquid oozes from the end. It does not smell pleasant.
-  color: color
+  color: core.color
 - text: A deep feeling of contentment fills you. The wandmaker snatches it back, muttering something about not giving away the good stuff.
 - text: A thick {color} smoke fills the room. When it clears, you are back in the alley and the wandmaker's shop is gone.
-  color: color
+  color: core.color
 - text: As you grasp it, it turns into a common pencil. From the back of the shop you hear "Be with you in a moment."
 - text: You give it a little flick and it puffs a puff of {color} smoke.
-  color: color
+  color: core.color
 - text: As soon as your fingers touch it, the wand leaps from your hand and back into the drawer.
 - text: It turns into a rubber chicken. The wandmaker throws it in a bin, muttering, "Damn Weasleys."
 - text: The wand feels good in your hand, and you smile tentatively. The wandmaker says, "Interesting... Interesting. This wand has a brother..." You quickly hand the wand back and say, "I am *not* the Chosen One."
 - text: You are blinded by a {color} light. When you can see again, everything in the room has become huge. Or have you become smaller? The wandmaker shakes his head, waves his wand, and you return to normal size.
-  color: color
+  color: core.color
 - text: You suddenly feel light and begin to bounce around the room. "Nope, not that one," says the wandmaker. He quickly stops your bouncing before you can destroy everything in his shop.
 - text: The wand turns {color} and becomes extremely cold. It falls from your numb fingers, and the wandmaker returns it to its box.
-  color: color
+  color: core.color
 - text: The wand is electrified, and your hand seizes up on it. You are unable to let go until the wandmaker releases you. The shop now smells of burning hair.
 - text: Sunflowers with faces begin sprouting from the wand's tip. They start to laugh maniacally and dance around the shop. "Fan of Van Gogh? You know he was a wizard, right?" says the wandmaker.
 - text: Hundreds of brooms begin to climb out of the wand and try to clean the shop and the alley it inhabits.
 - text: It immediately begins to grow, sprouting {color} leaves as roots twine around your wrist. The wandmaker helps you extricate yourself and tosses what is now a small log into the fireplace.
-  color: color
+  color: core.color
 - text: You notice a {color} light on the base; on closer inspection you find a blinking "battery low" indicator.
-  color: color
+  color: core.color
 - text: The wandmaker seems suddenly confused. He looks around, eyes passing over you without a hitch, then steps through you to look out the door. You put the wand back in its box, and he seems surprised to see you when he returns.
 - text: It shakes violently,then breaks into pieces. The wandmaker magically removes a splinter from your hand, muttering "We'll just call this even, eh?"
 - text: You notice the name "Roonil Wazlib" clumsily scratched into the handle.
 - text: Music begins to play, moving you to tears with its beauty. You fumble for your money, but the wandmaker takes the wand back instead. "Most spells work better without tears in your eyes."
 - text: Motes of {color} light come out of the end and dance around the room. When they start pushing merchandise off of shelves, the wandmaker takes the wand back.
-  color: color
+  color: core.color
 - text: It fits your hand perfectly, with a comfortable warmth. You pay the wandmaker and head out.
 - text: It fits your hand perfectly, but you're not sure that it's actually magical. You hand it back to the wandmaker.
 - text: For just a moment, you feel as though you can {ability}. You're not sure whether that's a good thing.
   ability: beast.ability
 - text: The moment it touches your hand, it dissolves into {modifier} {color} liquid and splatters to the floor.
   modifier: potion.modifier
-  color: color
+  color: core.color

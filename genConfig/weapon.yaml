@@ -1,34 +1,36 @@
+help:
+  A random weapon, mundane or magical.
 root:
 - text: 'a {material} {type}'
-  material: jewelry.material
+  material: core.material
   type: weapon.type
 - text: 'a {material} {type} engraved with elaborate patterns'
-  material: jewelry.material
+  material: core.material
   type: weapon.type
 - text: 'a {material} {type} carved with the form of a {modifier}{species}'
-  material: jewelry.material
+  material: core.material
   type: weapon.type
   modifier: beast.modifier
   species: beast.species
 - text: 'a {material} {type} set with a {gem}'
-  material: jewelry.material
+  material: core.material
   type: weapon.type
   gem: gem
 - text: 'a {material} {type}. {enchantment}'
-  material: jewelry.material
+  material: core.material
   type: weapon.type
   enchantment: weapon.enchantment
 - text: 'a {material} {type} set with a {gem}. {enchantment}'
-  material: jewelry.material
+  material: core.material
   type: weapon.type
   gem: gem
   enchantment: weapon.enchantment
 - text: 'a {material} {type} engraved with arcane patterns. {enchantment}'
-  material: jewelry.material
+  material: core.material
   type: weapon.type
   enchantment: weapon.enchantment
 - text: 'a {material} {type} engraved with the name "{name}." {enchantment}'
-  material: jewelry.material
+  material: core.material
   type: weapon.type
   name: mc.elf
   enchantment: weapon.enchantment
@@ -115,11 +117,11 @@ enchantment:
 - text: While wielding it, you gain the ability to {ability}.
   ability: beast.ability
 - text: It glows with a {color} light in the presence of {sentients}.
-  color: color
-  sentients: encounter.sentient
+  color: core.color
+  sentients: core.sentient/plural
 - text: It whispers suggestions in its wielder's ear during combat.
 - text: It's particularly effective against {sentients}.
-  sentients: encounter.sentient
+  sentients: core.sentient/plural
 - text: It refuses to strike down the undeserving.
 - text: It attacks of its own accord if it has not tasted blood for {number} days.
   number: num.2-10
@@ -128,13 +130,13 @@ enchantment:
   number: num.5-30
 - text: It's able to strike from a distance.
 - text: It sheathes itself in {color} flames when it hears the command word, "{command}."
-  color: color
+  color: core.color
   command: mc.elf
 - text: It gives off a perceptible chill.
 - text: It seems well-suited for channeling magic.
 - text: Once it tastes a victim's blood, it won't be satisfied until they are dead.
 - text: It channels {color} lightning.
-  color: color
+  color: core.color
 - text: It always returns to its wielder.
 - text: You feel unusually quick when wielding it.
 - text: It drains vitality from its victims to its wielder.
@@ -149,7 +151,7 @@ enchantment:
 - text: It gives off an odd smell.
 - text: Its attacks always hit - but not always the intended target.
 - text: It continuously emits {color} smoke.
-  color: color
+  color: core.color
 - text: Legends claim that its wielders always die in combat.
 - text: It seems particularly heavy.
 - text: It seems oddly light.
