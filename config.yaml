@@ -260,6 +260,12 @@ servers:
     channels:
     - beep-boop
     - '566880416833732613'
+    - chatter
+    - '566875832770101269'
+    - rant
+    - '566876681806020630'
+    - guillotine
+    - '579019008591003655'
     automod:
       channel: 'bridge'
       role: 'troll'
