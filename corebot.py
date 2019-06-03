@@ -13,6 +13,7 @@ import botconfig as conf
 import botdice as dice
 import colors
 import generator
+import lmgtfy
 import pet
 import reminder
 import utils
@@ -74,6 +75,8 @@ commands = {
 	'feed': (pet.feed, pet.readme),
 	'pet': (pet.pet, pet.readme),
 	'getseed': (pet.getSeed, pet.readme),
+	'duh': (lmgtfy.get_link, lmgtfy.readme),
+	'lmgtfy': (lmgtfy.get_link, lmgtfy.readme),
 	'saveroll': (dice.save_command, dice.readme),
 	'clearroll': (dice.clear_command, dice.readme),
 	'gen': (generator.gen_as_text, generator.readme),
@@ -81,6 +84,7 @@ commands = {
 	'rolls': (dice.list_rolls, dice.readme),
 	'role': (None, role_readme),
 	'readme': (give_help, readme_readme),
+	'rtfm': (give_help, readme_readme),
 	}
 
 @client.event

@@ -263,4 +263,5 @@ servers:
     automod:
       channel: 'bridge'
       role: 'troll'
+    lmgtfyDefault: d
     <<: *defaults
