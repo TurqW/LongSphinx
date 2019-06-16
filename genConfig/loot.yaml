@@ -36,3 +36,5 @@ piece:
   potion: potion.core
 - text: '{weapon}'
   weapon: weapon
+- text: '{trinket}'
+  trinket: trinket

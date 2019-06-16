@@ -241,7 +241,8 @@ ability:
 - text: make a really great quesadilla
 - text: mimic any sound
 - text: negate all magic in a 10-foot radius
-- text: project the form of a spectral {beast.species}
+- text: project the form of a spectral {species}
+  species: beast.species
 - text: rapidly grow vines in a 10-foot radius
 - text: regrow any limbs
 - text: release clouds of spores

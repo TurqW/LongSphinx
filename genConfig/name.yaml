@@ -3,3 +3,5 @@ help:
 root:
 - text: 'Your generated name: {name}'
   name: 'mc.name'
+- text: 'Your generated name: {name}'
+  name: 'mc.elf'

@@ -1,3 +1,7 @@
+help:
+  Does not generate anything. Contains common parts.
+root:
+- text: dummy for testing purposes
 sentient:
 - text: bugbear
 - text: centaur
@@ -112,7 +116,6 @@ wood:
 - text: ebony
 - text: elder
 - text: elm
-- text: English oak
 - text: fir
 - text: hawthorn
 - text: hazel

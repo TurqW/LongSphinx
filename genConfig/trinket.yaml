@@ -1,0 +1,25 @@
+help:
+  Generates small trinkets.
+root:
+- text: a small {material} {species}
+  material: core.material
+  species: beast.species
+- text: a small {material} {species} with eyes made of {gem}
+  material: core.material
+  species: beast.species
+  gem: gem.type
+- text: a {material} key
+  material: core.material
+- text: a small {material} box which rattles quietly when you shake it.
+  material: core.material
+- text: a {material} signet ring engraved with a {species}
+  material: core.material
+  species: beast.species
+- text: a small glass figurine of a {species}
+  species: beast.species
+- text: a tooth from a {species}
+  species: beast.species
+- text: a tooth from a {sentient}
+  sentient: core.sentient
+- text: a fine {color} feather
+  color: core.color

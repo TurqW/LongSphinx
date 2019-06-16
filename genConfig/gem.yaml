@@ -9,9 +9,6 @@ root:
   size: gem.size
   type: gem.type
   oddity: gem.oddity
-- text: '{size} {type}'
-  size: gem.size
-  type: mc.gem
 size:
 - text: puny
 - text: tiny
@@ -85,6 +82,8 @@ type:
 - text: turquoise
 - text: verdite
 - text: zircon
+- text: '{generated}'
+  generated: mc.gem
 oddity:
 - text: which glows with {color} light
   color: core.color
