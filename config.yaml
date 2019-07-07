@@ -28,9 +28,10 @@ servers:
     - '503463950243987486'
     - '542141314536439808'
     - '566381413491015701'
+    - '597065299124289552'
     - 'bot-commands'
     - 'adventures-in-pevar-ooc'
-    - 'lost-mines-rolls'
+    - 'starships-and-sorcerers-ooc'
     defaultRoleset: creature
     automod:
       channel: 'the-dungeons'

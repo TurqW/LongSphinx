@@ -10,7 +10,7 @@ root:
   gem: gem.type
 - text: a {material} key
   material: core.material
-- text: a small {material} box which rattles quietly when you shake it.
+- text: a small {material} box which rattles quietly when you shake it
   material: core.material
 - text: a {material} signet ring engraved with a {species}
   material: core.material
@@ -23,3 +23,5 @@ root:
   sentient: core.sentient
 - text: a fine {color} feather
   color: core.color
+- text: a small {material} music box
+  material: core.material
