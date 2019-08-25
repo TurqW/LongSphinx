@@ -271,4 +271,8 @@ servers:
       channel: 'bridge'
       role: 'troll'
     lmgtfyDefault: d
+    recurring:
+    - time: R/2019-08-23T00:00Z/PT6H
+      channel: rainbow
+      message: bump yo servers https://discord.me/dashboard
     <<: *defaults

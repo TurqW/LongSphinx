@@ -155,6 +155,10 @@ async def on_ready():
 		schedule = conf.get_object(server, 'scheduled')
 		for event in schedule:
 			await set_scheduled_event(server, event)
+	for server in client.servers:
+		recurring = conf.get_object(server, 'recurring')
+		for event in recurring:
+			await set_recurring_event(server, event)
 
 @client.event
 async def on_member_join(member):
@@ -261,6 +265,11 @@ async def set_scheduled_event(server, event):
 	channel = find_channel(event['channel'], server)
 	msg = event['message']
 	await reminder.set_reminder(when_time, client, channel, msg)
+
+async def set_recurring_event(server, event):
+	channel = find_channel(event['channel'], server)
+	msg = event['message']
+	await reminder.send_recurring_message(event['time'], client, channel, msg)
 
 def get_roleset(server, roleset):
 	roleNames = conf.get_object(server, 'rolesets', roleset).keys()
