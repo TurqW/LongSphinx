@@ -248,6 +248,7 @@ servers:
         'The jobs are as follows: {0}. You may choose your job with "!job jobname".'
       rerole:
         'Another peek at my crystal ball... {0}, are you attuned to {1} magic?'
+
       <<: *defaultStrings
     <<: *defaults
   '570788677937135626':
@@ -272,7 +273,7 @@ servers:
       role: 'troll'
     lmgtfyDefault: d
     recurring:
-    - time: R/2019-08-23T00:00Z/PT6H
+    - time: R/2019-08-29T00:00Z/PT6H
       channel: rainbow
-      message: bump yo servers https://discord.me/dashboard
+      message: bump https://discord.me/dashboard
     <<: *defaults

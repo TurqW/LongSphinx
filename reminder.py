@@ -48,15 +48,18 @@ def get_first_after(recurrence, timepoint):
         # when loop is done, this is the first overall timepoint (chronologicaly)
         return candidate
 
-async def send_recurring_message(recur_string, client, channel, msg):
+async def set_recurring_message(recur_string, client, channel, msg):
 	recurrence = dtparse.TimeRecurrenceParser().parse(recur_string)
 	now = dtdata.get_timepoint_for_now()
 	when_time = get_first_after(recurrence, now)
-	await client.send_message(channel, msg)
 	if when_time is not None:
 		delay = float(when_time.get("seconds_since_unix_epoch")) - datetime.datetime.now().timestamp()
 		loop = asyncio.get_event_loop()
 		loop.call_later(delay, lambda: loop.create_task(send_recurring_message(recur_string, client, channel, msg)))
+
+async def send_recurring_message(recur_string, client, channel, msg):
+	await client.send_message(channel, msg)
+	await set_recurring_message(recur_string, client, channel, msg)
 
 def readme(**kwargs):
 	return 'Still under development.'

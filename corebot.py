@@ -269,7 +269,7 @@ async def set_scheduled_event(server, event):
 async def set_recurring_event(server, event):
 	channel = find_channel(event['channel'], server)
 	msg = event['message']
-	await reminder.send_recurring_message(event['time'], client, channel, msg)
+	await reminder.set_recurring_message(event['time'], client, channel, msg)
 
 def get_roleset(server, roleset):
 	roleNames = conf.get_object(server, 'rolesets', roleset).keys()
