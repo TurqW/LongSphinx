@@ -1,6 +1,7 @@
 import asyncio
 import dateparser
 import datetime
+import math
 import logging
 import isodatetime.parsers as dtparse
 import isodatetime.data as dtdata
@@ -35,18 +36,21 @@ def get_first_after(recurrence, timepoint):
     if timepoint is None:
         return None
     if recurrence.start_point is not None:
-        for candidate in recurrence:
-            if candidate > timepoint:
-                return candidate
-        return None
-    else: # going in reverse
+        iterations, seconds_since = dividemod(timepoint - recurrence.start_point, recurrence.duration)
+        log.error('iterations: ' + str(iterations) + ' and seconds: ' + str(seconds_since))
+        if not recurrence.repetitions or recurrence.repetitions > iterations:
+        	return timepoint + (recurrence.duration - dtdata.Duration(seconds=math.floor(seconds_since)))
+    '''else: # going in reverse
         candidate = None
         for next_timepoint in recurrence:
             if next_timepoint < timepoint:
                 return candidate
             candidate = next_timepoint
-        # when loop is done, this is the first overall timepoint (chronologicaly)
-        return candidate
+        # when loop is done, this is the first overall timepoint (chronologically)
+        return candidate'''
+
+def dividemod(duration, divisor):
+	return divmod(duration.get_seconds(), divisor.get_seconds())
 
 async def set_recurring_message(recur_string, client, channel, msg):
 	recurrence = dtparse.TimeRecurrenceParser().parse(recur_string)
