@@ -2,6 +2,13 @@ help:
   Generates a random fantasy name.
 root:
 - text: 'Your generated name: {name}'
-  name: 'mc.name'
-- text: 'Your generated name: {name}'
-  name: 'mc.elf'
+  name: 'name.name'
+name:
+- text: '{name}'
+  name: mc.elf
+- text: '{name}'
+  name: mc.dwarf
+- text: '{name}'
+  name: mc.name
+- text: '{name}'
+  name: mc.angel

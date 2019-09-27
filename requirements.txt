@@ -6,3 +6,4 @@ PyYAML==3.13
 dateparser==0.7.0
 Pillow==5.3.0
 lark-parser==0.7.1
+isodatetime==1!2.0.0
