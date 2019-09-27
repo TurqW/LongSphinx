@@ -91,6 +91,7 @@ In general, you probably just want to make sure your formatting matches that of 
 * name: the name of the server. Not actually used; just meant as an aid in navigating the config file.
 * channels: a `list` of channels in which the bot should respond to messages.
 * greetingChannel: the channel in which the bot should greet new members.
+* leavingChannel: the channel in which the bot should announce member departures (leave out to get no such announcements)
 * generators: a `list` of generators to have on this server. These map to filenames in the genConfig folder; in general, the default will include all of them that are considered "standalone".
 * strings: This contains all of the configurable strings; these are the things that the bot can say.
   * roleChange: What the bot says when someone successfully requests a new role. {0} will tag the person whose role is changed, {1} is the name of the new role.
@@ -99,6 +100,7 @@ In general, you probably just want to make sure your formatting matches that of 
   * rerole: What the bot says when someone requests a new random assignment with `!rerole` (only works with `defaultRoleset`). {0} tags the requester, {1} names their new role.
   * invalid<rolesetname>: What the bot says when someone requests a role that's not in that roleset (or doesn't exist). {0} tags the requester, {1} is the role they requested.
   * welcome: What the bot says when someone joins the server. {0} tags them, {1} is the name of their randomly-assigned role (if a `defaultRoleset` is set)
+  * left: What the bot says when someone leaves the server. {0} tags them, though obviously they won't receive the tag notification.
   * <rolesetname>RoleList: What the bot says when someone requests the list of roles in a roleset. {0} gives a comma-separated list of the roles, and an image set under `urls: roleImage: <rolesetname>:` will be embedded if available.
 * defaultRoleset: This is the name of the roleset that is randomly picked from when someone joins. If left blank, no random role will be assigned.
 * rolesets: a `map` of available rolesets. Anatomy of a roleset will be covered later.
