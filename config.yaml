@@ -20,6 +20,8 @@ servers:
         '{0}, the fates have spoken: {1}, for a total of {2}.'
       rerole:
         'Another peek at my crystal ball... {0}, are you perhaps a {1}?'
+      left:
+        '{0} has left the server.'
   '443869685054701569': &realm
     name: The Realm
     channels:
@@ -276,4 +278,5 @@ servers:
     - time: R/2019-08-29T00:00Z/PT6H
       channel: rainbow
       message: bump https://discord.me/dashboard
+    leavingChannel: rainbow
     <<: *defaults

@@ -172,6 +172,13 @@ async def on_member_join(member):
 		msg = conf.get_string(member.server, 'welcome').format(member.mention)
 	await client.send_message(channel, msg)
 
+@client.event
+async def on_member_remove(member):
+	channel = find_channel(conf.get_object(member.server, 'leavingChannel'), member.server)
+	if channel:
+		msg = conf.get_string(member.server, 'left').format(member.mention)
+		await client.send_message(channel, msg)
+
 async def parse(message):
 	if conf.get_object(message.server, 'rolesets'):
 		for roleset in conf.get_object(message.server, 'rolesets').keys():
