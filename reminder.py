@@ -8,7 +8,6 @@ import isodatetime.data as dtdata
 
 log = logging.getLogger('LongSphinx.Reminder')
 
-active_reminders = []
 window = datetime.timedelta(minutes=5)
 
 async def send_message(client, channel, msg, time):
@@ -17,11 +16,12 @@ async def send_message(client, channel, msg, time):
 	else:
 		log.error('Mistimed reminder.')
 
-async def message_reminder(input, client, channel, **kwargs):
-	when_time = dateparser.parse(input)
-	msg = 'reminder: {0}'.format(input)
-	await set_reminder(when_time, client, channel, msg)
-	return 'Reminder set for {0}, current time is {1}'.format(when_time.isoformat(), datetime.datetime.now().isoformat())
+async def message_reminder(input, client, user, **kwargs):
+	splitindex = input.rfind(' in ')
+	when_time = dateparser.parse(input[splitindex:])
+	msg = 'Reminder: {0}'.format(input[:splitindex])
+	await set_reminder(when_time, client, user, msg)
+	return 'I\'ll send you a reminder{0}'.format(input[splitindex:])
 
 async def set_reminder(when_time, client, channel, msg):
 	if when_time > datetime.datetime.now():
