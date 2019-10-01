@@ -21,7 +21,7 @@ async def message_reminder(input, client, user, **kwargs):
 	when_time = dateparser.parse(input[splitindex:])
 	msg = 'Reminder: {0}'.format(input[:splitindex])
 	await set_reminder(when_time, client, user, msg)
-	return 'I\'ll send you a reminder{0}'.format(input[splitindex:])
+	return 'I\'ll send you a reminder{0}.'.format(input[splitindex:])
 
 async def set_reminder(when_time, client, channel, msg):
 	if when_time > datetime.datetime.now():

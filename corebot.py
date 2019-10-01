@@ -176,7 +176,7 @@ async def on_member_join(member):
 async def on_member_remove(member):
 	channel = find_channel(conf.get_object(member.server, 'leavingChannel'), member.server)
 	if channel:
-		msg = conf.get_string(member.server, 'left').format(member.mention)
+		msg = conf.get_string(member.server, 'left').format(member.name)
 		await client.send_message(channel, msg)
 
 async def parse(message):
