@@ -18,6 +18,7 @@ import pet
 import reminder
 import utils
 import writesprint
+import rep
 
 utils.check_path('logs')
 
@@ -75,6 +76,7 @@ commands = {
 	'feed': (pet.feed, pet.readme),
 	'pet': (pet.pet, pet.readme),
 	'getseed': (pet.getSeed, pet.readme),
+	'rep': (rep.rep, rep.readme),
 	'duh': (lmgtfy.get_link, lmgtfy.readme),
 	'lmgtfy': (lmgtfy.get_link, lmgtfy.readme),
 	'saveroll': (dice.save_command, dice.readme),
