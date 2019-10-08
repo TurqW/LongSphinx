@@ -29,7 +29,7 @@ async def rep(user, mentionTarget, input, **kwargs):
 		return poolCheck(user)
 	elif (input and input.startswith('check')) or user == mentionTarget:
 		return repCheck(mentionTarget)
-	elif user != mentionTarget:
+	else:
 		return giveRep(user, mentionTarget)
 
 def giveRep(user, target):

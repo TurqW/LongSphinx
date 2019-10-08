@@ -152,7 +152,6 @@ async def on_message(message):
 @client.event
 async def on_ready():
 	log.debug('Bot logged in as {0.user.name}'.format(client))
-	print('Bot started')
 	for server in client.servers:
 		schedule = conf.get_object(server, 'scheduled')
 		for event in schedule:
@@ -161,6 +160,8 @@ async def on_ready():
 		recurring = conf.get_object(server, 'recurring')
 		for event in recurring:
 			await set_recurring_event(server, event)
+	await reminder.set_all_saved_reminders(client)
+	print('Bot started')
 
 @client.event
 async def on_member_join(member):

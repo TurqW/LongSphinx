@@ -3,12 +3,47 @@ import dateparser
 import datetime
 import math
 import logging
+import shelve
 import isodatetime.parsers as dtparse
 import isodatetime.data as dtdata
 
 log = logging.getLogger('LongSphinx.Reminder')
 
+DBNAME = 'data/schedule'
+DBKEY = '0'
 window = datetime.timedelta(minutes=5)
+
+def load_reminders():
+	with shelve.open(DBNAME) as db:
+		if DBKEY in db:
+			return db[DBKEY]
+		else:
+			return []
+
+def save_reminders(schedule):
+	with shelve.open(DBNAME) as db:
+		db[DBKEY] = schedule
+
+def list_all_set_channels():
+	with shelve.open(DBNAME) as db:
+		return list(db.keys())
+
+def save_one_reminder(channel, when_time, msg):
+	schedule = load_reminders()
+	schedule.append((channel, when_time, msg))
+	save_reminders(schedule)
+
+def delete_reminder(reminder):
+	schedule = load_reminders()
+	schedule.remove(reminder)
+	save_reminders(schedule)
+
+async def set_all_saved_reminders(client):
+	for reminder in load_reminders():
+		if reminder[1] > datetime.datetime.now():
+			await set_reminder(reminder[1], client, reminder[0], reminder[2])
+		else:
+			delete_reminder(reminder)
 
 async def send_message(client, channel, msg, time):
 	if (time - window) <= datetime.datetime.now() <= (time + window): #extra check to avoid random mistimed messages
@@ -20,6 +55,7 @@ async def message_reminder(input, client, user, **kwargs):
 	splitindex = input.rfind(' in ')
 	when_time = dateparser.parse(input[splitindex:])
 	msg = 'Reminder: {0}'.format(input[:splitindex])
+	save_one_reminder(user, when_time, msg)
 	await set_reminder(when_time, client, user, msg)
 	return 'I\'ll send you a reminder{0}.'.format(input[splitindex:])
 
