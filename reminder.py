@@ -40,28 +40,35 @@ def delete_reminder(reminder):
 
 async def set_all_saved_reminders(client):
 	for reminder in load_reminders():
-		if reminder[1] > datetime.datetime.now():
+		if reminder[1] > datetime.datetime.utcnow():
 			await set_reminder(reminder[1], client, reminder[0], reminder[2])
 		else:
 			delete_reminder(reminder)
 
 async def send_message(client, channel, msg, time):
-	if (time - window) <= datetime.datetime.now() <= (time + window): #extra check to avoid random mistimed messages
+	if (time - window) <= datetime.datetime.utcnow() <= (time + window): #extra check to avoid random mistimed messages
 		await client.send_message(channel, msg)
 	else:
 		log.error('Mistimed reminder.')
 
-async def message_reminder(input, client, user, **kwargs):
-	splitindex = input.rfind(' in ')
-	when_time = dateparser.parse(input[splitindex:])
+def parse_input(input):
+	splitindex = max(input.rfind(' in '), input.rfind(' at '))
+	when_time = dateparser.parse(input[splitindex:], settings={'TIMEZONE': 'UTC'})
+	if when_time.tzinfo is not None:
+		when_time = when_time.replace(tzinfo=None)
 	msg = 'Reminder: {0}'.format(input[:splitindex])
+	displaytext = input[splitindex:]
+	return when_time, msg, displaytext
+
+async def message_reminder(input, client, user, **kwargs):
+	when_time, msg, displaytext = parse_input(input)
 	save_one_reminder(user, when_time, msg)
 	await set_reminder(when_time, client, user, msg)
-	return 'I\'ll send you a reminder{0}.'.format(input[splitindex:])
+	return 'I\'ll send you a reminder in {0} seconds.'.format(round((when_time-datetime.datetime.utcnow()).total_seconds()))
 
 async def set_reminder(when_time, client, channel, msg):
-	if when_time > datetime.datetime.now():
-		delay = when_time.timestamp() - datetime.datetime.now().timestamp()
+	if when_time > datetime.datetime.utcnow():
+		delay = when_time.timestamp() - datetime.datetime.utcnow().timestamp()
 		loop = asyncio.get_event_loop()
 		loop.call_later(delay, lambda: loop.create_task(send_message(client, channel, msg, when_time)))
 	else:
@@ -93,7 +100,7 @@ async def set_recurring_message(recur_string, client, channel, msg):
 	now = dtdata.get_timepoint_for_now()
 	when_time = get_first_after(recurrence, now)
 	if when_time is not None:
-		delay = float(when_time.get("seconds_since_unix_epoch")) - datetime.datetime.now().timestamp()
+		delay = float(when_time.get("seconds_since_unix_epoch")) - datetime.datetime.utcnow().timestamp()
 		loop = asyncio.get_event_loop()
 		loop.call_later(delay, lambda: loop.create_task(send_recurring_message(recur_string, client, channel, msg)))
 
@@ -102,4 +109,6 @@ async def send_recurring_message(recur_string, client, channel, msg):
 	await set_recurring_message(recur_string, client, channel, msg)
 
 def readme(**kwargs):
-	return 'Still under development.'
+	return '''
+	* `!remind <message> in <duration>`: Sends a reminder PM to the requester. For instance: `!remind laundry in 30 minutes`
+	* `!remind <message> at <time>`: Same as above, but sends at the time specified in UTC. Remember to specify AM or PM or use 24-hour clock.'''

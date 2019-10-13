@@ -22,7 +22,11 @@ import rep
 
 utils.check_path('logs')
 
-logging.basicConfig(filename='logs/ubeast.log',level=logging.DEBUG)
+logging.basicConfig(
+	filename='logs/ubeast.log',
+	format='%(asctime)s %(levelname)-8s %(message)s',
+	datefmt='%Y-%m-%d %H:%M:%S',
+	level=logging.DEBUG)
 logging.getLogger('discord').setLevel(logging.WARNING)
 logging.getLogger('websockets').setLevel(logging.WARNING)
 log = logging.getLogger('LongSphinx')
@@ -77,6 +81,7 @@ commands = {
 	'pet': (pet.pet, pet.readme),
 	'getseed': (pet.getSeed, pet.readme),
 	'rep': (rep.rep, rep.readme),
+	'hep': (rep.rep, rep.readme),
 	'duh': (lmgtfy.get_link, lmgtfy.readme),
 	'lmgtfy': (lmgtfy.get_link, lmgtfy.readme),
 	'saveroll': (dice.save_command, dice.readme),
@@ -152,10 +157,6 @@ async def on_message(message):
 @client.event
 async def on_ready():
 	log.debug('Bot logged in as {0.user.name}'.format(client))
-	for server in client.servers:
-		schedule = conf.get_object(server, 'scheduled')
-		for event in schedule:
-			await set_scheduled_event(server, event)
 	for server in client.servers:
 		recurring = conf.get_object(server, 'recurring')
 		for event in recurring:

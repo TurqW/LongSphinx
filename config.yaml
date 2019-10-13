@@ -2,8 +2,7 @@ servers:
   default: &defaults
     channels:
     - bot-commands
-    greetingChannel:
-      portal
+    greetingChannel: False
     generators:
     - beast
     - potion
@@ -11,6 +10,9 @@ servers:
     - name
     - loot
     - encounter
+    automod: False
+    recurring: False
+    leavingChannel: False
     strings: &defaultStrings
       roleChange:
         '{0}, you are now a {1}.'
@@ -24,6 +26,7 @@ servers:
         '{0} has left the server.'
   '443869685054701569': &realm
     name: The Realm
+    greetingChannel: portal
     channels:
     - '445271158502457345'
     - '447948663168303105'
@@ -221,15 +224,12 @@ servers:
     static:
       spank: https://i.imgur.com/3ZERxgc.png
       charge: https://cdn.discordapp.com/attachments/444030298406125568/503820387864281089/annoyedcatTim2.png
-    scheduled:
-    - time: 2018-12-30T12:00
-      channel: command-line
-      message: This message is left solely as a syntax reminder. As it is in the past, it should never trigger.
     <<: *defaults
   '489197880809095168':
     <<: *realm
   '494373430637101058':
-    name: Test
+    name: Waltlandia
+    greetingChannel: portal
     defaultRoleset:
       element
     rolesets:
@@ -250,7 +250,10 @@ servers:
         'The jobs are as follows: {0}. You may choose your job with "!job jobname".'
       rerole:
         'Another peek at my crystal ball... {0}, are you attuned to {1} magic?'
-
+      <<: *defaultStrings
+    automod:
+      channel: 'dungeon'
+      role: 'Crook'
       <<: *defaultStrings
     <<: *defaults
   '570788677937135626':
@@ -272,7 +275,7 @@ servers:
     - '579019008591003655'
     automod:
       channel: 'bridge'
-      role: 'troll'
+      role: 'Troll'
     lmgtfyDefault: d
     recurring:
     - time: R/2019-08-29T00:00Z/PT6H
