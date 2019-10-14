@@ -100,7 +100,7 @@ async def set_recurring_message(recur_string, client, channel, msg):
 	now = dtdata.get_timepoint_for_now()
 	when_time = get_first_after(recurrence, now)
 	if when_time is not None:
-		delay = float(when_time.get("seconds_since_unix_epoch")) - datetime.datetime.utcnow().timestamp()
+		delay = float(when_time.get("seconds_since_unix_epoch")) - datetime.datetime.now().timestamp()
 		loop = asyncio.get_event_loop()
 		loop.call_later(delay, lambda: loop.create_task(send_recurring_message(recur_string, client, channel, msg)))
 
