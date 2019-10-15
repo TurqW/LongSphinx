@@ -159,8 +159,9 @@ async def on_ready():
 	log.debug('Bot logged in as {0.user.name}'.format(client))
 	for server in client.servers:
 		recurring = conf.get_object(server, 'recurring')
-		for event in recurring:
-			await set_recurring_event(server, event)
+		if recurring:
+			for event in recurring:
+				await set_recurring_event(server, event)
 	await reminder.set_all_saved_reminders(client)
 	print('Bot started')
 
