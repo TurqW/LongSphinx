@@ -291,3 +291,16 @@ servers:
       message: bump https://discord.me/dashboard
     leavingChannel: rainbow
     <<: *defaults
+  '302519947005919232':
+    name: USS Joshua Norton
+    channels:
+      - holodeck
+      - '346828750144667649'
+      - wharf
+      - '302524900604903434'
+    lmgtfyDefault: d
+    greetingChannel: lobby
+    leavingChannel: holodeck
+    strings:
+      welcome: 'Welcome aboard the USS Joshua Norton, {0}. Please be sure to read <#575878931018809374> and let the <@&302521125198495747> know if you need any help.'
+
