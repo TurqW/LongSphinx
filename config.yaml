@@ -303,4 +303,5 @@ servers:
     leavingChannel: holodeck
     strings:
       welcome: 'Welcome aboard the USS Joshua Norton, {0}. Please be sure to read <#575878931018809374> and let the <@&302521125198495747> know if you need any help.'
+      <<: *defaultStrings
 
