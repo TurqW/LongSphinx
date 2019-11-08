@@ -302,6 +302,5 @@ servers:
     greetingChannel: lobby
     leavingChannel: holodeck
     strings:
-      welcome: '<:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
-Please be sure to read <#575878931018809374> and let the <@&302521125198495747> know if you need any help.
-<:orionllaphand:394679026066784256><:cllaphand:441431194492469249><:androidllaphand:625569278245994509><:amyllap:525534965715173397>'
+      welcome: 'Welcome aboard the USS Joshua Norton, {0}. Please be sure to read <#575878931018809374> and let the <@&302521125198495747> know if you need any help.'
+
