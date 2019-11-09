@@ -65,7 +65,7 @@ async def give_help(user, client, channel, server, mentionTarget, command, input
 			command=command,
 			input=input,
 			conf=conf)
-	return 'Implemented commands: ' + ', '.join(commands.keys()) + '\nTry `!readme <commandName>` to learn more.'
+	return 'Implemented commands: ' + ', '.join(commands.keys()) + '\nTry `!{0} <commandName>` to learn more.'.format(command)
 
 def readme_readme(**kwargs):
 	return 'pick a command that you need help with.'
@@ -79,7 +79,7 @@ commands = {
 	'summon': (pet.summon, pet.readme),
 	'feed': (pet.feed, pet.readme),
 	'pet': (pet.pet, pet.readme),
-	'getseed': (pet.getSeed, pet.readme),
+#	'getseed': (pet.getSeed, pet.readme),
 	'rep': (rep.rep, rep.readme),
 	'hep': (rep.rep, rep.readme),
 	'duh': (lmgtfy.get_link, lmgtfy.readme),

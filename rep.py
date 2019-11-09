@@ -63,9 +63,9 @@ def saveUser(repInfo, user):
 	with shelve.open(DBNAME) as db:
 		db[user.id] = repInfo
 
-def readme(**kwargs):
+def readme(input, **kwargs):
 	return """Rep:
-* `!rep @user` Give a rep point to another user.
-* `!rep check` Check the amount of rep you've received. @mention another user to see theirs.
-* `!rep pool` Check how much rep you have available to give.
-"""
+* `!{0} @user` Give a rep point to another user.
+* `!{0} check` Check the amount of rep you've received. @mention another user to see theirs.
+* `!{0} pool` Check how much rep you have available to give.
+""".format(input)
