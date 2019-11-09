@@ -128,7 +128,7 @@ async def on_message(message):
 
 				elif command.split()[0] in commands.keys():
 					try:
-						input = message.content.split(maxsplit=1)[1]
+						input = command.split(maxsplit=1)[1]
 					except IndexError:
 						input = None
 					result = await commands[command.split()[0]][0](
