@@ -1,6 +1,5 @@
 # the discord auth token
-token.txt
-dev-token.txt
+*.token
 
 #save data
 data/

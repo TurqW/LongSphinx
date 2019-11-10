@@ -100,7 +100,7 @@ async def save_command(user, input, **kwargs):
 		parser.parse(command)
 	except LarkError:
 		return 'Command was not valid.'
-	if any(char.isdigit() for char in name):
+	if any(char.isdigit() for char in name) or name.strip().lower() == 'help':
 		return 'Name was not valid.'
 	with shelve.open(dbname) as db:
 		if user.id not in db:

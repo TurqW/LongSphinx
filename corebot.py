@@ -79,7 +79,7 @@ commands = {
 	'summon': (pet.summon, pet.readme),
 	'feed': (pet.feed, pet.readme),
 	'pet': (pet.pet, pet.readme),
-#	'getseed': (pet.getSeed, pet.readme),
+	'getseed': (pet.getSeed, pet.readme),
 	'rep': (rep.rep, rep.readme),
 	'hep': (rep.rep, rep.readme),
 	'duh': (lmgtfy.get_link, lmgtfy.readme),
