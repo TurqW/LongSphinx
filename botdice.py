@@ -153,8 +153,8 @@ def stringy_mod(modifier):
 
 def readme(**kwargs):
 	return '''* `!roll NdM`: rolls a `M`-sided die `N` times. Multiple sets of dice can be used.
---- Examples: `!roll 1d6`, `!roll 2d20+3`, `!roll 1d20, 3d6`.
+> Examples: `!roll 1d6`, `!roll 2d20+3`, `!roll 1d20, 3d6`.
 * `!saveroll NdM: rollname`: saves NdM as rollname, so that you can roll it with just `!roll rollname`.
---- Example: `!saveroll 1d20+5,1d8+3: hammer`
+> Example: `!saveroll 1d20+5,1d8+3: hammer`
 * `!rolls`: shows your saved rolls.
 * `!clearroll rollname`: deletes a saved roll. There is no undo button.\n'''

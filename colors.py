@@ -15,4 +15,5 @@ async def show_swatch(input, client, channel, **kwargs):
 	await client.send_file(channel, swatch, filename=input + '.png')
 
 def readme(**kwargs):
-	return '* `!color #hex`: Shows a color swatch of the color denoted by the hex sequence. Example: `!color #131071`\n'
+	return '''* `!color #hex`: Shows a color swatch of the color denoted by the hex sequence.
+> Example: `!color #131071`\n'''

@@ -17,10 +17,10 @@ def readme(input, conf, server, **kwargs):
 		flag = 'g'
 	return '''* `!{} <query>`: Provides an easy LMGTFY link with a single command.
 Supports flags to use alternative search engines. Start your <query> with:
-`-a` AOL
-`-b` Bing
-`-d` DuckDuckGo
-`-g` Google
-`-k` Ask
-`-y` Yahoo
+> `-a` AOL
+> `-b` Bing
+> `-d` DuckDuckGo
+> `-g` Google
+> `-k` Ask
+> `-y` Yahoo
 This server defaults to: `-{}`'''.format(input, flag)

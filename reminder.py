@@ -110,5 +110,6 @@ async def send_recurring_message(recur_string, client, channel, msg):
 
 def readme(**kwargs):
 	return '''
-	* `!remind <message> in <duration>`: Sends a reminder PM to the requester. For instance: `!remind laundry in 30 minutes`
+	* `!remind <message> in <duration>`: Sends a reminder PM to the requester. 
+> Example: `!remind laundry in 30 minutes`
 	* `!remind <message> at <time>`: Same as above, but sends at the time specified in UTC. Remember to specify AM or PM or use 24-hour clock.'''

@@ -144,6 +144,7 @@ def readme(**kwargs):
 * `!summon` generate a new random pet for you! **Warning: will delete your old pet if you have one.**
 * `!feed` feed your pet. @mention someone else to feed their pet instead.
 * `!pet` give your pet a pat. @mention someone else to pat their pet instead.
+* `!getseed` find the seed for your pet. If you save this somewhere, you can `!summon <seed>` to get back to this pet if something happens.
 """
 try:
 	loadPet('0')

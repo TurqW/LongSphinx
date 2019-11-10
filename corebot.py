@@ -22,8 +22,11 @@ import rep
 
 utils.check_path('logs')
 
+if len(sys.argv) > 1:
+	botname = sys.argv[1]
+
 logging.basicConfig(
-	filename='logs/ubeast.log',
+	filename='logs/{0}.log'.format(botname),
 	format='%(asctime)s %(levelname)-8s %(message)s',
 	datefmt='%Y-%m-%d %H:%M:%S',
 	level=logging.DEBUG)
@@ -31,11 +34,8 @@ logging.getLogger('discord').setLevel(logging.WARNING)
 logging.getLogger('websockets').setLevel(logging.WARNING)
 log = logging.getLogger('LongSphinx')
 
-tokenfilename = 'token.txt'
+tokenfilename = '{0}.token'.format(botname)
 COMMAND_CHAR = '!'
-
-if len(sys.argv) > 1:
-	tokenfilename = sys.argv[1]
 	
 with open(tokenfilename, 'r') as tokenfile:
 	TOKEN = tokenfile.readline().strip()
@@ -131,13 +131,16 @@ async def on_message(message):
 						input = command.split(maxsplit=1)[1]
 					except IndexError:
 						input = None
+					if input and input.strip().lower() == 'help':
+						input = command.split()[0]
+						command = 'readme'
 					result = await commands[command.split()[0]][0](
 						user=message.author,
 						client=client,
 						channel=message.channel,
 						server=message.server,
 						mentionTarget=utils.getMentionTarget(message),
-						command=message.content.split()[0][1:],
+						command=command.split()[0],
 						input=input,
 						conf=conf
 					)
