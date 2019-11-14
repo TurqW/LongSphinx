@@ -286,7 +286,7 @@ servers:
       role: 'Troll'
     lmgtfyDefault: d
     recurring:
-    - time: R/2019-08-29T00:00Z/PT6H
+    - time: R/2019-11-12T23:59Z/PT6H
       channel: rainbow
       message: bump https://discord.me/dashboard
     leavingChannel: rainbow
