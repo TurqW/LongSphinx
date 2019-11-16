@@ -1,4 +1,5 @@
 import datetime
+import discord
 import random
 import shelve
 import sys
@@ -33,8 +34,8 @@ class Pet:
 		self.update()
 		if (self.food < maxFood):
 			self.food = min(maxFood, self.food + foodGain)
-			return self.feedText + self.render()
-		return self.fullText + self.render()
+			return (self.feedText, self.render())
+		return (self.fullText, self.render())
 
 	def pet(self):
 		self.update()
@@ -47,17 +48,20 @@ class Pet:
 		else:
 			message = self.fullPetText
 		self.happy = min(maxHappy, int(self.happy + (happyGain * factor)))
-		return message + '\n' + self.render()
+		return (message, self.render())
 
 	def render(self):
+		embed = discord.Embed()
 		try:
-			about = '{name}, {description}\nAbility: {ability}'.format(
-				name = self.name,
+			embed.title = self.name
+			embed.description = '{description} who can {ability}'.format(
 				description=generator.extract_text(self.desc['description']),
 				ability=generator.extract_text(self.desc['ability']))
 		except AttributeError:
-			about = 'Familiar'
-		return '```\n' + about + '\n Fed:\n' + utils.drawGauge(self.food, maxFood) + '\n Happiness:\n' + utils.drawGauge(self.happy, maxHappy) + '\n```'
+			embed.title = 'Familiar'
+		embed.add_field(name='Fed', value='```\n' + utils.drawGauge(self.food, maxFood) + '\n```', inline=False)
+		embed.add_field(name='Happiness', value='```\n' + utils.drawGauge(self.happy, maxHappy) + '\n```', inline=False)
+		return embed
 
 	def update(self):
 		temp = self.lastCheck + tick

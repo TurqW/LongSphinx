@@ -39,7 +39,7 @@ class RollsetTransformer(Transformer):
 			if '+' not in item['description']:
 				results[key] = '**' + str(item['value']) + '**'
 			else:
-				results[key] = item['description'] + '=**' + str(item['value']) + '**'
+				results[key] = item['description'] + ' = **' + str(item['value']) + '**'
 		return results
 
 
