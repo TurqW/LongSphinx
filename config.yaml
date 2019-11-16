@@ -13,6 +13,7 @@ servers:
     automod: False
     recurring: False
     leavingChannel: False
+    embedColor: 26F69A
     strings: &defaultStrings
       roleChange:
         '{0}, you are now a {1}.'
@@ -290,6 +291,7 @@ servers:
       channel: rainbow
       message: bump https://discord.me/dashboard
     leavingChannel: rainbow
+    embedColor: 843DA4
     <<: *defaults
   '302519947005919232':
     name: USS Joshua Norton
@@ -301,6 +303,7 @@ servers:
     lmgtfyDefault: d
     greetingChannel: lobby
     leavingChannel: holodeck
+    embedColor: 81ce38
     strings:
       welcome: '<:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
 

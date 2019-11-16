@@ -145,6 +145,7 @@ async def on_message(message):
 						conf=conf
 					)
 					if type(result) is tuple:
+						setEmbedColor(result[1], message.server)
 						await client.send_message(message.channel, result[0], embed=result[1])
 					else:
 						await client.send_message(message.channel, result)
@@ -202,6 +203,10 @@ def isCommand(mystring, command):
 	if mystring.split()[0].lower() == command.lower():
 		return True
 	return False
+
+def setEmbedColor(embed, server):
+	if embed.color == discord.Embed.Empty:
+		embed.color = int(conf.get_object(server, 'embedColor'), 16)
 
 async def request_role(message, roleset):
 	words = message.content.split()[1:]

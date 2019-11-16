@@ -36,7 +36,10 @@ class RollsetTransformer(Transformer):
 			while key in results:
 				iterator += 1
 				key = item['name'] + ' (' + str(iterator) + ')'
-			results[key] = item['description'] + '=' + str(item['value'])
+			if '+' not in item['description']:
+				results[key] = '**' + str(item['value']) + '**'
+			else:
+				results[key] = item['description'] + '=**' + str(item['value']) + '**'
 		return results
 
 
