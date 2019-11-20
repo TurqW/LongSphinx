@@ -17,3 +17,9 @@ def getMentionTarget(message):
 		raise ValueError("Too many people tagged")
 	else:
 		return message.mentions[0]
+
+def is_command(mystring, command):
+	mystring = mystring.strip(' !')
+	if mystring.split()[0].lower() == command.lower():
+		return True
+	return False

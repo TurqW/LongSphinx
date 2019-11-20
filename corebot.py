@@ -9,6 +9,7 @@ import types
 import yaml
 from pathlib import Path
 
+import automod
 import botconfig as conf
 import botdice as dice
 import colors
@@ -43,7 +44,6 @@ with open(tokenfilename, 'r') as tokenfile:
 client = discord.Client()
 todo = []
 commands = {}
-noobs = []
 
 def role_readme(server, **kwargs):
 	msg = ''
@@ -70,6 +70,48 @@ async def give_help(user, client, channel, server, mentionTarget, command, input
 def readme_readme(**kwargs):
 	return 'pick a command that you need help with.'
 
+async def do_command(message, conf):
+	if not message.server or message.channel.name in conf.get_object(message.server, 'channels') or message.channel.id in conf.get_object(message.server, 'channels'):
+		if message.content.startswith(COMMAND_CHAR):
+			command = message.content[1:].strip().lower()
+			if utils.is_command(command, 'rerole'):
+				await rerole(message)
+
+			elif command.split()[0] in commands.keys():
+				try:
+					input = command.split(maxsplit=1)[1]
+				except IndexError:
+					input = None
+				if input and input.strip().lower() == 'help':
+					input = command.split()[0]
+					command = 'readme'
+				result = await commands[command.split()[0]][0](
+					user=message.author,
+					client=client,
+					channel=message.channel,
+					server=message.server,
+					mentionTarget=utils.getMentionTarget(message),
+					command=command.split()[0],
+					input=input,
+					conf=conf
+				)
+				if type(result) is tuple:
+					setEmbedColor(result[1], message.server)
+					await client.send_message(message.channel, result[0], embed=result[1])
+				else:
+					await client.send_message(message.channel, result)
+			else:
+				await parse(message)
+
+async def assign_backlog_roles(message, conf):
+	for member, roleinfo in todo:
+		try:
+			await add_role(member, roleinfo[0], roleinfo[1])
+		except discord.errors.NotFound:
+			# If they've already left, we want to know, but to remove it from todo
+			log.info('Member {0.name} not found on server {0.server}'.format(member))
+	todo.clear()
+
 commands = {
 	'remind': (reminder.message_reminder, reminder.readme),
 	'color': (colors.show_swatch, colors.readme),
@@ -94,67 +136,21 @@ commands = {
 	'rtfm': (give_help, readme_readme),
 	}
 
+modules = [
+	assign_backlog_roles,
+	conf.update_config,
+	automod.first_message_link,
+	do_command
+	]
+
 @client.event
 async def on_message(message):
-	for member, roleinfo in todo:
-		try:
-			await add_role(member, roleinfo[0], roleinfo[1])
-		except discord.errors.NotFound:
-			# If they've already left, we want to know, but to remove it from todo
-			log.info('Member {0.name} not found on server {0.server}'.format(member))
-	todo.clear()
-	conf.update_config()
-	# we do not want the bot to reply to itself
-	if message.author == client.user:
-		return
-	automod = conf.get_object(message.server, 'automod')
-	if automod and (message.server.id, message.author.id) in noobs:
-		if re.search('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', message.content):
-			role = discord.utils.find(lambda r: r.name.lower() == automod['role'].lower(), message.server.roles)
-			dungeon_channel = find_channel(automod['channel'], message.server)
-			await client.add_roles(message.author, role)
-			await client.send_message(dungeon_channel, message.author.mention + ', your first message on the server was auto-flagged as potential spam. A mod will be here shortly to review your case. Your message: ```\n' + message.content + '\n```')
-			try:
-				await client.delete_message(message)
-			except Exception as e:
-				print(e)
-		noobs.remove((message.server.id, message.author.id))
 	try:
-		if not message.server or message.channel.name in conf.get_object(message.server, 'channels') or message.channel.id in conf.get_object(message.server, 'channels'):
-			if message.content.startswith(COMMAND_CHAR):
-				command = message.content[1:].strip().lower()
-				if isCommand(command, 'rerole'):
-					await rerole(message)
-
-				elif command.split()[0] in commands.keys():
-					try:
-						input = command.split(maxsplit=1)[1]
-					except IndexError:
-						input = None
-					if input and input.strip().lower() == 'help':
-						input = command.split()[0]
-						command = 'readme'
-					result = await commands[command.split()[0]][0](
-						user=message.author,
-						client=client,
-						channel=message.channel,
-						server=message.server,
-						mentionTarget=utils.getMentionTarget(message),
-						command=command.split()[0],
-						input=input,
-						conf=conf
-					)
-					if type(result) is tuple:
-						setEmbedColor(result[1], message.server)
-						await client.send_message(message.channel, result[0], embed=result[1])
-					else:
-						await client.send_message(message.channel, result)
-				else:
-					await parse(message)
-			elif message.content.startswith('&join'):
-				await on_member_join(message.author)
-			elif message.content.startswith('<:Tim:'):
-				await client.send_message(message.channel, 'You rang?')
+		if message.author != client.user:
+			for module in modules:
+				shouldAbort = await module(message=message, conf=conf)
+				if shouldAbort:
+					break
 	except:
 		log.exception('Exception in on_message:')
 
@@ -191,18 +187,12 @@ async def on_member_remove(member):
 async def parse(message):
 	if conf.get_object(message.server, 'rolesets'):
 		for roleset in conf.get_object(message.server, 'rolesets').keys():
-			if isCommand(message.content, roleset):
+			if utils.is_command(message.content, roleset):
 				return await request_role(message, roleset)
 	if conf.get_object(message.server, 'static'):
 		for entry in conf.get_object(message.server, 'static').keys():
-			if isCommand(message.content, entry):
+			if utilsis_command(message.content, entry):
 				return await static_message(message, entry)
-
-def isCommand(mystring, command):
-	mystring = mystring.strip(' !')
-	if mystring.split()[0].lower() == command.lower():
-		return True
-	return False
 
 def setEmbedColor(embed, server):
 	if embed.color == discord.Embed.Empty:
@@ -210,7 +200,7 @@ def setEmbedColor(embed, server):
 
 async def request_role(message, roleset):
 	words = message.content.split()[1:]
-	if words and isCommand(words[0], roleset):
+	if words and utils.is_command(words[0], roleset):
 		words.pop()
 	if len(words) == 0:
 		return await list_roles(message, roleset)

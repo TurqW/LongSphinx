@@ -54,7 +54,7 @@ class Pet:
 		embed = discord.Embed()
 		try:
 			embed.title = self.name
-			embed.description = '{description} who can {ability}'.format(
+			embed.description = '{description} that can {ability}'.format(
 				description=generator.extract_text(self.desc['description']),
 				ability=generator.extract_text(self.desc['ability']))
 		except AttributeError:

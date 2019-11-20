@@ -21,5 +21,5 @@ def get_object(server, *hierarchy):
 def get_string(server, stringname):
 	return get_object(server, 'strings', stringname)
 
-def update_config():
+async def update_config(**kwargs):
 	conf.update_config()
