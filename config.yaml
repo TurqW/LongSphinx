@@ -286,10 +286,6 @@ servers:
       channel: 'bridge'
       role: 'Troll'
     lmgtfyDefault: d
-    recurring:
-    - time: R/2019-11-12T23:59Z/PT6H
-      channel: rainbow
-      message: bump https://discord.me/dashboard
     leavingChannel: rainbow
     embedColor: 843DA4
     <<: *defaults
@@ -304,6 +300,10 @@ servers:
     greetingChannel: lobby
     leavingChannel: holodeck
     embedColor: 81ce38
+    recurring:
+    - time: R/2019-11-12T23:59Z/PT6H
+      channel: bump
+      message: bump <https://discord.me/dashboard>
     strings:
       welcome: '<:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
 

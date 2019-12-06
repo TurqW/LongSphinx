@@ -145,14 +145,14 @@ modules = [
 
 @client.event
 async def on_message(message):
-	try:
-		if message.author != client.user:
-			for module in modules:
+	if message.author != client.user:
+		for module in modules:
+			try:
 				shouldAbort = await module(message=message, conf=conf)
 				if shouldAbort:
 					break
-	except:
-		log.exception('Exception in on_message:')
+			except:
+				log.exception('Exception in on_message:')
 
 @client.event
 async def on_ready():
