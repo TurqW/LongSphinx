@@ -16,3 +16,6 @@ async def first_message_link(message, conf):
 			except Exception as e:
 				print(e)
 		noobs.remove((message.server.id, message.author.id))
+
+def add_to_noobs(member):
+	noobs.append((member.server.id, member.id))

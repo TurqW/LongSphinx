@@ -167,7 +167,7 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-	noobs.append((member.server.id, member.id))
+	automod.add_to_noobs(member)
 	channel = find_channel(conf.get_object(member.server, 'greetingChannel'), member.server)
 	log.debug('{0.name} joined {0.server}'.format(member))
 	if conf.get_object(member.server, 'defaultRoleset'):
@@ -191,7 +191,7 @@ async def parse(message):
 				return await request_role(message, roleset)
 	if conf.get_object(message.server, 'static'):
 		for entry in conf.get_object(message.server, 'static').keys():
-			if utilsis_command(message.content, entry):
+			if utils.is_command(message.content, entry):
 				return await static_message(message, entry)
 
 def setEmbedColor(embed, server):
@@ -257,7 +257,7 @@ async def add_role(member, role, roleset):
 
 def find_channel(channel_name, server):
 	for x in server.channels:
-		if x.name == channel_name:
+		if x.name == channel_name or x.id == channel_name:
 			return x
 	log.error('channel {0} not found on server {1.name}'.format(channel_name, server))
 

@@ -301,8 +301,8 @@ servers:
     leavingChannel: holodeck
     embedColor: 81ce38
     recurring:
-    - time: R/2019-11-12T23:59Z/PT6H
-      channel: bump
+    - time: R/2019-12-16T23:59Z/PT6H
+      channel: '652303689037512704'
       message: bump <https://discord.me/dashboard>
     strings:
       welcome: '<:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
