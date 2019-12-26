@@ -186,9 +186,10 @@ async def on_member_remove(member):
 
 async def parse(message):
 	if conf.get_object(message.server, 'rolesets'):
-		for roleset in conf.get_object(message.server, 'rolesets').keys():
-			if utils.is_command(message.content, roleset):
-				return await request_role(message, roleset)
+		if len(message.author.roles) > 1:
+			for roleset in conf.get_object(message.server, 'rolesets').keys():
+				if utils.is_command(message.content, roleset):
+					return await request_role(message, roleset)
 	if conf.get_object(message.server, 'static'):
 		for entry in conf.get_object(message.server, 'static').keys():
 			if utils.is_command(message.content, entry):
