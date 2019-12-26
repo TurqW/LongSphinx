@@ -263,7 +263,6 @@ servers:
     automod:
       channel: 'dungeon'
       role: 'Crook'
-      <<: *defaultStrings
     <<: *defaults
   '570788677937135626':
     name: Just Write
@@ -282,12 +281,27 @@ servers:
     - '566876681806020630'
     - guillotine
     - '579019008591003655'
+    rolesets:
+      role:
+        Red:
+        Orange:
+        Yellow:
+        Green:
+        Blue:
+        Purple:
+        Pink:
     automod:
       channel: 'bridge'
       role: 'Troll'
     lmgtfyDefault: d
     leavingChannel: rainbow
     embedColor: 843DA4
+    strings:
+      roleRoleList:
+        'Set your color with `!role color`, such as `!role Purple`'
+      invalidrole:
+        '{0}, role {1} is not available. You can see the options with `!role`.'
+      <<: *defaultStrings
     <<: *defaults
   '302519947005919232':
     name: USS Joshua Norton

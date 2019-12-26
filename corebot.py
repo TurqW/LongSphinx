@@ -48,7 +48,7 @@ commands = {}
 def role_readme(server, **kwargs):
 	msg = ''
 	for roleset in conf.get_object(server, 'rolesets').keys():
-		msg += '* `!{0}`: Lists all roles in roleset {0}.\n'.format(roleset)
+		msg += '* `!{0}`: Lists all available {0} options.\n'.format(roleset)
 		msg += '* `!{0} <{0}name>`: You become the chosen {0}. Example: `!{0} {1}`\n'.format(roleset, [a for a in list(conf.get_object(server, 'rolesets', roleset).keys()) if a != 'removeOnUpdate'][0])
 		if roleset != conf.get_object(server, 'defaultRoleset'):
 			msg += '* `!{0} none`: Removes any roles you have from the {0} roleset.\n'.format(roleset)
@@ -77,7 +77,7 @@ async def do_command(message, conf):
 			if utils.is_command(command, 'rerole'):
 				await rerole(message)
 
-			elif command.split()[0] in commands.keys():
+			elif command.split()[0] in commands.keys() and commands[command.split()[0]][0]:
 				try:
 					input = command.split(maxsplit=1)[1]
 				except IndexError:
