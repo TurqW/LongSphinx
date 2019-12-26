@@ -42,7 +42,6 @@ with open(tokenfilename, 'r') as tokenfile:
 	TOKEN = tokenfile.readline().strip()
 
 client = discord.Client()
-todo = []
 commands = {}
 
 def role_readme(server, **kwargs):
@@ -103,15 +102,6 @@ async def do_command(message, conf):
 			else:
 				await parse(message)
 
-async def assign_backlog_roles(message, conf):
-	for member, roleinfo in todo:
-		try:
-			await add_role(member, roleinfo[0], roleinfo[1])
-		except discord.errors.NotFound:
-			# If they've already left, we want to know, but to remove it from todo
-			log.info('Member {0.name} not found on server {0.server}'.format(member))
-	todo.clear()
-
 commands = {
 	'remind': (reminder.message_reminder, reminder.readme),
 	'color': (colors.show_swatch, colors.readme),
@@ -137,7 +127,6 @@ commands = {
 	}
 
 modules = [
-	assign_backlog_roles,
 	conf.update_config,
 	automod.first_message_link,
 	do_command
@@ -265,8 +254,10 @@ def find_channel(channel_name, server):
 async def change_role(member, roleName, roleset):
 	if any(role.name.lower() == roleName.lower() for role in get_roleset(member.server, roleset)):
 		role = discord.utils.find(lambda r: r.name.lower() == roleName.lower(), member.server.roles)
-		await client.remove_roles(member, *get_roles_to_remove(member.server, roleset))
-		todo.append((member, [role, roleset]))
+		to_remove = get_roles_to_remove(member.server, roleset)
+		to_remove.remove(role)
+		await client.remove_roles(member, *to_remove)
+		await add_role(member, role, roleset)
 		return role
 	else:
 		raise NameError(roleName)
