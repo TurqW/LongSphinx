@@ -3,7 +3,6 @@ import discord
 import logging
 import os
 import random
-import re
 import sys
 import types
 import yaml
