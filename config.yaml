@@ -281,6 +281,10 @@ servers:
     - '566876681806020630'
     - guillotine
     - '579019008591003655'
+    - adventure
+    - '662500580329127956'
+    - adventure-ooc
+    - '662684031220973598'
     rolesets:
       role:
         Red:
