@@ -104,6 +104,7 @@ async def do_command(message, conf):
 commands = {
 	'remind': (reminder.message_reminder, reminder.readme),
 	'color': (colors.show_swatch, colors.readme),
+	'colour': (colors.show_swatch, colors.readme),
 	'makesprint': (writesprint.make_sprint, writesprint.readme),
 	'joinsprint': (writesprint.join_sprint, writesprint.readme),
 	'sprintwords': (writesprint.record_words, writesprint.readme),
@@ -119,6 +120,7 @@ commands = {
 	'clearroll': (dice.clear_command, dice.readme),
 	'gen': (generator.gen_as_text, generator.readme),
 	'roll': (dice.roll_dice, dice.readme),
+	'r': (dice.roll_dice, dice.readme),
 	'rolls': (dice.list_rolls, dice.readme),
 	'role': (None, role_readme),
 	'readme': (give_help, readme_readme),
