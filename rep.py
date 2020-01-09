@@ -24,10 +24,10 @@ class Rep:
 		self.pool -= 1
 
 # Database structure: Username: (rep received, rep to give, lastUpdated)
-async def rep(user, mentionTarget, input, **kwargs):
-	if input and input.startswith('pool'):
+async def rep(user, mentionTarget, argstring, **kwargs):
+	if argstring and argstring.startswith('pool'):
 		return poolCheck(user)
-	elif (input and input.startswith('check')) or user == mentionTarget:
+	elif (argstring and argstring.startswith('check')) or user == mentionTarget:
 		return repCheck(mentionTarget)
 	else:
 		return giveRep(user, mentionTarget)
@@ -63,9 +63,9 @@ def saveUser(repInfo, user):
 	with shelve.open(DBNAME) as db:
 		db[user.id] = repInfo
 
-def readme(input, **kwargs):
+def readme(argstring, **kwargs):
 	return """Rep:
 * `!{0} @user` Give a rep point to another user.
 * `!{0} check` Check the amount of rep you've received. @mention another user to see theirs.
 * `!{0} pool` Check how much rep you have available to give.
-""".format(input)
+""".format(argstring)

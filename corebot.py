@@ -52,16 +52,16 @@ def role_readme(server, **kwargs):
 			msg += '* `!{0} none`: Removes any roles you have from the {0} roleset.\n'.format(roleset)
 	return msg
 
-async def give_help(user, client, channel, server, mentionTarget, command, input, conf):
-	if input in commands.keys():
-		return commands[input][1](
+async def give_help(user, client, channel, server, mentionTarget, command, argstring, conf):
+	if argstring in commands.keys():
+		return commands[argstring][1](
 			user=user,
 			client=client,
 			channel=channel,
 			server=server,
 			mentionTarget=mentionTarget,
 			command=command,
-			input=input,
+			argstring=argstring,
 			conf=conf)
 	return 'Implemented commands: ' + ', '.join(commands.keys()) + '\nTry `!{0} <commandName>` to learn more.'.format(command)
 
@@ -77,11 +77,11 @@ async def do_command(message, conf):
 
 			elif command.split()[0] in commands.keys() and commands[command.split()[0]][0]:
 				try:
-					input = command.split(maxsplit=1)[1]
+					argstring = command.split(maxsplit=1)[1]
 				except IndexError:
-					input = None
-				if input and input.strip().lower() == 'help':
-					input = command.split()[0]
+					argstring = None
+				if argstring and argstring.strip().lower() == 'help':
+					argstring = command.split()[0]
 					command = 'readme'
 				result = await commands[command.split()[0]][0](
 					user=message.author,
@@ -90,7 +90,7 @@ async def do_command(message, conf):
 					server=message.server,
 					mentionTarget=utils.getMentionTarget(message),
 					command=command.split()[0],
-					input=input,
+					argstring=argstring,
 					conf=conf
 				)
 				if type(result) is tuple:
@@ -291,6 +291,6 @@ def get_roles_to_remove(server, roleset):
 		roles += [x for x in server.roles if x.name in conf.get_object(server, 'rolesets', roleset, 'removeOnUpdate')]
 	return roles
 
-def strip_command(input, command):
-	return input[(len(command)+2):]
+def strip_command(argstring, command):
+	return argstring[(len(command)+2):]
 client.run(TOKEN)

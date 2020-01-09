@@ -97,8 +97,8 @@ def roll_command(user, command):
 		pass
 	return RollsetTransformer().transform(parser.parse(command))
 
-async def save_command(user, input, **kwargs):
-	command, name = [i.strip().lower() for i in input.split(':')]
+async def save_command(user, argstring, **kwargs):
+	command, name = [i.strip().lower() for i in argstring.split(':')]
 	try:
 		parser.parse(command)
 	except LarkError:
@@ -114,8 +114,8 @@ async def save_command(user, input, **kwargs):
 			db[user.id] = newVersion
 	return user.mention + ' has saved ' + command + ' as ' + name.lower()
 
-async def clear_command(user, input, **kwargs):
-	name = input.strip()
+async def clear_command(user, argstring, **kwargs):
+	name = argstring.strip()
 	with shelve.open(dbname) as db:
 		if user.id in db:
 			newVersion = db[user.id]
@@ -130,13 +130,13 @@ def list_commands(user):
 	except KeyError:
 		return {}
 
-async def roll_dice(user, client, channel, server, mentionTarget, command, input, conf):
+async def roll_dice(user, client, channel, server, mentionTarget, command, argstring, conf):
 	try:
 		embed = discord.Embed()
-		results = roll_command(str(user.id), input)
+		results = roll_command(str(user.id), argstring)
 		for key, value in results.items():
 			embed.add_field(name=key, value=value)
-		msg = user.mention + ' rolled ' + input.lower() + '!'
+		msg = user.mention + ' rolled ' + argstring.lower() + '!'
 	except Exception as e:
 		return str(e)
 	return msg, embed

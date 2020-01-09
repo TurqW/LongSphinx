@@ -132,13 +132,13 @@ async def getSeed(user, mentionTarget, **kwargs):
 	else:
 		return 'Seed unknown for your pet.'
 
-async def summon(user, input, **kwargs):
+async def summon(user, argstring, **kwargs):
 	id = user.id
-	if not input:
-		input = str(random.randrange(sys.maxsize))
+	if not argstring:
+		argstring = str(random.randrange(sys.maxsize))
 	myPet = Pet()
-	summon = generator.generate('beast', input)
-	myPet.setStats(generator.generate('mc.name', input)['text'], summon['core'], input)
+	summon = generator.generate('beast', argstring)
+	myPet.setStats(generator.generate('mc.name', argstring)['text'], summon['core'], argstring)
 	message = generator.extract_text(summon) + ' Its name is {}.'.format(myPet.name)
 	savePet(myPet, id)
 	return message

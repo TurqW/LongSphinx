@@ -65,10 +65,10 @@ def fix_articles(text):
 	# relevant: https://stackoverflow.com/questions/2763750/how-to-replace-only-part-of-the-match-with-python-re-sub
 	return re.sub(r"(^|\W)a( [aAeEiIoOuU](?!ni))", r'\1an\2', text)
 
-async def gen_as_text(input, server, conf, **kwargs):
-	name = input.strip()
+async def gen_as_text(argstring, server, conf, **kwargs):
+	name = argstring.strip()
 	if name in conf.get_object(server, 'generators'):
-		return extract_text(generate(input.strip()))
+		return extract_text(generate(argstring.strip()))
 	else:
 		return "{} is not a recognized generator.".format(name)
 

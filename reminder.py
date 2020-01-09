@@ -51,17 +51,17 @@ async def send_message(client, channel, msg, time):
 	else:
 		log.error('Mistimed reminder.')
 
-def parse_input(input):
-	splitindex = max(input.rfind(' in '), input.rfind(' at '))
-	when_time = dateparser.parse(input[splitindex:], settings={'TIMEZONE': 'UTC'})
+def parse_argstring(argstring):
+	splitindex = max(argstring.rfind(' in '), argstring.rfind(' at '))
+	when_time = dateparser.parse(argstring[splitindex:], settings={'TIMEZONE': 'UTC'})
 	if when_time.tzinfo is not None:
 		when_time = when_time.replace(tzinfo=None)
-	msg = 'Reminder: {0}'.format(input[:splitindex])
-	displaytext = input[splitindex:]
+	msg = 'Reminder: {0}'.format(argstring[:splitindex])
+	displaytext = argstring[splitindex:]
 	return when_time, msg, displaytext
 
-async def message_reminder(input, client, user, **kwargs):
-	when_time, msg, displaytext = parse_input(input)
+async def message_reminder(argstring, client, user, **kwargs):
+	when_time, msg, displaytext = parse_argstring(argstring)
 	save_one_reminder(user, when_time, msg)
 	await set_reminder(when_time, client, user, msg)
 	return 'I\'ll send you a reminder in {0} seconds.'.format(round((when_time-datetime.datetime.utcnow()).total_seconds()))
