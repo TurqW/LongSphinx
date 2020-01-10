@@ -146,7 +146,7 @@ async def on_message(message):
 
 @client.event
 async def on_ready():
-	log.debug('Bot logged in as {0.user.name}'.format(client))
+	log.debug(f'Bot logged in as {client.user.name}')
 	for server in client.servers:
 		recurring = conf.get_object(server, 'recurring')
 		if recurring:
@@ -159,7 +159,7 @@ async def on_ready():
 async def on_member_join(member):
 	automod.add_to_noobs(member)
 	channel = find_channel(conf.get_object(member.server, 'greetingChannel'), member.server)
-	log.debug('{0.name} joined {0.server}'.format(member))
+	log.debug(f'{member.name} joined {member.server}')
 	if conf.get_object(member.server, 'defaultRoleset'):
 		role = await random_role(member, conf.get_object(member.server, 'defaultRoleset'))
 		msg = conf.get_string(member.server, 'welcome').format(member.mention, role.name)
@@ -187,7 +187,7 @@ async def parse(message):
 
 def setEmbedColor(embed, server):
 	if embed.color == discord.Embed.Empty:
-		embed.color = int(conf.get_object(server, 'embedColor'), 16)
+		embed.color = conf.get_object(server, 'embedColor')
 
 async def request_role(message, roleset):
 	words = message.content.split()[1:]
@@ -237,7 +237,7 @@ async def random_role(member, roleset):
 	return role
 
 async def add_role(member, role, roleset):
-	log.debug('adding {0.name} to {1.name} on {2.name}'.format(role, member, member.server))
+	log.debug(f'adding {role.name} to {member.name} on {member.server.name}')
 	roles = [role]
 	if conf.get_object(member.server, 'rolesets', roleset, role.name) and 'secondaryRoles' in conf.get_object(member.server, 'rolesets', roleset, role.name):
 		for roleName in conf.get_object(member.server, 'rolesets', roleset, role.name, 'secondaryRoles'):
@@ -250,7 +250,7 @@ def find_channel(channel_name, server):
 	for x in server.channels:
 		if x.name == channel_name or x.id == channel_name:
 			return x
-	log.error('channel {0} not found on server {1.name}'.format(channel_name, server))
+	log.error(f'channel {channel_name} not found on server {server.name}')
 
 async def change_role(member, roleName, roleset):
 	if any(role.name.lower() == roleName.lower() for role in get_roleset(member.server, roleset)):

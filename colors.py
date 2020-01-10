@@ -13,7 +13,7 @@ def get_swatch(color):
 
 async def show_swatch(argstring, client, channel, **kwargs):
 	if not argstring:
-		argstring = "#%06x" % random.randint(0, 0xFFFFFF)
+		argstring = f"#{random.randint(0, 0xFFFFFF):x}"
 	swatch = get_swatch(argstring)
 	await client.send_file(channel, swatch, filename=argstring + '.png')
 	return argstring

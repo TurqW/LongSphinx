@@ -29,56 +29,107 @@ sentient:
 - text: troll
 color:
 - text: aqua
+  .hex: 0x13eac9
 - text: beige
+  .hex: 0xe6daa6
 - text: black
+  .hex: 0x000000
 - text: blue
+  .hex: 0x0343df
 - text: bright green
+  .hex: 0x01ff07
 - text: brown
+  .hex: 0x653700
 - text: cerulean
+  .hex: 0x0485d1
 - text: chartreuse
+  .hex: 0xc1f80a
 - text: cyan
+  .hex: 0x00ffff
 - text: dark blue
+  .hex: 0x00035b
 - text: dark green
+  .hex: 0x033500
 - text: dark pink
+  .hex: 0xcb416b
 - text: dark purple
+  .hex: 0x35063e
 - text: forest green
+  .hex: 0x06470c
 - text: green
+  .hex: 0x15b01a
 - text: grey
+  .hex: 0x929591
 - text: hot pink
+  .hex: 0xff028d
 - text: indigo
+  .hex: 0x380282
 - text: lavender
+  .hex: 0xc79fef
 - text: light blue
+  .hex: 0x95d0fc
 - text: light brown
+  .hex: 0xad8150
 - text: light green
+  .hex: 0x96f97b
 - text: light pink
+  .hex: 0xffd1df
 - text: light purple
+  .hex: 0xbf77f6
 - text: lilac
+  .hex: 0xcea2fd
 - text: lime
+  .hex: 0xaaff32
 - text: lime green
+  .hex: 0x89fe05
 - text: magenta
+  .hex: 0xc20078
 - text: maroon
+  .hex: 0x650021
 - text: mauve
+  .hex: 0xae7181
 - text: muddy brown
+  .hex: 0x886806
 - text: mustard
+  .hex: 0xceb301
 - text: navy blue
+  .hex: 0x001146
 - text: olive
+  .hex: 0x6e750e
 - text: olive green
+  .hex: 0x677a04
 - text: orange
+  .hex: 0xf97306
 - text: pale green
+  .hex: 0xc7fdb5
 - text: peach
+  .hex: 0xffb07c
 - text: periwinkle
+  .hex: 0x8e82fe
 - text: pink
+  .hex: 0xff81c0
 - text: puce
+  .hex: 0xa57e52
 - text: purple
+  .hex: 0x7e1e9c
 - text: red
+  .hex: 0xe50000
 - text: royal blue
+  .hex: 0x0504aa
 - text: sea green
+  .hex: 0x53fca1
 - text: sky blue
+  .hex: 0x75bbfd
 - text: tan
+  .hex: 0xd1b26f
 - text: teal
+  .hex: 0x029386
 - text: turqoise
+  .hex: 0x06c2ac
 - text: violet
+  .hex: 0x9a0eea
 - text: yellow
+  .hex: 0xffff14
 material:
 - text: gold
 - text: rose gold

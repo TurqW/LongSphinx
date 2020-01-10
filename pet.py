@@ -54,13 +54,13 @@ class Pet:
 		embed = discord.Embed()
 		try:
 			embed.title = self.name
-			embed.description = '{description} that can {ability}'.format(
-				description=generator.extract_text(self.desc['description']),
-				ability=generator.extract_text(self.desc['ability']))
+			embed.description = f"{generator.extract_text(self.desc['description'])} that can {generator.extract_text(self.desc['ability'])}"
 		except AttributeError:
 			embed.title = 'Familiar'
 		embed.add_field(name='Fed', value='```\n' + utils.drawGauge(self.food, maxFood) + '\n```', inline=False)
 		embed.add_field(name='Happiness', value='```\n' + utils.drawGauge(self.happy, maxHappy) + '\n```', inline=False)
+		if '.hex' in self.desc['description']['beastColor']:
+			embed.color = self.desc['description']['beastColor']['.hex']
 		return embed
 
 	def update(self):
@@ -75,11 +75,11 @@ class Pet:
 	def setStats(self, name, desc, seed):
 		self.name = name
 		self.desc = desc
-		self.feedText = 'You offer {} a treat from your pocket. It seems to enjoy it.'.format(name)
-		self.fullText = 'You offer {} a treat from your pocket, but it seems full.'.format(name)
-		self.hungryPetText = 'You try to pet {}. It tries to bite your hand. Perhaps it\'s hungry?'.format(name)
-		self.midPetText = 'You scratch {} under the chin. It looks at you contentedly.'.format(name)
-		self.fullPetText = '{} rubs against you, {} happily.'.format(name, desc['description']['species']['sound']['text'])
+		self.feedText = f'You offer {name} a treat from your pocket. It seems to enjoy it.'
+		self.fullText = f'You offer {name} a treat from your pocket, but it seems full.'
+		self.hungryPetText = f'You try to pet {name}. It tries to bite your hand. Perhaps it\'s hungry?'
+		self.midPetText = f'You scratch {name} under the chin. It looks at you contentedly.'
+		self.fullPetText = f"{name} rubs against you, {desc['description']['species']['sound']['text']} happily."
 		self.seed = seed
 
 
@@ -128,7 +128,7 @@ async def getSeed(user, mentionTarget, **kwargs):
 	except:
 		myPet = loadPet('0')
 	if myPet.seed:
-		return '{} has seed {}'.format(myPet.name, myPet.seed)
+		return f'{myPet.name} has seed {myPet.seed}'
 	else:
 		return 'Seed unknown for your pet.'
 
@@ -139,7 +139,7 @@ async def summon(user, argstring, **kwargs):
 	myPet = Pet()
 	summon = generator.generate('beast', argstring)
 	myPet.setStats(generator.generate('mc.name', argstring)['text'], summon['core'], argstring)
-	message = generator.extract_text(summon) + ' Its name is {}.'.format(myPet.name)
+	message = generator.extract_text(summon) + f' Its name is {myPet.name}.'
 	savePet(myPet, id)
 	return message
 

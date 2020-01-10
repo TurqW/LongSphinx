@@ -45,7 +45,7 @@ def generate(name, seed=None):
 
 def load_config(name):
 	if name not in genConfigs:
-		genConfigs[name] = configmanager.ConfigManager('genConfig/{0}.yaml'.format(name))
+		genConfigs[name] = configmanager.ConfigManager(f'genConfig/{name}.yaml')
 	genConfigs[name].update_config()
 
 def populate(object):
@@ -57,7 +57,7 @@ def extract_text(object):
 	random.seed() # Doing this here so that it'll randomize the seed after each call
 	text = object['text']
 	fillings = {}
-	for key in (key for key in object.keys() if key != 'text'):
+	for key in (key for key in object.keys() if key != 'text' and key[0] != '.'):
 		fillings[key] = extract_text(object[key])
 	return fix_articles(text.format(**fillings))
 
@@ -70,11 +70,11 @@ async def gen_as_text(argstring, server, conf, **kwargs):
 	if name in conf.get_object(server, 'generators'):
 		return extract_text(generate(argstring.strip()))
 	else:
-		return "{} is not a recognized generator.".format(name)
+		return f"{name} is not a recognized generator."
 
 def readme(server, conf, **kwargs):
 	msg = ''
 	for gen_name in conf.get_object(server, 'generators'):
 		load_config(gen_name)
-		msg += '* `!gen ' + gen_name + '`: %s\n' % (genConfigs[gen_name].config['help'])
+		msg += f"* `!gen {gen_name}`: {genConfigs[gen_name].config['help']}\n"
 	return msg
