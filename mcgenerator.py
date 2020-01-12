@@ -9,7 +9,7 @@ conf = {}
 
 def generate(name):
 	if name not in conf:
-		conf[name] = configmanager.ConfigManager('{0}{1}.yaml'.format(mcDataPath, name))
+		conf[name] = configmanager.ConfigManager(f'{mcDataPath}{name}.yaml')
 	conf[name].update_config()
 	return MName(conf[name].config).New()
 

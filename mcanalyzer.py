@@ -1,5 +1,6 @@
 import random
 import configmanager
+import sys
 from mcgenerator import MName
 
 mcDataPath = 'genConfig/mcSources/'
@@ -26,4 +27,5 @@ def analyze(name):
     chains = [chain for chain in chains if not any(chain in o and chain != o for o in chains) and len(chain) > 3]
     print(chains)
 
-analyze('knights')
+if len(sys.argv) > 1:
+    analyze(sys.argv[1])
