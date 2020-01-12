@@ -12,3 +12,5 @@ name:
   name: mc.name
 - text: '{name}'
   name: mc.angel
+- text: '{name}'
+  name: mc.knight
