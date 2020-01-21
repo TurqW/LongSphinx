@@ -299,7 +299,7 @@ servers:
       role: 'Troll'
     lmgtfyDefault: d
     leavingChannel: rainbow
-    embedColor: 843DA4
+    embedColor: 0x843DA4
     strings:
       roleRoleList:
         'Set your color with `!role color`, such as `!role Purple`'
@@ -317,9 +317,9 @@ servers:
     lmgtfyDefault: d
     greetingChannel: lobby
     leavingChannel: holodeck
-    embedColor: 81ce38
+    embedColor: 0x81CE38
     recurring:
-    - time: R/2019-12-16T23:59Z/PT6H
+    - time: R/2020-01-20T23:59Z/PT6H
       channel: '652303689037512704'
       message: bump <https://discord.me/dashboard>
     strings:
@@ -329,4 +329,5 @@ Please be sure to read <#575878931018809374> and let the <@&302521125198495747> 
 
 <:orionllaphand:394679026066784256> <:emperor:637696072772222977> <:cllaphand:441431194492469249> <:emperor:637696072772222977> <:bolianllaphand:394679014524190721> <:emperor:637696072772222977> <:androidllaphand:625569278245994509>'
       <<: *defaultStrings
+    <<: *defaults
 
