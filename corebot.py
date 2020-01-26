@@ -68,38 +68,48 @@ async def give_help(user, client, channel, server, mentionTarget, command, argst
 def readme_readme(**kwargs):
 	return 'pick a command that you need help with.'
 
-async def do_command(message, conf):
-	if not message.server or message.channel.name in conf.get_object(message.server, 'channels') or message.channel.id in conf.get_object(message.server, 'channels'):
-		if message.content.startswith(COMMAND_CHAR):
-			command = message.content[1:].strip().lower()
-			if utils.is_command(command, 'rerole'):
-				await rerole(message)
+async def channel_check(message, conf):
+	if not message.server:
+		return False
+	if conf.get_object(message.server, 'channelActiveType') == 'whitelist':
+		if message.channel.name in conf.get_object(message.server, 'channels') or message.channel.id in conf.get_object(message.server, 'channels'):
+			return False
+		return True
+	if message.channel.name not in conf.get_object(message.server, 'channels') and message.channel.id not in conf.get_object(message.server, 'channels'):
+		return False
+	return True
 
-			elif command.split()[0] in commands.keys() and commands[command.split()[0]][0]:
-				try:
-					argstring = command.split(maxsplit=1)[1]
-				except IndexError:
-					argstring = None
-				if argstring and argstring.strip().lower() == 'help':
-					argstring = command.split()[0]
-					command = 'readme'
-				result = await commands[command.split()[0]][0](
-					user=message.author,
-					client=client,
-					channel=message.channel,
-					server=message.server,
-					mentionTarget=utils.getMentionTarget(message),
-					command=command.split()[0],
-					argstring=argstring,
-					conf=conf
-				)
-				if type(result) is tuple:
-					setEmbedColor(result[1], message.server)
-					await client.send_message(message.channel, result[0], embed=result[1])
-				else:
-					await client.send_message(message.channel, result)
+async def do_command(message, conf):
+	if message.content.startswith(COMMAND_CHAR):
+		command = message.content[1:].strip().lower()
+		if utils.is_command(command, 'rerole'):
+			await rerole(message)
+
+		elif command.split()[0] in commands.keys() and commands[command.split()[0]][0]:
+			try:
+				argstring = command.split(maxsplit=1)[1]
+			except IndexError:
+				argstring = None
+			if argstring and argstring.strip().lower() == 'help':
+				argstring = command.split()[0]
+				command = 'readme'
+			result = await commands[command.split()[0]][0](
+				user=message.author,
+				client=client,
+				channel=message.channel,
+				server=message.server,
+				mentionTarget=utils.getMentionTarget(message),
+				command=command.split()[0],
+				argstring=argstring,
+				conf=conf
+			)
+			if type(result) is tuple:
+				setEmbedColor(result[1], message.server)
+				await client.send_message(message.channel, result[0], embed=result[1])
 			else:
-				await parse(message)
+				await client.send_message(message.channel, result)
+		else:
+			await parse(message)
 
 commands = {
 	'remind': (reminder.message_reminder, reminder.readme),
@@ -130,6 +140,7 @@ commands = {
 modules = [
 	conf.update_config,
 	automod.first_message_link,
+	channel_check,
 	do_command
 	]
 

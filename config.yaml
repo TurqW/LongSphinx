@@ -28,6 +28,7 @@ servers:
   '443869685054701569': &realm
     name: The Realm
     greetingChannel: portal
+    channelActiveType: whitelist
     channels:
     - '445271158502457345'
     - '447948663168303105'
@@ -266,25 +267,21 @@ servers:
     <<: *defaults
   '570788677937135626':
     name: Just Write
+    channelActiveType: whitelist
     channels:
     - tims-room
     - '570800943529197578'
     <<: *defaults
   '566868285791010827':
     name: Kittens & Unicorns
+    channelActiveType: blacklist
     channels:
-    - beep-boop
-    - '566880416833732613'
-    - chatter
-    - '566875832770101269'
-    - rant
-    - '566876681806020630'
-    - guillotine
-    - '579019008591003655'
-    - adventure
-    - '662500580329127956'
-    - adventure-ooc
-    - '662684031220973598'
+    - wall of shame
+    - '574032248546918400'
+    - bridge
+    - '584012311417716739'
+    - announcements
+    - '578618351279013888'
     rolesets:
       role:
         Red:
@@ -309,11 +306,9 @@ servers:
     <<: *defaults
   '302519947005919232':
     name: USS Joshua Norton
+    channelActiveType: blacklist
     channels:
-      - holodeck
-      - '346828750144667649'
-      - wharf
-      - '302524900604903434'
+      - none
     lmgtfyDefault: d
     greetingChannel: lobby
     leavingChannel: holodeck
