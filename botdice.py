@@ -87,13 +87,17 @@ def roll_command(user, command):
 	if not command:
 		command = 'd20'
 	try:
-		name = command.lower()
+		name = ''
+		if ':' in command:
+			command, name = command.split(':')
+			name = name.strip()
 		with shelve.open(dbname) as db:
 			macros = db[user]
 			for key in sorted(macros.keys(), key=len):
+				# For prefix matching, you want to match to the shortest possible match so all matches can be hit
 				if key.startswith(command.lower()):
-					# Sorted longest first, so we get the longest possible match
-					name = key
+					if not name:
+						name = key
 					command = macros[key]
 	except:
 		#TODO this should be way more specific
@@ -139,6 +143,10 @@ async def roll_dice(user, client, channel, server, mentionTarget, command, argst
 		name, results = roll_command(str(user.id), argstring)
 		for key, value in results.items():
 			embed.add_field(name=key, value=value)
+		if name:
+			embed.title = name
+		else:
+			name = argstring
 		msg = user.mention + ' rolled ' + name + '!'
 	except Exception as e:
 		return str(e)
