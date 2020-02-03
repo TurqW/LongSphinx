@@ -71,7 +71,7 @@ def readme_readme(**kwargs):
 async def channel_check(message, conf):
 	if not message.server:
 		return False
-	if conf.get_object(message.server, 'channelActiveType') == 'whitelist':
+	if conf.get_object(message.server, 'channelListBehavior') == 'whitelist':
 		if message.channel.name in conf.get_object(message.server, 'channels') or message.channel.id in conf.get_object(message.server, 'channels'):
 			return False
 		return True

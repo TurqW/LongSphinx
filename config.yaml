@@ -28,7 +28,7 @@ servers:
   '443869685054701569': &realm
     name: The Realm
     greetingChannel: portal
-    channelActiveType: whitelist
+    channelListBehavior: whitelist
     channels:
     - '445271158502457345'
     - '447948663168303105'
@@ -267,14 +267,14 @@ servers:
     <<: *defaults
   '570788677937135626':
     name: Just Write
-    channelActiveType: whitelist
+    channelListBehavior: whitelist
     channels:
     - tims-room
     - '570800943529197578'
     <<: *defaults
   '566868285791010827':
     name: Kittens & Unicorns
-    channelActiveType: blacklist
+    channelListBehavior: blacklist
     channels:
     - wall of shame
     - '574032248546918400'
@@ -306,7 +306,7 @@ servers:
     <<: *defaults
   '302519947005919232':
     name: USS Joshua Norton
-    channelActiveType: blacklist
+    channelListBehavior: blacklist
     channels:
       - none
     lmgtfyDefault: d

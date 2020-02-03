@@ -87,15 +87,18 @@ def roll_command(user, command):
 	if not command:
 		command = 'd20'
 	try:
+		name = command.lower()
 		with shelve.open(dbname) as db:
 			macros = db[user]
-			for key in sorted([key for key in macros.keys() if key in command.lower()], key=len, reverse=True):
-				# Sorted longest first, so we get the longest possible match
-				command = command.lower().replace(key, macros[key])
+			for key in sorted(macros.keys(), key=len):
+				if key.startswith(command.lower()):
+					# Sorted longest first, so we get the longest possible match
+					name = key
+					command = macros[key]
 	except:
 		#TODO this should be way more specific
 		pass
-	return RollsetTransformer().transform(parser.parse(command))
+	return name, RollsetTransformer().transform(parser.parse(command))
 
 async def save_command(user, argstring, **kwargs):
 	command, name = [i.strip().lower() for i in argstring.split(':')]
@@ -133,10 +136,10 @@ def list_commands(user):
 async def roll_dice(user, client, channel, server, mentionTarget, command, argstring, conf):
 	try:
 		embed = discord.Embed()
-		results = roll_command(str(user.id), argstring)
+		name, results = roll_command(str(user.id), argstring)
 		for key, value in results.items():
 			embed.add_field(name=key, value=value)
-		msg = user.mention + ' rolled ' + argstring.lower() + '!'
+		msg = user.mention + ' rolled ' + name + '!'
 	except Exception as e:
 		return str(e)
 	return msg, embed
