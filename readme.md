@@ -5,7 +5,7 @@ For a list of available commands, hit !readme on a running instance.
 # Installation instructions: (WIP)
 
 ## Prereqs
-1. Tim runs on python 3 (Tested with Python 3.5). The following instructions all assume that running "python" on your machine runs python 3. If this is not the case, replace `python` in these instructions with whatever command will run python 3.
+1. Tim runs on python 3 (Tested with Python 3.6). The following instructions all assume that running "python" on your machine runs python 3. If this is not the case, replace `python` in these instructions with whatever command will run python 3.
 2. Install all dependencies. From the LongSphinx root directory (the one containing 'requirements.txt'), run `python -m pip install -r requirements.txt`.
 
 ## Create a bot token
@@ -75,7 +75,7 @@ channels:
 - bot-commands
 ```
 
-and maps:
+and maps (note maps don't *have* to have a value for each key):
 
 ```
 element:
@@ -89,14 +89,14 @@ In general, you probably just want to make sure your formatting matches that of 
 ### Fields:
 
 * name: the name of the server. Not actually used; just meant as an aid in navigating the config file.
-* channels: a `list` of channels in which the bot should respond to messages.
+* channelListBehavior: Detemines whether the "channels" list is a whitelist or a blacklist (default)
+* channels: a `list` of channels to ban the bot from, or if  `channelListBehavior` is set to `whitelist`, an exclusive list of channels to allow the bot in
 * greetingChannel: the channel in which the bot should greet new members.
 * leavingChannel: the channel in which the bot should announce member departures (leave out to get no such announcements)
 * generators: a `list` of generators to have on this server. These map to filenames in the genConfig folder; in general, the default will include all of them that are considered "standalone".
 * strings: This contains all of the configurable strings; these are the things that the bot can say.
   * roleChange: What the bot says when someone successfully requests a new role. {0} will tag the person whose role is changed, {1} is the name of the new role.
   * roleClear: What the bot says when a person's roles of a specific roleset have been cleared. {0} will tag the person whose roles were changed, {1} will name the roleset that has been cleared.
-  * diceResults: What the bot says when someone rolls dice. {0} tags the person who requested the roll, {1} is the list of all results, and {2} is the total.
   * rerole: What the bot says when someone requests a new random assignment with `!rerole` (only works with `defaultRoleset`). {0} tags the requester, {1} names their new role.
   * invalid<rolesetname>: What the bot says when someone requests a role that's not in that roleset (or doesn't exist). {0} tags the requester, {1} is the role they requested.
   * welcome: What the bot says when someone joins the server. {0} tags them, {1} is the name of their randomly-assigned role (if a `defaultRoleset` is set)
@@ -104,13 +104,6 @@ In general, you probably just want to make sure your formatting matches that of 
   * <rolesetname>RoleList: What the bot says when someone requests the list of roles in a roleset. {0} gives a comma-separated list of the roles, and an image set under `urls: roleImage: <rolesetname>:` will be embedded if available.
 * defaultRoleset: This is the name of the roleset that is randomly picked from when someone joins. If left blank, no random role will be assigned.
 * rolesets: a `map` of available rolesets. Anatomy of a roleset will be covered later.
-* urls: This is a `map`; for now it's only used if you want the list for a roleset to display as an image. This should look like:
-```
-    urls:
-      roleImage:
-        rolesetName:
-          'http://some.url.here/to/an.image'
-```
 
 ### Anatomy of a Roleset
 

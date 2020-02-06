@@ -1,7 +1,5 @@
 servers:
   default: &defaults
-    channels:
-    - bot-commands
     greetingChannel: False
     generators:
     - beast
@@ -19,8 +17,6 @@ servers:
         '{0}, you are now a {1}.'
       roleClear:
         '{0}, your {1} has been cleared.'
-      diceResults:
-        '{0}, the fates have spoken: {1}, for a total of {2}.'
       rerole:
         'Another peek at my crystal ball... {0}, are you perhaps a {1}?'
       left:
