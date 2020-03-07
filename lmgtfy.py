@@ -8,7 +8,7 @@ async def get_link(argstring, conf, server, **kwargs):
 	query = {'q': argstring}
 	if flag:
 		query['s'] = flag
-	url = 'http://lmgtfy.com/?' + urllib.parse.urlencode(query)
+	url = '<http://lmgtfy.com/?' + urllib.parse.urlencode(query) + '>'
 	return url
 
 def readme(argstring, conf, server, **kwargs):
