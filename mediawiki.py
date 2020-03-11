@@ -12,7 +12,7 @@ async def search(user, client, channel, server, mentionTarget, command, argstrin
 	site = Site(mwOptions[siteName]['url'], path=mwOptions[siteName]['path'], clients_useragent=ua)
 	results = site.search(query)
 	title = results.next().get('title').replace(' ', '_')
-	return str(f'http://{mwOptions[siteName]["url"]}?title={urllib.parse.quote(title)}')
+	return str(f'https://{mwOptions[siteName]["url"]}?title={urllib.parse.quote(title)}')
 
 def readme(server, conf, **kwargs):
 	msg = 'Searches a mediawiki instance and returns a link to the first result. Enabled instances on this server:\n'
