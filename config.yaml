@@ -224,6 +224,15 @@ servers:
       charge: https://cdn.discordapp.com/attachments/444030298406125568/503820387864281089/annoyedcatTim2.png
     <<: *defaults
   '489197880809095168':
+    mwSites:
+      wiki: &wikipedia
+        url: 'en.wikipedia.org'
+        path: '/w/'
+        pagePath: '/wiki/'
+      lcars:
+        url: 'lcars.sfintel.space'
+        path: '/'
+        pagePath: '/w/'
     <<: *realm
   '494373430637101058':
     name: Waltlandia
@@ -294,9 +303,7 @@ servers:
     leavingChannel: rainbow
     embedColor: 0x843DA4
     mwSites:
-      wiki:
-        url: 'en.wikipedia.org'
-        path: '/w/'
+      wiki: *wikipedia
     strings:
       roleRoleList:
         'Set your color with `!role color`, such as `!role Purple`'
@@ -318,12 +325,11 @@ servers:
       channel: '652303689037512704'
       message: bump <https://discord.me/dashboard>
     mwSites:
-      wiki:
-        url: 'en.wikipedia.org'
-        path: '/w/'
+      wiki: *wikipedia
       lcars:
         url: 'lcars.sfintel.space'
         path: '/'
+        pagePath: '/w/'
     strings:
       welcome: '<:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
 
