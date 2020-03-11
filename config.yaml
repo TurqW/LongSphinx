@@ -293,6 +293,10 @@ servers:
     lmgtfyDefault: d
     leavingChannel: rainbow
     embedColor: 0x843DA4
+    mwSites:
+      wiki:
+        url: 'en.wikipedia.org'
+        path: '/w/'
     strings:
       roleRoleList:
         'Set your color with `!role color`, such as `!role Purple`'
@@ -313,6 +317,13 @@ servers:
     - time: R/2020-01-20T23:59Z/PT6H
       channel: '652303689037512704'
       message: bump <https://discord.me/dashboard>
+    mwSites:
+      wiki:
+        url: 'en.wikipedia.org'
+        path: '/w/'
+      lcars:
+        url: 'lcars.sfintel.space'
+        path: '/'
     strings:
       welcome: '<:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
 

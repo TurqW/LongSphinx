@@ -14,6 +14,7 @@ import botdice as dice
 import colors
 import generator
 import lmgtfy
+import mediawiki
 import pet
 import reminder
 import utils
@@ -127,6 +128,7 @@ commands = {
 	'duh': (lmgtfy.get_link, lmgtfy.readme),
 	'lmgtfy': (lmgtfy.get_link, lmgtfy.readme),
 	'saveroll': (dice.save_command, dice.readme),
+	'search': (mediawiki.search, mediawiki.readme),
 	'clearroll': (dice.clear_command, dice.readme),
 	'gen': (generator.gen_as_text, generator.readme),
 	'roll': (dice.roll_dice, dice.readme),
