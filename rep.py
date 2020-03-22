@@ -1,5 +1,6 @@
 import shelve
 import datetime
+import discord
 import logging
 log = logging.getLogger('LongSphinx.Rep')
 
@@ -24,13 +25,20 @@ class Rep:
 		self.pool -= 1
 
 # Database structure: Username: (rep received, rep to give, lastUpdated)
-async def rep(user, mentionTarget, argstring, **kwargs):
+async def rep(user, mentionTarget, argstring, server, **kwargs):
 	if argstring and argstring.startswith('pool'):
 		return poolCheck(user)
+	elif argstring and argstring.startswith('lead'):
+		return await leaderboard(server, **kwargs)
 	elif (argstring and argstring.startswith('check')) or user == mentionTarget:
 		return repCheck(mentionTarget)
 	else:
 		return giveRep(user, mentionTarget)
+
+async def leaderboard(server, **kwargs):
+	embed = discord.Embed()
+	embed.description = '\n'.join([f'{rank}: {details[0]} ({details[1]} points)' for rank, details in enumerate(leaderlist(server), start=1)])
+	return "Current Leaderboard:", embed
 
 def giveRep(user, target):
 	giver = loadUser(user)
@@ -50,6 +58,13 @@ def repCheck(user):
 def poolCheck(user): 
 	repInfo = loadUser(user)
 	return '{0} has {1} rep points available to give.'.format(user.mention, repInfo.getPool())
+
+def leaderlist(server):
+	with shelve.open(DBNAME) as db:
+		list = [(member.name, db[member.id].received) for member in server.members if member.id in db and db[member.id].received > 0]
+		list.sort(key=lambda user: user[1], reverse=True)
+		log.error(list)
+		return list
 
 def loadUser(user):
 	with shelve.open(DBNAME) as db:
