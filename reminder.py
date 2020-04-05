@@ -95,9 +95,10 @@ def get_first_after(recurrence, timepoint):
 def dividemod(duration, divisor):
 	return divmod(duration.get_seconds(), divisor.get_seconds())
 
+#NOTE: due to safeguards intended to prevent multi-message bugs, behavior for recurring messages more frequent than once per minute is undefined.
 async def set_recurring_message(recur_string, client, channel, msg):
 	recurrence = dtparse.TimeRecurrenceParser().parse(recur_string)
-	now = dtdata.get_timepoint_for_now()
+	now = dtdata.get_timepoint_for_now() + dtparse.DurationParser().parse('PT55S')
 	when_time = get_first_after(recurrence, now)
 	if when_time is not None:
 		delay = float(when_time.get("seconds_since_unix_epoch")) - datetime.datetime.now().timestamp()
