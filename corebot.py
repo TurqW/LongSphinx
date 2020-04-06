@@ -43,6 +43,7 @@ with open(tokenfilename, 'r') as tokenfile:
 
 client = discord.Client()
 commands = {}
+is_reminder_set = False
 
 def role_readme(server, **kwargs):
 	msg = ''
@@ -159,14 +160,17 @@ async def on_message(message):
 
 @client.event
 async def on_ready():
+	global is_reminder_set
 	log.debug(f'Bot logged in as {client.user.name}')
-	for server in client.servers:
-		recurring = conf.get_object(server, 'recurring')
-		if recurring:
-			for event in recurring:
-				await set_recurring_event(server, event)
-	await reminder.set_all_saved_reminders(client)
-	print('Bot started')
+	if not is_reminder_set:
+		for server in client.servers:
+			recurring = conf.get_object(server, 'recurring')
+			if recurring:
+				for event in recurring:
+					await set_recurring_event(server, event)
+		await reminder.set_all_saved_reminders(client)
+		is_reminder_set = True
+		print('Bot started')
 
 @client.event
 async def on_member_join(member):
