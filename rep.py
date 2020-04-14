@@ -83,4 +83,5 @@ def readme(argstring, **kwargs):
 * `!{0} @user` Give a rep point to another user.
 * `!{0} check` Check the amount of rep you've received. @mention another user to see theirs.
 * `!{0} pool` Check how much rep you have available to give.
+* `!{0} lead` View rep leaderboard. Only shows members of this server, but rep earned is maintained across servers.
 """.format(argstring)
