@@ -1,10 +1,11 @@
-import shelve
 import datetime
 import discord
 import logging
 log = logging.getLogger('LongSphinx.Rep')
 
-DBNAME = 'data/rep'
+from botdb import BotDB
+
+DBNAME = 'rep'
 POOL_MAX= 5
 
 class Rep:
@@ -25,7 +26,9 @@ class Rep:
 		self.pool -= 1
 
 # Database structure: Username: (rep received, rep to give, lastUpdated)
-async def rep(user, mentionTarget, argstring, server, **kwargs):
+async def rep(user, mentionTarget, argstring, server, conf, **kwargs):
+	global botName
+	botName = conf.bot_name()
 	if argstring and argstring.startswith('pool'):
 		return poolCheck(user)
 	elif argstring and argstring.startswith('lead'):
@@ -60,14 +63,14 @@ def poolCheck(user):
 	return '{0} has {1} rep points available to give.'.format(user.mention, repInfo.getPool())
 
 def leaderlist(server):
-	with shelve.open(DBNAME) as db:
+	with BotDB(botName, DBNAME) as db:
 		list = [(member.name, db[member.id].received) for member in server.members if member.id in db and db[member.id].received > 0]
 		list.sort(key=lambda user: user[1], reverse=True)
 		log.error(list)
 		return list
 
 def loadUser(user):
-	with shelve.open(DBNAME) as db:
+	with BotDB(botName, DBNAME) as db:
 		if user.id in db:
 			repInfo = db[user.id]
 		else:
@@ -75,7 +78,7 @@ def loadUser(user):
 	return repInfo
 
 def saveUser(repInfo, user):
-	with shelve.open(DBNAME) as db:
+	with BotDB(botName, DBNAME) as db:
 		db[user.id] = repInfo
 
 def readme(argstring, **kwargs):

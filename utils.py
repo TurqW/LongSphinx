@@ -10,6 +10,12 @@ def check_path(name):
 def drawGauge(value, max):
 	return '[' + fullGaugeChar*value + emptyGaugeChar*(max-value) + ']'
 
+def find_self_member(client, server):
+	return next(member for member in server.members if member.id == client.user.id)
+
+def find_channel(channel_name, server):
+	return next(channel for channel in server.channels if channel.name == channel_name or channel.id == channel_name)
+
 def getMentionTarget(message):
 	if len(message.mentions) < 1:
 		return message.author
@@ -23,3 +29,12 @@ def is_command(mystring, command):
 	if mystring.split()[0].lower() == command.lower():
 		return True
 	return False
+
+def embed_to_text(embed):
+	text = ''
+	if embed.title:
+		text += '**' + embed.title + '**\n'
+	if embed.description:
+		text += embed.description + '\n'
+	text += '\n'.join([f'{field.name}: {field.value}\n' for field in embed.fields])
+	return text

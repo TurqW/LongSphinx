@@ -1,12 +1,12 @@
 import random
 import re
-import shelve
 import discord
 from collections import OrderedDict
 from lark import Lark, Transformer
 from lark.exceptions import LarkError
+from botdb import BotDB
 
-dbname = 'data/macros'
+dbname = 'macros'
 
 parser = Lark(r"""
 %import common.WS
@@ -91,7 +91,7 @@ def roll_command(user, command):
 		if ':' in command:
 			command, name = command.split(':')
 			name = name.strip()
-		with shelve.open(dbname) as db:
+		with BotDB(dbname, botName) as db:
 			macros = db[user]
 			for key in sorted(macros.keys(), key=len):
 				# For prefix matching, you want to match to the shortest possible match so all matches can be hit
@@ -104,7 +104,9 @@ def roll_command(user, command):
 		pass
 	return name, RollsetTransformer().transform(parser.parse(command))
 
-async def save_command(user, argstring, **kwargs):
+async def save_command(user, argstring, conf, **kwargs):
+	global botName
+	botName = conf.bot_name()
 	command, name = [i.strip().lower() for i in argstring.split(':')]
 	try:
 		parser.parse(command)
@@ -112,7 +114,7 @@ async def save_command(user, argstring, **kwargs):
 		return 'Command was not valid.'
 	if any(char.isdigit() for char in name) or name.strip().lower() == 'help':
 		return 'Name was not valid.'
-	with shelve.open(dbname) as db:
+	with BotDB(dbname, botName) as db:
 		if user.id not in db:
 			db[user.id] = {name: command}
 		else:
@@ -121,9 +123,11 @@ async def save_command(user, argstring, **kwargs):
 			db[user.id] = newVersion
 	return user.mention + ' has saved ' + command + ' as ' + name.lower()
 
-async def clear_command(user, argstring, **kwargs):
+async def clear_command(user, argstring, conf, **kwargs):
+	global botName
+	botName = conf.bot_name()
 	name = argstring.strip()
-	with shelve.open(dbname) as db:
+	with BotDB(dbname, botName) as db:
 		if user.id in db:
 			newVersion = db[user.id]
 			newVersion.pop(name.lower())
@@ -132,12 +136,14 @@ async def clear_command(user, argstring, **kwargs):
 
 def list_commands(user):
 	try:
-		with shelve.open(dbname) as db:
+		with BotDB(dbname, botName) as db:
 			return db[user]
 	except KeyError:
 		return {}
 
-async def roll_dice(user, client, channel, server, mentionTarget, command, argstring, conf):
+async def roll_dice(user, client, channel, server, mentionTarget, command, argstring, conf, **kwargs):
+	global botName
+	botName = conf.bot_name()
 	try:
 		embed = discord.Embed()
 		name, results = roll_command(str(user.id), argstring)
@@ -152,7 +158,9 @@ async def roll_dice(user, client, channel, server, mentionTarget, command, argst
 		return str(e)
 	return msg, embed
 
-async def list_rolls(user, **kwargs):
+async def list_rolls(user, conf, **kwargs):
+	global botName
+	botName = conf.bot_name()
 	embed = discord.Embed()
 	for key, value in sorted(list_commands(str(user.id)).items()):
 		embed.add_field(name=key, value=value)

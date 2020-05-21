@@ -26,6 +26,8 @@ utils.check_path('logs')
 if len(sys.argv) > 1:
 	botname = sys.argv[1]
 
+conf.__init__('config.yaml', botname)
+
 logging.basicConfig(
 	filename='logs/{0}.log'.format(botname),
 	format='%(asctime)s %(levelname)-8s %(message)s',
@@ -35,7 +37,7 @@ logging.getLogger('discord').setLevel(logging.WARNING)
 logging.getLogger('websockets').setLevel(logging.WARNING)
 log = logging.getLogger('LongSphinx')
 
-tokenfilename = '{0}.token'.format(botname)
+tokenfilename = f'{botname}.token'
 COMMAND_CHAR = '!'
 	
 with open(tokenfilename, 'r') as tokenfile:
@@ -54,7 +56,7 @@ def role_readme(server, **kwargs):
 			msg += '* `!{0} none`: Removes any roles you have from the {0} roleset.\n'.format(roleset)
 	return msg
 
-async def give_help(user, client, channel, server, mentionTarget, command, argstring, conf):
+async def give_help(user, client, channel, server, mentionTarget, command, argstring, conf, botname):
 	if argstring in commands.keys():
 		return commands[argstring][1](
 			user=user,
@@ -64,7 +66,8 @@ async def give_help(user, client, channel, server, mentionTarget, command, argst
 			mentionTarget=mentionTarget,
 			command=command,
 			argstring=argstring,
-			conf=conf)
+			conf=conf,
+			botname=botname)
 	return 'Implemented commands: ' + ', '.join(commands.keys()) + '\nTry `!{0} <commandName>` to learn more.'.format(command)
 
 def readme_readme(**kwargs):
@@ -103,11 +106,17 @@ async def do_command(message, conf):
 				mentionTarget=utils.getMentionTarget(message),
 				command=command.split()[0],
 				argstring=argstring,
-				conf=conf
+				conf=conf,
+				botname=botname
 			)
 			if type(result) is tuple:
-				setEmbedColor(result[1], message.server)
-				await client.send_message(message.channel, result[0], embed=result[1])
+				permissions = message.channel.permissions_for(utils.find_self_member(client, message.server))
+				if permissions.embed_links:
+					setEmbedColor(result[1], message.server)
+					await client.send_message(message.channel, result[0], embed=result[1])
+				else:
+					reply = result[0] + '\n' + utils.embed_to_text(result[1])
+					await client.send_message(message.channel, reply)
 			else:
 				await client.send_message(message.channel, result)
 		else:
@@ -168,14 +177,14 @@ async def on_ready():
 			if recurring:
 				for event in recurring:
 					await set_recurring_event(server, event)
-		await reminder.set_all_saved_reminders(client)
+		await reminder.set_all_saved_reminders(client, conf.bot_name())
 		is_reminder_set = True
 		print('Bot started')
 
 @client.event
 async def on_member_join(member):
 	automod.add_to_noobs(member)
-	channel = find_channel(conf.get_object(member.server, 'greetingChannel'), member.server)
+	channel = utils.find_channel(conf.get_object(member.server, 'greetingChannel'), member.server)
 	log.debug(f'{member.name} joined {member.server}')
 	if conf.get_object(member.server, 'defaultRoleset'):
 		role = await random_role(member, conf.get_object(member.server, 'defaultRoleset'))
@@ -186,7 +195,7 @@ async def on_member_join(member):
 
 @client.event
 async def on_member_remove(member):
-	channel = find_channel(conf.get_object(member.server, 'leavingChannel'), member.server)
+	channel = utils.find_channel(conf.get_object(member.server, 'leavingChannel'), member.server)
 	if channel:
 		msg = conf.get_string(member.server, 'left').format(member.name)
 		await client.send_message(channel, msg)
@@ -263,12 +272,6 @@ async def add_role(member, role, roleset):
 				roles = roles + [secondRole]
 	await client.add_roles(member, *roles)
 
-def find_channel(channel_name, server):
-	for x in server.channels:
-		if x.name == channel_name or x.id == channel_name:
-			return x
-	log.error(f'channel {channel_name} not found on server {server.name}')
-
 async def change_role(member, roleName, roleset):
 	if any(role.name.lower() == roleName.lower() for role in get_roleset(member.server, roleset)):
 		role = discord.utils.find(lambda r: r.name.lower() == roleName.lower(), member.server.roles)
@@ -282,12 +285,12 @@ async def change_role(member, roleName, roleset):
 
 async def set_scheduled_event(server, event):
 	when_time = dateparser.parse(event['time'])
-	channel = find_channel(event['channel'], server)
+	channel = utils.find_channel(event['channel'], server)
 	msg = event['message']
 	await reminder.set_reminder(when_time, client, channel, msg)
 
 async def set_recurring_event(server, event):
-	channel = find_channel(event['channel'], server)
+	channel = utils.find_channel(event['channel'], server)
 	msg = event['message']
 	await reminder.set_recurring_message(event['time'], client, channel, msg)
 

@@ -2,13 +2,13 @@ import asyncio
 import datetime
 import logging
 import re
-import shelve
 from collections import ChainMap
 from lark import Lark, Transformer
 from lark.exceptions import LarkError
+from botdb import BotDB
 log = logging.getLogger('LongSphinx.WriteSprint')
 
-dbname = 'data/sprints'
+dbname = 'sprints'
 DEFAULT_DURATION = 15
 DEFAULT_DELAY = 1
 
@@ -43,7 +43,9 @@ window = datetime.timedelta(minutes=5)
 async def send_message(client, channel, msg):
 	await client.send_message(channel, msg.format(mentions=', '.join(activeSprints[channel.id]['members'].keys())))
 
-async def make_sprint(argstring, client, channel, **kwargs):
+async def make_sprint(argstring, client, channel, conf, **kwargs):
+	global botName
+	botName = conf.bot_name()
 	if argstring:
 		sprint = SprintTransformer().transform(parser.parse(argstring))
 	else:
@@ -60,7 +62,9 @@ async def make_sprint(argstring, client, channel, **kwargs):
 	await delay_function(end_time + datetime.timedelta(minutes=1), end_sprint, (channel, client))
 	return '{0}-minute sprint starting in {1} minutes.'.format(sprint['duration'], sprint['delay'])
 
-async def join_sprint(user, channel, argstring, **kwargs):
+async def join_sprint(user, channel, argstring, conf, **kwargs):
+	global botName
+	botName = conf.bot_name()
 	try:
 		words = int(argstring)
 	except (ValueError, TypeError):
@@ -71,7 +75,9 @@ async def join_sprint(user, channel, argstring, **kwargs):
 	else:
 		return 'No active sprint.'
 
-async def record_words(user, channel, argstring, **kwargs):
+async def record_words(user, channel, argstring, conf, **kwargs):
+	global botName
+	botName = conf.bot_name()
 	try:
 		words = int(argstring)
 	except (ValueError, TypeError):
@@ -86,7 +92,7 @@ async def end_sprint(channel, client):
 	result = activeSprints.pop(channel.id)
 	leaderboardString = '\n'.join('{0}: {1}'.format(*a) for a in sorted([(key, value['endCount'] - value['startCount']) for key, value in result['members'].items()], key=lambda x: x[1], reverse=true))
 	await send_message(client, channel, leaderboardString)
-	with shelve.open(dbname) as db:
+	with BotDB(dbname, botName) as db:
 		db['::'.join([channel.id, result['start'].isoformat])] = result
 
 def describe_sprint(channel):

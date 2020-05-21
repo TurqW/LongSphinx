@@ -3,29 +3,29 @@ import dateparser
 import datetime
 import math
 import logging
-import shelve
 import isodatetime.parsers as dtparse
 import isodatetime.data as dtdata
+from botdb import BotDB
 
 log = logging.getLogger('LongSphinx.Reminder')
 
-DBNAME = 'data/schedule'
+DBNAME = 'schedule'
 DBKEY = '0'
 window = datetime.timedelta(minutes=5)
 
 def load_reminders():
-	with shelve.open(DBNAME) as db:
+	with BotDB(DBNAME, botName) as db:
 		if DBKEY in db:
 			return db[DBKEY]
 		else:
 			return []
 
 def save_reminders(schedule):
-	with shelve.open(DBNAME) as db:
+	with BotDB(DBNAME, botName) as db:
 		db[DBKEY] = schedule
 
 def list_all_set_channels():
-	with shelve.open(DBNAME) as db:
+	with BotDB(DBNAME, botName) as db:
 		return list(db.keys())
 
 def save_one_reminder(channel, when_time, msg):
@@ -38,7 +38,9 @@ def delete_reminder(reminder):
 	schedule.remove(reminder)
 	save_reminders(schedule)
 
-async def set_all_saved_reminders(client):
+async def set_all_saved_reminders(client, botNameParam):
+	global botName
+	botName = botNameParam
 	for reminder in load_reminders():
 		if reminder[1] > datetime.datetime.utcnow():
 			await set_reminder(reminder[1], client, reminder[0], reminder[2])

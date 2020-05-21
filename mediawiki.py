@@ -4,7 +4,7 @@ import urllib.parse
 ua = 'LongSphinx/0.1 (longsphinx@mage.city)'
 
 
-async def search(user, client, channel, server, mentionTarget, command, argstring, conf):
+async def search(user, client, channel, server, mentionTarget, command, argstring, conf, **kwargs):
 	mwOptions = conf.get_object(server, 'mwSites')
 	siteName, query = argstring.split(' ', 1)
 	if siteName not in mwOptions:
@@ -16,6 +16,6 @@ async def search(user, client, channel, server, mentionTarget, command, argstrin
 
 def readme(server, conf, **kwargs):
 	msg = 'Searches a mediawiki instance and returns a link to the first result. Enabled instances on this server:\n'
-	for wiki, url in conf.get_object(server, 'mwSites'):
-		msg += f' * {wiki}: {url}\n'
+	for wiki, deets in conf.get_object(server, 'mwSites').items():
+		msg += f' * {wiki}: {deets["url"]}\n'
 	return msg

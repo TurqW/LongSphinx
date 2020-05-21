@@ -6,15 +6,17 @@ log = logging.getLogger('LongSphinx.ConfigManager')
 
 class ConfigManager:
 
-	def __init__(self, filename):
+	def __init__(self, filename, botName='universal'):
 		self.lastmod = os.stat(filename).st_mtime
 		self.filename = filename
+		self.botName = botName
 		with open(filename, 'r') as stream:
 			try:
 				self.config = yaml.load(stream)
 			except yaml.YAMLError as exc:
 				log.exception(exc)
 				print('Configuration load failed for {0}'.format(filename))
+
 
 	def update_config(self):
 		newlastmod = os.stat(self.filename).st_mtime

@@ -1,13 +1,11 @@
 import datetime
 import discord
 import random
-import shelve
 import sys
 
 import generator
 import utils
-
-utils.check_path('data')
+from botdb import BotDB
 
 tick = datetime.timedelta(minutes=120)
 
@@ -17,7 +15,7 @@ maxHappy = 30
 foodGain = 6
 happyGain = 6
 
-dbname = 'data/pets'
+dbname = 'pets'
 
 class Pet:
 	def __init__(self):
@@ -84,15 +82,17 @@ class Pet:
 
 
 def loadPet(name):
-	with shelve.open(dbname) as db:
+	with BotDB(dbname, botName) as db:
 		myPet = db[name]
 	return myPet
 
 def savePet(myPet, name):
-	with shelve.open(dbname) as db:
+	with BotDB(dbname, botName) as db:
 		db[name] = myPet
 
-async def feed(user, mentionTarget, **kwargs):
+async def feed(user, mentionTarget, conf, **kwargs):
+	global botName
+	botName = conf.bot_name()
 	if mentionTarget is not None:
 		id = mentionTarget.id
 	else:
@@ -105,7 +105,9 @@ async def feed(user, mentionTarget, **kwargs):
 	savePet(myPet, id)
 	return message
 
-async def pet(user, mentionTarget, **kwargs):
+async def pet(user, mentionTarget, conf, **kwargs):
+	global botName
+	botName = conf.bot_name()
 	if mentionTarget is not None:
 		id = mentionTarget.id
 	else:
@@ -118,7 +120,9 @@ async def pet(user, mentionTarget, **kwargs):
 	savePet(myPet, id)
 	return message
 
-async def getSeed(user, mentionTarget, **kwargs):
+async def getSeed(user, mentionTarget, conf, **kwargs):
+	global botName
+	botName = conf.bot_name()
 	if mentionTarget is not None:
 		id = mentionTarget.id
 	else:
@@ -132,7 +136,9 @@ async def getSeed(user, mentionTarget, **kwargs):
 	else:
 		return 'Seed unknown for your pet.'
 
-async def summon(user, argstring, **kwargs):
+async def summon(user, argstring, conf, **kwargs):
+	global botName
+	botName = conf.bot_name()
 	id = user.id
 	if not argstring:
 		argstring = str(random.randrange(sys.maxsize))
@@ -150,7 +156,3 @@ def readme(**kwargs):
 * `!pet` give your pet a pat. @mention someone else to pat their pet instead.
 * `!getseed` find the seed for your pet. If you save this somewhere, you can `!summon <seed>` to get back to this pet if something happens.
 """
-try:
-	loadPet('0')
-except:
-	savePet(Pet(), '0')

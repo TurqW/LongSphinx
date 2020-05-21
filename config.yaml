@@ -12,6 +12,11 @@ servers:
     recurring: False
     leavingChannel: False
     embedColor: 0x26F69A
+    mwSites:
+      wiki: &wikipedia
+        url: 'en.wikipedia.org'
+        path: '/w/'
+        pagePath: '/wiki/'
     strings: &defaultStrings
       roleChange:
         '{0}, you are now a {1}.'
@@ -35,6 +40,7 @@ servers:
     - 'bot-commands'
     - 'adventures-in-pevar-ooc'
     - 'starships-and-sorcerers-ooc'
+    - '528792844731809792'
     defaultRoleset: creature
     automod:
       channel: 'the-dungeons'
@@ -225,14 +231,15 @@ servers:
     <<: *defaults
   '489197880809095168':
     mwSites:
-      wiki: &wikipedia
-        url: 'en.wikipedia.org'
-        path: '/w/'
-        pagePath: '/wiki/'
+      wiki: *wikipedia
       lcars:
         url: 'lcars.sfintel.space'
         path: '/'
         pagePath: '/w/'
+    recurring:
+    - time: R/2020-01-20T23:59Z/PT1M
+      channel: '528792844731809792'
+      message: bump <https://discord.me/dashboard>
     <<: *realm
   '494373430637101058':
     name: Waltlandia
