@@ -22,6 +22,10 @@ servers:
         '{0}, you are now a {1}.'
       roleClear:
         '{0}, your {1} has been cleared.'
+      roleToggleOn:
+        '{0}, you have been granted role {1}.'
+      roleToggleOff:
+        '{0}, you have shed the role {1}.'
       rerole:
         'Another peek at my crystal ball... {0}, are you perhaps a {1}?'
       left:
@@ -47,172 +51,176 @@ servers:
       role: 'In the Dungeons!'
     rolesets:
       creature:
-        Dwarf:
-          secondaryRoles:
-          - Humanoids
-        Elf:
-          secondaryRoles:
-          - Humanoids
-        Fairy:
-          secondaryRoles:
-          - Humanoids
-        Giant:
-          secondaryRoles:
-          - Humanoids
-        Goblin:
-          secondaryRoles:
-          - Humanoids
-          random: False
-        Gnome:
-          secondaryRoles:
-          - Humanoids
-        Halfling:
-          secondaryRoles:
-          - Humanoids
-        Human:
-          secondaryRoles:
-          - Humanoids
-        Mermaid:
-          secondaryRoles:
-          - Humanoids
-          random: False
-        Vampire:
-          secondaryRoles:
-          - Humanoids
-        Werewolf:
-          secondaryRoles:
-          - Humanoids
-        Witch:
-          secondaryRoles:
-          - Humanoids
-          random: False
-        Wizard:
-          secondaryRoles:
-          - Humanoids
-          random: False
-        Zombie:
-          secondaryRoles:
-          - Humanoids
+        type: selector
+        roles:
+          Dwarf:
+            secondaryRoles:
+            - Humanoids
+          Elf:
+            secondaryRoles:
+            - Humanoids
+          Fairy:
+            secondaryRoles:
+            - Humanoids
+          Giant:
+            secondaryRoles:
+            - Humanoids
+          Goblin:
+            secondaryRoles:
+            - Humanoids
+            random: False
+          Gnome:
+            secondaryRoles:
+            - Humanoids
+          Halfling:
+            secondaryRoles:
+            - Humanoids
+          Human:
+            secondaryRoles:
+            - Humanoids
+          Mermaid:
+            secondaryRoles:
+            - Humanoids
+            random: False
+          Vampire:
+            secondaryRoles:
+            - Humanoids
+          Werewolf:
+            secondaryRoles:
+            - Humanoids
+          Witch:
+            secondaryRoles:
+            - Humanoids
+            random: False
+          Wizard:
+            secondaryRoles:
+            - Humanoids
+            random: False
+          Zombie:
+            secondaryRoles:
+            - Humanoids
 
-        Basilisk:
-          secondaryRoles:
-          - Beasts
-        Chimera:
-          secondaryRoles:
-          - Beasts
-        Centaur:
-          secondaryRoles:
-          - Beasts
-        Cyclops:
-          secondaryRoles:
-          - Beasts
-        Dragon:
-          secondaryRoles:
-          - Beasts
-        Gryphon:
-          secondaryRoles:
-          - Beasts
-        Loch Ness Monster:
-          secondaryRoles:
-          - Beasts
-        Ogre:
-          secondaryRoles:
-          - Beasts
-          random: False
-        Orc:
-          secondaryRoles:
-          - Beasts
-          random: False
-        Pegasus:
-          secondaryRoles:
-          - Beasts
-        Phoenix:
-          secondaryRoles:
-          - Beasts
-        Sasquatch:
-          secondaryRoles:
-          - Beasts
-          random: False
-        Sphinx:
-          secondaryRoles:
-          - Beasts
-        Unicorn:
-          secondaryRoles:
-          - Beasts
+          Basilisk:
+            secondaryRoles:
+            - Beasts
+          Chimera:
+            secondaryRoles:
+            - Beasts
+          Centaur:
+            secondaryRoles:
+            - Beasts
+          Cyclops:
+            secondaryRoles:
+            - Beasts
+          Dragon:
+            secondaryRoles:
+            - Beasts
+          Gryphon:
+            secondaryRoles:
+            - Beasts
+          Loch Ness Monster:
+            secondaryRoles:
+            - Beasts
+          Ogre:
+            secondaryRoles:
+            - Beasts
+            random: False
+          Orc:
+            secondaryRoles:
+            - Beasts
+            random: False
+          Pegasus:
+            secondaryRoles:
+            - Beasts
+          Phoenix:
+            secondaryRoles:
+            - Beasts
+          Sasquatch:
+            secondaryRoles:
+            - Beasts
+            random: False
+          Sphinx:
+            secondaryRoles:
+            - Beasts
+          Unicorn:
+            secondaryRoles:
+            - Beasts
 
-        Angel:
-          secondaryRoles:
-          - Spirits
-        Ascended:
-          secondaryRoles:
-          - Spirits
-        Banshee:
-          secondaryRoles:
-          - Spirits
-          random: False
-        Demon:
-          secondaryRoles:
-          - Spirits
-        Deity:
-          secondaryRoles:
-          - Spirits
-        Djinn:
-          secondaryRoles:
-          - Spirits
-        Ghost:
-          secondaryRoles:
-          - Spirits
-        Ghoul:
-          secondaryRoles:
-          - Spirits
-        Grim:
-          secondaryRoles:
-          - Spirits
-        Kobold:
-          secondaryRoles:
-          - Spirits
-        Poltergeist:
-          secondaryRoles:
-          - Spirits
-        Skeleton:
-          secondaryRoles:
-          - Spirits
-        Sylph:
-          secondaryRoles:
-          - Spirits
-        Wraith:
-          secondaryRoles:
-          - Spirits
+          Angel:
+            secondaryRoles:
+            - Spirits
+          Ascended:
+            secondaryRoles:
+            - Spirits
+          Banshee:
+            secondaryRoles:
+            - Spirits
+            random: False
+          Demon:
+            secondaryRoles:
+            - Spirits
+          Deity:
+            secondaryRoles:
+            - Spirits
+          Djinn:
+            secondaryRoles:
+            - Spirits
+          Ghost:
+            secondaryRoles:
+            - Spirits
+          Ghoul:
+            secondaryRoles:
+            - Spirits
+          Grim:
+            secondaryRoles:
+            - Spirits
+          Kobold:
+            secondaryRoles:
+            - Spirits
+          Poltergeist:
+            secondaryRoles:
+            - Spirits
+          Skeleton:
+            secondaryRoles:
+            - Spirits
+          Sylph:
+            secondaryRoles:
+            - Spirits
+          Wraith:
+            secondaryRoles:
+            - Spirits
         removeOnUpdate:
         - Beasts
         - Spirits
         - Humanoids
       class:
-        Barbarian:
-          description: A warrior from the wilds who draws strength from his rage.
-        Bard:
-          description: A performer of such skill that their performances can have magical effects.
-        Brawler:
-          description: A fighter who relies on brawn and street smarts rather than grueling training.
-        Cleric:
-          description: A priest of a specific deity or pantheon. Best known for their healing magic.
-        Druid:
-          description: A magic user deeply in tune with nature. Can often transform into animals.
-        Fighter:
-        Mage:
-          description: A skilled magic user who has studied or been granted the arcane arts.
-        Monk:
-          description: An agile warrior trained in the martial arts of a faraway land.
-        Paladin:
-          description: A holy knight, gifted with both physical prowess and holy magic.
-        Ranger:
-          description: A tracker, hunter, and/or woodsman. May know some relevant magic.
-        Rogue:
-          description: A thief or assassin. Quick, sneaky, and best not let out of your sight.
-        Soldier:
-          description: A disciplined warrior accustomed to fighting together with their comrades-in-arms.
-        Sorceror:
-        Warlock:
+        type: toggle
+        roles:
+          Barbarian:
+            description: A warrior from the wilds who draws strength from his rage.
+          Bard:
+            description: A performer of such skill that their performances can have magical effects.
+          Brawler:
+            description: A fighter who relies on brawn and street smarts rather than grueling training.
+          Cleric:
+            description: A priest of a specific deity or pantheon. Best known for their healing magic.
+          Druid:
+            description: A magic user deeply in tune with nature. Can often transform into animals.
+          Fighter:
+          Mage:
+            description: A skilled magic user who has studied or been granted the arcane arts.
+          Monk:
+            description: An agile warrior trained in the martial arts of a faraway land.
+          Paladin:
+            description: A holy knight, gifted with both physical prowess and holy magic.
+          Ranger:
+            description: A tracker, hunter, and/or woodsman. May know some relevant magic.
+          Rogue:
+            description: A thief or assassin. Quick, sneaky, and best not let out of your sight.
+          Soldier:
+            description: A disciplined warrior accustomed to fighting together with their comrades-in-arms.
+          Sorceror:
+          Warlock:
     strings:
       invalidcreature:
         '{0}, role {1} is not on the valid list. Perhaps have a look at my bestiary with `!creature`, or I can choose for you with `!rerole`.'
@@ -248,13 +256,17 @@ servers:
       element
     rolesets:
       element:
-        Solar:
-        Lunar:
-        Gaian:
+        type: selector
+        roles:
+          Solar:
+          Lunar:
+          Gaian:
       job:
-        Soldier:
-        Mage:
-        Archer:
+        type: toggle
+        roles:
+          Soldier:
+          Mage:
+          Archer:
     generators:
     - beast
     - potion
@@ -296,13 +308,15 @@ servers:
     - '578618351279013888'
     rolesets:
       role:
-        Red:
-        Orange:
-        Yellow:
-        Green:
-        Blue:
-        Purple:
-        Pink:
+        type: selector
+        roles:
+          Red:
+          Orange:
+          Yellow:
+          Green:
+          Blue:
+          Purple:
+          Pink:
     automod:
       channel: 'bridge'
       role: 'Troll'
@@ -327,6 +341,13 @@ servers:
     greetingChannel: lobby
     leavingChannel: holodeck
     embedColor: 0x81CE38
+    rolesets:
+      role:
+        type: toggle
+        roles:
+          VC:
+          STO:
+          ghojwl':
     recurring:
     - time: R/2020-01-20T23:59Z/PT6H
       channel: '652303689037512704'
@@ -338,11 +359,21 @@ servers:
         path: '/'
         pagePath: '/w/'
     strings:
-      welcome: '<:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
+      welcome: |-
+        <:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
 
-Please be sure to read <#575878931018809374> and let the <@&302521125198495747> know if you need any help.
+        Please be sure to read <#575878931018809374> and let the <@&302521125198495747> know if you need any help.
 
-<:orionllaphand:394679026066784256> <:emperor:637696072772222977> <:cllaphand:441431194492469249> <:emperor:637696072772222977> <:bolianllaphand:394679014524190721> <:emperor:637696072772222977> <:androidllaphand:625569278245994509>'
+        <:orionllaphand:394679026066784256> <:emperor:637696072772222977> <:cllaphand:441431194492469249> <:emperor:637696072772222977> <:bolianllaphand:394679014524190721> <:emperor:637696072772222977> <:androidllaphand:625569278245994509>
+      roleRoleList: |-
+        VC
+        > The crew occasionally hops into voice chat to shoot the shit, and we'll ping this role when we do. If you wish to know when we do this so you can join us, please add this role.
+
+        STO
+        > Some players chat about Star Trek Online in <#637024884685537292>, and will occasionally ping this role when there's something happening with the Emperor's fleet. Assign this role if you wish to be notified of STO and fleet activity.
+
+        ghojwI' 
+        > This role is for people who attempting to learn Klingon on Duolingo or otherwise. We also chat about it in <#426516837816336396>. Assign this role if you want to be in the loop.
       <<: *defaultStrings
     <<: *defaults
 

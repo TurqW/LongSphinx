@@ -50,10 +50,16 @@ is_reminder_set = False
 def role_readme(server, **kwargs):
 	msg = ''
 	for roleset in conf.get_object(server, 'rolesets').keys():
-		msg += '* `!{0}`: Lists all available {0} options.\n'.format(roleset)
-		msg += '* `!{0} <{0}name>`: You become the chosen {0}. Example: `!{0} {1}`\n'.format(roleset, [a for a in list(conf.get_object(server, 'rolesets', roleset).keys()) if a != 'removeOnUpdate'][0])
-		if roleset != conf.get_object(server, 'defaultRoleset'):
-			msg += '* `!{0} none`: Removes any roles you have from the {0} roleset.\n'.format(roleset)
+		if conf.get_object(server, 'rolesets', roleset, 'type') == 'toggle':
+			msg += f'* `!{roleset}`: List all toggleable {roleset} options.\n'
+			msg += '* `!{0} <{0}name>`: You gain the chosen {0}. Use again to remove. Example: `!{0} {1}`\n'.format(roleset, next(a for a in list(conf.get_object(server, 'rolesets', roleset).keys()) if a != 'removeOnUpdate'))
+		else:
+			msg += f'* `!{roleset}`: Lists all available {roleset} options.\n'
+			msg += '* `!{0} <{0}name>`: You become the chosen {0}. Other roles in this category are removed. Example: `!{0} {1}`\n'.format(roleset, next(a for a in list(conf.get_object(server, 'rolesets', roleset).keys()) if a != 'removeOnUpdate'))
+			if roleset != conf.get_object(server, 'defaultRoleset'):
+				msg += '* `!{0} none`: Removes any roles you have from the {0} roleset.\n'.format(roleset)
+	if not msg:
+		return 'No rolesets configured for this server.'
 	return msg
 
 async def give_help(user, client, channel, server, mentionTarget, command, argstring, conf, botname):
@@ -120,7 +126,8 @@ async def do_command(message, conf):
 			else:
 				await client.send_message(message.channel, result)
 		else:
-			await parse(message)
+			msg = await parse(message)
+			await client.send_message(message.channel, msg)
 
 commands = {
 	'remind': (reminder.message_reminder, reminder.readme),
@@ -221,6 +228,8 @@ async def request_role(message, roleset):
 		words.pop()
 	if len(words) == 0:
 		return await list_roles(message, roleset)
+	elif conf.get_object(message.server, 'rolesets', roleset)['type'] == 'toggle':
+		return await toggle_role(message.author, ' '.join(words))
 	elif words[0].lower() == 'none' and roleset != conf.get_object(message.server, 'defaultRoleset'):
 		await client.remove_roles(message.author, *get_roles_to_remove(message.author.server, roleset))
 		msg = conf.get_string(message.server, 'roleClear').format(message.author.mention, roleset)
@@ -265,8 +274,8 @@ async def random_role(member, roleset):
 async def add_role(member, role, roleset):
 	log.debug(f'adding {role.name} to {member.name} on {member.server.name}')
 	roles = [role]
-	if conf.get_object(member.server, 'rolesets', roleset, role.name) and 'secondaryRoles' in conf.get_object(member.server, 'rolesets', roleset, role.name):
-		for roleName in conf.get_object(member.server, 'rolesets', roleset, role.name, 'secondaryRoles'):
+	if conf.get_object(member.server, 'rolesets', roleset, 'roles', role.name) and 'secondaryRoles' in conf.get_object(member.server, 'rolesets', roleset, 'roles', role.name):
+		for roleName in conf.get_object(member.server, 'rolesets', roleset, 'roles', role.name, 'secondaryRoles'):
 			secondRole = discord.utils.find(lambda r: r.name.lower() == roleName.lower(),   member.server.roles)
 			if secondRole not in member.roles:
 				roles = roles + [secondRole]
@@ -283,6 +292,15 @@ async def change_role(member, roleName, roleset):
 	else:
 		raise NameError(roleName)
 
+async def toggle_role(member, roleName):
+	role = discord.utils.find(lambda r: r.name.lower() == roleName.lower(), member.server.roles)
+	if any(role.name.lower() == roleName.lower() for role in member.roles):
+		await client.remove_roles(member, role)
+		return conf.get_string(member.server, 'roleToggleOff').format(member.mention, role.name)
+	else:
+		await client.add_roles(member, role)
+		return conf.get_string(member.server, 'roleToggleOn').format(member.mention, role.name)
+
 async def set_scheduled_event(server, event):
 	when_time = dateparser.parse(event['time'])
 	channel = utils.find_channel(event['channel'], server)
@@ -295,12 +313,12 @@ async def set_recurring_event(server, event):
 	await reminder.set_recurring_message(event['time'], client, channel, msg)
 
 def get_roleset(server, roleset):
-	roleNames = conf.get_object(server, 'rolesets', roleset).keys()
+	roleNames = conf.get_object(server, 'rolesets', roleset, 'roles').keys()
 	validRoles = [x for x in server.roles if x.name in roleNames]
 	return validRoles
 
 def get_randomables(server, roleset):
-	roleNames = conf.get_object(server, 'rolesets', roleset)
+	roleNames = conf.get_object(server, 'rolesets', roleset, 'roles')
 	roles = [k for k,v in roleNames.items() if not v or 'random' not in v or v['random']]
 	validRoles = [x for x in server.roles if x.name in roles]
 	return validRoles

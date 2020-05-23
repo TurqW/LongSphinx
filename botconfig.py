@@ -19,7 +19,6 @@ def get_object(server, *hierarchy):
 		except:
 			log.error('Could not find {0} out of {1} on server {2}'.format(level, hierarchy, server.id if hasattr(server, 'id') else 'default'))
 			return {}
-	log.error(found)
 	return found
 
 def get_string(server, stringname):

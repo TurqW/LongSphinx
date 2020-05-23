@@ -98,10 +98,10 @@ In general, you probably just want to make sure your formatting matches that of 
   * roleChange: What the bot says when someone successfully requests a new role. {0} will tag the person whose role is changed, {1} is the name of the new role.
   * roleClear: What the bot says when a person's roles of a specific roleset have been cleared. {0} will tag the person whose roles were changed, {1} will name the roleset that has been cleared.
   * rerole: What the bot says when someone requests a new random assignment with `!rerole` (only works with `defaultRoleset`). {0} tags the requester, {1} names their new role.
-  * invalid<rolesetname>: What the bot says when someone requests a role that's not in that roleset (or doesn't exist). {0} tags the requester, {1} is the role they requested.
+  * invalid{rolesetname}: What the bot says when someone requests a role that's not in that roleset (or doesn't exist). {0} tags the requester, {1} is the role they requested.
   * welcome: What the bot says when someone joins the server. {0} tags them, {1} is the name of their randomly-assigned role (if a `defaultRoleset` is set)
   * left: What the bot says when someone leaves the server. {0} tags them, though obviously they won't receive the tag notification.
-  * <rolesetname>RoleList: What the bot says when someone requests the list of roles in a roleset. {0} gives a comma-separated list of the roles, and an image set under `urls: roleImage: <rolesetname>:` will be embedded if available.
+  * {rolesetname}RoleList: What the bot says when someone requests the list of roles in a roleset. {0} gives a comma-separated list of the roles, and an image set under `urls: roleImage: {rolesetname}:` will be embedded if available.
 * defaultRoleset: This is the name of the roleset that is randomly picked from when someone joins. If left blank, no random role will be assigned.
 * rolesets: a `map` of available rolesets. Anatomy of a roleset will be covered later.
 
@@ -111,15 +111,19 @@ A roleset is a `map` of `map`s (of `list`s). At its most basic, it should look l
 
 ```
   rolesets:
-    <rolesetname>:
-      <rolename1>:
-      <rolename2>:
-      <rolename3>:
+    {rolesetname}:
+      type: {selector or toggle}
+      roles:
+        {rolename1}:
+        {rolename2}:
+        {rolename3}:
 ```
 
-<rolesetname> is the name of the roleset; this is used as-is as the command for viewing the list of, requesting, and clearing roles in this roleset, so choose it appropriately. (However, it can be changed later without any loss of data.)
+{rolesetname} is the name of the roleset; this is used as-is as the command for viewing the list of, requesting, and clearing roles in this roleset, so choose it appropriately. (However, it can be changed later without any loss of data.)
 
-Each <rolename> is the literal name of the role. Behavior is undefined if you have multiple roles on your server with that name. Do not leave off the colon on each line.
+A role of type "selector" is exclusive; selecting a role from that list will remove any other roles in that list. If the roleset is not the defaultRoleset, the roles can be removed with `!{rolesetname} none`. Conversely, if the roleset type is "toggle", a user can self-assign as many roles as they like from that list, and removing a given role is done by calling `!{rolesetname} {rolename}` again.
+
+Each {rolename} is the literal name of the role. Behavior is undefined if you have multiple roles on your server with that name. Do not leave off the colon on each line.
 
 Optionally, each role may include a list of `secondaryRoles` which will also be applied when that role is assigned or requested. These will not be cleared on role update or role clear unless they're included in the `removeOnUpdate` list, which should be a sibling to the individual roles.
 
