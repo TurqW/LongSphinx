@@ -154,6 +154,9 @@ species:
 - text: panda
   sound:
     text: huffing
+- text: pangolin
+  sound:
+    text: huffing
 - text: pegasus
   sound:
     text: nickering

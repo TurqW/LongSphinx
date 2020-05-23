@@ -116,8 +116,12 @@ async def do_command(message, conf):
 				botname=botname
 			)
 			if type(result) is tuple:
-				permissions = message.channel.permissions_for(utils.find_self_member(client, message.server))
-				if permissions.embed_links:
+				permissions = False
+				try:
+					permissions = message.channel.permissions_for(utils.find_self_member(client, message.server))
+				except:
+					pass
+				if not permissions or permissions.embed_links:
 					setEmbedColor(result[1], message.server)
 					await client.send_message(message.channel, result[0], embed=result[1])
 				else:
