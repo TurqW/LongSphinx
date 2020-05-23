@@ -347,7 +347,7 @@ servers:
         roles:
           VC:
           STO:
-          ghojwl':
+          ghojwI':
     recurring:
     - time: R/2020-01-20T23:59Z/PT6H
       channel: '652303689037512704'
