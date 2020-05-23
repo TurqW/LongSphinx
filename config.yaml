@@ -366,13 +366,13 @@ servers:
 
         <:orionllaphand:394679026066784256> <:emperor:637696072772222977> <:cllaphand:441431194492469249> <:emperor:637696072772222977> <:bolianllaphand:394679014524190721> <:emperor:637696072772222977> <:androidllaphand:625569278245994509>
       roleRoleList: |-
-        VC
+        `VC`
         > The crew occasionally hops into voice chat to shoot the shit, and we'll ping this role when we do. If you wish to know when we do this so you can join us, please add this role.
 
-        STO
+        `STO`
         > Some players chat about Star Trek Online in <#637024884685537292>, and will occasionally ping this role when there's something happening with the Emperor's fleet. Assign this role if you wish to be notified of STO and fleet activity.
 
-        ghojwI' 
+        `ghojwI'`
         > This role is for people who attempting to learn Klingon on Duolingo or otherwise. We also chat about it in <#426516837816336396>. Assign this role if you want to be in the loop.
       <<: *defaultStrings
     <<: *defaults
