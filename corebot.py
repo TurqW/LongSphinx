@@ -74,6 +74,8 @@ async def give_help(user, client, channel, server, mentionTarget, command, argst
 			argstring=argstring,
 			conf=conf,
 			botname=botname)
+	elif conf.get_object(server, 'rolesets') and argstring in conf.get_object(server, 'rolesets').keys():
+		return await list_roles(server, channel, argstring)
 	return 'Implemented commands: ' + ', '.join(commands.keys()) + '\nTry `!{0} <commandName>` to learn more.'.format(command)
 
 def readme_readme(**kwargs):
@@ -231,7 +233,7 @@ async def request_role(message, roleset):
 	if words and utils.is_command(words[0], roleset):
 		words.pop()
 	if len(words) == 0:
-		return await list_roles(message, roleset)
+		return await list_roles(message.server, message.channel, roleset)
 	elif words[0].lower() == 'none' and roleset != conf.get_object(message.server, 'defaultRoleset'):
 		await client.remove_roles(message.author, *get_roles_to_remove(message.author.server, roleset))
 		msg = conf.get_string(message.server, 'roleClear').format(message.author.mention, roleset)
@@ -246,16 +248,16 @@ async def request_role(message, roleset):
 	msg = generator.fix_articles(msg)
 	await client.send_message(message.channel, msg)
 
-async def list_roles(message, roleset):
-	roles = [x.name for x in get_roleset(message.server, roleset)]
+async def list_roles(server, channel, roleset):
+	roles = [x.name for x in get_roleset(server, roleset)]
 	roles.sort()
-	msg = conf.get_string(message.server, roleset + 'RoleList').format(', '.join(roles))
-	await client.send_message(message.channel, msg)
+	msg = conf.get_string(server, roleset + 'RoleList').format(', '.join(roles))
+	await client.send_message(channel, msg)
 
 	p = Path('.')
-	filename = message.server.id + '_' + roleset + '.png'
+	filename = server.id + '_' + roleset + '.png'
 	imagePath = p / 'roleImages' / filename
-	await client.send_file(message.channel, str(imagePath))
+	await client.send_file(channel, str(imagePath))
 
 async def static_message(message, value):
 	msg = conf.get_object(message.server, 'static', value)
