@@ -232,11 +232,11 @@ async def request_role(message, roleset):
 		words.pop()
 	if len(words) == 0:
 		return await list_roles(message, roleset)
-	elif conf.get_object(message.server, 'rolesets', roleset)['type'] == 'toggle':
-		return await toggle_role(message.author, ' '.join(words))
 	elif words[0].lower() == 'none' and roleset != conf.get_object(message.server, 'defaultRoleset'):
 		await client.remove_roles(message.author, *get_roles_to_remove(message.author.server, roleset))
 		msg = conf.get_string(message.server, 'roleClear').format(message.author.mention, roleset)
+	elif conf.get_object(message.server, 'rolesets', roleset)['type'] == 'toggle':
+		return await toggle_role(message.author, ' '.join(words))
 	else:
 		try:
 			newRole = await change_role(message.author, ' '.join(words), roleset)
@@ -296,14 +296,18 @@ async def change_role(member, roleName, roleset):
 	else:
 		raise NameError(roleName)
 
-async def toggle_role(member, roleName):
-	role = discord.utils.find(lambda r: r.name.lower() == roleName.lower(), member.server.roles)
-	if any(role.name.lower() == roleName.lower() for role in member.roles):
-		await client.remove_roles(member, role)
-		return conf.get_string(member.server, 'roleToggleOff').format(member.mention, role.name)
-	else:
-		await client.add_roles(member, role)
-		return conf.get_string(member.server, 'roleToggleOn').format(member.mention, role.name)
+async def toggle_role(member, roleNames):
+	roleNameList = roleNames.lower().split()
+	responses = []
+	for roleName in roleNameList:
+		role = discord.utils.find(lambda r: r.name.lower() == roleName.lower(), member.server.roles)
+		if any(role.name.lower() == roleName.lower() for role in member.roles):
+			await client.remove_roles(member, role)
+			responses.append(conf.get_string(member.server, 'roleToggleOff').format(member.mention, role.name))
+		else:
+			await client.add_roles(member, role)
+			responses.append(conf.get_string(member.server, 'roleToggleOn').format(member.mention, role.name))
+	return '\n'.join(responses)
 
 async def set_scheduled_event(server, event):
 	when_time = dateparser.parse(event['time'])

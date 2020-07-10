@@ -348,6 +348,12 @@ servers:
           VC:
           STO:
           ghojwI':
+      pronouns:
+        type: toggle
+        roles:
+          she/her:
+          he/him:
+          they/them:
     recurring:
     - time: R/2020-01-20T23:59Z/PT6H
       channel: '652303689037512704'
@@ -374,6 +380,12 @@ servers:
 
         `ghojwI'`
         > This role is for people who attempting to learn Klingon on Duolingo or otherwise. We also chat about it in <#426516837816336396>. Assign this role if you want to be in the loop.
+      pronounsRoleList: |-
+        You can toggle any of these pronoun roles, or multiple of them: {0}
+        For instance, `!pronouns he/him they/them`
+        You can also clear all your pronoun roles with `!pronouns none`
+        
+        If your pronouns aren't on this list, please contact <@195543213212172288>.
       <<: *defaultStrings
     <<: *defaults
 
