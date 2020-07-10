@@ -317,6 +317,12 @@ servers:
           Blue:
           Purple:
           Pink:
+      pronouns:
+        type: toggle
+        roles:
+          she/her:
+          he/him:
+          they/them:
     automod:
       channel: 'bridge'
       role: 'Troll'
@@ -330,6 +336,14 @@ servers:
         'Set your color with `!role color`, such as `!role Purple`'
       invalidrole:
         '{0}, role {1} is not available. You can see the options with `!role`.'
+      pronounsRoleList: |-
+        You can toggle any of these pronoun roles, or multiple of them: {0}
+        For instance, `!pronouns he/him they/them`
+        You can also clear all your pronoun roles with `!pronouns none`
+        
+        If your pronouns aren't on this list, please contact <@255823892931805195>.
+      invalidpronouns: |-
+        I'm sorry, that pronoun hasn't been added to this server yet. Contact <@255823892931805195> if you want it added.
       <<: *defaultStrings
     <<: *defaults
   '302519947005919232':
@@ -386,6 +400,8 @@ servers:
         You can also clear all your pronoun roles with `!pronouns none`
         
         If your pronouns aren't on this list, please contact <@195543213212172288>.
+      invalidpronouns: |-
+        I'm sorry, that pronoun hasn't been added to this server yet. Contact <@195543213212172288> if you want it added.
       <<: *defaultStrings
     <<: *defaults
 
