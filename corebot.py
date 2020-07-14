@@ -81,7 +81,7 @@ async def give_help(user, client, channel, server, mentionTarget, command, argst
 def readme_readme(**kwargs):
 	return 'pick a command that you need help with.'
 
-async def channel_check(message, conf):
+async def channel_check(message, conf, **kwargs):
 	if not message.server:
 		return False
 	if conf.get_object(message.server, 'channelListBehavior') == 'whitelist':
@@ -92,7 +92,7 @@ async def channel_check(message, conf):
 		return False
 	return True
 
-async def do_command(message, conf):
+async def do_command(message, conf, **kwargs):
 	if message.content.startswith(COMMAND_CHAR):
 		command = message.content[1:].strip().lower()
 		if utils.is_command(command, 'rerole'):
@@ -165,6 +165,7 @@ commands = {
 modules = [
 	conf.update_config,
 	automod.first_message_link,
+	automod.no_role_link,
 	channel_check,
 	do_command
 	]
@@ -174,7 +175,7 @@ async def on_message(message):
 	if message.author != client.user:
 		for module in modules:
 			try:
-				shouldAbort = await module(message=message, conf=conf)
+				shouldAbort = await module(message=message, conf=conf, client=client)
 				if shouldAbort:
 					break
 			except:

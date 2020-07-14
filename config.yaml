@@ -8,7 +8,8 @@ servers:
     - name
     - loot
     - encounter
-    automod: False
+    automod: 
+      firstMessage: False
     recurring: False
     leavingChannel: False
     embedColor: 0x26F69A
@@ -49,6 +50,7 @@ servers:
     automod:
       channel: 'the-dungeons'
       role: 'In the Dungeons!'
+      firstMessage: True
     rolesets:
       creature:
         type: selector
@@ -288,6 +290,21 @@ servers:
     automod:
       channel: 'dungeon'
       role: 'Crook'
+      firstMessage: True
+      noRole:
+      - youtube.com
+      - youtu.be
+      - discord.gg
+      - bit.ly
+      - goo.gl
+      - tinyurl.com
+      - ow.ly
+      - is.gd
+      - buff.ly
+      - adf.ly
+      - bit.do
+      - mcaf.ee
+      - su.pr
     <<: *defaults
   '570788677937135626':
     name: Just Write
@@ -326,6 +343,21 @@ servers:
     automod:
       channel: 'bridge'
       role: 'Troll'
+      firstMessage: True
+      noRole:
+      - youtube.com
+      - youtu.be
+      - discord.gg
+      - bit.ly
+      - goo.gl
+      - tinyurl.com
+      - ow.ly
+      - is.gd
+      - buff.ly
+      - adf.ly
+      - bit.do
+      - mcaf.ee
+      - su.pr
     lmgtfyDefault: d
     leavingChannel: rainbow
     embedColor: 0x843DA4
@@ -378,6 +410,24 @@ servers:
         url: 'lcars.sfintel.space'
         path: '/'
         pagePath: '/w/'
+    automod:
+      channel: brig
+      role: brig
+      firstMessage: True
+      noRole:
+      - youtube.com
+      - youtu.be
+      - discord.gg
+      - bit.ly
+      - goo.gl
+      - tinyurl.com
+      - ow.ly
+      - is.gd
+      - buff.ly
+      - adf.ly
+      - bit.do
+      - mcaf.ee
+      - su.pr
     strings:
       welcome: |-
         <:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
