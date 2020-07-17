@@ -13,7 +13,7 @@ async def first_message_link(message, conf, client):
 
 async def no_role_link(message, conf, client):
 	automod = conf.get_object(message.server, 'automod')
-	if automod['noRole'] and len(message.author.roles) <= 1:
+	if 'noRole' in automod and automod['noRole'] and len(message.author.roles) <= 1:
 		for blocked in automod['noRole']:
 			if blocked in message.content:
 				await dungeon(', your message has been auto-flagged as potential spam. A mod will be here shortly to review your case. Your message: ```\n', message, conf, client)

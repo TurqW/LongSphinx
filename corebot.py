@@ -137,6 +137,7 @@ async def do_command(message, conf, **kwargs):
 
 commands = {
 	'remind': (reminder.message_reminder, reminder.readme),
+	'reminders': (reminder.list_my_reminders, reminder.readme),
 	'color': (colors.show_swatch, colors.readme),
 	'colour': (colors.show_swatch, colors.readme),
 	'makesprint': (writesprint.make_sprint, writesprint.readme),

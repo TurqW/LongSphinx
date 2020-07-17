@@ -24,10 +24,6 @@ def save_reminders(schedule):
 	with BotDB(DBNAME, botName) as db:
 		db[DBKEY] = schedule
 
-def list_all_set_channels():
-	with BotDB(DBNAME, botName) as db:
-		return list(db.keys())
-
 def save_one_reminder(channel, when_time, msg):
 	schedule = load_reminders()
 	schedule.append((channel, when_time, msg))
@@ -62,11 +58,17 @@ def parse_argstring(argstring):
 	displaytext = argstring[splitindex:]
 	return when_time, msg, displaytext
 
+async def list_my_reminders(user, **kwargs):
+	all_reminders = load_reminders()
+	all_reminders.sort(key= lambda x: x[1])
+	reminders = [f'{friendly_until_string(when)}: {msg.replace("Reminder: ", "")}' for (channel, when, msg) in all_reminders if channel == user]
+	return '\n'.join(reminders)
+
 async def message_reminder(argstring, client, user, **kwargs):
 	when_time, msg, displaytext = parse_argstring(argstring)
 	save_one_reminder(user, when_time, msg)
 	await set_reminder(when_time, client, user, msg)
-	return 'I\'ll send you a reminder in {0} seconds.'.format(round((when_time-datetime.datetime.utcnow()).total_seconds()))
+	return 'I\'ll send you a reminder in {0}.'.format(friendly_until_string(when_time))
 
 async def set_reminder(when_time, client, channel, msg):
 	if when_time > datetime.datetime.utcnow():
@@ -75,6 +77,16 @@ async def set_reminder(when_time, client, channel, msg):
 		loop.call_later(delay, lambda: loop.create_task(send_message(client, channel, msg, when_time)))
 	else:
 		log.warning('Ignoring scheduled event in the past: ' + str(when_time))
+
+def friendly_until_string(when):
+	# This is dense as fuck, I know. Starting from the inside:
+	# Subtract now from when to get a duration
+	# Convert duration to string, it looks like `10 days, 4:55:21.2435`
+	# Split at the '.' and take the first part, to strip off the partial seconds
+	# Split on ':' then unpack that list into the arguments for format, resulting in `10 days, 4h, 55m, 21s`
+	# Replace ' days' with 'd' to get `10d, 4h, 55m, 21s`
+	# Now as long as I always remember to keep this comment up to date - hahahahahaha
+	return '{0}h, {1}m, {2}s'.format(*str(when-datetime.datetime.utcnow()).split('.')[0].split(':')).replace(' days', 'd')
 
 def get_first_after(recurrence, timepoint):
     """Returns the first valid scheduled recurrence after the given timepoint, or None."""
@@ -97,10 +109,9 @@ def get_first_after(recurrence, timepoint):
 def dividemod(duration, divisor):
 	return divmod(duration.get_seconds(), divisor.get_seconds())
 
-#NOTE: due to safeguards intended to prevent multi-message bugs, behavior for recurring messages more frequent than once per minute is undefined.
 async def set_recurring_message(recur_string, client, channel, msg):
 	recurrence = dtparse.TimeRecurrenceParser().parse(recur_string)
-	now = dtdata.get_timepoint_for_now() + dtparse.DurationParser().parse('PT55S')
+	now = dtdata.get_timepoint_for_now()
 	when_time = get_first_after(recurrence, now)
 	if when_time is not None:
 		delay = float(when_time.get("seconds_since_unix_epoch")) - datetime.datetime.now().timestamp()
@@ -113,6 +124,7 @@ async def send_recurring_message(recur_string, client, channel, msg):
 
 def readme(**kwargs):
 	return '''
-	* `!remind <message> in <duration>`: Sends a reminder PM to the requester. 
+* `!remind <message> in <duration>`: Sends a reminder PM to the requester. 
 > Example: `!remind laundry in 30 minutes`
-	* `!remind <message> at <time>`: Same as above, but sends at the time specified in UTC. Remember to specify AM or PM or use 24-hour clock.'''
+* `!remind <message> at <time>`: Same as above, but sends at the time specified in UTC. Remember to specify AM or PM or use 24-hour clock.
+* `!reminders`: Shows all of your set reminders, and how long until they occur.'''
