@@ -115,12 +115,12 @@ async def save_command(user, argstring, conf, **kwargs):
 	if any(char.isdigit() for char in name) or name.strip().lower() == 'help':
 		return 'Name was not valid.'
 	with BotDB(dbname, botName) as db:
-		if user.id not in db:
-			db[user.id] = {name: command}
+		if str(user.id) not in db:
+			db[str(user.id)] = {name: command}
 		else:
-			newVersion = db[user.id]
+			newVersion = db[str(user.id)]
 			newVersion[name] = command
-			db[user.id] = newVersion
+			db[str(user.id)] = newVersion
 	return user.mention + ' has saved ' + command + ' as ' + name.lower()
 
 async def clear_command(user, argstring, conf, **kwargs):
@@ -128,10 +128,10 @@ async def clear_command(user, argstring, conf, **kwargs):
 	botName = conf.bot_name()
 	name = argstring.strip()
 	with BotDB(dbname, botName) as db:
-		if user.id in db:
-			newVersion = db[user.id]
+		if str(user.id) in db:
+			newVersion = db[str(user.id)]
 			newVersion.pop(name.lower())
-			db[user.id] = newVersion
+			db[str(user.id)] = newVersion
 	return user.mention + ' has deleted saved roll ' + name.lower()
 
 def list_commands(user):
@@ -146,7 +146,7 @@ async def roll_dice(user, client, channel, server, mentionTarget, command, argst
 	botName = conf.bot_name()
 	try:
 		embed = discord.Embed()
-		name, results = roll_command(str(user.id), argstring)
+		name, results = roll_command(str(str(user.id)), argstring)
 		for key, value in results.items():
 			embed.add_field(name=key, value=value)
 		if name:
@@ -162,7 +162,7 @@ async def list_rolls(user, conf, **kwargs):
 	global botName
 	botName = conf.bot_name()
 	embed = discord.Embed()
-	for key, value in sorted(list_commands(str(user.id)).items()):
+	for key, value in sorted(list_commands(str(str(user.id))).items()):
 		embed.add_field(name=key, value=value)
 	return user.mention + ' has these saved rolls.', embed
 

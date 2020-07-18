@@ -62,11 +62,10 @@ def role_readme(server, **kwargs):
 		return 'No rolesets configured for this server.'
 	return msg
 
-async def give_help(user, client, channel, server, mentionTarget, command, argstring, conf, botname):
+async def give_help(user, channel, server, mentionTarget, command, argstring, conf, botname):
 	if argstring in commands.keys():
 		return commands[argstring][1](
 			user=user,
-			client=client,
 			channel=channel,
 			server=server,
 			mentionTarget=mentionTarget,
@@ -82,13 +81,13 @@ def readme_readme(**kwargs):
 	return 'pick a command that you need help with.'
 
 async def channel_check(message, conf, **kwargs):
-	if not message.server:
+	if not message.guild:
 		return False
-	if conf.get_object(message.server, 'channelListBehavior') == 'whitelist':
-		if message.channel.name in conf.get_object(message.server, 'channels') or message.channel.id in conf.get_object(message.server, 'channels'):
+	if conf.get_object(message.guild, 'channelListBehavior') == 'whitelist':
+		if message.channel.name in conf.get_object(message.guild, 'channels') or message.channel.id in conf.get_object(message.guild, 'channels'):
 			return False
 		return True
-	if message.channel.name not in conf.get_object(message.server, 'channels') and message.channel.id not in conf.get_object(message.server, 'channels'):
+	if message.channel.name not in conf.get_object(message.guild, 'channels') and message.channel.id not in conf.get_object(message.guild, 'channels'):
 		return False
 	return True
 
@@ -108,9 +107,8 @@ async def do_command(message, conf, **kwargs):
 				command = 'readme'
 			result = await commands[command.split()[0]][0](
 				user=message.author,
-				client=client,
 				channel=message.channel,
-				server=message.server,
+				server=message.guild,
 				mentionTarget=utils.getMentionTarget(message),
 				command=command.split()[0],
 				argstring=argstring,
@@ -120,20 +118,20 @@ async def do_command(message, conf, **kwargs):
 			if type(result) is tuple:
 				permissions = False
 				try:
-					permissions = message.channel.permissions_for(utils.find_self_member(client, message.server))
+					permissions = message.channel.permissions_for(utils.find_self_member(client, message.guild))
 				except:
 					pass
 				if not permissions or permissions.embed_links:
-					setEmbedColor(result[1], message.server)
-					await client.send_message(message.channel, result[0], embed=result[1])
+					setEmbedColor(result[1], message.guild)
+					await message.channel.send(result[0], embed=result[1])
 				else:
 					reply = result[0] + '\n' + utils.embed_to_text(result[1])
-					await client.send_message(message.channel, reply)
+					await message.channel.send(reply)
 			else:
-				await client.send_message(message.channel, result)
+				await message.channel.send(result)
 		else:
 			msg = await parse(message)
-			await client.send_message(message.channel, msg)
+			await message.channel.send(msg)
 
 commands = {
 	'remind': (reminder.message_reminder, reminder.readme),
@@ -176,7 +174,7 @@ async def on_message(message):
 	if message.author != client.user:
 		for module in modules:
 			try:
-				shouldAbort = await module(message=message, conf=conf, client=client)
+				shouldAbort = await module(message=message, conf=conf)
 				if shouldAbort:
 					break
 			except:
@@ -187,42 +185,42 @@ async def on_ready():
 	global is_reminder_set
 	log.debug(f'Bot logged in as {client.user.name}')
 	if not is_reminder_set:
-		for server in client.servers:
+		for server in client.guilds:
 			recurring = conf.get_object(server, 'recurring')
 			if recurring:
 				for event in recurring:
 					await set_recurring_event(server, event)
-		await reminder.set_all_saved_reminders(client, conf.bot_name())
+		await reminder.set_all_saved_reminders(conf.bot_name(), client)
 		is_reminder_set = True
 		print('Bot started')
 
 @client.event
 async def on_member_join(member):
 	automod.add_to_noobs(member)
-	channel = utils.find_channel(conf.get_object(member.server, 'greetingChannel'), member.server)
-	log.debug(f'{member.name} joined {member.server}')
-	if conf.get_object(member.server, 'defaultRoleset'):
-		role = await random_role(member, conf.get_object(member.server, 'defaultRoleset'))
-		msg = conf.get_string(member.server, 'welcome').format(member.mention, role.name)
+	channel = utils.find_channel(conf.get_object(member.guild, 'greetingChannel'), member.guild)
+	log.debug(f'{member.name} joined {member.guild}')
+	if conf.get_object(member.guild, 'defaultRoleset'):
+		role = await random_role(member, conf.get_object(member.guild, 'defaultRoleset'))
+		msg = conf.get_string(member.guild, 'welcome').format(member.mention, role.name)
 	else:
-		msg = conf.get_string(member.server, 'welcome').format(member.mention)
-	await client.send_message(channel, msg)
+		msg = conf.get_string(member.guild, 'welcome').format(member.mention)
+	await channel.send(msg)
 
 @client.event
 async def on_member_remove(member):
-	channel = utils.find_channel(conf.get_object(member.server, 'leavingChannel'), member.server)
+	channel = utils.find_channel(conf.get_object(member.guild, 'leavingChannel'), member.guild)
 	if channel:
-		msg = conf.get_string(member.server, 'left').format(member.name)
-		await client.send_message(channel, msg)
+		msg = conf.get_string(member.guild, 'left').format(member.name)
+		await channel.send(msg)
 
 async def parse(message):
-	if conf.get_object(message.server, 'rolesets'):
+	if conf.get_object(message.guild, 'rolesets'):
 		if len(message.author.roles) > 1:
-			for roleset in conf.get_object(message.server, 'rolesets').keys():
+			for roleset in conf.get_object(message.guild, 'rolesets').keys():
 				if utils.is_command(message.content, roleset):
 					return await request_role(message, roleset)
-	if conf.get_object(message.server, 'static'):
-		for entry in conf.get_object(message.server, 'static').keys():
+	if conf.get_object(message.guild, 'static'):
+		for entry in conf.get_object(message.guild, 'static').keys():
 			if utils.is_command(message.content, entry):
 				return await static_message(message, entry)
 
@@ -235,66 +233,66 @@ async def request_role(message, roleset):
 	if words and utils.is_command(words[0], roleset):
 		words.pop()
 	if len(words) == 0:
-		return await list_roles(message.server, message.channel, roleset)
-	elif words[0].lower() == 'none' and roleset != conf.get_object(message.server, 'defaultRoleset'):
-		await client.remove_roles(message.author, *get_roles_to_remove(message.author.server, roleset))
-		msg = conf.get_string(message.server, 'roleClear').format(message.author.mention, roleset)
-	elif conf.get_object(message.server, 'rolesets', roleset)['type'] == 'toggle':
+		return await list_roles(message.guild, message.channel, roleset)
+	elif words[0].lower() == 'none' and roleset != conf.get_object(message.guild, 'defaultRoleset'):
+		await message.author.remove_roles(*get_roles_to_remove(message.author.guild, roleset))
+		msg = conf.get_string(message.guild, 'roleClear').format(message.author.mention, roleset)
+	elif conf.get_object(message.guild, 'rolesets', roleset)['type'] == 'toggle':
 		return await toggle_role(message.author, ' '.join(words))
 	else:
 		try:
 			newRole = await change_role(message.author, ' '.join(words), roleset)
-			msg = conf.get_string(message.server, 'roleChange').format(message.author.mention, newRole.name)
+			msg = conf.get_string(message.guild, 'roleChange').format(message.author.mention, newRole.name)
 		except (NameError):
-			msg = conf.get_string(message.server, 'invalid' + roleset).format(message.author.mention, ' '.join(words))
+			msg = conf.get_string(message.guild, 'invalid' + roleset).format(message.author.mention, ' '.join(words))
 	msg = generator.fix_articles(msg)
-	await client.send_message(message.channel, msg)
+	await message.channel.send(msg)
 
 async def list_roles(server, channel, roleset):
 	roles = [x.name for x in get_roleset(server, roleset)]
 	roles.sort()
 	msg = conf.get_string(server, roleset + 'RoleList').format(', '.join(roles))
-	await client.send_message(channel, msg)
+	await channel.send(msg)
 
 	p = Path('.')
 	filename = server.id + '_' + roleset + '.png'
 	imagePath = p / 'roleImages' / filename
-	await client.send_file(channel, str(imagePath))
+	await channel.send(file=discord.File(str(imagePath)))
 
 async def static_message(message, value):
-	msg = conf.get_object(message.server, 'static', value)
+	msg = conf.get_object(message.guild, 'static', value)
 	if msg.startswith('http'):
 		embed = discord.Embed().set_image(url=msg)
-		return await client.send_message(message.channel, '', embed=embed)
+		return await message.channel.send('', embed=embed)
 	else:
-		return await client.send_message(message.channel, msg)
+		return await message.channel.send(msg)
 
 async def rerole(message):
-	role = await random_role(message.author, conf.get_object(message.server, 'defaultRoleset'))
-	msg = conf.get_string(message.server, 'rerole').format(message.author.mention, role.name)
-	await client.send_message(message.channel, msg)
+	role = await random_role(message.author, conf.get_object(message.guild, 'defaultRoleset'))
+	msg = conf.get_string(message.guild, 'rerole').format(message.author.mention, role.name)
+	await message.channel.send(msg)
 
 async def random_role(member, roleset):
-	role = random.choice(get_randomables(member.server, roleset))
+	role = random.choice(get_randomables(member.guild, roleset))
 	await change_role(member, role.name, roleset)
 	return role
 
 async def add_role(member, role, roleset):
-	log.debug(f'adding {role.name} to {member.name} on {member.server.name}')
+	log.debug(f'adding {role.name} to {member.name} on {member.guild.name}')
 	roles = [role]
-	if conf.get_object(member.server, 'rolesets', roleset, 'roles', role.name) and 'secondaryRoles' in conf.get_object(member.server, 'rolesets', roleset, 'roles', role.name):
-		for roleName in conf.get_object(member.server, 'rolesets', roleset, 'roles', role.name, 'secondaryRoles'):
-			secondRole = discord.utils.find(lambda r: r.name.lower() == roleName.lower(),   member.server.roles)
+	if conf.get_object(member.guild, 'rolesets', roleset, 'roles', role.name) and 'secondaryRoles' in conf.get_object(member.guild, 'rolesets', roleset, 'roles', role.name):
+		for roleName in conf.get_object(member.guild, 'rolesets', roleset, 'roles', role.name, 'secondaryRoles'):
+			secondRole = discord.utils.find(lambda r: r.name.lower() == roleName.lower(),   member.guild.roles)
 			if secondRole not in member.roles:
 				roles = roles + [secondRole]
-	await client.add_roles(member, *roles)
+	await member.add_roles(*roles)
 
 async def change_role(member, roleName, roleset):
-	if any(role.name.lower() == roleName.lower() for role in get_roleset(member.server, roleset)):
-		role = discord.utils.find(lambda r: r.name.lower() == roleName.lower(), member.server.roles)
-		to_remove = get_roles_to_remove(member.server, roleset)
+	if any(role.name.lower() == roleName.lower() for role in get_roleset(member.guild, roleset)):
+		role = discord.utils.find(lambda r: r.name.lower() == roleName.lower(), member.guild.roles)
+		to_remove = get_roles_to_remove(member.guild, roleset)
 		to_remove.remove(role)
-		await client.remove_roles(member, *to_remove)
+		await member.remove_roles(*to_remove)
 		await add_role(member, role, roleset)
 		return role
 	else:
@@ -304,25 +302,25 @@ async def toggle_role(member, roleNames):
 	roleNameList = roleNames.lower().split()
 	responses = []
 	for roleName in roleNameList:
-		role = discord.utils.find(lambda r: r.name.lower() == roleName.lower(), member.server.roles)
+		role = discord.utils.find(lambda r: r.name.lower() == roleName.lower(), member.guild.roles)
 		if any(role.name.lower() == roleName.lower() for role in member.roles):
-			await client.remove_roles(member, role)
-			responses.append(conf.get_string(member.server, 'roleToggleOff').format(member.mention, role.name))
+			await member.remove_roles(role)
+			responses.append(conf.get_string(member.guild, 'roleToggleOff').format(member.mention, role.name))
 		else:
-			await client.add_roles(member, role)
-			responses.append(conf.get_string(member.server, 'roleToggleOn').format(member.mention, role.name))
+			await member.add_roles(role)
+			responses.append(conf.get_string(member.guild, 'roleToggleOn').format(member.mention, role.name))
 	return '\n'.join(responses)
 
 async def set_scheduled_event(server, event):
 	when_time = dateparser.parse(event['time'])
 	channel = utils.find_channel(event['channel'], server)
 	msg = event['message']
-	await reminder.set_reminder(when_time, client, channel, msg)
+	await reminder.set_reminder(when_time, channel, msg)
 
 async def set_recurring_event(server, event):
 	channel = utils.find_channel(event['channel'], server)
 	msg = event['message']
-	await reminder.set_recurring_message(event['time'], client, channel, msg)
+	await reminder.set_recurring_message(event['time'], channel, msg)
 
 def get_roleset(server, roleset):
 	roleNames = conf.get_object(server, 'rolesets', roleset, 'roles').keys()

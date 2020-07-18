@@ -40,10 +40,10 @@ class SprintTransformer(Transformer):
 
 window = datetime.timedelta(minutes=5)
 
-async def send_message(client, channel, msg):
-	await client.send_message(channel, msg.format(mentions=', '.join(activeSprints[channel.id]['members'].keys())))
+async def send_message(channel, msg):
+	await channel.send(msg.format(mentions=', '.join(activeSprints[channel.id]['members'].keys())))
 
-async def make_sprint(argstring, client, channel, conf, **kwargs):
+async def make_sprint(argstring, channel, conf, **kwargs):
 	global botName
 	botName = conf.bot_name()
 	if argstring:
@@ -57,9 +57,9 @@ async def make_sprint(argstring, client, channel, conf, **kwargs):
 	start_time = datetime.datetime.now() + datetime.timedelta(minutes=sprint['delay'])
 	end_time = start_time + datetime.timedelta(minutes=sprint['duration'])
 	activeSprints[channel.id] = {'start': start_time, 'end': end_time, 'members': {}}
-	await delay_function(start_time, send_message, (client, channel, 'Starting a ' + str(sprint['duration']) + '-minute sprint with {mentions}!'))
-	await delay_function(end_time, send_message, (client, channel, 'Sprint has ended, {mentions}, you have 1 minute to submit your final word counts!'))
-	await delay_function(end_time + datetime.timedelta(minutes=1), end_sprint, (channel, client))
+	await delay_function(start_time, send_message, (channel, 'Starting a ' + str(sprint['duration']) + '-minute sprint with {mentions}!'))
+	await delay_function(end_time, send_message, (channel, 'Sprint has ended, {mentions}, you have 1 minute to submit your final word counts!'))
+	await delay_function(end_time + datetime.timedelta(minutes=1), end_sprint, (channel))
 	return '{0}-minute sprint starting in {1} minutes.'.format(sprint['duration'], sprint['delay'])
 
 async def join_sprint(user, channel, argstring, conf, **kwargs):
@@ -88,10 +88,10 @@ async def record_words(user, channel, argstring, conf, **kwargs):
 	else:
 		return 'No active sprints.'
 
-async def end_sprint(channel, client):
+async def end_sprint(channel):
 	result = activeSprints.pop(channel.id)
 	leaderboardString = '\n'.join('{0}: {1}'.format(*a) for a in sorted([(key, value['endCount'] - value['startCount']) for key, value in result['members'].items()], key=lambda x: x[1], reverse=true))
-	await send_message(client, channel, leaderboardString)
+	await channel.send(leaderboardString)
 	with BotDB(dbname, botName) as db:
 		db['::'.join([channel.id, result['start'].isoformat])] = result
 

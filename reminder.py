@@ -26,7 +26,7 @@ def save_reminders(schedule):
 
 def save_one_reminder(channel, when_time, msg):
 	schedule = load_reminders()
-	schedule.append((channel, when_time, msg))
+	schedule.append((channel.id, when_time, msg))
 	save_reminders(schedule)
 
 def delete_reminder(reminder):
@@ -34,18 +34,18 @@ def delete_reminder(reminder):
 	schedule.remove(reminder)
 	save_reminders(schedule)
 
-async def set_all_saved_reminders(client, botNameParam):
+async def set_all_saved_reminders(botNameParam, client):
 	global botName
 	botName = botNameParam
 	for reminder in load_reminders():
 		if reminder[1] > datetime.datetime.utcnow():
-			await set_reminder(reminder[1], client, reminder[0], reminder[2])
+			await set_reminder(reminder[1], client.get_user(reminder[0]).dm_channel, reminder[2])
 		else:
 			delete_reminder(reminder)
 
-async def send_message(client, channel, msg, time):
+async def send_message(channel, msg, time):
 	if (time - window) <= datetime.datetime.utcnow() <= (time + window): #extra check to avoid random mistimed messages
-		await client.send_message(channel, msg)
+		await channel.send(msg)
 	else:
 		log.error('Mistimed reminder.')
 
@@ -55,26 +55,27 @@ def parse_argstring(argstring):
 	if when_time.tzinfo is not None:
 		when_time = when_time.replace(tzinfo=None)
 	msg = 'Reminder: {0}'.format(argstring[:splitindex])
-	displaytext = argstring[splitindex:]
-	return when_time, msg, displaytext
+	return when_time, msg
 
 async def list_my_reminders(user, **kwargs):
 	all_reminders = load_reminders()
 	all_reminders.sort(key= lambda x: x[1])
-	reminders = [f'{friendly_until_string(when)}: {msg.replace("Reminder: ", "")}' for (channel, when, msg) in all_reminders if channel == user]
-	return '\n'.join(reminders)
+	reminders = [f'{friendly_until_string(when)}: {msg.replace("Reminder: ", "")}' for (channel, when, msg) in all_reminders if channel == user.id]
+	if reminders:
+		return '\n'.join(reminders)
+	return 'No reminders set.'
 
-async def message_reminder(argstring, client, user, **kwargs):
-	when_time, msg, displaytext = parse_argstring(argstring)
+async def message_reminder(argstring, user, **kwargs):
+	when_time, msg = parse_argstring(argstring)
 	save_one_reminder(user, when_time, msg)
-	await set_reminder(when_time, client, user, msg)
+	await set_reminder(when_time, user, msg)
 	return 'I\'ll send you a reminder in {0}.'.format(friendly_until_string(when_time))
 
-async def set_reminder(when_time, client, channel, msg):
+async def set_reminder(when_time, channel, msg):
 	if when_time > datetime.datetime.utcnow():
 		delay = when_time.timestamp() - datetime.datetime.utcnow().timestamp()
 		loop = asyncio.get_event_loop()
-		loop.call_later(delay, lambda: loop.create_task(send_message(client, channel, msg, when_time)))
+		loop.call_later(delay, lambda: loop.create_task(send_message(channel, msg, when_time)))
 	else:
 		log.warning('Ignoring scheduled event in the past: ' + str(when_time))
 
@@ -109,18 +110,18 @@ def get_first_after(recurrence, timepoint):
 def dividemod(duration, divisor):
 	return divmod(duration.get_seconds(), divisor.get_seconds())
 
-async def set_recurring_message(recur_string, client, channel, msg):
+async def set_recurring_message(recur_string, channel, msg):
 	recurrence = dtparse.TimeRecurrenceParser().parse(recur_string)
 	now = dtdata.get_timepoint_for_now()
 	when_time = get_first_after(recurrence, now)
 	if when_time is not None:
 		delay = float(when_time.get("seconds_since_unix_epoch")) - datetime.datetime.now().timestamp()
 		loop = asyncio.get_event_loop()
-		loop.call_later(delay, lambda: loop.create_task(send_recurring_message(recur_string, client, channel, msg)))
+		loop.call_later(delay, lambda: loop.create_task(send_recurring_message(recur_string, channel, msg)))
 
-async def send_recurring_message(recur_string, client, channel, msg):
-	await client.send_message(channel, msg)
-	await set_recurring_message(recur_string, client, channel, msg)
+async def send_recurring_message(recur_string, channel, msg):
+	await channel.send(msg)
+	await set_recurring_message(recur_string, channel, msg)
 
 def readme(**kwargs):
 	return '''

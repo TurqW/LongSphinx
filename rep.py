@@ -71,15 +71,15 @@ def leaderlist(server):
 
 def loadUser(user):
 	with BotDB(botName, DBNAME) as db:
-		if user.id in db:
-			repInfo = db[user.id]
+		if str(user.id) in db:
+			repInfo = db[str(user.id)]
 		else:
 			repInfo = Rep()
 	return repInfo
 
 def saveUser(repInfo, user):
 	with BotDB(botName, DBNAME) as db:
-		db[user.id] = repInfo
+		db[str(user.id)] = repInfo
 
 def readme(argstring, **kwargs):
 	return """Rep:

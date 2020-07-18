@@ -4,7 +4,7 @@ import urllib.parse
 ua = 'LongSphinx/0.1 (longsphinx@mage.city)'
 
 
-async def search(user, client, channel, server, mentionTarget, command, argstring, conf, **kwargs):
+async def search(server, argstring, conf, **kwargs):
 	mwOptions = conf.get_object(server, 'mwSites')
 	siteName, query = argstring.split(' ', 1)
 	if siteName not in mwOptions:

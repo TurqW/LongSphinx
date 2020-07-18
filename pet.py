@@ -94,9 +94,9 @@ async def feed(user, mentionTarget, conf, **kwargs):
 	global botName
 	botName = conf.bot_name()
 	if mentionTarget is not None:
-		id = mentionTarget.id
+		id = str(mentionTarget.id)
 	else:
-		id = user.id
+		id = str(user.id)
 	try:
 		myPet = loadPet(id)
 	except:
@@ -109,9 +109,9 @@ async def pet(user, mentionTarget, conf, **kwargs):
 	global botName
 	botName = conf.bot_name()
 	if mentionTarget is not None:
-		id = mentionTarget.id
+		id = str(mentionTarget.id)
 	else:
-		id = user.id
+		id = str(user.id)
 	try:
 		myPet = loadPet(id)
 	except:
@@ -124,9 +124,9 @@ async def getSeed(user, mentionTarget, conf, **kwargs):
 	global botName
 	botName = conf.bot_name()
 	if mentionTarget is not None:
-		id = mentionTarget.id
+		id = str(mentionTarget.id)
 	else:
-		id = user.id
+		id = str(user.id)
 	try:
 		myPet = loadPet(id)
 	except:
@@ -139,7 +139,7 @@ async def getSeed(user, mentionTarget, conf, **kwargs):
 async def summon(user, argstring, conf, **kwargs):
 	global botName
 	botName = conf.bot_name()
-	id = user.id
+	id = str(user.id)
 	if not argstring:
 		argstring = str(random.randrange(sys.maxsize))
 	myPet = Pet()

@@ -1,6 +1,7 @@
 from PIL import Image
 from io import BytesIO
 import random
+import discord
 
 def create_swatch(color):
 	return Image.new('RGB', (200, 100), color)
@@ -11,11 +12,11 @@ def get_swatch(color):
 	im.save(out, format='PNG')
 	return BytesIO(out.getvalue()) #I know this looks dumb, but without it discord just sends a 0-byte file. ¯\_(ツ)_/¯
 
-async def show_swatch(argstring, client, channel, **kwargs):
+async def show_swatch(argstring, channel, **kwargs):
 	if not argstring:
 		argstring = f"#{random.randint(0, 0xFFFFFF):x}"
 	swatch = get_swatch(argstring)
-	await client.send_file(channel, swatch, filename=argstring + '.png')
+	await channel.send('', file=discord.File(swatch, filename=argstring + '.png'))
 	return argstring
 
 def readme(argstring, **kwargs):
