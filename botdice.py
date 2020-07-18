@@ -141,7 +141,7 @@ def list_commands(user):
 	except KeyError:
 		return {}
 
-async def roll_dice(user, client, channel, server, mentionTarget, command, argstring, conf, **kwargs):
+async def roll_dice(user, argstring, conf, **kwargs):
 	global botName
 	botName = conf.bot_name()
 	try:
