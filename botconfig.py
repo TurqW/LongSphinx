@@ -10,7 +10,7 @@ def __init__(filename, botName):
 
 def get_object(server, *hierarchy):
 	try:
-		found = conf.config['servers'][server.id]
+		found = conf.config['servers'][str(server.id)]
 	except (KeyError, AttributeError):
 		found = conf.config['servers']['default']
 	for level in hierarchy:
