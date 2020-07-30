@@ -14,7 +14,7 @@ def find_self_member(client, server):
 	return next(member for member in server.members if member.id == client.user.id)
 
 def find_channel(channel_name, server):
-	return next(channel for channel in server.channels if channel.name == channel_name or str(channel.id) == channel_name)
+	return next(channel for channel in server.channels if channel.name == channel_name or str(channel.id) == str(channel_name))
 
 def getMentionTarget(message):
 	if len(message.mentions) < 1:

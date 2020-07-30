@@ -36,16 +36,17 @@ servers:
     greetingChannel: portal
     channelListBehavior: whitelist
     channels:
-    - '445271158502457345'
-    - '447948663168303105'
-    - '503463950243987486'
-    - '542141314536439808'
-    - '566381413491015701'
-    - '597065299124289552'
+    - 445271158502457345
+    - 447948663168303105
+    - 503463950243987486
+    - 542141314536439808
+    - 566381413491015701
+    - 597065299124289552
     - 'bot-commands'
     - 'adventures-in-pevar-ooc'
-    - 'starships-and-sorcerers-ooc'
-    - '528792844731809792'
+    - 'sta-ooc'
+    - 597065299124289552
+    - 528792844731809792
     defaultRoleset: creature
     automod:
       channel: 'the-dungeons'
@@ -248,7 +249,7 @@ servers:
         pagePath: '/w/'
     recurring:
     - time: R/2020-01-20T23:59Z/PT1M
-      channel: '528792844731809792'
+      channel: 528792844731809792
       message: bump <https://discord.me/dashboard>
     <<: *realm
   '494373430637101058':
@@ -311,18 +312,18 @@ servers:
     channelListBehavior: whitelist
     channels:
     - tims-room
-    - '570800943529197578'
+    - 570800943529197578
     <<: *defaults
   '566868285791010827':
     name: Kittens & Unicorns
     channelListBehavior: blacklist
     channels:
     - wall of shame
-    - '574032248546918400'
+    - 574032248546918400
     - bridge
-    - '584012311417716739'
+    - 584012311417716739
     - announcements
-    - '578618351279013888'
+    - 578618351279013888
     rolesets:
       role:
         type: selector
@@ -341,8 +342,8 @@ servers:
           he/him:
           they/them:
     automod:
-      channel: 'bridge'
-      role: 'Troll'
+      channel: bridge
+      role: Troll
       firstMessage: True
       noRole:
       - youtube.com
@@ -402,14 +403,14 @@ servers:
           they/them:
     recurring:
     - time: R/2020-01-20T23:59Z/PT6H
-      channel: '652303689037512704'
+      channel: 652303689037512704
       message: bump <https://discord.me/dashboard>
     mwSites:
       wiki: *wikipedia
       lcars:
-        url: 'lcars.sfintel.space'
-        path: '/'
-        pagePath: '/w/'
+        url: lcars.sfintel.space
+        path: /
+        pagePath: /w/
     automod:
       channel: brig
       role: brig
