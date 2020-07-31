@@ -20,6 +20,7 @@ import reminder
 import utils
 import writesprint
 import rep
+import reactor
 
 utils.check_path('logs')
 
@@ -166,6 +167,7 @@ modules = [
 	automod.first_message_link,
 	automod.no_role_link,
 	channel_check,
+	reactor.autoreact,
 	do_command
 	]
 

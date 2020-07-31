@@ -359,6 +359,18 @@ servers:
       - bit.do
       - mcaf.ee
       - su.pr
+    autoreact:
+      - emoji: <:unicornpoop:738878278613336124>
+        triggers:
+          - unicorn
+      - emoji: <:FlappyTim:575545423989702667>
+        triggers:
+          - greggarms
+          - FlappyTim
+          - flappycard
+      - emoji: <:greentrumpet:665735484508471380>
+        triggers:
+          - toot
     lmgtfyDefault: d
     leavingChannel: rainbow
     embedColor: 0x843DA4
@@ -429,6 +441,11 @@ servers:
       - bit.do
       - mcaf.ee
       - su.pr
+    autoreact:
+      - emoji: <:emperor:637696072772222977>
+        triggers:
+          - Emperor
+          - Joshua Norton
     strings:
       welcome: |-
         <:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
