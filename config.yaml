@@ -13,6 +13,12 @@ servers:
     recurring: False
     leavingChannel: False
     embedColor: 0x26F69A
+    autoreact:
+      - emoji: <:FlappyTim:575545423989702667>
+        triggers:
+          - greggarms
+          - FlappyTim
+          - flappycard
     mwSites:
       wiki: &wikipedia
         url: 'en.wikipedia.org'
