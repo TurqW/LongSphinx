@@ -19,6 +19,12 @@ servers:
           - greggarms
           - FlappyTim
           - flappycard
+      - emoji: "\U0001F32E"
+        triggers:
+          - taco tuesday
+      - emoji: <:HypeTim:553373460181680147>
+        triggers:
+          - hype
     mwSites:
       wiki: &wikipedia
         url: 'en.wikipedia.org'
@@ -377,6 +383,9 @@ servers:
       - emoji: <:greentrumpet:665735484508471380>
         triggers:
           - toot
+      - emoji: <:irk:719734809009586267>
+        triggers:
+          - ' irk'
     lmgtfyDefault: d
     leavingChannel: rainbow
     embedColor: 0x843DA4
@@ -452,6 +461,31 @@ servers:
         triggers:
           - Emperor
           - Joshua Norton
+          - sfintel.space
+      - emoji: <:princessdeadpool:511389661935960065>
+        triggers:
+          - batman
+          - caped crusader
+          - dark knight
+          - adam west
+      - emoji: "\U0001F32E"
+        triggers:
+          - deadpool
+          - taco tuesday
+      - emoji: <:astrobee:587101767884472320>
+        triggers:
+          - flappycard
+          - FlappyTim
+          - greggarms
+      - emoji: <:jellybabies:610331609262194688>
+        triggers:
+          - doctor who
+          - k-9
+          - tardis
+          - jelly baby
+          - jelly babies
+          - the doctor
+          - sonic screwdriver
     strings:
       welcome: |-
         <:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
