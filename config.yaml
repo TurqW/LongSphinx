@@ -25,6 +25,34 @@ servers:
       - emoji: <:HypeTim:553373460181680147>
         triggers:
           - hype
+      - emoji: <:waterruneanim:752326890081091585>
+        triggers:
+          - water
+          - ocean
+          - river
+      - emoji: <:airruneanim:752326890110320641>
+        triggers:
+          - ' air'
+          - wind
+          - ' sky'
+      - emoji: <:fireruneanim:752326890374561922>
+        triggers:
+          - fire
+          - inferno
+          - blaze
+          - burn
+      - emoji: <:earthruneanim:752326890403921980>
+        triggers:
+          - earth
+          - stone
+          - dirt
+          - rock
+      - emoji: <:magickruneanim:752346109351035020>
+        triggers:
+          - magic
+          - enchant
+          - wizard
+          - sorcery
     mwSites:
       wiki: &wikipedia
         url: 'en.wikipedia.org'
@@ -386,6 +414,37 @@ servers:
       - emoji: <:irk:719734809009586267>
         triggers:
           - ' irk'
+      - emoji: <:fsm:753799261589733488>
+        triggers:
+          - kitten
+      - emoji: <:waterruneanim:752326890081091585>
+        triggers:
+          - water
+          - ocean
+          - river
+      - emoji: <:airruneanim:752326890110320641>
+        triggers:
+          - ' air'
+          - wind
+          - ' sky'
+      - emoji: <:fireruneanim:752326890374561922>
+        triggers:
+          - fire
+          - inferno
+          - blaze
+          - burn
+      - emoji: <:earthruneanim:752326890403921980>
+        triggers:
+          - earth
+          - stone
+          - dirt
+          - rock
+      - emoji: <:magickruneanim:752346109351035020>
+        triggers:
+          - magic
+          - enchant
+          - wizard
+          - sorcery
     lmgtfyDefault: d
     leavingChannel: rainbow
     embedColor: 0x843DA4
