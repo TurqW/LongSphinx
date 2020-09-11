@@ -545,6 +545,12 @@ servers:
           - jelly babies
           - the doctor
           - sonic screwdriver
+      - emoji: <:Mikey:367883985994383363>
+        triggers:
+          - mikey
+          - michelangelo
+          - green fox
+
     strings:
       welcome: |-
         <:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
