@@ -29,12 +29,12 @@ servers:
         triggers:
           - water
           - ocean
-          - river
+          - \briver
       - emoji: <:airruneanim:752326890110320641>
         triggers:
-          - ' air'
-          - wind
-          - ' sky'
+          - \bair
+          - \bwinds?\b
+          - \bsky
       - emoji: <:fireruneanim:752326890374561922>
         triggers:
           - fire
@@ -43,7 +43,7 @@ servers:
           - burn
       - emoji: <:earthruneanim:752326890403921980>
         triggers:
-          - earth
+          - \bearth
           - stone
           - dirt
           - rock
@@ -291,6 +291,10 @@ servers:
     - time: R/2020-01-20T23:59Z/PT1M
       channel: 528792844731809792
       message: bump <https://discord.me/dashboard>
+    autoreact:
+    - emoji: <:1pixel:568651578769145856>
+      triggers:
+      - \bwinds?\b
     <<: *realm
   '494373430637101058':
     name: Waltlandia
@@ -410,7 +414,7 @@ servers:
           - flappycard
       - emoji: <:greentrumpet:665735484508471380>
         triggers:
-          - toot
+          - \btoot
       - emoji: <:irk:719734809009586267>
         triggers:
           - ' irk'
@@ -421,12 +425,12 @@ servers:
         triggers:
           - water
           - ocean
-          - river
+          - \briver
       - emoji: <:airruneanim:752326890110320641>
         triggers:
-          - ' air'
-          - wind
-          - ' sky'
+          - \bair
+          - \bwinds?\b
+          - \bsky
       - emoji: <:fireruneanim:752326890374561922>
         triggers:
           - fire
@@ -435,7 +439,7 @@ servers:
           - burn
       - emoji: <:earthruneanim:752326890403921980>
         triggers:
-          - earth
+          - \bearth
           - stone
           - dirt
           - rock
