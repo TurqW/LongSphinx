@@ -66,9 +66,13 @@ def fix_articles(text):
 	return re.sub(r"(^|\W)a( [aAeEiIoOuU](?!ni))", r'\1an\2', text)
 
 async def gen_as_text(argstring, server, conf, **kwargs):
-	name = argstring.strip()
+	args = argstring.strip().split()
+	name = args[0]
+	count = int(args[1]) if len(args) > 1 else 1
+	if not count:
+		count = 1
 	if name in conf.get_object(server, 'generators'):
-		return extract_text(generate(argstring.strip()))
+		return '\n'.join([extract_text(generate(name)) for a in range(count)])
 	else:
 		return f"{name} is not a recognized generator."
 

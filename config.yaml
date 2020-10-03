@@ -8,6 +8,10 @@ servers:
     - name
     - loot
     - encounter
+    - dwarfname
+    - elfname
+    - angelname
+    - knightname
     automod: 
       firstMessage: False
     recurring: False
@@ -314,14 +318,6 @@ servers:
           Soldier:
           Mage:
           Archer:
-    generators:
-    - beast
-    - potion
-    - wand
-    - name
-    - loot
-    - encounter
-    - letter
     strings:
       welcome:
         'Welcome, {0}. You have an aura of {1} magic around you. If you''d like to change it, see the pinned message in <#494374610545147905>.'
