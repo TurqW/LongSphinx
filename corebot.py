@@ -116,17 +116,17 @@ async def do_command(message, conf, **kwargs):
 				conf=conf,
 				botname=botname
 			)
-			if isinstance(result, dict):
+			if type(result) is tuple:
 				permissions = False
 				try:
 					permissions = message.channel.permissions_for(utils.find_self_member(client, message.guild))
 				except:
 					pass
 				if not permissions or permissions.embed_links:
-					setEmbedColor(result['embed'], message.guild)
-					await message.channel.send(result['text'], embed=result['embed'])
+					setEmbedColor(result[1], message.guild)
+					await message.channel.send(result[0], embed=result[1])
 				else:
-					reply = result['message'] + '\n' + utils.embed_to_text(result['embed'])
+					reply = result[0] + '\n' + utils.embed_to_text(result[1])
 					await message.channel.send(reply)
 			else:
 				await message.channel.send(result)
@@ -143,7 +143,8 @@ commands = {
 	'joinsprint': (writesprint.join_sprint, writesprint.readme),
 	'sprintwords': (writesprint.record_words, writesprint.readme),
 	'summon': (pet.summon, pet.readme),
-	'pet': (pet.view, pet.readme),
+	'feed': (pet.feed, pet.readme),
+	'pet': (pet.pet, pet.readme),
 	'getseed': (pet.getSeed, pet.readme),
 	'rep': (rep.rep, rep.readme),
 	'hep': (rep.rep, rep.readme),

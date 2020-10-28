@@ -64,7 +64,7 @@ def poolCheck(user):
 
 def leaderlist(server):
 	with BotDB(botName, DBNAME) as db:
-		list = [(member.name, db[str(member.id)].received) for member in server.members if str(member.id) in db and db[str(member.id)].received > 0]
+		list = [(member.name, db[member.id].received) for member in server.members if member.id in db and db[member.id].received > 0]
 		list.sort(key=lambda user: user[1], reverse=True)
 		log.error(list)
 		return list
