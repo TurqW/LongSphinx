@@ -33,7 +33,7 @@ if len(sys.argv) > 1:
 conf.__init__('config.yaml', botname)
 
 logging.basicConfig(
-	filename='logs/{0}.log'.format(botname),
+	filename=f'logs/{botname}.log',
 	format='%(asctime)s %(levelname)-8s %(message)s',
 	datefmt='%Y-%m-%d %H:%M:%S',
 	level=logging.DEBUG)
@@ -47,7 +47,7 @@ COMMAND_CHAR = '!'
 with open(tokenfilename, 'r') as tokenfile:
 	TOKEN = tokenfile.readline().strip()
 
-client = discord.Client()
+client = discord.Client(intents=intents)
 commands = {}
 is_reminder_set = False
 
