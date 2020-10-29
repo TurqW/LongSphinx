@@ -22,6 +22,9 @@ import writesprint
 import rep
 import reactor
 
+intents = discord.Intents.default()
+intents.members = True
+
 utils.check_path('logs')
 
 if len(sys.argv) > 1:

@@ -40,7 +40,7 @@ async def rep(user, mentionTarget, argstring, server, conf, **kwargs):
 
 async def leaderboard(server, **kwargs):
 	embed = discord.Embed()
-	embed.description = '\n'.join([f'{rank}: {details[0]} ({details[1]} points)' for rank, details in enumerate(leaderlist(server), start=1)])
+	embed.description = '\n'.join([f'{rank}: {details[0]} ({details[1]} points)' for rank, details in enumerate(leaderlist(await server.fetch_members().flatten()), start=1)])
 	return "Current Leaderboard:", embed
 
 def giveRep(user, target):
@@ -62,9 +62,9 @@ def poolCheck(user):
 	repInfo = loadUser(user)
 	return '{0} has {1} rep points available to give.'.format(user.mention, repInfo.getPool())
 
-def leaderlist(server):
+def leaderlist(members):
 	with BotDB(botName, DBNAME) as db:
-		list = [(member.name, db[str(member.id)].received) for member in server.members if str(member.id) in db and db[str(member.id)].received > 0]
+		list = [(member.name, db[str(member.id)].received) for member in members if str(member.id) in db and db[str(member.id)].received > 0]
 		list.sort(key=lambda user: user[1], reverse=True)
 		log.error(list)
 		return list
