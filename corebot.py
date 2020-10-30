@@ -7,6 +7,7 @@ import sys
 import types
 import yaml
 from pathlib import Path
+import asyncio
 
 import automod
 import botconfig as conf
@@ -119,7 +120,27 @@ async def do_command(message, conf, **kwargs):
 				conf=conf,
 				botname=botname
 			)
-			if type(result) is tuple:
+			if type(result) is dict:
+				permissions = False
+				reply = ''
+				embed = None
+				if 'text' in result:
+					reply = result['text']
+				if 'embed' in result:
+					embed = result['embed']
+					setEmbedColor(embed, message.guild)
+					try:
+						permissions = message.channel.permissions_for(utils.find_self_member(client, message.guild))
+					except:
+						pass
+					if permissions and not permissions.embed_links:
+						reply += '\n' + utils.embed_to_text(embed)
+				sent = await message.channel.send(reply, embed=embed)
+				if 'reactions' in result:
+					[await sent.add_reaction(emoji) for emoji in result['reactions']]
+				if 'reactListener' in result:
+					reactListeners[sent.id] = result['reactListener']
+			elif type(result) is tuple:
 				permissions = False
 				try:
 					permissions = message.channel.permissions_for(utils.find_self_member(client, message.guild))
@@ -146,8 +167,7 @@ commands = {
 	'joinsprint': (writesprint.join_sprint, writesprint.readme),
 	'sprintwords': (writesprint.record_words, writesprint.readme),
 	'summon': (pet.summon, pet.readme),
-	'feed': (pet.feed, pet.readme),
-	'pet': (pet.pet, pet.readme),
+	'pet': (pet.view, pet.readme),
 	'getseed': (pet.getSeed, pet.readme),
 	'rep': (rep.rep, rep.readme),
 	'hep': (rep.rep, rep.readme),
@@ -173,6 +193,8 @@ modules = [
 	reactor.autoreact,
 	do_command
 	]
+
+reactListeners = {}
 
 @client.event
 async def on_message(message):
@@ -217,6 +239,12 @@ async def on_member_remove(member):
 	if channel:
 		msg = conf.get_string(member.guild, 'left').format(member.name)
 		await channel.send(msg)
+
+@client.event
+async def on_reaction_add(reaction, user):
+	if user != client.user:
+		if reaction.message.id in reactListeners:
+			await reactListeners[reaction.message.id](reaction, client)
 
 async def parse(message):
 	if conf.get_object(message.guild, 'rolesets'):

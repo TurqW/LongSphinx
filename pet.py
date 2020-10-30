@@ -16,6 +16,8 @@ foodGain = 6
 happyGain = 6
 
 dbname = 'pets'
+feedEmoji = u'\U0001F355'
+petEmoji = u'\U0001F49C'
 
 class Pet:
 	def __init__(self):
@@ -73,10 +75,10 @@ class Pet:
 	def setStats(self, name, desc, seed):
 		self.name = name
 		self.desc = desc
-		self.feedText = f'You offer {name} a treat from your pocket. It seems to enjoy it.'
-		self.fullText = f'You offer {name} a treat from your pocket, but it seems full.'
-		self.hungryPetText = f'You try to pet {name}. It tries to bite your hand. Perhaps it\'s hungry?'
-		self.midPetText = f'You scratch {name} under the chin. It looks at you contentedly.'
+		self.feedText = f'you offer {name} a treat from your pocket. It seems to enjoy it.'
+		self.fullText = f'you offer {name} a treat from your pocket, but it seems full.'
+		self.hungryPetText = f'you try to pet {name}. It tries to bite your hand. Perhaps it\'s hungry?'
+		self.midPetText = f'you scratch {name} under the chin. It looks at you contentedly.'
 		self.fullPetText = f"{name} rubs against you, {desc['description']['species']['sound']['text']} happily."
 		self.seed = seed
 
@@ -84,41 +86,12 @@ class Pet:
 def loadPet(name):
 	with BotDB(dbname, botName) as db:
 		myPet = db[name]
+	myPet.update()
 	return myPet
 
 def savePet(myPet, name):
 	with BotDB(dbname, botName) as db:
 		db[name] = myPet
-
-async def feed(user, mentionTarget, conf, **kwargs):
-	global botName
-	botName = conf.bot_name()
-	if mentionTarget is not None:
-		id = str(mentionTarget.id)
-	else:
-		id = str(user.id)
-	try:
-		myPet = loadPet(id)
-	except:
-		myPet = loadPet('0')
-	message = myPet.feed()
-	savePet(myPet, id)
-	return message
-
-async def pet(user, mentionTarget, conf, **kwargs):
-	global botName
-	botName = conf.bot_name()
-	if mentionTarget is not None:
-		id = str(mentionTarget.id)
-	else:
-		id = str(user.id)
-	try:
-		myPet = loadPet(id)
-	except:
-		myPet = loadPet('0')
-	message = myPet.pet()
-	savePet(myPet, id)
-	return message
 
 async def getSeed(user, mentionTarget, conf, **kwargs):
 	global botName
@@ -149,10 +122,46 @@ async def summon(user, argstring, conf, **kwargs):
 	savePet(myPet, id)
 	return message
 
+async def view(user, mentionTarget, conf, **kwargs):
+	global botName
+	botName = conf.bot_name()
+	if mentionTarget is not None:
+		ownerId = str(mentionTarget.id)
+	else:
+		ownerId = str(user.id)
+	try:
+		myPet = loadPet(ownerId)
+	except:
+		myPet = loadPet('0')
+	embed = myPet.render()
+	return {'text': f'{user.mention}\'s pet!', 'embed': embed, 'reactions': [feedEmoji, petEmoji], 'reactListener': reactListener}
+
+async def reactListener(reaction, client):
+	try:
+		owner = str(reaction.message.mentions[0].id)
+		ownerMention = str(reaction.message.mentions[0].mention)
+	except:
+		owner = '0'
+	myPet = loadPet(owner)
+	if reaction.emoji == feedEmoji:
+		text, embed = myPet.feed()
+	if reaction.emoji == petEmoji:
+		text, embed = myPet.pet()
+	savePet(myPet, owner)
+	await reaction.message.edit(content=ownerMention + ', ' + text, embed=embed)
+	async for user in reaction.users():
+		if user != client.user:
+			await reaction.remove(user)
+
+async def feed(**kwargs):
+	return "oh no"
+
+async def pet(**kwargs):
+	return "oh no"
+
 def readme(**kwargs):
 	return """Pets:
 * `!summon` generate a new random pet for you! **Warning: will delete your old pet if you have one.**
-* `!feed` feed your pet. @mention someone else to feed their pet instead.
-* `!pet` give your pet a pat. @mention someone else to pat their pet instead.
+* `!pet` view your pet. @mention someone else to view their pet instead. Use the reactions to feed and pet them.
 * `!getseed` find the seed for your pet. If you save this somewhere, you can `!summon <seed>` to get back to this pet if something happens.
 """
