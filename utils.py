@@ -1,4 +1,5 @@
 import os
+import discord
 
 fullGaugeChar = '='
 emptyGaugeChar = ' '
@@ -38,3 +39,14 @@ def embed_to_text(embed):
 		text += embed.description + '\n'
 	text += '\n'.join([f'{field.name}: {field.value}\n' for field in embed.fields])
 	return text
+
+async def get_pic(user, mentionTarget, **kwargs):
+	owner = user
+	if mentionTarget is not None:
+		owner = mentionTarget
+	embed = discord.Embed()
+	embed.set_image(url=owner.avatar_url_as(static_format='png'))
+	return {'text': f"{owner.mention}'s avatar!", 'embed':embed }
+
+def pic_help():
+	return "Shows a bigger version of someone's avatar!"

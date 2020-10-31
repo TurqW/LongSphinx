@@ -125,16 +125,15 @@ async def summon(user, argstring, conf, **kwargs):
 async def view(user, mentionTarget, conf, **kwargs):
 	global botName
 	botName = conf.bot_name()
+	owner = user
 	if mentionTarget is not None:
-		ownerId = str(mentionTarget.id)
-	else:
-		ownerId = str(user.id)
+		owner = mentionTarget
 	try:
-		myPet = loadPet(ownerId)
+		myPet = loadPet(str(owner.id))
 	except:
-		myPet = loadPet('0')
+		return {'text': "Failed to load your pet. Maybe you don't have one? Try `!summon` to get one now!"}
 	embed = myPet.render()
-	return {'text': f'{user.mention}\'s pet!', 'embed': embed, 'reactions': [feedEmoji, petEmoji], 'reactListener': reactListener}
+	return {'text': f'{owner.mention}\'s pet!', 'embed': embed, 'reactions': [feedEmoji, petEmoji], 'reactListener': reactListener}
 
 async def reactListener(reaction, client):
 	try:
@@ -152,12 +151,6 @@ async def reactListener(reaction, client):
 	async for user in reaction.users():
 		if user != client.user:
 			await reaction.remove(user)
-
-async def feed(**kwargs):
-	return "oh no"
-
-async def pet(**kwargs):
-	return "oh no"
 
 def readme(**kwargs):
 	return """Pets:

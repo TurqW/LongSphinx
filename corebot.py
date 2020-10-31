@@ -180,6 +180,7 @@ commands = {
 	'roll': (dice.roll_dice, dice.readme),
 	'r': (dice.roll_dice, dice.readme),
 	'rolls': (dice.list_rolls, dice.readme),
+	'pic': (utils.get_pic, utils.pic_help),
 	'role': (None, role_readme),
 	'readme': (give_help, readme_readme),
 	'rtfm': (give_help, readme_readme),
