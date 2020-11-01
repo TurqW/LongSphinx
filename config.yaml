@@ -477,13 +477,26 @@ servers:
     rolesets:
       role:
         type: toggle
+        description: '{0}'
         roles:
           VC:
+            description: The crew occasionally hops into voice chat to shoot the shit, and we'll ping this role when we do. If you wish to know when we do this so you can join us, please add this role.
           STO:
+            description: Some players chat about Star Trek Online in <#637024884685537292>, and will occasionally ping this role when there's something happening with the Emperor's fleet. Assign this role if you wish to be notified of STO and fleet activity.
           ghojwI':
+            description: This role is for people who attempting to learn Klingon on Duolingo or otherwise. We also chat about it in <#426516837816336396>. Assign this role if you want to be in the loop.
           AmongUs:
+            description: Sometimes we play Among Us. If you want to join, add this role. We'll ping you if you're not sus.
       pronouns:
         type: toggle
+        description: |-
+          You can toggle any of these pronoun roles, or multiple of them:
+          {0}
+          For instance, `!pronouns he/him they/them`
+          You can also clear all your pronoun roles with `!pronouns none`
+        
+          If your pronouns aren't on this list, please contact <@195543213212172288>.
+        invalid: I'm sorry, that pronoun hasn't been added to this server yet. Contact <@195543213212172288> if you want it added.
         roles:
           she/her:
           he/him:
@@ -562,12 +575,12 @@ servers:
       roleRoleList: |-
         `VC`
         > The crew occasionally hops into voice chat to shoot the shit, and we'll ping this role when we do. If you wish to know when we do this so you can join us, please add this role.
-
         `STO`
         > Some players chat about Star Trek Online in <#637024884685537292>, and will occasionally ping this role when there's something happening with the Emperor's fleet. Assign this role if you wish to be notified of STO and fleet activity.
-
         `ghojwI'`
         > This role is for people who attempting to learn Klingon on Duolingo or otherwise. We also chat about it in <#426516837816336396>. Assign this role if you want to be in the loop.
+        `AmongUs`
+        > Sometimes we play Among Us. If you want to join, add this role. We'll ping you if you're not sus.
       pronounsRoleList: |-
         You can toggle any of these pronoun roles, or multiple of them: {0}
         For instance, `!pronouns he/him they/them`
