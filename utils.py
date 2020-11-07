@@ -40,13 +40,13 @@ def embed_to_text(embed):
 	text += '\n'.join([f'{field.name}: {field.value}\n' for field in embed.fields])
 	return text
 
-async def get_pic(user, mentionTarget, **kwargs):
-	owner = user
-	if mentionTarget is not None:
-		owner = mentionTarget
+async def get_pic(user, mentionTarget, server, argstring, **kwargs):
 	embed = discord.Embed()
-	embed.set_image(url=owner.avatar_url_as(static_format='png'))
-	return {'text': f"{owner.mention}'s avatar!", 'embed':embed }
+	if 'server' == argstring:
+		embed.set_image(url=server.icon_url_as(static_format='png'))
+		return {'text': f"{server.name}'s icon!", 'embed':embed }
+	embed.set_image(url=mentionTarget.avatar_url_as(static_format='png'))
+	return {'text': f"{mentionTarget.mention}'s avatar!", 'embed':embed }
 
 def pic_help():
 	return "Shows a bigger version of someone's avatar!"
