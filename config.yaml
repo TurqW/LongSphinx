@@ -57,6 +57,11 @@ servers:
           - enchant
           - wizard
           - sorcery
+      - emoji: <:spicy:776637091764502538>
+        triggers:
+          - spicy
+          - pepper
+          - capsaicin
     mwSites:
       wiki: &wikipedia
         url: 'en.wikipedia.org'
@@ -413,7 +418,7 @@ servers:
           - \btoot
       - emoji: <:irk:719734809009586267>
         triggers:
-          - ' irk'
+          - \birk
       - emoji: <:fsm:753799261589733488>
         triggers:
           - kitten
@@ -445,6 +450,11 @@ servers:
           - enchant
           - wizard
           - sorcery
+      - emoji: <:spicy:776637091764502538>
+        triggers:
+          - spicy
+          - pepper
+          - capsaicin
     lmgtfyDefault: d
     leavingChannel: rainbow
     embedColor: 0x843DA4
