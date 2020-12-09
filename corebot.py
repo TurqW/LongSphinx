@@ -22,6 +22,7 @@ import utils
 import writesprint
 import rep
 import reactor
+import picker
 
 intents = discord.Intents.default()
 intents.members = True
@@ -67,13 +68,14 @@ def role_readme(server, **kwargs):
 		return 'No rolesets configured for this server.'
 	return msg
 
-async def give_help(user, channel, server, mentionTarget, command, argstring, conf, botname):
+async def give_help(user, channel, server, mentionTarget, command, argstring, conf, botname, roleMentions):
 	if argstring in commands.keys():
 		return commands[argstring][1](
 			user=user,
 			channel=channel,
 			server=server,
 			mentionTarget=mentionTarget,
+			roleMentions=roleMentions,
 			command=command,
 			argstring=argstring,
 			conf=conf,
@@ -115,6 +117,7 @@ async def do_command(message, conf, **kwargs):
 				channel=message.channel,
 				server=message.guild,
 				mentionTarget=utils.getMentionTarget(message),
+				roleMentions=message.role_mentions,
 				command=command.split()[0],
 				argstring=argstring,
 				conf=conf,
@@ -181,6 +184,7 @@ commands = {
 	'r': (dice.roll_dice, dice.readme),
 	'rolls': (dice.list_rolls, dice.readme),
 	'pic': (utils.get_pic, utils.pic_help),
+	'pick': (picker.pick, picker.readme),
 	'role': (None, role_readme),
 	'readme': (give_help, readme_readme),
 	'rtfm': (give_help, readme_readme),
