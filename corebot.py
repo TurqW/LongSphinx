@@ -58,10 +58,10 @@ def role_readme(server, **kwargs):
 	for roleset in conf.get_object(server, 'rolesets').keys():
 		if conf.get_object(server, 'rolesets', roleset, 'type') == 'toggle':
 			msg += f'* `!{roleset}`: List all toggleable {roleset} options.\n'
-			msg += '* `!{0} <{0}name>`: You gain the chosen {0}. Use again to remove. Example: `!{0} {1}`\n'.format(roleset, next(a for a in list(conf.get_object(server, 'rolesets', roleset).keys()) if a != 'removeOnUpdate'))
+			msg += '* `!{0} <{0}name>`: You gain the chosen {0}. Use again to remove. Example: `!{0} {1}`\n'.format(roleset, next(a for a in conf.get_object(server, 'rolesets', roleset, 'roles').keys()))
 		else:
 			msg += f'* `!{roleset}`: Lists all available {roleset} options.\n'
-			msg += '* `!{0} <{0}name>`: You become the chosen {0}. Other roles in this category are removed. Example: `!{0} {1}`\n'.format(roleset, next(a for a in list(conf.get_object(server, 'rolesets', roleset).keys()) if a != 'removeOnUpdate'))
+			msg += '* `!{0} <{0}name>`: You become the chosen {0}. Other roles in this category are removed. Example: `!{0} {1}`\n'.format(roleset, next(a for a in conf.get_object(server, 'rolesets', roleset, 'roles').keys()))
 			if roleset != conf.get_object(server, 'defaultRoleset'):
 				msg += '* `!{0} none`: Removes any roles you have from the {0} roleset.\n'.format(roleset)
 	if not msg:
