@@ -24,3 +24,8 @@ async def readme(
 		botname # Name of the active bot, e.g. 'dev' or 'tim'
 	):
 	return "Return a useful help message. Has all the same return possibilities as a direct command."
+
+async def reactListener(
+		reaction, # discord 'reaction' object
+		client # discord client
+	)

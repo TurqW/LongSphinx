@@ -296,10 +296,6 @@ servers:
         url: 'lcars.sfintel.space'
         path: '/'
         pagePath: '/w/'
-    recurring:
-    - time: R/2020-01-20T23:59Z/PT1M
-      channel: 528792844731809792
-      message: bump <https://discord.me/dashboard>
     autoreact:
     - emoji: <:1pixel:568651578769145856>
       triggers:
@@ -358,6 +354,10 @@ servers:
     channels:
     - tims-room
     - 570800943529197578
+    recurring:
+    - time: R10/2021-02-25T03:00Z/P1D
+      channel: 813476540628074586
+      message:  <@813476385032372294>, your 10 words are due in one hour!
     <<: *defaults
   '566868285791010827':
     name: Kittens & Unicorns

@@ -42,12 +42,12 @@ class MName:
             chainlen = 2
     
         self.mcd = Mdict()
-        oldnames = []
+        self.oldnames = []
         self.chainlen = chainlen
     
         for l in dataset:
             l = l.strip()
-            oldnames.append(l)
+            self.oldnames.append(l)
             s = " " * chainlen + l
             for n in range(0,len(l)):
                 self.mcd.add_key(s[n:n+chainlen], s[n+chainlen])
@@ -57,14 +57,18 @@ class MName:
         """
         New name from the Markov chain
         """
-        prefix = " " * self.chainlen
-        name = ""
-        suffix = ""
-        while True:
-            suffix = self.mcd.get_suffix(prefix)
-            if suffix == "\n" or len(name) > 99:
-                break
-            else:
-                name = name + suffix
-                prefix = prefix[1:] + suffix
+        attempts = 0
+        while attempts < 5:
+            prefix = " " * self.chainlen
+            name = ""
+            suffix = ""
+            while True:
+                suffix = self.mcd.get_suffix(prefix)
+                if suffix == "\n" or len(name) > 99:
+                    break
+                else:
+                    name = name + suffix
+                    prefix = prefix[1:] + suffix
+            if name not in self.oldnames:
+                return name
         return name
