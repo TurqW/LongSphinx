@@ -357,7 +357,7 @@ servers:
     recurring:
     - time: R10/2021-02-25T03:00Z/P1D
       channel: 813476540628074586
-      message:  <@813476385032372294>, your 10 words are due in one hour!
+      message:  <@&813476385032372294>, your 10 words are due in one hour!
     <<: *defaults
   '566868285791010827':
     name: Kittens & Unicorns
@@ -601,4 +601,59 @@ servers:
         I'm sorry, that pronoun hasn't been added to this server yet. Contact <@195543213212172288> if you want it added.
       <<: *defaultStrings
     <<: *defaults
-
+  '431242137833701376':
+    name: LGBT Trek
+    channelListBehavior: blacklist
+    channels:
+    - announcements
+    greetingChannel: intros
+    rolesets:
+      iam:
+        type: toggle
+        description: '{0}'
+        roles:
+          Ace:
+          Aenar:
+          Andorian:
+          Any pronouns:
+          Bajoran:
+          Betazoid:
+          Bisexual:
+          Borg:
+          Cardassian:
+          Changeling:
+          Command:
+          Ferengi:
+          Gay:
+          He/him:
+          Human:
+          Jem'Hadar:
+          Kazon:
+          Klingon:
+          Lesbian:
+          MLM:
+          No Pronouns:
+          Nonbinary:
+          Ocampa:
+          Operations:
+          Pansexual:
+          Questioning:
+          Romulan:
+          Science:
+          She/her:
+          They/them:
+          Transgender:
+          Tribble:
+          Trill:
+          Vulcan:
+          WLW:
+          Xahean:
+          discourse:
+          spoiler:
+          vent:
+    strings:
+      welcome: |-
+        Welcome to **LGBT Star Trek**, {0}!
+        Please make an intro in this channel!
+      iamRoleList: 'The self-assignable roles for this server are: {0}'
+      <<: *defaultStrings
