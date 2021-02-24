@@ -91,6 +91,8 @@ def friendly_until_string(when):
 
 def get_first_after(recurrence, timepoint):
     """Returns the first valid scheduled recurrence after the given timepoint, or None."""
+    if timepoint < recurrence.start_point:
+    	return recurrence.start_point
     if timepoint is None:
         return None
     if recurrence.start_point is not None:
