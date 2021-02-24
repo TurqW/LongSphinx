@@ -90,7 +90,7 @@ def readme_readme(**kwargs):
 async def channel_check(message, conf, **kwargs):
 	if not message.guild:
 		return False
-	if conf.get_object(message.guild, 'channelListBehavior') == 'whitelist':
+	if conf.get_object(message.guild, 'channelListBehavior') == 'allow':
 		if message.channel.name in conf.get_object(message.guild, 'channels') or message.channel.id in conf.get_object(message.guild, 'channels'):
 			return False
 		return True
@@ -143,6 +143,9 @@ async def do_command(message, conf, **kwargs):
 					[await sent.add_reaction(emoji) for emoji in result['reactions']]
 				if 'reactListener' in result:
 					reactListeners[sent.id] = result['reactListener']
+				if 'endTime' in result:
+					pass
+					# TODO: copy reminder code to schedule an ending task to call a function. Preferably persistably.
 			elif type(result) is tuple:
 				permissions = False
 				try:
@@ -276,7 +279,7 @@ async def request_role(message, roleset):
 		await message.author.remove_roles(*get_roles_to_remove(message.author.guild, roleset))
 		msg = conf.get_string(message.guild, 'roleClear').format(message.author.mention, roleset)
 	elif conf.get_object(message.guild, 'rolesets', roleset)['type'] == 'toggle':
-		return await toggle_role(message.author, ' '.join(words))
+		return await toggle_role(message.author, ' '.join(words), roleset)
 	else:
 		try:
 			newRole = await change_role(message.author, ' '.join(words), roleset)
@@ -336,8 +339,8 @@ async def change_role(member, roleName, roleset):
 	else:
 		raise NameError(roleName)
 
-async def toggle_role(member, roleNames):
-	roleNameList = roleNames.lower().split()
+async def toggle_role(member, roleNames, roleset):
+	roleNameList, invalid = distinct_roles(roleNames.lower(), get_roleset(member.guild, roleset))
 	responses = []
 	for roleName in roleNameList:
 		role = discord.utils.find(lambda r: r.name.lower() == roleName.lower(), member.guild.roles)
@@ -347,6 +350,8 @@ async def toggle_role(member, roleNames):
 		else:
 			await member.add_roles(role)
 			responses.append(conf.get_string(member.guild, 'roleToggleOn').format(member.mention, role.name))
+	if invalid:
+		responses.append(conf.get_string(member.guild, 'invalidRole').format(member.mention, invalid))
 	return '\n'.join(responses)
 
 async def set_scheduled_event(server, event):
@@ -364,6 +369,16 @@ def get_roleset(server, roleset):
 	roleNames = conf.get_object(server, 'rolesets', roleset, 'roles').keys()
 	validRoles = [x for x in server.roles if x.name in roleNames]
 	return validRoles
+
+def distinct_roles(commandString, roleset):
+	cleaned = commandString
+	results = []
+	for role in roleset:
+		if role.name.lower() in cleaned:
+			cleaned = cleaned.replace(role.name.lower(), '').strip()
+			results.append(role.name.lower())
+	return results, cleaned
+
 
 def get_randomables(server, roleset):
 	roleNames = conf.get_object(server, 'rolesets', roleset, 'roles')

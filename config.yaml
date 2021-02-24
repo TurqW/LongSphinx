@@ -78,12 +78,14 @@ servers:
         '{0}, you have shed the role {1}.'
       rerole:
         'Another peek at my crystal ball... {0}, are you perhaps a {1}?'
+      invalidRole:
+        'Sorry, {1} does not seem to be in my list. If you think it should be added, contact an admin.'
       left:
         '{0} has left the server.'
   '443869685054701569': &realm
     name: The Realm
     greetingChannel: portal
-    channelListBehavior: whitelist
+    channelListBehavior: allow
     channels:
     - 445271158502457345
     - 447948663168303105
@@ -290,19 +292,24 @@ servers:
       charge: https://cdn.discordapp.com/attachments/444030298406125568/503820387864281089/annoyedcatTim2.png
     <<: *defaults
   '489197880809095168':
+    name: TEST
     mwSites:
       wiki: *wikipedia
       lcars:
         url: 'lcars.sfintel.space'
         path: '/'
         pagePath: '/w/'
+    recurring:
+    - time: R1/2021-02-24T05:10Z/P1Y
+      channel: 528792844731809792
+      message: This message is here for ease of remembering how to make these!
     autoreact:
     - emoji: <:1pixel:568651578769145856>
       triggers:
       - \bwinds?\b
     <<: *realm
   '494373430637101058':
-    name: Waltlandia
+    name: Tin Land
     greetingChannel: portal
     defaultRoleset:
       element
@@ -350,7 +357,7 @@ servers:
     <<: *defaults
   '570788677937135626':
     name: Just Write
-    channelListBehavior: whitelist
+    channelListBehavior: allow
     channels:
     - tims-room
     - 570800943529197578
@@ -361,7 +368,7 @@ servers:
     <<: *defaults
   '566868285791010827':
     name: Kittens & Unicorns
-    channelListBehavior: blacklist
+    channelListBehavior: block
     channels:
     - wall of shame
     - 574032248546918400
@@ -477,7 +484,7 @@ servers:
     <<: *defaults
   '302519947005919232':
     name: USS Joshua Norton
-    channelListBehavior: blacklist
+    channelListBehavior: block
     channels:
       - none
     lmgtfyDefault: d
@@ -603,10 +610,14 @@ servers:
     <<: *defaults
   '431242137833701376':
     name: LGBT Trek
-    channelListBehavior: blacklist
+    channelListBehavior: allow
     channels:
-    - announcements
+    - bot-spam
+    - 433326970001162241
     greetingChannel: intros
+    leavingChannel: the-airlock
+    automod: False
+    autoreact: False
     rolesets:
       iam:
         type: toggle
@@ -654,6 +665,11 @@ servers:
     strings:
       welcome: |-
         Welcome to **LGBT Star Trek**, {0}!
-        Please make an intro in this channel!
+        Please make an intro in this channel with:
+        Name:
+        Age:
+        Pronouns:
+        Favorite series:
+        Other info:
       iamRoleList: 'The self-assignable roles for this server are: {0}'
       <<: *defaultStrings
