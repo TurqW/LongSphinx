@@ -614,6 +614,8 @@ servers:
     channels:
     - bot-spam
     - 433326970001162241
+    - engineering
+    - 431457432162664459
     greetingChannel: intros
     leavingChannel: the-airlock
     automod: False
