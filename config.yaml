@@ -676,3 +676,4 @@ servers:
         Other info:
       iamRoleList: 'The self-assignable roles for this server are: {0}'
       <<: *defaultStrings
+    <<: *defaults
