@@ -12,6 +12,9 @@ servers:
     - elfname
     - angelname
     - knightname
+    - egyptname
+    - nymphname
+    - romanname
     automod: 
       firstMessage: False
     recurring: False

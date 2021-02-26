@@ -89,8 +89,8 @@ In general, you probably just want to make sure your formatting matches that of 
 ### Fields:
 
 * name: the name of the server. Not actually used; just meant as an aid in navigating the config file.
-* channelListBehavior: Detemines whether the "channels" list is a whitelist or a blacklist (default)
-* channels: a `list` of channels to ban the bot from, or if  `channelListBehavior` is set to `whitelist`, an exclusive list of channels to allow the bot in
+* channelListBehavior: Detemines whether the "channels" list is a list of allowed channels or blocked channels (default)
+* channels: a `list` of channels to ban the bot from, or if  `channelListBehavior` is set to `allow`, an exclusive list of channels to allow the bot in
 * greetingChannel: the channel in which the bot should greet new members.
 * leavingChannel: the channel in which the bot should announce member departures (leave out to get no such announcements)
 * generators: a `list` of generators to have on this server. These map to filenames in the genConfig folder; in general, the default will include all of them that are considered "standalone".

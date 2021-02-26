@@ -48,5 +48,5 @@ async def get_pic(user, mentionTarget, server, argstring, **kwargs):
 	embed.set_image(url=mentionTarget.avatar_url_as(static_format='png'))
 	return {'text': f"{mentionTarget.mention}'s avatar!", 'embed':embed }
 
-def pic_help():
+def pic_help(**kwargs):
 	return "Shows a bigger version of someone's avatar!"

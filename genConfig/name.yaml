@@ -14,3 +14,7 @@ name:
   name: mc.angel
 - text: '{name}'
   name: mc.knight
+- text: '{name}'
+  name: mc.roman
+- text: '{name}'
+  name: mc.nymph

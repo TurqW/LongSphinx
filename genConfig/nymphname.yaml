@@ -1,0 +1,8 @@
+help:
+  Generates a random Greek nymph name.
+root:
+- text: 'Your generated Greek nymph name: {name}'
+  name: 'name.name'
+name:
+- text: '{name}'
+  name: mc.nymph
