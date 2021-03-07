@@ -14,7 +14,6 @@ import botconfig as conf
 import botdice as dice
 import colors
 import generator
-import lmgtfy
 import mediawiki
 import pet
 import reminder
@@ -23,6 +22,7 @@ import writesprint
 import rep
 import reactor
 import picker
+import notice
 
 intents = discord.Intents.default()
 intents.members = True
@@ -80,7 +80,7 @@ async def give_help(user, channel, server, mentionTarget, command, argstring, co
 			argstring=argstring,
 			conf=conf,
 			botname=botname)
-	elif conf.get_object(server, 'rolesets') and argstring in conf.get_object(server, 'rolesets').keys():
+	elif conf.get_object(server, 'rolesets') and argstring.lower() in conf.get_object(server, 'rolesets').keys():
 		return await list_roles(server, channel, argstring)
 	return 'Implemented commands: ' + ', '.join(commands.keys()) + '\nTry `!{0} <commandName>` to learn more.'.format(command)
 
@@ -100,18 +100,16 @@ async def channel_check(message, conf, **kwargs):
 
 async def do_command(message, conf, **kwargs):
 	if message.content.startswith(COMMAND_CHAR):
-		command = message.content[1:].strip().lower()
-		if utils.is_command(command, 'rerole'):
-			await rerole(message)
-
-		elif command.split()[0] in commands.keys() and commands[command.split()[0]][0]:
-			try:
-				argstring = command.split(maxsplit=1)[1]
-			except IndexError:
-				argstring = None
-			if argstring and argstring.strip().lower() == 'help':
-				argstring = command.split()[0]
-				command = 'readme'
+		command = message.content[1:].strip()
+		try:
+			argstring = command.split(maxsplit=1)[1]
+		except IndexError:
+			argstring = None
+		if argstring and argstring.strip().lower() == 'help':
+			argstring = command.split()[0].lower()
+			command = 'readme'
+		command = command.lower()
+		if command.split()[0] in commands.keys() and commands[command.split()[0]][0]:
 			result = await commands[command.split()[0]][0](
 				user=message.author,
 				channel=message.channel,
@@ -172,13 +170,12 @@ commands = {
 	'makesprint': (writesprint.make_sprint, writesprint.readme),
 	'joinsprint': (writesprint.join_sprint, writesprint.readme),
 	'sprintwords': (writesprint.record_words, writesprint.readme),
+	'notice': (notice.notices, notice.readme),
 	'summon': (pet.summon, pet.readme),
 	'pet': (pet.view, pet.readme),
 	'getseed': (pet.getSeed, pet.readme),
 	'rep': (rep.rep, rep.readme),
 	'hep': (rep.rep, rep.readme),
-	'duh': (lmgtfy.get_link, lmgtfy.readme),
-	'lmgtfy': (lmgtfy.get_link, lmgtfy.readme),
 	'saveroll': (dice.save_command, dice.readme),
 	'search': (mediawiki.search, mediawiki.readme),
 	'clearroll': (dice.clear_command, dice.readme),

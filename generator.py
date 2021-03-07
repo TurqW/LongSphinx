@@ -67,7 +67,7 @@ def fix_articles(text):
 
 async def gen_as_text(argstring, server, conf, **kwargs):
 	args = argstring.strip().split()
-	name = args[0]
+	name = args[0].lower()
 	count = int(args[1]) if len(args) > 1 else 1
 	if not count:
 		count = 1

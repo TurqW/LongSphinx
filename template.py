@@ -1,3 +1,8 @@
+import logging
+from botdb import BotDB
+
+dbname = "notices"
+log = logging.getLogger('LongSphinx.TemplateModule')
 
 # replace all unused parameters with "**kwargs"
 async def direct_command(
@@ -5,6 +10,7 @@ async def direct_command(
 		channel, # Channel in which command was invoked
 		server, # Server in which command was invoked
 		mentionTarget, # Used for standard "yourself, unless you tag someone else" systems. If no mentions, return `user`, if 1 return that tagged user, if more than that throw error
+		roleMentions,
 		command, # Actual command that was passed in. e.g. 'roll' or 'r'
 		argstring, # Everything after the first space. Inputs/parameters for the command.
 		conf, # Currently active conf object. See botconfig.py
@@ -18,6 +24,7 @@ async def readme(
 		channel, # Channel in which command was invoked
 		server, # Server in which command was invoked
 		mentionTarget, # Used for standard "yourself, unless you tag someone else" systems. If no mentions, return `user`, if 1 return that tagged user, if more than that throw error
+		roleMentions,
 		command, # Actual command that was passed in. e.g. 'roll' or 'r'
 		argstring, # Everything after the first space. Inputs/parameters for the command.
 		conf, # Currently active conf object. See botconfig.py
