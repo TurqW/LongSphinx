@@ -80,7 +80,7 @@ async def give_help(user, channel, server, mentionTarget, command, argstring, co
 			argstring=argstring,
 			conf=conf,
 			botname=botname)
-	elif conf.get_object(server, 'rolesets') and argstring.lower() in conf.get_object(server, 'rolesets').keys():
+	elif conf.get_object(server, 'rolesets') and argstring and argstring.lower() in conf.get_object(server, 'rolesets').keys():
 		return await list_roles(server, channel, argstring)
 	return 'Implemented commands: ' + ', '.join(commands.keys()) + '\nTry `!{0} <commandName>` to learn more.'.format(command)
 

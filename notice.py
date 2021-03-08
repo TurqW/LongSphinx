@@ -21,23 +21,23 @@ async def notices(
 	if subcommand == 'list':
 		return listNotices(server)
 	if subcommand == 'add':
-		return addNotice(user, server, argstring.split()[1], argstring[argstring.find(' ', argstring.find(' ') + 1):])
+		return addNotice(user, server, argstring.split()[1], argstring[argstring.find(' ', argstring.find(' ') + 1)+1:])
 	if subcommand == 'delete':
 		return deleteNotice(user, server, argstring.split()[1])
 	return readNotice(server, subcommand)
 
 # Most of these are probably useless for a readme, but you never know
-async def readme(
-		user, # Author of the message that invoked the command
-		channel, # Channel in which command was invoked
-		server, # Server in which command was invoked
-		mentionTarget, # Used for standard "yourself, unless you tag someone else" systems. If no mentions, return `user`, if 1 return that tagged user, if more than that throw error
-		command, # Actual command that was passed in. e.g. 'roll' or 'r'
-		argstring, # Everything after the first space. Inputs/parameters for the command.
-		conf, # Currently active conf object. See botconfig.py
-		botname # Name of the active bot, e.g. 'dev' or 'tim'
+def readme(
+		**kwargs
 	):
-	return "Return a useful help message. Has all the same return possibilities as a direct command."
+	return '''View and manage server notices.
+ * `!notice` view the latest notice.
+ * `!notice list` list all notice titles.
+ * `!notice <title>` view a specific notice.
+And for those with admin permissions:
+ * `!notice add <title> <text>` add a notice, or replace an existing one.
+ * `!notice delete <title>` delete a notice.
+'''
 
 def addNotice(user, server, title, text):
 	if (user.guild_permissions.administrator):

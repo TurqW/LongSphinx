@@ -19,7 +19,7 @@ async def direct_command(
 	return "You can return text to reply as a message, or a dict with several useful fields (example TK)"
 
 # Most of these are probably useless for a readme, but you never know
-async def readme(
+def readme(
 		user, # Author of the message that invoked the command
 		channel, # Channel in which command was invoked
 		server, # Server in which command was invoked
