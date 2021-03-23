@@ -13,7 +13,7 @@ async def pick(argstring, roleMentions, **kwargs):
 	else:
 		options = argstring.split()
 	if len(roleMentions) > 0:
-		options = [member.mention for member in roleMentions[0].members]
+		options = ['#'.join([member.name, member.discriminator])  for member in roleMentions[0].members]
 	if toPick < 1:
 		return "Zoinks! I can't pick less than one."
 	if toPick > len(options):
