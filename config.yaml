@@ -415,7 +415,7 @@ servers:
       - mcaf.ee
       - su.pr
     autoreact:
-      - emoji: <:unicornpoop:738878278613336124>
+      - emoji: <:unicornanim:775840915423625246>
         triggers:
           - unicorn
       - emoji: <:FlappyTim:575545423989702667>
@@ -465,6 +465,11 @@ servers:
           - spicy
           - pepper
           - capsaicin
+      - emoji: <:tearuneanim:800150705976377344>
+        triggers:
+          - tea\b
+          - coffee
+          - cocoa
     lmgtfyDefault: d
     leavingChannel: rainbow
     embedColor: 0x843DA4
