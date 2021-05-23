@@ -14,8 +14,7 @@ parser = Lark(r"""
 %import common.DIGIT
 %import common.INT
 
-NZDIGIT : "1".."9"
-POSINT : DIGIT* NZDIGIT DIGIT*
+POSINT : DIGIT DIGIT*
 sign : /[+-]/
 rollset : expression ("," expression)*
 expression : die -> roll
@@ -54,7 +53,10 @@ class RollsetTransformer(Transformer):
 			raise Exception('Too many dice, blocking to avoid DDOS')
 		results = []
 		for i in range(count):
-			results.append(random.randint(1, size))
+			if size == 0:
+				results.append(0)
+			else:
+				results.append(random.randint(1, size))
 		description = '(' + '+'.join([str(i) for i in results]) + ')'
 		name = str(count) + 'd' + str(size)
 		return {'name': name, 'description': description, 'value': sum(results)}
