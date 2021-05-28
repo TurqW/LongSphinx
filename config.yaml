@@ -591,7 +591,11 @@ servers:
           - mikey
           - michelangelo
           - green fox
-
+      - emoji: <:FSM:492172741659721729>
+        triggers:
+          - snek
+          - snake
+          - danger noodle
     strings:
       welcome: |-
         <:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
