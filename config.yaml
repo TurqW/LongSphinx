@@ -396,6 +396,7 @@ servers:
           she/her:
           he/him:
           they/them:
+          fae/faer:
     automod:
       channel: bridge
       role: Troll
@@ -526,6 +527,7 @@ servers:
           she/her:
           he/him:
           they/them:
+          fae/faer:
     recurring:
     - time: R/2020-01-20T23:59Z/PT6H
       channel: 652303689037512704
@@ -645,10 +647,12 @@ servers:
           Changeling:
           Command:
           Denobulan:
+          Fae/faer:
           Ferengi:
           Gay:
           He/him:
           Human:
+          It/its:
           Jem'Hadar:
           Kazon:
           Klingon:
