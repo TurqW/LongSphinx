@@ -433,6 +433,8 @@ servers:
       - emoji: <:fsm:753799261589733488>
         triggers:
           - kitten
+          - nood
+          - pasta
       - emoji: <:waterruneanim:752326890081091585>
         triggers:
           - water
@@ -471,6 +473,9 @@ servers:
           - tea\b
           - coffee
           - cocoa
+      - emoji: <:transchicken:852385088292651069>
+        triggers:
+          - tesco
     lmgtfyDefault: d
     leavingChannel: rainbow
     embedColor: 0x843DA4
@@ -595,7 +600,8 @@ servers:
         triggers:
           - snek
           - snake
-          - danger noodle
+          - nood
+          - pasta
     strings:
       welcome: |-
         <:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
