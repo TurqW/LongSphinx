@@ -85,6 +85,9 @@ servers:
         'Sorry, {1} does not seem to be in my list. If you think it should be added, contact an admin.'
       left:
         '{0} has left the server.'
+      cantban: |-
+        You have no power here!
+        No but seriously, you don't have permission to do that.
   '443869685054701569': &realm
     name: The Realm
     greetingChannel: portal
@@ -626,6 +629,8 @@ servers:
         If your pronouns aren't on this list, please contact <@195543213212172288>.
       invalidpronouns: |-
         I'm sorry, that pronoun hasn't been added to this server yet. Contact <@195543213212172288> if you want it added.
+      cantban: |-
+        Insufficient Security Clearance.
       <<: *defaultStrings
     <<: *defaults
   '431242137833701376':
