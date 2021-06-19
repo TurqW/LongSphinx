@@ -9,6 +9,7 @@ import yaml
 from pathlib import Path
 import asyncio
 
+import admin
 import automod
 import botconfig as conf
 import botdice as dice
@@ -188,6 +189,7 @@ commands = {
 	'role': (None, role_readme),
 	'readme': (give_help, readme_readme),
 	'rtfm': (give_help, readme_readme),
+	'ban': (admin.ban, admin.readme)
 	}
 
 modules = [
