@@ -313,6 +313,10 @@ servers:
     - emoji: <:1pixel:568651578769145856>
       triggers:
       - \bwinds?\b
+    autoreply:
+      - text: https://tenor.com/view/modern-family-spray-squirt-annoyed-irritated-gif-4445288
+        triggers:
+          - "\u300cstand\u300d" # only double-quoted strings allow escape sequences
     <<: *realm
   '494373430637101058':
     name: Tin Land
@@ -479,6 +483,10 @@ servers:
       - emoji: <:transchicken:852385088292651069>
         triggers:
           - tesco
+    autoreply:
+      - text: https://tenor.com/view/modern-family-spray-squirt-annoyed-irritated-gif-4445288
+        triggers:
+          - "\u300cstand\u300d" # only double-quoted strings allow escape sequences
     lmgtfyDefault: d
     leavingChannel: rainbow
     embedColor: 0x843DA4

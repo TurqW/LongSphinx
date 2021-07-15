@@ -198,6 +198,7 @@ modules = [
 	automod.no_role_link,
 	channel_check,
 	reactor.autoreact,
+	reactor.autoreply,
 	do_command
 	]
 
