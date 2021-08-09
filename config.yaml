@@ -548,6 +548,9 @@ servers:
     - time: R/2020-01-20T23:59Z/PT6H
       channel: 652303689037512704
       message: bump <https://discord.me/dashboard>
+    - time: R10/2021-08-14T17:55Z/P7D
+      channel: 741130194399526963
+      message: <@&873370750998962206> Almost time for the show!
     mwSites:
       wiki: *wikipedia
       lcars:
