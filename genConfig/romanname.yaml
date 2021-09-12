@@ -2,7 +2,7 @@ help:
   Generates a random Roman Nomen. (Remember that you can swap out -us for -a to make it feminine!)
 root:
 - text: 'Your generated Roman name: {name}'
-  name: 'name.name'
+  name: 'romanname.name'
 name:
 - text: '{name}'
-  name: mc.nomen
+  name: mc.roman

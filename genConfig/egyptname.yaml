@@ -2,7 +2,7 @@ help:
   Generates a random Egyptian name.
 root:
 - text: 'Your generated Egyptian name: {name}'
-  name: 'name.name'
+  name: 'egyptname.name'
 name:
 - text: '{name}'
   name: mc.egyptfem

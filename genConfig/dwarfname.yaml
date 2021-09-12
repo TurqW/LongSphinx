@@ -2,7 +2,7 @@ help:
   Generates a random dwarthic name.
 root:
 - text: 'Your generated dwarthic name: {name}'
-  name: 'name.name'
+  name: 'dwarfname.name'
 name:
 - text: '{name}'
   name: mc.dwarf

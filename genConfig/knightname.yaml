@@ -2,7 +2,7 @@ help:
   Generates a random knightly name.
 root:
 - text: 'Your generated knightly name: {name}'
-  name: 'name.name'
+  name: 'knightname.name'
 name:
 - text: '{name}'
   name: mc.knight

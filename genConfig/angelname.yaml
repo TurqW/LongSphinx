@@ -2,7 +2,7 @@ help:
   Generates a random angelic name.
 root:
 - text: 'Your generated angelic name: {name}'
-  name: 'name.name'
+  name: 'angelname.name'
 name:
 - text: '{name}'
   name: mc.angel
