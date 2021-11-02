@@ -527,8 +527,6 @@ servers:
             description: Some players chat about Star Trek Online in <#637024884685537292>, and will occasionally ping this role when there's something happening with the Emperor's fleet. Assign this role if you wish to be notified of STO and fleet activity.
           ghojwI':
             description: This role is for people who attempting to learn Klingon on Duolingo or otherwise. We also chat about it in <#426516837816336396>. Assign this role if you want to be in the loop.
-          AmongUs:
-            description: Sometimes we play Among Us. If you want to join, add this role. We'll ping you if you're not sus.
       pronouns:
         type: toggle
         description: |-
@@ -713,5 +711,28 @@ servers:
         Favorite series:
         Other info:
       iamRoleList: 'The self-assignable roles for this server are: {0}'
+      <<: *defaultStrings
+    <<: *defaults
+  '405942024580104192':
+    name: Brass Frog
+    channelListBehavior: block
+    embedColor: 0xAE6800
+    rolesets:
+      pronouns:
+        type: toggle
+        roles:
+          she/her:
+          he/him:
+          they/them:
+          fae/faer:
+    strings:
+      pronounsRoleList: |-
+        You can toggle any of these pronoun roles, or multiple of them: {0}
+        For instance, `!pronouns he/him they/them`
+        You can also clear all your pronoun roles with `!pronouns none`
+        
+        If your pronouns aren't on this list, please contact <@255823892931805195>.
+      invalidpronouns: |-
+        I'm sorry, that pronoun hasn't been added to this server yet. Contact <@255823892931805195> if you want it added.
       <<: *defaultStrings
     <<: *defaults
