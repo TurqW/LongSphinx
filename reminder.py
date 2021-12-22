@@ -3,8 +3,8 @@ import dateparser
 import datetime
 import math
 import logging
-import isodatetime.parsers as dtparse
-import isodatetime.data as dtdata
+import metomi.isodatetime.parsers as dtparse
+import metomi.isodatetime.data as dtdata
 from botdb import BotDB
 
 log = logging.getLogger('LongSphinx.Reminder')
@@ -39,7 +39,11 @@ async def set_all_saved_reminders(botNameParam, client):
 	botName = botNameParam
 	for reminder in load_reminders():
 		if reminder[1] > datetime.datetime.utcnow():
-			await set_reminder(reminder[1], client.get_user(reminder[0]).dm_channel, reminder[2])
+			user = await client.get_or_fetch_user(reminder[0])
+			channel = user.dm_channel
+			if channel is None:
+				channel = await user.create_dm()
+			await set_reminder(reminder[1], channel, reminder[2])
 		else:
 			delete_reminder(reminder)
 
@@ -74,7 +78,7 @@ async def message_reminder(argstring, user, **kwargs):
 async def set_reminder(when_time, channel, msg):
 	if when_time > datetime.datetime.utcnow():
 		delay = when_time.timestamp() - datetime.datetime.utcnow().timestamp()
-		loop = asyncio.get_event_loop()
+		loop = asyncio.get_running_loop()
 		loop.call_later(delay, lambda: loop.create_task(send_message(channel, msg, when_time)))
 	else:
 		log.warning('Ignoring scheduled event in the past: ' + str(when_time))
@@ -118,7 +122,7 @@ async def set_recurring_message(recur_string, channel, msg):
 	when_time = get_first_after(recurrence, now)
 	if when_time is not None:
 		delay = float(when_time.get("seconds_since_unix_epoch")) - datetime.datetime.now().timestamp()
-		loop = asyncio.get_event_loop()
+		loop = asyncio.get_running_loop()
 		loop.call_later(delay, lambda: loop.create_task(send_recurring_message(recur_string, channel, msg)))
 
 async def send_recurring_message(recur_string, channel, msg):

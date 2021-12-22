@@ -1,6 +1,5 @@
 import random
 import logging
-import yaml
 import configmanager
 log = logging.getLogger('LongSphinx.Generators')
 

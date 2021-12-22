@@ -5,7 +5,6 @@ import logging
 import mcgenerator
 import random
 import re
-import yaml
 log = logging.getLogger('LongSphinx.Generators')
 
 genConfigs = {}

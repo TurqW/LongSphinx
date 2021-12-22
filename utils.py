@@ -43,9 +43,9 @@ def embed_to_text(embed):
 async def get_pic(user, mentionTarget, server, argstring, **kwargs):
 	embed = discord.Embed()
 	if 'server' == argstring:
-		embed.set_image(url=server.icon_url_as(static_format='png'))
+		embed.set_image(url=server.icon.with_static_format('png').url)
 		return {'text': f"{server.name}'s icon!", 'embed':embed }
-	embed.set_image(url=mentionTarget.avatar_url_as(static_format='png'))
+	embed.set_image(url=mentionTarget.avatar.with_static_format('png').url)
 	return {'text': f"{mentionTarget.mention}'s avatar!", 'embed':embed }
 
 def pic_help(**kwargs):

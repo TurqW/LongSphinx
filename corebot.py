@@ -5,7 +5,6 @@ import os
 import random
 import sys
 import types
-import yaml
 from pathlib import Path
 import asyncio
 
@@ -50,7 +49,7 @@ COMMAND_CHAR = '!'
 with open(tokenfilename, 'r') as tokenfile:
 	TOKEN = tokenfile.readline().strip()
 
-client = discord.Client(intents=intents)
+client = discord.Client(intents=intents, loop=asyncio.new_event_loop())
 commands = {}
 is_reminder_set = False
 
