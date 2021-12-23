@@ -32,6 +32,6 @@ is_reminder_set = False
 
 bot = discord.Bot()
 
-bot.add_cog(RoleManager(bot, conf))
+bot.add_cog(RoleManager(bot))
 
 bot.run(TOKEN)
