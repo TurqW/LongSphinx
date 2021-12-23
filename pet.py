@@ -51,7 +51,7 @@ class PetView(discord.ui.View):
 	async def on_timeout(self):
 		self.clear_items()
 		embed = self.pet.render()
-		embed.set_footer(text='Timed out')
+		embed.set_footer(text='Timed out. Use !pet to interact again.')
 		await self.message.edit(view=self, embed=embed)
 
 class Pet:
