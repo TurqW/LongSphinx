@@ -5,6 +5,7 @@ import sys
 import botconfig as conf
 import utils
 from cogs.role_manager import RoleManager
+from cogs.pet import PetCommands
 import test
 
 utils.check_path('logs')
@@ -30,8 +31,12 @@ with open(tokenfilename, 'r') as tokenfile:
 
 is_reminder_set = False
 
-bot = discord.Bot()
+intents = discord.Intents.default()
+intents.members = True
+
+bot = discord.Bot(intents=intents)
 
 bot.add_cog(RoleManager(bot))
+bot.add_cog(PetCommands(bot))
 
 bot.run(TOKEN)

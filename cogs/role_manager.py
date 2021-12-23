@@ -2,7 +2,6 @@ from enum import Enum
 
 import discord
 from discord.commands import Option, slash_command
-from discord.ext import commands
 
 import botconfig as conf
 
@@ -25,11 +24,11 @@ def roles_for_autocomplete(ctx: discord.AutocompleteContext):
 	return [role for role in get_roles(ctx).keys() if role.lower().startswith(ctx.value.lower())]
 
 
-class RoleManager(commands.Cog):
+class RoleManager(discord.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	@slash_command(name='role')
+	@slash_command(name='role', guild_ids=[489197880809095168])
 	async def request_role(
 		self,
 		ctx: discord.ApplicationContext,
@@ -43,6 +42,16 @@ class RoleManager(commands.Cog):
 			confirmer = Confirm(self.do_role_changes(changes), Confirm.cancel_action )
 			await ctx.respond(f"Changes:\n{self.role_changes_to_string(changes)}", view=confirmer, ephemeral=True)
 
+	def get_roles(self, ctx: discord.AutocompleteContext | discord.ApplicationContext):
+		rolesets = conf.get_object(ctx.interaction.guild, 'rolesets')
+		roles = {}
+		for roleset_name, roleset in rolesets.items():
+			roles.update({role: roleset_name for role in roleset['roles'].keys()})
+		validRoles = {role_name:value for (role_name, value) in roles.items() if role_name in [role.name for role in ctx.interaction.guild.roles]}
+		return validRoles
+
+	def roles_for_autocomplete(self, ctx: discord.AutocompleteContext):
+		return [role for role in get_roles(ctx).keys() if role.lower().startswith(ctx.value.lower())]
 
 	def do_role_changes(self, changes):
 		async def role_change_callback(interaction: discord.Interaction):
@@ -70,4 +79,4 @@ class RoleManager(commands.Cog):
 		return changes
 
 	def role_changes_to_string(self, changes):
-		return '\n'.join(['\n'.join([value.name + ' will be ' + key.value + '.' for value in changes[key]]) for key in changes.keys()])
+		return '\n'.join(['\n'.join([f'{value.name} will be {key.value}.' for value in changes[key]]) for key in changes.keys()])

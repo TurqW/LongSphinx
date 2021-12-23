@@ -50,3 +50,7 @@ async def get_pic(user, mentionTarget, server, argstring, **kwargs):
 
 def pic_help(**kwargs):
 	return "Shows a bigger version of someone's avatar!"
+
+def user_picker(ctx: discord.AutocompleteContext):
+	val = ctx.value.lower()
+	return [user.name for user in ctx.interaction.guild.members if user.name.lower().startswith(val) or user.display_name.lower().startswith(val) or str(user.id).startswith(val)]

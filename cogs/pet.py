@@ -2,10 +2,15 @@ import datetime
 import discord
 import random
 import sys
+from discord.commands import Option, slash_command
+from discord.ext import commands
 
 import generator
 import utils
 from botdb import BotDB
+import botconfig as conf
+from views.confirm import Confirm
+
 
 tick = datetime.timedelta(minutes=120)
 
@@ -52,7 +57,7 @@ class PetView(discord.ui.View):
 		self.clear_items()
 		embed = self.pet.render()
 		embed.set_footer(text='Timed out. Use !pet to interact again.')
-		await self.message.edit(view=self, embed=embed)
+		await self.interaction.edit_original_message(view=self, embed=embed)
 
 class Pet:
 	def __init__(self):
@@ -101,6 +106,8 @@ class Pet:
 		embed.add_field(name='Happiness', value='```\n' + utils.drawGauge(self.happy, maxHappy) + '\n```', inline=False)
 		if '.hex' in self.desc['description']['beastColor']:
 			embed.color = self.desc['description']['beastColor']['.hex']
+		if self.seed:
+			embed.set_footer(text=f'seed: {self.seed}')
 		return embed
 
 	def update(self):
@@ -122,7 +129,6 @@ class Pet:
 		self.fullPetText = f"{name} rubs against you, {desc['description']['species']['sound']['text']} happily."
 		self.seed = seed
 
-
 def loadPet(name):
 	with BotDB(dbname, botName) as db:
 		myPet = db[name]
@@ -133,48 +139,60 @@ def savePet(myPet, name):
 	with BotDB(dbname, botName) as db:
 		db[name] = myPet
 
-async def getSeed(user, mentionTarget, conf, **kwargs):
-	global botName
-	botName = conf.bot_name()
-	if mentionTarget is not None:
-		id = str(mentionTarget.id)
-	else:
-		id = str(user.id)
-	try:
-		myPet = loadPet(id)
-	except:
-		myPet = loadPet('0')
-	if myPet.seed:
-		return f'{myPet.name} has seed {myPet.seed}'
-	else:
-		return 'Seed unknown for your pet.'
+class PetCommands(discord.Cog):
+	def __init__(self, bot):
+		self.bot = bot
 
-async def summon(user, argstring, conf, **kwargs):
-	global botName
-	botName = conf.bot_name()
-	id = str(user.id)
-	if not argstring:
-		argstring = str(random.randrange(sys.maxsize))
-	myPet = Pet()
-	summon = generator.generate('beast', argstring)
-	myPet.setStats(generator.generate('mc.name', argstring)['text'], summon['core'], argstring)
-	message = generator.extract_text(summon) + f' Its name is {myPet.name}.'
-	savePet(myPet, id)
-	return message
+	@slash_command(name='summon', guild_ids=[489197880809095168])
+	async def summon(self, ctx, seed: str = None):
+		global botName
+		botName = conf.bot_name()
+		confirmer = Confirm(self.summoner(seed), Confirm.cancel_action )
+		try:
+			myPet = loadPet(str(ctx.user.id))
+			message = 'This will replace your existing pet, shown below. Are you sure?'
+			embed = myPet.render()
+			await ctx.respond(message, view=confirmer, embed=embed, ephemeral=True)
+		except:
+			message = "You don't have a pet yet! Are you ready to summon one?"
+			await ctx.respond(message, view=confirmer, ephemeral=True)
+		
 
-async def view(user, mentionTarget, conf, channel, **kwargs):
-	global botName
-	botName = conf.bot_name()
-	owner = user
-	if mentionTarget is not None:
-		owner = mentionTarget
-	try:
-		myPet = loadPet(str(owner.id))
-	except:
-		return {'text': "Failed to load your pet. Maybe you don't have one? Try `!summon` to get one now!"}
-	embed = myPet.render()
-	view = PetView(myPet, str(owner.id))
-	view.message = await channel.send(f'{owner.mention}\'s pet!', view=view, embed=embed)
+	def summoner(self, seed):
+		if not seed:
+				seed = str(random.randrange(sys.maxsize))
+
+		async def summon_callback(interaction):
+			id = str(interaction.user.id)
+			
+			myPet = Pet()
+			summon = generator.generate('beast', seed)
+			myPet.setStats(generator.generate('mc.name', seed)['text'], summon['core'], seed)
+			message = generator.extract_text(summon) + f' Its name is {myPet.name}.'
+			savePet(myPet, id)
+			await interaction.response.edit_message(content="Summoning...", embed=None, view=None)
+			await interaction.followup.send(message)
+
+		return summon_callback
+
+	@slash_command(name='pet', guild_ids=[489197880809095168])
+	async def view(self, ctx, target:  Option(str, "Whose pet do you want to view?", autocomplete=utils.user_picker, required=False) = None):
+		global botName
+		botName = conf.bot_name()
+		owner = ctx.user
+		if target is not None:
+			owner = ctx.guild.get_member_named(target)
+		try:
+			myPet = loadPet(str(owner.id))
+		except:
+			if owner == ctx.user:
+				await ctx.respond("Failed to load your pet. Maybe you don't have one? Try `/summon` to get one now!", ephemeral=True)
+			else:
+				await ctx.respond(f"Failed to load {owner.display_name}'s pet. Maybe they don't have one? They should try /summon !", ephemeral=True)
+			return
+		embed = myPet.render()
+		view = PetView(myPet, str(owner.id))
+		view.interaction = await ctx.respond(f'{owner.mention}\'s pet!', view=view, embed=embed)
 
 def readme(**kwargs):
 	return """Pets:
