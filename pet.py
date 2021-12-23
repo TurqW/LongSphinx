@@ -48,10 +48,11 @@ class PetView(discord.ui.View):
 		await interaction.message.edit(embed=embed)
 		savePet(self.pet, self.owner)
 
-	# TODO: for some reason this isn't getting called
-	async def on_timeout():
-		print('timed out')
+	async def on_timeout(self):
 		self.clear_items()
+		embed = self.pet.render()
+		embed.set_footer(text='Timed out')
+		await self.message.edit(view=self, embed=embed)
 
 class Pet:
 	def __init__(self):
@@ -173,7 +174,7 @@ async def view(user, mentionTarget, conf, channel, **kwargs):
 		return {'text': "Failed to load your pet. Maybe you don't have one? Try `!summon` to get one now!"}
 	embed = myPet.render()
 	view = PetView(myPet, str(owner.id))
-	await channel.send(f'{owner.mention}\'s pet!', view=view, embed=embed)
+	view.message = await channel.send(f'{owner.mention}\'s pet!', view=view, embed=embed)
 
 def readme(**kwargs):
 	return """Pets:
