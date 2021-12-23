@@ -18,6 +18,40 @@ happyGain = 6
 dbname = 'pets'
 feedEmoji = u'\U0001F355'
 petEmoji = u'\U0001F49C'
+class PetView(discord.ui.View):
+	def __init__(self, pet, owner):
+		super().__init__(timeout=600)
+		self.pet = pet
+		self.owner = owner
+
+	@discord.ui.button(
+		label="Feed me!",
+		style=discord.ButtonStyle.blurple,
+		emoji=feedEmoji
+	)
+	async def feed(self, button: discord.ui.Button, interaction: discord.Interaction):
+		message = self.pet.feed()
+		embed = self.pet.render()
+		embed.add_field(name='result', value=message)
+		await interaction.message.edit(embed=embed)
+		savePet(self.pet, self.owner)
+
+	@discord.ui.button(
+		label="Pet me!",
+		style=discord.ButtonStyle.green,
+		emoji=petEmoji
+	)
+	async def pet(self, button: discord.ui.Button, interaction: discord.Interaction):
+		message = self.pet.pet()
+		embed = self.pet.render()
+		embed.add_field(name='result', value=message)
+		await interaction.message.edit(embed=embed)
+		savePet(self.pet, self.owner)
+
+	# TODO: for some reason this isn't getting called
+	async def on_timeout():
+		print('timed out')
+		self.clear_items()
 
 class Pet:
 	def __init__(self):
@@ -32,10 +66,14 @@ class Pet:
 
 	def feed(self):
 		self.update()
+		message = ''
 		if (self.food < maxFood):
 			self.food = min(maxFood, self.food + foodGain)
-			return (self.feedText, self.render())
-		return (self.fullText, self.render())
+			message = self.feedText
+		else:
+			message = self.fullText
+
+		return message
 
 	def pet(self):
 		self.update()
@@ -48,7 +86,8 @@ class Pet:
 		else:
 			message = self.fullPetText
 		self.happy = min(maxHappy, int(self.happy + (happyGain * factor)))
-		return (message, self.render())
+		return message
+
 
 	def render(self):
 		embed = discord.Embed()
@@ -122,7 +161,7 @@ async def summon(user, argstring, conf, **kwargs):
 	savePet(myPet, id)
 	return message
 
-async def view(user, mentionTarget, conf, **kwargs):
+async def view(user, mentionTarget, conf, channel, **kwargs):
 	global botName
 	botName = conf.bot_name()
 	owner = user
@@ -133,24 +172,8 @@ async def view(user, mentionTarget, conf, **kwargs):
 	except:
 		return {'text': "Failed to load your pet. Maybe you don't have one? Try `!summon` to get one now!"}
 	embed = myPet.render()
-	return {'text': f'{owner.mention}\'s pet!', 'embed': embed, 'reactions': [feedEmoji, petEmoji], 'reactListener': reactListener}
-
-async def reactListener(reaction, client):
-	try:
-		owner = str(reaction.message.mentions[0].id)
-		ownerMention = str(reaction.message.mentions[0].mention)
-	except:
-		owner = '0'
-	myPet = loadPet(owner)
-	if reaction.emoji == feedEmoji:
-		text, embed = myPet.feed()
-	if reaction.emoji == petEmoji:
-		text, embed = myPet.pet()
-	savePet(myPet, owner)
-	await reaction.message.edit(content=ownerMention + ', ' + text, embed=embed)
-	async for user in reaction.users():
-		if user != client.user:
-			await reaction.remove(user)
+	view = PetView(myPet, str(owner.id))
+	await channel.send(f'{owner.mention}\'s pet!', view=view, embed=embed)
 
 def readme(**kwargs):
 	return """Pets:
