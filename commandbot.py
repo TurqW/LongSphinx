@@ -6,6 +6,7 @@ import botconfig as conf
 import utils
 from cogs.role_manager import RoleManager
 from cogs.pet import PetCommands
+from cogs.rep import RepCommands
 import test
 
 utils.check_path('logs')
@@ -38,5 +39,6 @@ bot = discord.Bot(intents=intents)
 
 bot.add_cog(RoleManager(bot))
 bot.add_cog(PetCommands(bot))
+bot.add_cog(RepCommands(bot))
 
 bot.run(TOKEN)

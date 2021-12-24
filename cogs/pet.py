@@ -3,7 +3,6 @@ import discord
 import random
 import sys
 from discord.commands import Option, slash_command
-from discord.ext import commands
 
 import generator
 import utils
@@ -130,23 +129,21 @@ class Pet:
 		self.seed = seed
 
 def loadPet(name):
-	with BotDB(dbname, botName) as db:
+	with BotDB(conf.bot_name(), dbname) as db:
 		myPet = db[name]
 	myPet.update()
 	return myPet
 
 def savePet(myPet, name):
-	with BotDB(dbname, botName) as db:
+	with BotDB(conf.bot_name(), dbname) as db:
 		db[name] = myPet
 
 class PetCommands(discord.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	@slash_command(name='summon', guild_ids=[489197880809095168])
+	@slash_command(name='summon', description='Summon a new pet!', guild_ids=[489197880809095168])
 	async def summon(self, ctx, seed: str = None):
-		global botName
-		botName = conf.bot_name()
 		confirmer = Confirm(self.summoner(seed), Confirm.cancel_action )
 		try:
 			myPet = loadPet(str(ctx.user.id))
@@ -175,10 +172,8 @@ class PetCommands(discord.Cog):
 
 		return summon_callback
 
-	@slash_command(name='pet', guild_ids=[489197880809095168])
+	@slash_command(name='pet', description='View and care for a pet!', guild_ids=[489197880809095168])
 	async def view(self, ctx, target:  Option(str, "Whose pet do you want to view?", autocomplete=utils.user_picker, required=False) = None):
-		global botName
-		botName = conf.bot_name()
 		owner = ctx.user
 		if target is not None:
 			owner = ctx.guild.get_member_named(target)

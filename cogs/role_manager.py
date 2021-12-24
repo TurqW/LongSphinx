@@ -28,7 +28,7 @@ class RoleManager(discord.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	@slash_command(name='role', guild_ids=[489197880809095168])
+	@slash_command(name='role', description='Change your self-assignable roles.', guild_ids=[489197880809095168])
 	async def request_role(
 		self,
 		ctx: discord.ApplicationContext,
