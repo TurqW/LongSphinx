@@ -51,9 +51,9 @@ class RepCommands(discord.Cog):
 			receiver.received += 1
 			self.saveUser(giver, ctx.user)
 			self.saveUser(receiver, target_user)
-			await ctx.respond('{0}, you gave a rep to {1}!'.format(ctx.user.mention, target_user.mention))
+			await ctx.respond(f'{ctx.user.mention}, you gave a rep to {target_user.mention}!')
 		else:
-			await ctx.respond('Sorry {0}, you have no rep to give!'.format(ctx.user.mention), ephemeral=True)
+			await ctx.respond(f'Sorry {ctx.user.mention}, you have no rep to give!', ephemeral=True)
 
 	@repGroup.command(name='check', description='Check the rep a user has accumulated.')
 	async def repCheck(self, ctx, target:  Option(str, "Whose rep?", autocomplete=utils.user_picker, required=False) = None):
@@ -62,7 +62,7 @@ class RepCommands(discord.Cog):
 		else:
 			user = ctx.user
 		repInfo = self.loadUser(user)
-		await ctx.respond('{0} has received {1} rep and has {2} rep available to give!'.format(user.mention, repInfo.received, repInfo.getPool()))
+		await ctx.respond(f'{user.mention} has received {repInfo.received} rep and has {repInfo.getPool()} rep available to give!')
 
 	def leaderlist(self, members):
 		with BotDB(conf.bot_name(), DBNAME) as db:
