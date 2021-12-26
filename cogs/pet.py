@@ -1,9 +1,9 @@
 import datetime
-import discord
 import random
 import sys
 
-from discord.commands import Option, slash_command
+from discord import slash_command, Option, Interaction, Embed, Cog, Member, ButtonStyle
+from discord.ui import View, button, Button
 
 import generator
 import utils
@@ -24,30 +24,30 @@ feedEmoji = u'\U0001F355'
 petEmoji = u'\U0001F49C'
 
 
-class PetView(discord.ui.View):
+class PetView(View):
     def __init__(self, pet, owner):
         super().__init__(timeout=600)
         self.pet = pet
         self.owner = owner
 
-    @discord.ui.button(
+    @button(
         label="Feed me!",
-        style=discord.ButtonStyle.blurple,
+        style=ButtonStyle.blurple,
         emoji=feedEmoji
     )
-    async def feed(self, _: discord.ui.Button, interaction: discord.Interaction):
+    async def feed(self, _: Button, interaction: Interaction):
         message = self.pet.feed()
         embed = self.pet.render()
         embed.add_field(name='result', value=message)
         await interaction.message.edit(embed=embed)
         save_pet(self.pet, self.owner)
 
-    @discord.ui.button(
+    @button(
         label="Pet me!",
-        style=discord.ButtonStyle.green,
+        style=ButtonStyle.green,
         emoji=petEmoji
     )
-    async def pet(self, _: discord.ui.Button, interaction: discord.Interaction):
+    async def pet(self, _: Button, interaction: Interaction):
         message = self.pet.pet()
         embed = self.pet.render()
         embed.add_field(name='result', value=message)
@@ -100,7 +100,7 @@ class Pet:
         return message
 
     def render(self):
-        embed = discord.Embed()
+        embed = Embed()
         try:
             embed.title = self.name
             pet_description = generator.extract_text(self.desc['description'])
@@ -165,7 +165,7 @@ def summoner(seed):
     return summon_callback
 
 
-class PetCommands(discord.Cog):
+class PetCommands(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -184,7 +184,7 @@ class PetCommands(discord.Cog):
     @slash_command(name='pet', description='View and care for a pet!', guild_ids=[489197880809095168])
     async def view(self,
                    ctx,
-                   target: Option(discord.Member, 'Whose pet?', required=False)
+                   target: Option(Member, 'Whose pet?', required=False)
                    ):
         owner = ctx.user
         if target is not None:

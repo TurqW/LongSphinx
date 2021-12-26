@@ -166,7 +166,7 @@ class Reminders(discord.Cog):
         msg = f'Reminder: {content}'
         save_one_reminder(ctx.user, when_time, msg)
         await set_reminder(when_time, ctx.user, msg)
-        await ctx.respond(f'I\'ll DM you "{msg}" in {friendly_until_string(when_time)}.')
+        await ctx.respond(f'I\'ll DM you "{msg}" in {friendly_until_string(when_time)}.', ephemeral=True)
 
     @reminderGroup.command(name='list', description='View all your reminders')
     async def list_my_reminders(self, ctx):
@@ -175,9 +175,9 @@ class Reminders(discord.Cog):
         reminders = [f'{friendly_until_string(when)}: {msg.replace("Reminder: ", "")}' for (channel, when, msg) in
                      all_reminders if channel == ctx.user.id]
         if reminders:
-            await ctx.respond('\n'.join(reminders))
+            await ctx.respond('\n'.join(reminders), ephemeral=True)
         else:
-            await ctx.respond('No reminders set.')
+            await ctx.respond('No reminders set.', ephemeral=True)
 
     @reminderGroup.command(name='cancel', description='Cancel a reminder')
     async def cancel_reminder(
@@ -190,9 +190,10 @@ class Reminders(discord.Cog):
             scheduled_tasks[reminder_tuple].cancel()
             del scheduled_tasks[reminder_tuple]
             await ctx.respond(
-                f'Your reminder "{reminder}" in {friendly_until_string(reminder_tuple[1])} has been cancelled.')
+                f'Your reminder "{reminder}" in {friendly_until_string(reminder_tuple[1])} has been cancelled.',
+                ephemeral=True)
         else:
-            await ctx.respond(f'Your reminder "{reminder}" was not found, sorry.')
+            await ctx.respond(f'Your reminder "{reminder}" was not found, sorry.', ephemeral=True)
 
     @commands.Cog.listener()
     async def on_ready(self):

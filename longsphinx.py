@@ -8,6 +8,7 @@ from cogs.role_manager import RoleManager
 from cogs.pet import PetCommands
 from cogs.rep import RepCommands
 from cogs.reminder import Reminders
+from cogs.colors import ColorCommands
 
 utils.check_path('logs')
 
@@ -47,5 +48,6 @@ bot.add_cog(RoleManager(bot))
 bot.add_cog(PetCommands(bot))
 bot.add_cog(RepCommands(bot))
 bot.add_cog(Reminders(bot))
+bot.add_cog(ColorCommands(bot))
 
 bot.run(TOKEN)
