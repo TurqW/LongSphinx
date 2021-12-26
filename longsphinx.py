@@ -8,32 +8,37 @@ from cogs.role_manager import RoleManager
 from cogs.pet import PetCommands
 from cogs.rep import RepCommands
 from cogs.reminder import Reminders
-import test
 
 utils.check_path('logs')
 
+bot_name = 'None'
 if len(sys.argv) > 1:
-	botname = sys.argv[1]
+    bot_name = sys.argv[1]
+else:
+    print('Usage: python longsphinx.py <bot name>')
+    exit(-1)
 
-conf.__init__('config.yaml', botname)
+conf.__init__('config.yaml', bot_name)
 
 logging.basicConfig(
-	filename=f'logs/{botname}.log',
-	format='%(asctime)s %(levelname)-8s %(message)s',
-	datefmt='%Y-%m-%d %H:%M:%S',
-	level=logging.DEBUG)
+    filename=f'logs/{bot_name}.log',
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+    level=logging.DEBUG)
 logging.getLogger('discord').setLevel(logging.WARNING)
 logging.getLogger('websockets').setLevel(logging.WARNING)
 log = logging.getLogger('LongSphinx')
 
-tokenfilename = f'{botname}.token'
-	
-with open(tokenfilename, 'r') as tokenfile:
-	TOKEN = tokenfile.readline().strip()
+token_file_name = f'{bot_name}.token'
+
+with open(token_file_name, 'r') as token_file:
+    TOKEN = token_file.readline().strip()
 
 is_reminder_set = False
 
 intents = discord.Intents.default()
+# PyCharm thinks Members doesn't exist and also that it's read-only. Both are false.
+# noinspection PyDunderSlots,PyUnresolvedReferences
 intents.members = True
 
 bot = discord.Bot(intents=intents)
