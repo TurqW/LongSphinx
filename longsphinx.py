@@ -9,6 +9,8 @@ from cogs.pet import PetCommands
 from cogs.rep import RepCommands
 from cogs.reminder import Reminders
 from cogs.colors import ColorCommands
+from cogs.notice import Notices
+from cogs.misc import MiscCommands
 
 utils.check_path('logs')
 
@@ -42,12 +44,14 @@ intents = discord.Intents.default()
 # noinspection PyDunderSlots,PyUnresolvedReferences
 intents.members = True
 
-bot = discord.Bot(intents=intents)
+bot = discord.Bot(intents=intents, debug_guilds=[489197880809095168])
 
 bot.add_cog(RoleManager(bot))
 bot.add_cog(PetCommands(bot))
 bot.add_cog(RepCommands(bot))
 bot.add_cog(Reminders(bot))
 bot.add_cog(ColorCommands(bot))
+bot.add_cog(Notices(bot))
+bot.add_cog(MiscCommands(bot))
 
 bot.run(TOKEN)

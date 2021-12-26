@@ -77,5 +77,5 @@ class RoleManager(discord.Cog):
             roleset_name = roles[role_name]
             role = discord.utils.find(lambda r: r.name.lower() == role_name.lower(), ctx.guild.roles)
             changes = get_role_changes(ctx.user, role, roleset_name)
-            confirm_view = Confirm(do_role_changes(changes), Confirm.cancel_action)
+            confirm_view = Confirm(do_role_changes(changes))
             await ctx.respond(f"Changes:\n{role_changes_to_string(changes)}", view=confirm_view, ephemeral=True)

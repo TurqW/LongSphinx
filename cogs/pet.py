@@ -169,9 +169,9 @@ class PetCommands(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @slash_command(name='summon', description='Summon a new pet!', guild_ids=[489197880809095168])
+    @slash_command(name='summon', description='Summon a new pet!')
     async def summon(self, ctx, seed: str = None):
-        confirm_view = Confirm(summoner(seed), Confirm.cancel_action)
+        confirm_view = Confirm(summoner(seed))
         try:
             my_pet = load_pet(str(ctx.user.id))
             message = 'This will replace your existing pet, shown below. Are you sure?'
@@ -181,7 +181,7 @@ class PetCommands(Cog):
             message = "You don't have a pet yet! Are you ready to summon one?"
             await ctx.respond(message, view=confirm_view, ephemeral=True)
 
-    @slash_command(name='pet', description='View and care for a pet!', guild_ids=[489197880809095168])
+    @slash_command(name='pet', description='View and care for a pet!')
     async def view(self,
                    ctx,
                    target: Option(Member, 'Whose pet?', required=False)

@@ -1,13 +1,13 @@
 import asyncio
 import dateparser
-import discord
 import datetime
 import math
 import logging
+
+
+from discord import AutocompleteContext, Cog, Option, SlashCommandGroup
 from metomi.isodatetime.parsers import TimeRecurrenceParser
 from metomi.isodatetime.data import Duration, get_timepoint_for_now
-from discord.commands import Option, SlashCommandGroup
-from discord.ext import commands
 
 import utils
 from botdb import BotDB
@@ -44,13 +44,14 @@ def save_one_reminder(channel, when_time, msg):
 
 def delete_reminder(reminder):
     schedule = load_reminders()
-    schedule.remove(reminder)
-    save_reminders(schedule)
+    if reminder in schedule:
+        schedule.remove(reminder)
+        save_reminders(schedule)
 
 
 async def set_all_saved_reminders(bot):
     for reminder in load_reminders():
-        if reminder[1] > datetime.datetime.utcnow():
+        if reminder[1] and reminder[1] > datetime.datetime.utcnow():
             user = bot.get_user(reminder[0])
             channel = user.dm_channel
             if channel is None:
@@ -71,6 +72,12 @@ async def send_message(channel, msg, time):
 
 def parse_time(time):
     when_time = dateparser.parse(time, settings={'TIMEZONE': 'UTC'})
+    if when_time < datetime.datetime.utcnow():
+        # Maybe they're trolling, or maybe they didn't put "in"
+        when_time = dateparser.parse('in' + time, settings={'TIMEZONE': 'UTC'})
+    if not when_time or when_time < datetime.datetime.utcnow():
+        # if that didn't work, just fail it.
+        return None
     if when_time.tzinfo is not None:
         when_time = when_time.replace(tzinfo=None)
     return when_time
@@ -144,25 +151,28 @@ def get_reminder_by_autocomplete(user, msg):
     return next((x for x in load_reminders() if x[0] == user.id and x[2].replace("Reminder: ", "") == msg), None)
 
 
-def reminders_for_autocomplete(ctx: discord.AutocompleteContext):
+def reminders_for_autocomplete(ctx: AutocompleteContext):
     all_reminders = load_reminders()
     return [msg.replace("Reminder: ", "") for (channel, when, msg) in all_reminders if
             channel == ctx.interaction.user.id and ctx.value.lower() in msg.lower()]
 
 
-class Reminders(discord.Cog):
+class Reminders(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    reminderGroup = SlashCommandGroup('remind', 'Set and manage reminders.', guild_ids=[489197880809095168])
+    reminderGroup = SlashCommandGroup('remind', 'Set and manage reminders.')
 
     @reminderGroup.command(name='set', description='Schedule a reminder DM.')
     async def message_reminder(
             self, ctx,
             content: Option(str, 'What should I remind you about?'),
-            time: Option(str, 'In UTC, or start with "in" to schedule a specific duration from now.')
+            time: Option(str, 'A time and/or date in UTC, or start with "in" to schedule a specific duration from now.')
     ):
         when_time = parse_time(time)
+        if not when_time:
+            await ctx.respond(f'Unable to parse time string: ' + time, ephemeral=True)
+            return
         msg = f'Reminder: {content}'
         save_one_reminder(ctx.user, when_time, msg)
         await set_reminder(when_time, ctx.user, msg)
@@ -187,15 +197,16 @@ class Reminders(discord.Cog):
         reminder_tuple = get_reminder_by_autocomplete(ctx.user, reminder)
         if reminder_tuple:
             delete_reminder(reminder_tuple)
-            scheduled_tasks[reminder_tuple].cancel()
-            del scheduled_tasks[reminder_tuple]
+            if reminder_tuple in scheduled_tasks:
+                scheduled_tasks[reminder_tuple].cancel()
+                del scheduled_tasks[reminder_tuple]
             await ctx.respond(
                 f'Your reminder "{reminder}" in {friendly_until_string(reminder_tuple[1])} has been cancelled.',
                 ephemeral=True)
         else:
             await ctx.respond(f'Your reminder "{reminder}" was not found, sorry.', ephemeral=True)
 
-    @commands.Cog.listener()
+    @Cog.listener()
     async def on_ready(self):
         global is_reminder_set
         log.debug(f'Re-initializing reminders...')

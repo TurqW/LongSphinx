@@ -55,7 +55,7 @@ class RepCommands(discord.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    repGroup = SlashCommandGroup('rep', 'Give out reputation points', guild_ids=[489197880809095168])
+    repGroup = SlashCommandGroup('rep', 'Give out reputation points')
 
     @repGroup.command(name='lead', description='Rep leaderboards!')
     async def leaderboard(self, ctx):

@@ -18,7 +18,7 @@ class ColorCommands(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @slash_command(name='color', description='Generate a color swatch from a hex code.', guild_ids=[489197880809095168])
+    @slash_command(name='color', description='Generate a color swatch from a hex code.')
     async def show_swatch(self, ctx, color_code: Option(str, 'Hex color string, such as #131071')):
         swatch = get_swatch(color_code)
         await ctx.respond('', file=File(swatch, filename=color_code + '.png'))
