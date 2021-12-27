@@ -1,5 +1,4 @@
 import os
-import discord
 
 fullGaugeChar = '='
 emptyGaugeChar = ' '
