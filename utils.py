@@ -30,3 +30,27 @@ def embed_to_text(embed):
         text += embed.description + '\n'
     text += '\n'.join([f'{field.name}: {field.value}\n' for field in embed.fields])
     return text
+
+
+def time_delta_to_parts(delta):
+    days = delta.days
+    hours, remainder = divmod(delta.seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return {'day': days, 'hour': hours, 'minute': minutes, 'second': seconds}
+
+
+def round_time_dict_to_minutes(time_dict):
+    time_dict['minute'] += round(time_dict['second'] / 60)
+    if time_dict['minute'] >= 60:
+        time_dict['minute'] -= 60
+        time_dict['hour'] += 1
+    if time_dict['hour'] >= 24:
+        time_dict['hour'] -= 24
+        time_dict['day'] += 1
+    return time_dict
+
+
+def grammatical_number(word, count):
+    if count == 1 or count == -1:
+        return word
+    return word + 's'
