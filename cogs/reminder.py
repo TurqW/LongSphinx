@@ -4,8 +4,8 @@ import datetime
 import math
 import logging
 
-
-from discord import AutocompleteContext, Cog, Option, SlashCommandGroup
+from discord import Cog, Option, SlashCommandGroup, SelectOption, Interaction, Button, ButtonStyle
+from discord.ui import Select, View, button
 from metomi.isodatetime.parsers import TimeRecurrenceParser
 from metomi.isodatetime.data import Duration, get_timepoint_for_now
 
@@ -18,6 +18,7 @@ is_reminder_set = False
 
 DB_NAME = 'schedule'
 DB_KEY = '0'
+NO_REMINDERS_MESSAGE = 'No reminders set. You can make new ones with `/remind set`.'
 window = datetime.timedelta(minutes=5)
 
 scheduled_tasks = {}
@@ -147,14 +148,55 @@ async def send_recurring_message(recur_string, channel, msg):
     await set_recurring_message(recur_string, channel, msg)
 
 
-def get_reminder_by_autocomplete(user, msg):
-    return next((x for x in load_reminders() if x[0] == user.id and x[2].replace("Reminder: ", "") == msg), None)
+def get_reminder_by_user_and_content(user_id, msg):
+    return next((x for x in load_reminders() if x[0] == user_id and x[2].replace("Reminder: ", "") == msg), None)
 
 
-def reminders_for_autocomplete(ctx: AutocompleteContext):
+def reminder_list_message(user_id):
     all_reminders = load_reminders()
-    return [msg.replace("Reminder: ", "") for (channel, when, msg) in all_reminders if
-            channel == ctx.interaction.user.id and ctx.value.lower() in msg.lower()]
+    all_reminders.sort(key=lambda x: x[1])
+    string_list = [f'{friendly_until_string(when)}: {msg.replace("Reminder: ", "")}' for (channel, when, msg) in
+                   all_reminders if channel == user_id]
+    if string_list:
+        return '\n'.join(string_list)
+    else:
+        return NO_REMINDERS_MESSAGE
+
+
+class DeleteReminderView(View):
+    def __init__(self):
+        super().__init__()
+        self.dropdown = None
+
+    @button(label="Delete some reminders?", row=2, style=ButtonStyle.grey, emoji='🗑️')
+    async def delete(self, this_button: Button, interaction: Interaction):
+        if not self.dropdown:
+            options = [SelectOption(label=reminder[2].replace("Reminder: ", "")) for reminder in load_reminders() if
+                       reminder[0] == interaction.user.id]
+
+            self.dropdown = Select(
+                placeholder="Delete which reminder?",
+                max_values=len(options),
+                options=options
+            )
+            self.add_item(self.dropdown)
+
+            this_button.label = 'Delete'
+            this_button.style = ButtonStyle.red
+            await interaction.response.edit_message(view=self)
+        else:
+            for reminder in self.dropdown.values:
+                reminder_tuple = get_reminder_by_user_and_content(interaction.user.id, reminder)
+                if reminder_tuple:
+                    delete_reminder(reminder_tuple)
+                    if reminder_tuple in scheduled_tasks:
+                        scheduled_tasks[reminder_tuple].cancel()
+                        del scheduled_tasks[reminder_tuple]
+            msg = reminder_list_message(interaction.user.id)
+            await interaction.response.edit_message(
+                content=msg,
+                view=DeleteReminderView() if msg != NO_REMINDERS_MESSAGE else None
+            )
 
 
 class Reminders(Cog):
@@ -180,31 +222,11 @@ class Reminders(Cog):
 
     @reminderGroup.command(name='list', description='View all your reminders')
     async def list_my_reminders(self, ctx):
-        all_reminders = load_reminders()
-        all_reminders.sort(key=lambda x: x[1])
-        reminders = [f'{friendly_until_string(when)}: {msg.replace("Reminder: ", "")}' for (channel, when, msg) in
-                     all_reminders if channel == ctx.user.id]
-        if reminders:
-            await ctx.respond('\n'.join(reminders), ephemeral=True)
+        msg = reminder_list_message(ctx.user.id)
+        if msg != NO_REMINDERS_MESSAGE:
+            await ctx.respond(msg, view=DeleteReminderView(), ephemeral=True)
         else:
-            await ctx.respond('No reminders set.', ephemeral=True)
-
-    @reminderGroup.command(name='cancel', description='Cancel a reminder')
-    async def cancel_reminder(
-            self, ctx,
-            reminder: Option(str, 'Which reminder to cancel?', autocomplete=reminders_for_autocomplete)
-    ):
-        reminder_tuple = get_reminder_by_autocomplete(ctx.user, reminder)
-        if reminder_tuple:
-            delete_reminder(reminder_tuple)
-            if reminder_tuple in scheduled_tasks:
-                scheduled_tasks[reminder_tuple].cancel()
-                del scheduled_tasks[reminder_tuple]
-            await ctx.respond(
-                f'Your reminder "{reminder}" in {friendly_until_string(reminder_tuple[1])} has been cancelled.',
-                ephemeral=True)
-        else:
-            await ctx.respond(f'Your reminder "{reminder}" was not found, sorry.', ephemeral=True)
+            await ctx.respond(msg, ephemeral=True)
 
     @Cog.listener()
     async def on_ready(self):

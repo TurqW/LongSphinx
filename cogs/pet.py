@@ -38,7 +38,7 @@ class PetView(View):
     async def feed(self, _: Button, interaction: Interaction):
         message = self.pet.feed()
         embed = self.pet.render()
-        embed.add_field(name='result', value=message)
+        embed.add_field(name='Result', value=message)
         await interaction.message.edit(embed=embed)
         save_pet(self.pet, self.owner)
 
