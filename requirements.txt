@@ -6,4 +6,5 @@ dateparser==1.1.0
 Pillow==8.4.0
 lark-parser==0.12.0
 metomi-isodatetime==1!2.0.2
-py-cord=2.0.0
+py-cord==2.0.0
+https://github.com/WaltWh/w2n/tarball/v1.2

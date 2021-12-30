@@ -50,6 +50,7 @@ def round_time_dict_to_minutes(time_dict):
     return time_dict
 
 
+# This is super oversimplified, but it works for my extremely limited purposes
 def grammatical_number(word, count):
     if count == 1 or count == -1:
         return word

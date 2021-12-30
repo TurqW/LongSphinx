@@ -2,13 +2,13 @@ import asyncio
 import dateparser
 import datetime
 import logging
-import sys
 
 from discord import Cog, Option, SlashCommandGroup, SelectOption, Interaction, Button, ButtonStyle
 from discord.ui import Select, View, button
 from metomi.isodatetime.parsers import TimeRecurrenceParser
 from metomi.isodatetime.data import get_timepoint_for_now
 from uuid import uuid4
+from w2n import numwords_in_sentence
 
 from utils import time_delta_to_parts, find_channel, grammatical_number, round_time_dict_to_minutes
 from botdb import BotDB
@@ -75,6 +75,7 @@ async def send_message(reminder_id, channel, msg, time):
 
 
 def parse_time(time):
+    time = numwords_in_sentence(time)
     when_time = dateparser.parse(time, settings={'TIMEZONE': 'UTC'})
     if when_time < datetime.datetime.utcnow():
         # Maybe they're trolling, or maybe they didn't put "in"
@@ -188,7 +189,7 @@ class Reminders(Cog):
     async def message_reminder(
             self, ctx,
             content: Option(str, 'What should I remind you about?'),
-            time: Option(str, 'A time and/or date in UTC, or start with "in" to schedule a specific duration from now.')
+            time: Option(str, 'A time and/or date in UTC, or a duration from now.')
     ):
         when_time = parse_time(time)
         if not when_time:
