@@ -4,13 +4,14 @@ import datetime
 import logging
 
 from discord import Cog, Option, SlashCommandGroup, SelectOption, Interaction, Button, ButtonStyle
-from discord.ui import Select, View, button
+from discord.ui import View
 from metomi.isodatetime.parsers import TimeRecurrenceParser
 from metomi.isodatetime.data import get_timepoint_for_now
 from uuid import uuid4
 from w2n import numwords_in_sentence
 
 from utils import time_delta_to_parts, find_channel, grammatical_number, round_time_dict_to_minutes
+from views.deletable import DeletableListView
 from botdb import BotDB
 import botconfig as conf
 
@@ -142,41 +143,37 @@ def reminder_list_message(user_id):
         return NO_REMINDERS_MESSAGE
 
 
-class DeleteReminderView(View):
-    def __init__(self):
-        super().__init__()
-        self.dropdown = None
+async def list_refresher(interaction: Interaction, view: View):
+    msg = reminder_list_message(interaction.user.id)
+    await interaction.response.edit_message(
+        content=msg,
+        view=view if msg != NO_REMINDERS_MESSAGE else None
+    )
+    return None
 
-    @button(label="Delete some reminders?", row=2, style=ButtonStyle.grey, emoji='🗑️')
-    async def delete(self, this_button: Button, interaction: Interaction):
-        if not self.dropdown:
-            options = [SelectOption(label=reminder[2].replace("Reminder: ", ""), value=key) for (key, reminder) in
-                       sorted(load_reminders().items(), key=lambda x: x[1][1]) if
-                       reminder[0] == interaction.user.id]
 
-            self.dropdown = Select(
-                placeholder="Delete which reminder?",
-                max_values=len(options),
-                options=options
-            )
-            self.add_item(self.dropdown)
+def delete_reminders(ids):
+    """
+    Used by the DeletableListView
+    @param ids: list of ids to delete
+    @return:
+    """
+    for reminder_id in ids:
+        delete_reminder(reminder_id)
+        if reminder_id in scheduled_tasks:
+            scheduled_tasks[reminder_id].cancel()
+            del scheduled_tasks[reminder_id]
 
-            this_button.label = 'Delete'
-            this_button.style = ButtonStyle.red
-            msg = reminder_list_message(interaction.user.id)
-            view = self
-        else:
-            for reminder_id in self.dropdown.values:
-                delete_reminder(reminder_id)
-                if reminder_id in scheduled_tasks:
-                    scheduled_tasks[reminder_id].cancel()
-                    del scheduled_tasks[reminder_id]
-            msg = reminder_list_message(interaction.user.id)
-            view = DeleteReminderView()
-        await interaction.response.edit_message(
-            content=msg,
-            view=view if msg != NO_REMINDERS_MESSAGE else None
-        )
+
+def reminders_for_dropdown(interaction: Interaction):
+    """
+     Used by the DeletableListView
+     @param interaction:
+     @return: list of SelectOptions with that user's reminders
+     """
+    return [SelectOption(label=reminder[2].replace("Reminder: ", ""), value=key) for (key, reminder) in
+            sorted(load_reminders().items(), key=lambda x: x[1][1]) if
+            reminder[0] == interaction.user.id]
 
 
 class Reminders(Cog):
@@ -204,7 +201,8 @@ class Reminders(Cog):
     async def list_my_reminders(self, ctx):
         msg = reminder_list_message(ctx.user.id)
         if msg != NO_REMINDERS_MESSAGE:
-            await ctx.respond(msg, view=DeleteReminderView(), ephemeral=True)
+            view = DeletableListView(list_refresher, reminders_for_dropdown, delete_reminders)
+            await ctx.respond(msg, view=view, ephemeral=True)
         else:
             await ctx.respond(msg, ephemeral=True)
 

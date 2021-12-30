@@ -1,9 +1,12 @@
+from asyncio import new_event_loop
+
 import discord
 import logging
 import sys
 
 import botconfig as conf
 import utils
+from cogs.dice import RollCommands
 from cogs.role_manager import RoleManager
 from cogs.pet import PetCommands
 from cogs.rep import RepCommands
@@ -44,7 +47,7 @@ intents = discord.Intents.default()
 # noinspection PyDunderSlots,PyUnresolvedReferences
 intents.members = True
 
-bot = discord.Bot(intents=intents, debug_guilds=[489197880809095168])
+bot = discord.Bot(intents=intents, loop=new_event_loop(), debug_guilds=[489197880809095168])
 
 bot.add_cog(RoleManager(bot))
 bot.add_cog(PetCommands(bot))
@@ -53,5 +56,6 @@ bot.add_cog(Reminders(bot))
 bot.add_cog(ColorCommands(bot))
 bot.add_cog(Notices(bot))
 bot.add_cog(MiscCommands(bot))
+bot.add_cog(RollCommands(bot))
 
 bot.run(TOKEN)
