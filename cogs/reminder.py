@@ -149,7 +149,6 @@ async def list_refresher(interaction: Interaction, view: View):
         content=msg,
         view=view if msg != NO_REMINDERS_MESSAGE else None
     )
-    return None
 
 
 def delete_reminders(ids):
@@ -200,11 +199,9 @@ class Reminders(Cog):
     @reminderGroup.command(name='list', description='View all your reminders')
     async def list_my_reminders(self, ctx):
         msg = reminder_list_message(ctx.user.id)
-        if msg != NO_REMINDERS_MESSAGE:
-            view = DeletableListView(list_refresher, reminders_for_dropdown, delete_reminders)
-            await ctx.respond(msg, view=view, ephemeral=True)
-        else:
-            await ctx.respond(msg, ephemeral=True)
+        view = None if msg == NO_REMINDERS_MESSAGE else DeletableListView(list_refresher, reminders_for_dropdown,
+                                                                          delete_reminders)
+        await ctx.respond(msg, view=view, ephemeral=True)
 
     @Cog.listener()
     async def on_ready(self):

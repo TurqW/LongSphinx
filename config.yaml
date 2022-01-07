@@ -85,7 +85,7 @@ servers:
         'Sorry, {1} does not seem to be in my list. If you think it should be added, contact an admin.'
       left:
         '{0} has left the server.'
-      cantban: |-
+      insufficientUserPermissions: |-
         You have no power here!
         No but seriously, you don't have permission to do that.
   '443869685054701569': &realm
@@ -306,7 +306,7 @@ servers:
         path: '/'
         pagePath: '/w/'
     recurring:
-    - time: R1/2021-02-24T05:10Z/P1Y
+    - time: R/2021-12-24T23:15Z/P1Y
       channel: 528792844731809792
       message: This message is here for ease of remembering how to make these!
     autoreact:
@@ -319,7 +319,7 @@ servers:
           - "\u300cstand\u300d" # only double-quoted strings allow escape sequences
     <<: *realm
   '494373430637101058':
-    name: Tin Land
+    name: The Turquarium
     greetingChannel: portal
     defaultRoleset:
       element
@@ -638,8 +638,9 @@ servers:
         If your pronouns aren't on this list, please contact <@195543213212172288>.
       invalidpronouns: |-
         I'm sorry, that pronoun hasn't been added to this server yet. Contact <@195543213212172288> if you want it added.
-      cantban: |-
+      insufficientUserPermissions: |-
         Insufficient Security Clearance.
+        No but seriously, you don't have permission to do that.
       <<: *defaultStrings
     <<: *defaults
   '431242137833701376':

@@ -1,9 +1,13 @@
-from discord import Cog, slash_command, AutocompleteContext, Option, Member, Embed
+import logging
+from random import sample
+
+from discord import Cog, slash_command, AutocompleteContext, Option, Member, Embed, Object, NotFound, Forbidden, Role
 from mwclient import Site
 
 import botconfig as conf
 import generator
 
+log = logging.getLogger('LongSphinx.Misc')
 USER_AGENT = 'LongSphinx/0.1 (longsphinx@mage.city)'
 
 
@@ -57,3 +61,58 @@ class MiscCommands(Cog):
         title = results.next().get('title').replace(' ', '_')
         await ctx.respond(f'First result for "{query}":\n' +
                           str(f'https://{mw_options[site_name]["url"]}{mw_options[site_name]["pagePath"]}{title}'))
+
+    @slash_command(name='ban', description='Ban a user from this guild. Only works if you have ban permissions.')
+    async def ban(self, ctx,
+                  member: Option(Member, 'Ban a member of the server.', required=False),
+                  userid: Option(int, 'Ban any user by id.', required=False)
+    ):
+        if not ctx.user.guild_permissions.ban_members:
+            await ctx.respond(conf.get_string(ctx.user, 'insufficientUserPermissions'), ephemeral=True)
+            return
+        if not member and not userid:
+            await ctx.respond('Must enter at least one of member or userid.', ephemeral=True)
+        if member:
+            user = member
+        else:
+            user = Object(userid)
+        try:
+            await ctx.guild.ban(user)
+        except NotFound:
+            await ctx.respond(f'User {user.id} could not be found', ephemeral=True)
+            return
+        except Forbidden:
+            log.exception(f'Could not ban {user.id} from server {ctx.guild.id}. Check permissions.')
+            await ctx.respond('Ban failed due to permissions issue. Do I have the "ban" permission?', ephemeral=True)
+            return
+        await ctx.respond(f'Banned user {user.id}.')
+
+    @slash_command(name='pick', description='Makes a decision for you')
+    async def pick(self, ctx,
+                   number: Option(int, 'How many to pick of the given choices.', required=False) = 1,
+                   options: Option(str, 'What to pick from. Separated by spaces or commas.', required=False) = None,
+                   role: Option(Role, 'Pick a random member that has a given role on this server.', required=False) = None):
+        embed = Embed()
+        if options:
+            if ',' in options:
+                optionset = options.split(',')
+            else:
+                optionset = options.split()
+            embed.set_footer(text='Options were:\n> ' + '\n> '.join(optionset))
+        elif role:
+            optionset = [member.mention for member in role.members]
+            embed.set_footer(text=f'Randomly selected from all members with the {role.name} role.')
+            if role.is_default():
+                embed.set_footer(text='Randomly selected from all members of this server.')
+        else:
+            await ctx.respond('Sorry, you have to give me something to pick from, either options or a role.',
+                              ephemeral=True)
+            return
+        if number < 1:
+            await ctx.respond('I have chosen nothing. I award you no points, and may the gods have mercy on your soul.',
+                              ephemeral=True)
+            return
+        if number > len(optionset):
+            number = len(optionset)
+        embed.insert_field_at(0, name='Chosen:', value='**' + '**\n**'.join(sample(optionset, number)) + '**', inline=False)
+        await ctx.respond('I have chosen!', embed=embed)
