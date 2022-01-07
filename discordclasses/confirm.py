@@ -1,5 +1,6 @@
-import discord
 from typing import Callable
+
+import discord
 
 
 async def cancel_action(interaction: discord.Interaction):

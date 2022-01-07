@@ -2,7 +2,7 @@ import logging
 import sys
 from asyncio import new_event_loop
 
-import discord
+from discord import Intents, Bot
 
 import botconfig as conf
 import utils
@@ -43,12 +43,12 @@ with open(token_file_name, 'r') as token_file:
 
 is_reminder_set = False
 
-intents = discord.Intents.default()
+intents = Intents.default()
 # PyCharm thinks Members doesn't exist and also that it's read-only. Both are false.
 # noinspection PyDunderSlots,PyUnresolvedReferences
 intents.members = True
 
-bot = discord.Bot(intents=intents, loop=new_event_loop(), debug_guilds=[489197880809095168])
+bot = Bot(intents=intents, loop=new_event_loop(), debug_guilds=[489197880809095168])
 
 bot.add_cog(RoleManager(bot))
 bot.add_cog(PetCommands(bot))

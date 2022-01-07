@@ -3,17 +3,17 @@ from collections import OrderedDict
 from datetime import datetime, timedelta
 from typing import List
 
-import discord
 from discord import Cog, slash_command, Option, SlashCommandGroup, Interaction, SelectOption
 from discord.ui import View
 from lark import Lark, Transformer
 from lark.exceptions import LarkError
 
 import botconfig as conf
-import cogs.userconfig
 from botdb import BotDB
-from views.confirm import Confirm
-from views.deletable import DeletableListView
+from cogs import userconfig
+from discordclasses.confirm import Confirm
+from discordclasses.deletable import DeletableListView
+from discordclasses.embed import DefaultEmbed
 
 DB_NAME = 'macros'
 SUPPRESS_SAVE_CONFIG_KEY = 'Dice.SuppressSaveSuggestionUntil'
@@ -132,8 +132,8 @@ def get_commands(user):
         return {}
 
 
-def create_embed(user_id):
-    embed = discord.Embed()
+def create_macro_list_embed(user_id, server):
+    embed = DefaultEmbed(server)
     for key, value in sorted(get_commands(str(user_id)).items()):
         embed.add_field(name=key, value=value)
     return embed if embed.fields else None
@@ -158,7 +158,7 @@ def create_deleter(user_id):
 
 
 async def list_refresher(interaction: Interaction, view: View):
-    embed = create_embed(interaction.user.id)
+    embed = create_macro_list_embed(interaction.user.id, interaction.guild)
     await interaction.response.edit_message(content=interaction.user.mention + ' has these saved rolls.',
                                             embed=embed,
                                             view=view if embed else None)
@@ -192,17 +192,22 @@ def saver(label, rolls):
 
 
 async def suppress_autosave(interaction):
-    cogs.userconfig.add_key(interaction.user.id, SUPPRESS_SAVE_CONFIG_KEY, datetime.now() + timedelta(hours=24))
+    userconfig.add_key(interaction.user.id, SUPPRESS_SAVE_CONFIG_KEY, datetime.now() + timedelta(hours=24))
     await interaction.response.edit_message(content="Ok, I won't ask this for a day. You can undo this by deleting "
                                                     "the `Dice.SuppressSaveSuggestionUntil` config key in the `/config`"
                                                     " command.", view=None)
 
 
 async def never_show_autosave(interaction):
-    cogs.userconfig.add_key(interaction.user.id, SUPPRESS_SAVE_CONFIG_KEY, datetime.now() + timedelta(days=1000*365))
+    userconfig.add_key(interaction.user.id, SUPPRESS_SAVE_CONFIG_KEY, datetime.now() + timedelta(days=1000 * 365))
     await interaction.response.edit_message(content="Ok, I won't ask this any more. You can undo this by deleting the "
                                                     "`Dice.SuppressSaveSuggestionUntil` config key in the `/config` "
                                                     " command.", view=None)
+
+
+def sanitize_suppress_save_config(user_id, suppress_until):
+    if suppress_until < datetime.now():
+        userconfig.remove_key(user_id, SUPPRESS_SAVE_CONFIG_KEY)
 
 
 class RollCommands(Cog):
@@ -221,7 +226,7 @@ class RollCommands(Cog):
     @slash_command(name='roll', description='Roll the dice!')
     async def roll_dice(self, ctx, rolls: str,
                         label: Option(str, 'Would you like to label this roll?', required=False)):
-        embed = discord.Embed()
+        embed = DefaultEmbed(ctx.server)
         command_name, results = roll_command(str(ctx.user.id), rolls)
         for key, value in results.items():
             embed.add_field(name=key, value=value)
@@ -238,7 +243,8 @@ class RollCommands(Cog):
         msg = ctx.user.mention + ' rolled ' + label + '!'
         await ctx.respond(msg, embed=embed)
         if follow_up:
-            suppress_until = cogs.userconfig.get_key(ctx.user.id, SUPPRESS_SAVE_CONFIG_KEY)
+            suppress_until = userconfig.get_key(ctx.user.id, SUPPRESS_SAVE_CONFIG_KEY)
+            sanitize_suppress_save_config(ctx.user.id, suppress_until)
             if not suppress_until or suppress_until < datetime.now():
                 confirmer = Confirm(saver(label, rolls),
                                     middle_callback=suppress_autosave,
@@ -249,7 +255,7 @@ class RollCommands(Cog):
 
     @rollsGroup.command(name='list', description='List your saved roll macros.')
     async def list_rolls(self, ctx):
-        embed = create_embed(ctx.user.id)
+        embed = create_macro_list_embed(ctx.user.id, ctx.guild)
         if embed:
             msg = ctx.user.mention + ' has these saved rolls.'
             view = DeletableListView(list_refresher, macros_for_dropdown, create_deleter(ctx.user.id))

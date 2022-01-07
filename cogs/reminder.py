@@ -11,7 +11,7 @@ from uuid import uuid4
 from w2n import numwords_in_sentence
 
 from utils import time_delta_to_parts, find_channel, grammatical_number, round_time_dict_to_minutes
-from views.deletable import DeletableListView
+from discordclasses.deletable import DeletableListView
 from botdb import BotDB
 import botconfig as conf
 

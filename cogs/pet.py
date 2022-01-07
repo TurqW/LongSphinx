@@ -9,7 +9,7 @@ import generator
 import utils
 from botdb import BotDB
 import botconfig as conf
-from views.confirm import Confirm
+from discordclasses.confirm import Confirm
 
 tick = datetime.timedelta(minutes=120)
 

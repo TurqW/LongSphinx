@@ -1,11 +1,12 @@
 import logging
 from random import sample
 
-from discord import Cog, slash_command, AutocompleteContext, Option, Member, Embed, Object, NotFound, Forbidden, Role
+from discord import Cog, slash_command, AutocompleteContext, Option, Member, Object, NotFound, Forbidden, Role
 from mwclient import Site
 
 import botconfig as conf
 import generator
+from discordclasses.embed import DefaultEmbed
 
 log = logging.getLogger('LongSphinx.Misc')
 USER_AGENT = 'LongSphinx/0.1 (longsphinx@mage.city)'
@@ -40,13 +41,13 @@ class MiscCommands(Cog):
 
     @slash_command(name='pic', description="View a user's profile picture at a higher resolution.")
     async def get_pic(self, ctx, user: Member):
-        embed = Embed()
+        embed = DefaultEmbed(ctx.guild)
         embed.set_image(url=user.avatar.with_static_format('png').url)
         await ctx.respond(f"{user.mention}'s avatar!", embed=embed)
 
     @slash_command(name='serverpic', description="View this server's icon at a higher resolution.")
     async def get_server_pic(self, ctx):
-        embed = Embed()
+        embed = DefaultEmbed(ctx.guild)
         embed.set_image(url=ctx.guild.icon.with_static_format('png').url)
         await ctx.respond(f"{ctx.guild.name}'s icon!", embed=embed)
 
@@ -92,7 +93,7 @@ class MiscCommands(Cog):
                    number: Option(int, 'How many to pick of the given choices.', required=False) = 1,
                    options: Option(str, 'What to pick from. Separated by spaces or commas.', required=False) = None,
                    role: Option(Role, 'Pick a random member that has a given role on this server.', required=False) = None):
-        embed = Embed()
+        embed = DefaultEmbed(ctx.guild)
         if options:
             if ',' in options:
                 optionset = options.split(',')

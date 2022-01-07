@@ -4,8 +4,7 @@ import discord
 from discord.commands import Option, slash_command
 
 import botconfig as conf
-
-from views.confirm import Confirm
+from discordclasses.confirm import Confirm
 
 
 class OperationType(Enum):

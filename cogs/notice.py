@@ -5,7 +5,7 @@ from discord import Cog, SlashCommandGroup, Option, AutocompleteContext
 
 from botdb import BotDB
 import botconfig as conf
-from views.confirm import Confirm
+from discordclasses.confirm import Confirm
 
 dbname = "notices"
 log = logging.getLogger('LongSphinx.Notice')

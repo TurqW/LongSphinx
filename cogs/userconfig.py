@@ -1,11 +1,12 @@
 from typing import List
 
-from discord import Cog, Interaction, Embed, SelectOption, slash_command
+from discord import Cog, Interaction, SelectOption, slash_command
 from discord.ui import View
 
 import botconfig as conf
 from botdb import BotDB
-from views.deletable import DeletableListView
+from discordclasses.deletable import DeletableListView
+from discordclasses.embed import DefaultEmbed
 
 DB_NAME = 'userconf'
 CONFIG_MSG = 'You have these config keys defined. Deleting one will return that functionality to its default ' \
@@ -32,6 +33,16 @@ def add_key(user_id, key, value):
             db[id_str] = new_version
 
 
+def remove_key(user_id, key):
+    id_str = str(user_id)
+    with BotDB(conf.bot_name(), DB_NAME) as db:
+        if id_str in db:
+            new_version = db[id_str]
+            if key in new_version:
+                new_version.pop(key)
+            db[id_str] = new_version
+
+
 def get_key(user_id, key):
     userconf = get_user_config(user_id)
     if key in userconf:
@@ -39,8 +50,8 @@ def get_key(user_id, key):
     return None
 
 
-def create_embed(user_id):
-    embed = Embed()
+def create_embed(user_id, server):
+    embed = DefaultEmbed(server)
     for key, value in sorted(get_user_config(user_id).items()):
         embed.add_field(name=key, value=value)
     return embed if embed.fields else None
@@ -65,7 +76,7 @@ def create_deleter(user_id):
 
 
 async def list_refresher(interaction: Interaction, view: View):
-    embed = create_embed(interaction.user.id)
+    embed = create_embed(interaction.user.id, interaction.guild)
     await interaction.response.edit_message(content=CONFIG_MSG if embed else NO_CONFIG_MSG,
                                             embed=embed,
                                             view=view if embed else None)
@@ -77,6 +88,6 @@ class ConfigManager(Cog):
 
     @slash_command(name='config', description='Show and manage config keys.')
     async def list_config(self, ctx):
-        embed = create_embed(ctx.user.id)
+        embed = create_embed(ctx.user.id, ctx.guild)
         view = DeletableListView(list_refresher, macros_for_dropdown, create_deleter(ctx.user.id)) if embed else None
         await ctx.respond(content=CONFIG_MSG if embed else NO_CONFIG_MSG, embed=embed, view=view, ephemeral=True)

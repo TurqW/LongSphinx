@@ -1,9 +1,12 @@
 import datetime
-import discord
-from discord.commands import Option, SlashCommandGroup
 import logging
-from botdb import BotDB
+
+from discord import Cog, Member
+from discord.commands import Option, SlashCommandGroup
+
 import botconfig as conf
+from botdb import BotDB
+from discordclasses.embed import DefaultEmbed
 
 log = logging.getLogger('LongSphinx.Rep')
 
@@ -51,7 +54,7 @@ def save_user(rep_info, user):
         db[str(user.id)] = rep_info
 
 
-class RepCommands(discord.Cog):
+class RepCommands(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -61,11 +64,11 @@ class RepCommands(discord.Cog):
     async def leaderboard(self, ctx):
         formatted = '\n'.join([f'{rank}: {details[0]} ({details[1]} points)' for rank, details in
                                enumerate(leader_list(await ctx.guild.fetch_members().flatten()), start=1)])
-        embed = discord.Embed(title='Current Rep Leaderboard:', description=formatted)
+        embed = DefaultEmbed(ctx.guild, title='Current Rep Leaderboard:', description=formatted)
         await ctx.respond('', embed=embed)
 
     @repGroup.command(name='give', description='Give a reputation point!')
-    async def give_rep(self, ctx, target: Option(discord.Member, 'Who gets the rep?')):
+    async def give_rep(self, ctx, target: Option(Member, 'Who gets the rep?')):
         if ctx.user.id == target.id:
             return await self.rep_check(ctx, target)
         giver = load_user(ctx.user)
@@ -81,7 +84,7 @@ class RepCommands(discord.Cog):
 
     @repGroup.command(name='check', description='Check the rep a user has accumulated.')
     async def rep_check(self, ctx,
-                        target: Option(discord.Member, 'Whose rep do you want to view?', required=False)):
+                        target: Option(Member, 'Whose rep do you want to view?', required=False)):
         if target:
             user = target
         else:
