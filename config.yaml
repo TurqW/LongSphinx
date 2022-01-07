@@ -386,6 +386,10 @@ servers:
     - 584012311417716739
     - announcements
     - 578618351279013888
+    recurring:
+    - time: R1/2022-01-08T20:00Z/P100Y
+      channel: 777012133942657064
+      message: Time to open those <@&776132416565542922> !
     rolesets:
       role:
         type: selector
