@@ -226,7 +226,7 @@ class RollCommands(Cog):
     @slash_command(name='roll', description='Roll the dice!')
     async def roll_dice(self, ctx, rolls: str,
                         label: Option(str, 'Would you like to label this roll?', required=False)):
-        embed = DefaultEmbed(ctx.server)
+        embed = DefaultEmbed(ctx.guild)
         command_name, results = roll_command(str(ctx.user.id), rolls)
         for key, value in results.items():
             embed.add_field(name=key, value=value)
