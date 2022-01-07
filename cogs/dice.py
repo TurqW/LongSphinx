@@ -1,20 +1,22 @@
 import random
+from collections import OrderedDict
+from datetime import datetime, timedelta
 from typing import List
 
 import discord
-from collections import OrderedDict
-
-from discord import Cog, slash_command, Option, AutocompleteContext, SlashCommandGroup, Interaction, SelectOption
+from discord import Cog, slash_command, Option, SlashCommandGroup, Interaction, SelectOption
 from discord.ui import View
 from lark import Lark, Transformer
 from lark.exceptions import LarkError
-from botdb import BotDB
 
 import botconfig as conf
+import cogs.userconfig
+from botdb import BotDB
 from views.confirm import Confirm
 from views.deletable import DeletableListView
 
-dbname = 'macros'
+DB_NAME = 'macros'
+SUPPRESS_SAVE_CONFIG_KEY = 'Dice.SuppressSaveSuggestionUntil'
 
 parser = Lark(r"""
 %import common.WS
@@ -101,7 +103,7 @@ def roll_command(user, command):
         command, name = command.split(':')
         name = name.strip()
     else:
-        with BotDB(conf.bot_name(), dbname) as db:
+        with BotDB(conf.bot_name(), DB_NAME) as db:
             if user in db:
                 macros = db[user]
                 for key in sorted(macros.keys(), key=len):
@@ -124,7 +126,7 @@ def stringy_mod(modifier):
 
 def get_commands(user):
     try:
-        with BotDB(conf.bot_name(), dbname) as db:
+        with BotDB(conf.bot_name(), DB_NAME) as db:
             return db[user]
     except KeyError:
         return {}
@@ -134,7 +136,7 @@ def create_embed(user_id):
     embed = discord.Embed()
     for key, value in sorted(get_commands(str(user_id)).items()):
         embed.add_field(name=key, value=value)
-    return embed
+    return embed if embed.fields else None
 
 
 def macros_for_dropdown(interaction: Interaction):
@@ -145,7 +147,7 @@ def create_deleter(user_id):
     id_str = str(user_id)
 
     def delete_rolls(names: List[str]):
-        with BotDB(conf.bot_name(), dbname) as db:
+        with BotDB(conf.bot_name(), DB_NAME) as db:
             if id_str in db:
                 new_version = db[id_str]
                 for name in names:
@@ -157,14 +159,9 @@ def create_deleter(user_id):
 
 async def list_refresher(interaction: Interaction, view: View):
     embed = create_embed(interaction.user.id)
-    if embed.fields:
-        await interaction.response.edit_message(content=interaction.user.mention + ' has these saved rolls.',
-                                                embed=embed,
-                                                view=view)
-    else:
-        await interaction.response.edit_message(content=interaction.user.mention + ' has no saved rolls.',
-                                                embed=None,
-                                                view=None)
+    await interaction.response.edit_message(content=interaction.user.mention + ' has these saved rolls.',
+                                            embed=embed,
+                                            view=view if embed else None)
 
 
 def save_command(name, rolls, user):
@@ -177,7 +174,7 @@ def save_command(name, rolls, user):
         return f'Command "{rolls}" was not valid.'
     if any(char.isdigit() for char in name):
         return f'Name "{name}" was not valid. Please do not include any numbers or special characters.'
-    with BotDB(conf.bot_name(), dbname) as db:
+    with BotDB(conf.bot_name(), DB_NAME) as db:
         if id_str not in db:
             db[id_str] = {name: rolls}
         else:
@@ -190,7 +187,22 @@ def save_command(name, rolls, user):
 def saver(label, rolls):
     async def save_callback(interaction):
         await interaction.response.edit_message(content=save_command(label, rolls, interaction.user), view=None)
+
     return save_callback
+
+
+async def suppress_autosave(interaction):
+    cogs.userconfig.add_key(interaction.user.id, SUPPRESS_SAVE_CONFIG_KEY, datetime.now() + timedelta(hours=24))
+    await interaction.response.edit_message(content="Ok, I won't ask this for a day. You can undo this by deleting "
+                                                    "the `Dice.SuppressSaveSuggestionUntil` config key in the `/config`"
+                                                    " command.", view=None)
+
+
+async def never_show_autosave(interaction):
+    cogs.userconfig.add_key(interaction.user.id, SUPPRESS_SAVE_CONFIG_KEY, datetime.now() + timedelta(days=1000*365))
+    await interaction.response.edit_message(content="Ok, I won't ask this any more. You can undo this by deleting the "
+                                                    "`Dice.SuppressSaveSuggestionUntil` config key in the `/config` "
+                                                    " command.", view=None)
 
 
 class RollCommands(Cog):
@@ -226,29 +238,22 @@ class RollCommands(Cog):
         msg = ctx.user.mention + ' rolled ' + label + '!'
         await ctx.respond(msg, embed=embed)
         if follow_up:
-            confirmer = Confirm(saver(label, rolls))
-            await ctx.send_followup(f'Would you like to save {rolls} as {label}?', view=confirmer, ephemeral=True)
+            suppress_until = cogs.userconfig.get_key(ctx.user.id, SUPPRESS_SAVE_CONFIG_KEY)
+            if not suppress_until or suppress_until < datetime.now():
+                confirmer = Confirm(saver(label, rolls),
+                                    middle_callback=suppress_autosave,
+                                    middle_label="Don't show for 24H",
+                                    cancel_callback=never_show_autosave,
+                                    cancel_label="Never show this")
+                await ctx.send_followup(f'Would you like to save {rolls} as {label}?', view=confirmer, ephemeral=True)
 
-    # TODO: this can work like the reminders for deletions
     @rollsGroup.command(name='list', description='List your saved roll macros.')
     async def list_rolls(self, ctx):
         embed = create_embed(ctx.user.id)
-        if embed.fields:
-            await ctx.respond(content=ctx.user.mention + ' has these saved rolls.',
-                              embed=embed,
-                              view=DeletableListView(
-                                  list_refresher,
-                                  macros_for_dropdown,
-                                  create_deleter(ctx.user.id)),
-                              ephemeral=True)
+        if embed:
+            msg = ctx.user.mention + ' has these saved rolls.'
+            view = DeletableListView(list_refresher, macros_for_dropdown, create_deleter(ctx.user.id))
         else:
-            await ctx.respond(content=ctx.user.mention + ' has no saved rolls.', ephemeral=True)
-
-
-def readme(**kwargs):
-    return '''* `!roll NdM` or `!r NdM`: rolls a `M`-sided die `N` times. Multiple sets of dice can be used.
-> Examples: `!roll 1d6`, `!roll 2d20+3`, `!roll 1d20, 3d6`.
-* `!saveroll NdM: rollname`: saves NdM as rollname, so that you can roll it with just `!roll rollname`.
-> Example: `!saveroll 1d20+5,1d8+3: hammer`
-* `!rolls`: shows your saved rolls.
-* `!clearroll rollname`: deletes a saved roll. There is no undo button.\n'''
+            msg = ctx.user.mention + ' has no saved rolls.'
+            view = None
+        await ctx.respond(content=msg, embed=embed, view=view, ephemeral=True)

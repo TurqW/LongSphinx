@@ -305,10 +305,6 @@ servers:
         url: 'lcars.sfintel.space'
         path: '/'
         pagePath: '/w/'
-    recurring:
-    - time: R/2021-12-24T23:15Z/P1Y
-      channel: 528792844731809792
-      message: This message is here for ease of remembering how to make these!
     autoreact:
     - emoji: <:1pixel:568651578769145856>
       triggers:
@@ -543,7 +539,7 @@ servers:
           they/them:
           fae/faer:
     recurring:
-    - time: R/2020-01-20T23:59Z/PT6H
+    - time: R/2022-01-07T23:59Z/PT6H
       channel: 652303689037512704
       message: bump <https://discord.me/dashboard>
     - time: R1/2021-08-14T17:55Z/P7D

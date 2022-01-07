@@ -1,19 +1,20 @@
+import logging
+import sys
 from asyncio import new_event_loop
 
 import discord
-import logging
-import sys
 
 import botconfig as conf
 import utils
-from cogs.dice import RollCommands
-from cogs.role_manager import RoleManager
-from cogs.pet import PetCommands
-from cogs.rep import RepCommands
-from cogs.reminder import Reminders
 from cogs.colors import ColorCommands
-from cogs.notice import Notices
+from cogs.dice import RollCommands
 from cogs.misc import MiscCommands
+from cogs.notice import Notices
+from cogs.pet import PetCommands
+from cogs.reminder import Reminders
+from cogs.rep import RepCommands
+from cogs.role_manager import RoleManager
+from cogs.userconfig import ConfigManager
 
 utils.check_path('logs')
 
@@ -57,5 +58,6 @@ bot.add_cog(ColorCommands(bot))
 bot.add_cog(Notices(bot))
 bot.add_cog(MiscCommands(bot))
 bot.add_cog(RollCommands(bot))
+bot.add_cog(ConfigManager(bot))
 
 bot.run(TOKEN)

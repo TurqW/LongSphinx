@@ -117,10 +117,19 @@ def friendly_until_string(when, with_prepositions=False):
     return ('in ' if with_prepositions else '') + ', '.join(friendly_strings)
 
 
+def get_next_after(recurrence, timepoint):
+    if timepoint > recurrence.end_point:
+        return None
+    curr_timepoint = recurrence.start_point
+    while curr_timepoint and curr_timepoint < timepoint:
+        curr_timepoint = recurrence.get_next(curr_timepoint)
+    return curr_timepoint
+
+
 async def set_recurring_message(recur_string, channel, msg):
     recurrence = TimeRecurrenceParser().parse(recur_string)
     now = get_timepoint_for_now()
-    when_time = recurrence.get_next(now)
+    when_time = get_next_after(recurrence, now)
     if when_time is not None:
         delay = float(when_time.get("seconds_since_unix_epoch")) - datetime.datetime.now().timestamp()
         loop = asyncio.get_event_loop()
