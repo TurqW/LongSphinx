@@ -117,7 +117,6 @@ class RoleManager(Cog):
             confirm_view = Confirm(do_role_changes(changes))
             await ctx.respond(f"Changes:\n{role_changes_to_string(changes)}", view=confirm_view, ephemeral=True)
 
-    # TODO: wtf is the correct signature here?
     @Cog.listener()
     async def on_member_join(self, member: Member):
         channel = utils.find_channel(conf.get_object(member.guild, 'greetingChannel'), member.guild)

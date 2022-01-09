@@ -16,6 +16,7 @@ from cogs.reminder import Reminders
 from cogs.rep import RepCommands
 from cogs.role_manager import RoleManager
 from cogs.userconfig import ConfigManager
+from cogs.admin import AdminHelper
 
 utils.check_path('logs')
 
@@ -61,5 +62,6 @@ bot.add_cog(Reminders(bot))
 bot.add_cog(RepCommands(bot))
 bot.add_cog(RoleManager(bot))
 bot.add_cog(RollCommands(bot))
+bot.add_cog(AdminHelper(bot))
 
 bot.run(TOKEN)
