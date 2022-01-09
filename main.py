@@ -17,6 +17,7 @@ from cogs.rep import RepCommands
 from cogs.role_manager import RoleManager
 from cogs.userconfig import ConfigManager
 from cogs.admin import AdminHelper
+from cogs.writesprint import WriteSprint
 
 utils.check_path('logs')
 
@@ -63,5 +64,6 @@ bot.add_cog(RepCommands(bot))
 bot.add_cog(RoleManager(bot))
 bot.add_cog(RollCommands(bot))
 bot.add_cog(AdminHelper(bot))
+bot.add_cog(WriteSprint(bot))
 
 bot.run(TOKEN)
