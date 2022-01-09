@@ -3,7 +3,7 @@ from collections import OrderedDict
 from datetime import datetime, timedelta
 from typing import List
 
-from discord import Cog, slash_command, Option, SlashCommandGroup, Interaction, SelectOption
+from discord import Cog, slash_command, Option, SlashCommandGroup, Interaction, SelectOption, message_command
 from discord.ui import View
 from lark import Lark, Transformer
 from lark.exceptions import LarkError
@@ -181,7 +181,7 @@ def save_command(name, rolls, user):
             new_version = db[id_str]
             new_version[name] = rolls
             db[id_str] = new_version
-    return f'{user.mention} has saved {rolls} as {name}'
+    return f'You have saved {rolls} as {name}'
 
 
 def saver(label, rolls):
@@ -206,7 +206,7 @@ async def never_show_autosave(interaction):
 
 
 def sanitize_suppress_save_config(user_id, suppress_until):
-    if suppress_until < datetime.now():
+    if suppress_until and suppress_until < datetime.now():
         userconfig.remove_key(user_id, SUPPRESS_SAVE_CONFIG_KEY)
 
 
@@ -217,10 +217,10 @@ class RollCommands(Cog):
     rollsGroup = SlashCommandGroup('rolls', 'Create and manage dice macros')
 
     @rollsGroup.command(name='save', description='Save a new dice macro or overwrite an old one.')
-    async def save_command(self, ctx,
-                           name: Option(str, 'Name of the macro. Letters and spaces only.'),
-                           rolls: Option(str, 'The dice to roll. Separate with a comma. Modifiers allowed.')
-                           ):
+    async def save_macro(self, ctx,
+                         name: Option(str, 'Name of the macro. Letters and spaces only.'),
+                         rolls: Option(str, 'The dice to roll. Separate with a comma. Modifiers allowed.')
+                         ):
         await ctx.respond(save_command(name, rolls, ctx.user), ephemeral=True)
 
     @slash_command(name='roll', description='Roll the dice!')
@@ -263,3 +263,14 @@ class RollCommands(Cog):
             msg = ctx.user.mention + ' has no saved rolls.'
             view = None
         await ctx.respond(content=msg, embed=embed, view=view, ephemeral=True)
+
+    @message_command(name='Save this roll', description='Use this on a roll result to save it to your macros.')
+    async def save_from_message(self, ctx, message):
+        embed = None
+        if message.embeds:
+            embed = message.embeds[0]
+        if not embed or not embed.title or not embed.fields:
+            await ctx.respond('Sorry, you can only use this command on a labeled roll result.', ephemeral=True)
+            return
+        msg = save_command(embed.title, ', '.join([field.name for field in embed.fields]), ctx.user)
+        await ctx.respond(msg, ephemeral=True)

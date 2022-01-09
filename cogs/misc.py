@@ -6,6 +6,7 @@ from mwclient import Site
 
 import botconfig as conf
 import generator
+import utils
 from discordclasses.embed import DefaultEmbed
 
 log = logging.getLogger('LongSphinx.Misc')
@@ -117,3 +118,10 @@ class MiscCommands(Cog):
             number = len(optionset)
         embed.insert_field_at(0, name='Chosen:', value='**' + '**\n**'.join(sample(optionset, number)) + '**', inline=False)
         await ctx.respond('I have chosen!', embed=embed)
+
+    @Cog.listener('on_member_remove')
+    async def on_member_remove(self, member):
+        channel = utils.find_channel(conf.get_object(member.guild, 'leavingChannel'), member.guild)
+        if channel:
+            msg = conf.get_string(member.guild, 'left').format(member.name)
+            await channel.send(msg)

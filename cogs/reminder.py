@@ -1,4 +1,6 @@
 import asyncio
+from math import floor
+
 import dateparser
 import datetime
 import logging
@@ -6,7 +8,7 @@ import logging
 from discord import Cog, Option, SlashCommandGroup, SelectOption, Interaction, Button, ButtonStyle
 from discord.ui import View
 from metomi.isodatetime.parsers import TimeRecurrenceParser
-from metomi.isodatetime.data import get_timepoint_for_now
+from metomi.isodatetime.data import get_timepoint_for_now, Duration
 from uuid import uuid4
 from w2n import numwords_in_sentence
 
@@ -117,13 +119,15 @@ def friendly_until_string(when, with_prepositions=False):
     return ('in ' if with_prepositions else '') + ', '.join(friendly_strings)
 
 
+# see https://github.com/metomi/isodatetime/pull/202
 def get_next_after(recurrence, timepoint):
-    if timepoint > recurrence.end_point:
-        return None
-    curr_timepoint = recurrence.start_point
-    while curr_timepoint and curr_timepoint < timepoint:
-        curr_timepoint = recurrence.get_next(curr_timepoint)
-    return curr_timepoint
+    if recurrence._get_is_in_bounds(timepoint):
+        iterations, seconds_since = divmod((timepoint - recurrence.start_point).get_seconds(),
+                                           recurrence.duration.get_seconds())
+        return timepoint + (recurrence.duration - Duration(seconds=floor(seconds_since)))
+    elif timepoint < recurrence.start_point:
+        return recurrence.start_point
+    return None
 
 
 async def set_recurring_message(recur_string, channel, msg):
