@@ -1,12 +1,11 @@
 import datetime
 import logging
 
-from discord import Cog, Member
+from discord import Cog, Member, Embed
 from discord.commands import Option, SlashCommandGroup
 
 import botconfig as conf
 from botdb import BotDB
-from discordclasses.embed import DefaultEmbed
 
 log = logging.getLogger('LongSphinx.Rep')
 
@@ -64,7 +63,7 @@ class RepCommands(Cog):
     async def leaderboard(self, ctx):
         formatted = '\n'.join([f'{rank}: {details[0]} ({details[1]} points)' for rank, details in
                                enumerate(leader_list(await ctx.guild.fetch_members().flatten()), start=1)])
-        embed = DefaultEmbed(ctx.guild, title='Current Rep Leaderboard:', description=formatted)
+        embed = Embed(title='Current Rep Leaderboard:', description=formatted)
         await ctx.respond('', embed=embed)
 
     @repGroup.command(name='give', description='Give a reputation point!')

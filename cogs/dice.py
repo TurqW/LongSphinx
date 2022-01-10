@@ -3,7 +3,7 @@ from collections import OrderedDict
 from datetime import datetime, timedelta
 from typing import List
 
-from discord import Cog, slash_command, Option, SlashCommandGroup, Interaction, SelectOption, message_command
+from discord import Cog, slash_command, Option, SlashCommandGroup, Interaction, SelectOption, message_command, Embed
 from discord.ui import View
 from lark import Lark, Transformer
 from lark.exceptions import LarkError
@@ -13,7 +13,6 @@ from botdb import BotDB
 from cogs import userconfig
 from discordclasses.confirm import Confirm
 from discordclasses.deletable import DeletableListView
-from discordclasses.embed import DefaultEmbed
 
 DB_NAME = 'macros'
 SUPPRESS_SAVE_CONFIG_KEY = 'Dice.SuppressSaveSuggestionUntil'
@@ -133,7 +132,7 @@ def get_commands(user):
 
 
 def create_macro_list_embed(user_id, server):
-    embed = DefaultEmbed(server)
+    embed = Embed()
     for key, value in sorted(get_commands(str(user_id)).items()):
         embed.add_field(name=key, value=value)
     return embed if embed.fields else None
@@ -226,7 +225,7 @@ class RollCommands(Cog):
     @slash_command(name='roll', description='Roll the dice!')
     async def roll_dice(self, ctx, rolls: str,
                         label: Option(str, 'Would you like to label this roll?', required=False)):
-        embed = DefaultEmbed(ctx.guild)
+        embed = Embed()
         command_name, results = roll_command(str(ctx.user.id), rolls)
         for key, value in results.items():
             embed.add_field(name=key, value=value)

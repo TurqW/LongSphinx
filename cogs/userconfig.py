@@ -1,12 +1,11 @@
 from typing import List
 
-from discord import Cog, Interaction, SelectOption, slash_command
+from discord import Cog, Interaction, SelectOption, slash_command, Embed
 from discord.ui import View
 
 import botconfig as conf
 from botdb import BotDB
 from discordclasses.deletable import DeletableListView
-from discordclasses.embed import DefaultEmbed
 
 DB_NAME = 'userconf'
 CONFIG_MSG = 'You have these config keys defined. Deleting one will return that functionality to its default ' \
@@ -51,7 +50,7 @@ def get_key(user_id, key):
 
 
 def create_embed(user_id, server):
-    embed = DefaultEmbed(server)
+    embed = Embed()
     for key, value in sorted(get_user_config(user_id).items()):
         embed.add_field(name=key, value=value)
     return embed if embed.fields else None

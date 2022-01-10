@@ -2,8 +2,10 @@ import logging
 import random
 from enum import Enum
 
-from discord import Cog, ApplicationContext, AutocompleteContext, Interaction, Member, Role
+from discord import ButtonStyle, Interaction, Button, SelectOption, Cog, ApplicationContext, AutocompleteContext, \
+    Member, Role
 from discord.commands import Option, slash_command
+from discord.ui import button, View, Select
 from discord.utils import find
 
 import botconfig as conf
@@ -20,13 +22,17 @@ class OperationType(Enum):
 
 
 # These two have to be outside the class so the autocomplete can reach them.
-def get_roles(ctx: AutocompleteContext | ApplicationContext):
-    rolesets = conf.get_object(ctx.interaction.guild, 'rolesets')
+def get_roles(ctx):
+    return get_roles_itn(ctx.interaction)
+
+
+def get_roles_itn(interaction):
+    rolesets = conf.get_object(interaction.guild, 'rolesets')
     roles = {}
     for roleset_name, roleset in rolesets.items():
         roles.update({role: roleset_name for role in roleset['roles'].keys()})
     valid_roles = {role_name: value for (role_name, value) in roles.items() if
-                   role_name in [role.name for role in ctx.interaction.guild.roles]}
+                   role_name in [role.name for role in interaction.guild.roles]}
     return valid_roles
 
 
@@ -62,6 +68,10 @@ def get_role_changes(member: Member, role: Role, roleset_name):
         for current_role in member.roles:
             if current_role.name in roleset['roles'].keys() or current_role.name in remove_on_update:
                 changes[OperationType.DELETE].append(current_role)
+    return sanitize_changes(changes)
+
+
+def sanitize_changes(changes):
     for new_role in changes[OperationType.CREATE]:
         if new_role in changes[OperationType.DELETE]:
             changes[OperationType.RETAIN].append(new_role)
@@ -99,23 +109,59 @@ async def random_role(member, roleset):
     return role
 
 
+class RolesView(View):
+    def __init__(self, options):
+        super().__init__()
+        self.dropdown = None
+        self.dropdown = Select(
+            placeholder="Select a role",
+            max_values=1,
+            options=options
+        )
+        self.add_item(self.dropdown)
+
+    @button(label="Toggle role", row=2, style=ButtonStyle.grey)
+    async def add(self, _: Button, interaction: Interaction):
+        role_name = self.dropdown.values[0]
+        roles = get_roles_itn(interaction)
+        roleset_name = roles[role_name]
+        role = find(lambda r: r.name.lower() == role_name.lower(), interaction.guild.roles)
+        changes = get_role_changes(interaction.user, role, roleset_name)
+        confirm_view = Confirm(do_role_changes(changes))
+        await interaction.response.send_message(f"Changes:\n{role_changes_to_string(changes)}",
+                                                view=confirm_view, ephemeral=True)
+
+    async def on_timeout(self):
+        self.clear_items()
+        await self.interaction.edit_original_message(view=self)
+
+
 class RoleManager(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @slash_command(name='role', description='Change your self-assignable roles.', guild_ids=[489197880809095168])
+    @slash_command(name='role', description='Change your self-assignable roles.')
     async def request_role(
             self,
             ctx: ApplicationContext,
-            role_name: Option(str, "Pick a role!", autocomplete=roles_for_autocomplete)
+            role_name: Option(str, "Name of a role to toggle (optional)", autocomplete=roles_for_autocomplete,
+                              required=False)
     ):
         roles = get_roles(ctx)
-        if role_name in roles.keys():
+        if role_name and role_name in roles.keys():
             roleset_name = roles[role_name]
             role = find(lambda r: r.name.lower() == role_name.lower(), ctx.guild.roles)
             changes = get_role_changes(ctx.user, role, roleset_name)
             confirm_view = Confirm(do_role_changes(changes))
             await ctx.respond(f"Changes:\n{role_changes_to_string(changes)}", view=confirm_view, ephemeral=True)
+        elif 1 < len(roles) < 25:
+            role_options = [SelectOption(label=role_name, value=role_name) for role_name in get_roles(ctx).keys()]
+            view = RolesView(role_options)
+            view.interaction = await ctx.respond('Have a choice!', view=view, ephemeral=True)
+        else:
+            await ctx.respond('The following roles are self-assignable on this server, use this command with a '
+                              'role_name:\n '
+                              + ', '.join(role for role in sorted(roles.keys())), ephemeral=True)
 
     @Cog.listener()
     async def on_member_join(self, member: Member):

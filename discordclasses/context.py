@@ -1,9 +1,10 @@
 from discord import ApplicationContext, Bot, Interaction
+from discord.utils import MISSING
 
 import botconfig as conf
 
 
-class ChannelLimitedContext(ApplicationContext):
+class LongSphinxContext(ApplicationContext):
     def __init__(self, bot: Bot, interaction: Interaction):
         super().__init__(bot, interaction)
         self.force_ephemeral = self._should_force_ephem()
@@ -21,8 +22,10 @@ class ChannelLimitedContext(ApplicationContext):
             return False
         return True
 
-    async def respond(self, content, *args, ephemeral=False, **kwargs):
+    async def respond(self, content, *args, ephemeral=False, embed=MISSING, **kwargs):
+        if embed and not embed.colour:
+            embed.color = conf.get_object(self.interaction.guild, 'embedColor')
         if self.force_ephemeral and not ephemeral:
             ephemeral = True
             content += '\n*This message is private because my slash commands are disabled in this channel.*'
-        return await super().respond(content, *args, ephemeral=ephemeral, **kwargs)
+        return await super().respond(content, *args, ephemeral=ephemeral, embed=embed, **kwargs)
