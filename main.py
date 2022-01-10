@@ -4,8 +4,8 @@ from asyncio import new_event_loop
 
 from discord import Intents, Bot
 
-import botconfig as conf
-import utils
+from persistence import botconfig as conf
+from discordclasses import utils
 from cogs.colors import ColorCommands
 from cogs.dice import RollCommands
 from cogs.misc import MiscCommands

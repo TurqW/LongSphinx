@@ -1,5 +1,6 @@
 import shelve
-import utils
+
+from discordclasses import utils
 
 DB_LOCATION = 'data/{0}/{1}'
 

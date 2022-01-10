@@ -3,8 +3,8 @@ from typing import List
 from discord import Cog, Interaction, SelectOption, slash_command, Embed
 from discord.ui import View
 
-import botconfig as conf
-from botdb import BotDB
+from persistence import botconfig as conf
+from persistence.botdb import BotDB
 from discordclasses.deletable import DeletableListView
 
 DB_NAME = 'userconf'

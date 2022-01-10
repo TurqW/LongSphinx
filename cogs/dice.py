@@ -8,8 +8,8 @@ from discord.ui import View
 from lark import Lark, Transformer
 from lark.exceptions import LarkError
 
-import botconfig as conf
-from botdb import BotDB
+from persistence import botconfig as conf
+from persistence.botdb import BotDB
 from cogs import userconfig
 from discordclasses.confirm import Confirm
 from discordclasses.deletable import DeletableListView

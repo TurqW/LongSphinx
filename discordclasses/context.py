@@ -1,7 +1,7 @@
 from discord import ApplicationContext, Bot, Interaction
 from discord.utils import MISSING
 
-import botconfig as conf
+from persistence import botconfig as conf
 
 
 class LongSphinxContext(ApplicationContext):

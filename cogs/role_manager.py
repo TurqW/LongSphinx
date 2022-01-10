@@ -8,8 +8,8 @@ from discord.commands import Option, slash_command
 from discord.ui import button, View, Select
 from discord.utils import find
 
-import botconfig as conf
-import utils
+from persistence import botconfig as conf
+from discordclasses import utils
 from discordclasses.confirm import Confirm
 
 log = logging.getLogger('LongSphinx.RoleManager')

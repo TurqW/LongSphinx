@@ -4,9 +4,9 @@ from random import sample
 from discord import Cog, slash_command, AutocompleteContext, Option, Member, Object, NotFound, Forbidden, Role, Embed
 from mwclient import Site
 
-import botconfig as conf
-import generator
-import utils
+from persistence import botconfig as conf
+from generators import generator
+from discordclasses import utils
 
 log = logging.getLogger('LongSphinx.Misc')
 USER_AGENT = 'LongSphinx/0.1 (longsphinx@mage.city)'

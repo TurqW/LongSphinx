@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from discord import Cog
 from discord.enums import MessageType
 
-import botconfig as conf
+from persistence import botconfig as conf
 
 recent = {}
 

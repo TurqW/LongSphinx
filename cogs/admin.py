@@ -3,8 +3,8 @@ import re
 from discord import Cog, Member
 from discord.utils import find
 
-import botconfig as conf
-import utils
+from persistence import botconfig as conf
+from discordclasses import utils
 
 # Should this be persisted?
 noobs = []

@@ -1,8 +1,8 @@
 from num2words import num2words
-import configmanager
+from persistence import configmanager
 import copy
 import logging
-import mcgenerator
+from generators import mcgenerator
 import random
 import re
 

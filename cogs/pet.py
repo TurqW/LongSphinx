@@ -5,10 +5,10 @@ import sys
 from discord import slash_command, Option, Interaction, Embed, Cog, Member, ButtonStyle
 from discord.ui import View, button, Button
 
-import generator
-import utils
-from botdb import BotDB
-import botconfig as conf
+from generators import generator
+from discordclasses import utils
+from persistence.botdb import BotDB
+from persistence import botconfig as conf
 from discordclasses.confirm import Confirm
 
 tick = datetime.timedelta(minutes=120)

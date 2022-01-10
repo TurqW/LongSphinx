@@ -3,8 +3,8 @@ import logging
 
 from discord import Cog, SlashCommandGroup, Option, AutocompleteContext
 
-from botdb import BotDB
-import botconfig as conf
+from persistence.botdb import BotDB
+from persistence import botconfig as conf
 from discordclasses.confirm import Confirm
 
 dbname = "notices"

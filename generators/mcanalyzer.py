@@ -1,16 +1,17 @@
-import random
-import configmanager
+from persistence import configmanager
 import sys
 from mcgenerator import MName
 
 mcDataPath = 'genConfig/mcSources/'
 conf = {}
 
+
 def generate(name):
-	if name not in conf:
-		conf[name] = configmanager.ConfigManager(f'{mcDataPath}{name}.yaml')
-	conf[name].update_config()
-	return MName(conf[name].config).New()
+    if name not in conf:
+        conf[name] = configmanager.ConfigManager(f'{mcDataPath}{name}.yaml')
+    conf[name].update_config()
+    return MName(conf[name].config).new()
+
 
 def analyze(name):
     if name not in conf:
@@ -26,6 +27,7 @@ def analyze(name):
         chains.append(key + value)
     chains = [chain for chain in chains if not any(chain in o and chain != o for o in chains) and len(chain) > 3]
     print(chains)
+
 
 if len(sys.argv) > 1:
     analyze(sys.argv[1])

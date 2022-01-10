@@ -4,8 +4,8 @@ import logging
 from discord import Cog, Member, Embed
 from discord.commands import Option, SlashCommandGroup
 
-import botconfig as conf
-from botdb import BotDB
+from persistence import botconfig as conf
+from persistence.botdb import BotDB
 
 log = logging.getLogger('LongSphinx.Rep')
 

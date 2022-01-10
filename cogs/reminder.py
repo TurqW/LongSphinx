@@ -5,17 +5,17 @@ import dateparser
 import datetime
 import logging
 
-from discord import Cog, Option, SlashCommandGroup, SelectOption, Interaction, Button, ButtonStyle
+from discord import Cog, Option, SlashCommandGroup, SelectOption, Interaction
 from discord.ui import View
 from metomi.isodatetime.parsers import TimeRecurrenceParser
 from metomi.isodatetime.data import get_timepoint_for_now, Duration
 from uuid import uuid4
 from w2n import numwords_in_sentence
 
-from utils import time_delta_to_parts, find_channel, grammatical_number, round_time_dict_to_minutes
+from discordclasses.utils import time_delta_to_parts, find_channel, grammatical_number, round_time_dict_to_minutes
 from discordclasses.deletable import DeletableListView
-from botdb import BotDB
-import botconfig as conf
+from persistence.botdb import BotDB
+from persistence import botconfig as conf
 
 log = logging.getLogger('LongSphinx.Reminder')
 is_reminder_set = False

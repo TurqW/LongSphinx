@@ -5,8 +5,8 @@ import logging
 from discord import SlashCommandGroup, Option, Interaction, Cog, ButtonStyle
 from discord.ui import View, button, Button
 
-import botconfig as conf
-from botdb import BotDB
+from persistence import botconfig as conf
+from persistence.botdb import BotDB
 
 log = logging.getLogger('LongSphinx.WriteSprint')
 
