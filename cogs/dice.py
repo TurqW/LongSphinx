@@ -251,7 +251,7 @@ class RollCommands(Cog):
                                     middle_label="Don't show for 24H",
                                     cancel_callback=never_show_autosave,
                                     cancel_label="Never show this")
-                await ctx.send_followup(f'Would you like to save {rolls} as {label}?', view=confirmer, ephemeral=True)
+                await ctx.respond(f'Would you like to save {rolls} as {label}?', view=confirmer, ephemeral=True)
 
     @rollsGroup.command(name='list', description='List your saved roll macros.')
     async def list_rolls(self, ctx):

@@ -18,6 +18,7 @@ from cogs.role_manager import RoleManager
 from cogs.userconfig import ConfigManager
 from cogs.admin import AdminHelper
 from cogs.writesprint import WriteSprint
+from discordclasses.context import ChannelLimitedContext
 
 utils.check_path('logs')
 
@@ -51,7 +52,14 @@ intents = Intents.default()
 # noinspection PyDunderSlots,PyUnresolvedReferences
 intents.members = True
 
-bot = Bot(intents=intents, loop=new_event_loop(), debug_guilds=[489197880809095168])
+
+class LongSphinx(Bot):
+    async def get_application_context(self, interaction, cls=ChannelLimitedContext):
+        # This override lets us change the behavior of ctx.respond
+        return await super().get_application_context(interaction, cls=cls)
+
+
+bot = LongSphinx(intents=intents, loop=new_event_loop(), debug_guilds=[489197880809095168])
 
 bot.add_cog(ColorCommands(bot))
 bot.add_cog(ConfigManager(bot))
