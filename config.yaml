@@ -109,6 +109,10 @@ servers:
       channel: 'the-dungeons'
       role: 'In the Dungeons!'
       firstMessage: True
+    autoreply:
+      - text: https://i.imgur.com/RJdjOy1.png
+        triggers:
+          - '^!creature$'
     rolesets:
       creature:
         type: selector

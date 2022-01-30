@@ -58,7 +58,7 @@ def get_role_changes(member: Member, role: Role, roleset_name):
             changes[OperationType.CREATE].append(role)
     else:
         changes[OperationType.CREATE].append(role)
-        if 'secondaryRoles' in roleset['roles'][role.name]:
+        if roleset['roles'][role.name] and 'secondaryRoles' in roleset['roles'][role.name]:
             changes[OperationType.CREATE].extend([
                 find(lambda r: r.name.lower() == role_name.lower(), member.guild.roles)
                 for role_name in roleset['roles'][role.name]['secondaryRoles']])
