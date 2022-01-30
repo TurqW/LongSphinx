@@ -1,3 +1,0 @@
-#!/bin/bash
-
-python3.6 corebot.py > logs/errors.log
