@@ -122,9 +122,17 @@ def friendly_until_string(when, with_prepositions=False):
 # see https://github.com/metomi/isodatetime/pull/202
 def get_next_after(recurrence, timepoint):
     if recurrence._get_is_in_bounds(timepoint):
-        iterations, seconds_since = divmod((timepoint - recurrence.start_point).get_seconds(),
-                                           recurrence.duration.get_seconds())
-        return timepoint + (recurrence.duration - Duration(seconds=floor(seconds_since)))
+        if recurrence.duration is not None and recurrence.duration.is_exact():
+            # Since it's exact, we can do maths instead of iterating
+            iterations, seconds_since = divmod((timepoint - recurrence.start_point).get_seconds(),
+                                               recurrence.duration.get_seconds())
+            return timepoint + (recurrence.duration - Duration(seconds=floor(seconds_since)))
+        else:
+            # Since duration is inexact, we have to iterate
+            current = recurrence.start_point
+            while current is not None and current <= timepoint:
+                current = recurrence.get_next(current)
+            return current
     elif timepoint < recurrence.start_point:
         return recurrence.start_point
     return None

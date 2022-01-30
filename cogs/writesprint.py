@@ -29,7 +29,7 @@ async def end_sprint(channel):
         [(key, value['endCount'] - value['startCount']) for key, value in result['members'].items()],
         key=lambda x: x[1], reverse=True))
     await channel.send(leaderboardString)
-    with BotDB(dbname, conf.bot_name()) as db:
+    with BotDB(conf.bot_name(), dbname) as db:
         db['::'.join([str(channel.id), result['start'].isoformat()])] = result
 
 

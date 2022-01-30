@@ -59,7 +59,10 @@ class LongSphinx(Bot):
         return await super().get_application_context(interaction, cls=cls)
 
 
-bot = LongSphinx(intents=intents, loop=new_event_loop(), debug_guilds=[489197880809095168])
+if bot_name == 'dev':
+    bot = LongSphinx(intents=intents, loop=new_event_loop(), debug_guilds=[489197880809095168])
+else:
+    bot = LongSphinx(intents=intents, loop=new_event_loop())
 
 bot.add_cog(ColorCommands(bot))
 bot.add_cog(ConfigManager(bot))

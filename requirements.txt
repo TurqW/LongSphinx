@@ -1,10 +1,10 @@
 num2words==0.5.10
 mwclient==0.10.0
-nltk==3.6
+nltk==3.6.7
 PyYAML==6.0
 dateparser==1.1.0
-Pillow==8.4.0
+Pillow==9.0.0
 lark-parser==0.12.0
 metomi-isodatetime==1!2.0.2
-py-cord==2.0.0
+py-cord==2.0.0b1
 https://github.com/WaltWh/w2n/tarball/v1.2
