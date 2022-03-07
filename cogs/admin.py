@@ -1,10 +1,13 @@
 import re
+import asyncio
 
-from discord import Cog, Member
+from discord import Cog, Member, slash_command, CommandPermission, Option, Interaction, ChannelType
 from discord.utils import find
+from discord.commands.permissions import is_owner
 
 from persistence import botconfig as conf
 from discordclasses import utils
+from discordclasses.confirm import Confirm
 
 # Should this be persisted?
 noobs = []
@@ -46,6 +49,15 @@ async def dungeon(text, message):
         print(e)
 
 
+def delete_history(messages):
+    async def delete_history_callback(interaction: Interaction):
+        await interaction.response.edit_message(content="Working...", view=None)
+        await asyncio.gather(*[message.delete() for message in messages])
+        await interaction.response.edit_message(content="Messages deleted.", view=None)
+
+    return delete_history_callback
+
+
 class AdminHelper(Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -58,3 +70,33 @@ class AdminHelper(Cog):
     async def on_message(self, message):
         await first_message_link(message)
         await no_role_link(message)
+
+    @is_owner()
+    @slash_command(name='gdpr', description='A right to be forgotten',
+                   guild_ids=[494373430637101058])
+    async def generate(self, ctx,
+                       server: Option(str, 'Guild ID'),
+                       user: Option(str, 'User ID')
+                       ):
+        try:
+            guild = await self.bot.fetch_guild(server)
+        except:
+            await ctx.respond("Guild not found.", ephemeral=True)
+            return
+        messages = []
+        channels = 0
+        blocked_channels = 0
+        for channel in await guild.fetch_channels():
+            print(channel.name)
+            if channel.type == ChannelType.text:
+                try:
+                    async for message in channel.history():
+                        if str(message.author.id) == user:
+                            messages.append(message)
+                    channels += 1
+                except Exception as e:
+                    print(e)
+                    blocked_channels += 1
+        msg = f'Found {len(messages)} messages in {channels} channels. Could not search {blocked_channels} channels due to bot permissions. Delete all?'
+        confirm_view = Confirm(delete_history(messages))
+        await ctx.respond(msg, ephemeral=True, view=confirm_view)

@@ -5,7 +5,7 @@ For a list of available commands, hit !readme on a running instance.
 # Installation instructions: (WIP)
 
 ## Prereqs
-1. Tim runs on python 3 (Tested with Python 3.6). The following instructions all assume that running "python" on your machine runs python 3. If this is not the case, replace `python` in these instructions with whatever command will run python 3.
+1. Tim runs on python 3 (Tested with Python 3.10). The following instructions all assume that running "python" on your machine runs python 3. If this is not the case, replace `python` in these instructions with whatever command will run python 3.
 2. Install all dependencies. From the LongSphinx root directory (the one containing 'requirements.txt'), run `python -m pip install -r requirements.txt`.
 
 ## Create a bot token
