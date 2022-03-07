@@ -86,6 +86,7 @@ class AdminHelper(Cog):
         messages = []
         channels = 0
         blocked_channels = 0
+        await ctx.defer()
         for channel in await guild.fetch_channels():
             print(channel.name)
             if channel.type == ChannelType.text:
