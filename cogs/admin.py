@@ -73,7 +73,7 @@ class AdminHelper(Cog):
 
     @is_owner()
     @slash_command(name='gdpr', description='A right to be forgotten',
-                   guild_ids=[489197880809095168])#494373430637101058])
+                   guild_ids=[494373430637101058])
     async def generate(self, ctx,
                        server: Option(str, 'Guild ID'),
                        user: Option(str, 'User ID')
