@@ -1,5 +1,6 @@
 import re
 import asyncio
+from datetime import datetime, timezone
 
 from discord import Cog, Member, slash_command, CommandPermission, Option, Interaction, ChannelType
 from discord.utils import find
@@ -53,7 +54,6 @@ def delete_history(messages):
     async def delete_history_callback(interaction: Interaction):
         await interaction.response.edit_message(content="Working...", view=None)
         await asyncio.gather(*[message.delete() for message in messages])
-        await interaction.response.edit_message(content="Messages deleted.", view=None)
 
     return delete_history_callback
 
@@ -73,7 +73,7 @@ class AdminHelper(Cog):
 
     @is_owner()
     @slash_command(name='gdpr', description='A right to be forgotten',
-                   guild_ids=[494373430637101058])
+                   guild_ids=[489197880809095168])#494373430637101058])
     async def generate(self, ctx,
                        server: Option(str, 'Guild ID'),
                        user: Option(str, 'User ID')
@@ -84,20 +84,22 @@ class AdminHelper(Cog):
             await ctx.respond("Guild not found.", ephemeral=True)
             return
         messages = []
-        channels = 0
-        blocked_channels = 0
+        earliest = datetime.now(timezone.utc)
+        foundOne = True
         await ctx.defer()
-        for channel in await guild.fetch_channels():
-            print(channel.name)
-            if channel.type == ChannelType.text:
-                try:
-                    async for message in channel.history():
-                        if str(message.author.id) == user:
-                            messages.append(message)
-                    channels += 1
-                except Exception as e:
-                    print(e)
-                    blocked_channels += 1
-        msg = f'Found {len(messages)} messages in {channels} channels. Could not search {blocked_channels} channels due to bot permissions. Delete all?'
+        while foundOne:
+            foundOne = False
+            for channel in await guild.fetch_channels():
+                if channel.type == ChannelType.text:
+                    try:
+                        async for message in channel.history(before=earliest):
+                            if str(message.author.id) == user:
+                                foundOne = True
+                                messages.append(message)
+                            if message.created_at < earliest:
+                                earliest = message.created_at
+                    except Exception as e:
+                        print(e)
+        msg = f'Found {len(messages)} messages. Delete all (deletion may find more)?'
         confirm_view = Confirm(delete_history(messages))
         await ctx.respond(msg, ephemeral=True, view=confirm_view)
