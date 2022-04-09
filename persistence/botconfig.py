@@ -29,6 +29,8 @@ def get_object(server, *hierarchy):
 def get_string(server, stringname):
     return get_object(server, 'strings', stringname)
 
+def get_dms():
+    return conf.config['dms']
 
 def bot_name():
     return conf.botName

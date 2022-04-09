@@ -16,7 +16,7 @@ from discordclasses.utils import time_delta_to_parts, find_channel, grammatical_
 from discordclasses.deletable import DeletableListView
 from persistence.botdb import BotDB
 from persistence import botconfig as conf
-
+from generators import generator
 log = logging.getLogger('LongSphinx.Reminder')
 is_reminder_set = False
 
@@ -59,6 +59,7 @@ def delete_reminder(reminder_id):
 async def set_all_saved_reminders(bot):
     for reminder_id, reminder in load_reminders().items():
         if reminder[1] and reminder[1] > datetime.datetime.utcnow():
+            print(reminder[0])
             user = bot.get_user(reminder[0])
             channel = user.dm_channel
             if channel is None:
@@ -80,14 +81,16 @@ async def send_message(reminder_id, channel, msg, time):
 def parse_time(time):
     time = numwords_in_sentence(time)
     when_time = dateparser.parse(time, settings={'TIMEZONE': 'UTC'})
-    if when_time < datetime.datetime.utcnow():
+    if when_time and (when_time.tzinfo is None or when_time.tzinfo.utcoffset(when_time) is None):
+        when_time = when_time.replace(tzinfo=datetime.timezone.utc)
+    if when_time < datetime.datetime.now(datetime.timezone.utc):
         # Maybe they're trolling, or maybe they didn't put "in"
         when_time = dateparser.parse('in' + time, settings={'TIMEZONE': 'UTC'})
-    if not when_time or when_time < datetime.datetime.utcnow():
+    if not when_time or when_time < datetime.datetime.now(datetime.timezone.utc):
         # if that didn't work, just fail it.
         return None
     if when_time.tzinfo is not None:
-        when_time = when_time.replace(tzinfo=None)
+        when_time = when_time.astimezone(datetime.timezone.utc).replace(tzinfo=None)
     return when_time
 
 
@@ -149,7 +152,10 @@ async def set_recurring_message(recur_string, channel, msg):
 
 
 async def send_recurring_message(recur_string, channel, msg):
-    await channel.send(msg)
+    text = msg
+    if text.startswith('gen:'):
+        text = generator.extract_text(generator.generate(text[4:]))
+    await channel.send(text)
     await set_recurring_message(recur_string, channel, msg)
 
 
@@ -236,6 +242,12 @@ class Reminders(Cog):
                         channel = find_channel(event['channel'], server)
                         msg = event['message']
                         await set_recurring_message(event['time'], channel, msg)
+            for dmid, dm in conf.get_dms().items():
+                print(dmid)
+                if 'recurring' in dm:
+                    user = self.bot.get_user(dmid)
+                    for event in dm['recurring']:
+                        await set_recurring_message(event['time'], user, event['message'])
             await set_all_saved_reminders(self.bot)
         is_reminder_set = True
         log.debug(f'Reminders re-initialized')
