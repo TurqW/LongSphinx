@@ -741,10 +741,6 @@ servers:
       <<: *defaultStrings
     <<: *defaults
 dms:
-  438090665709010954:
-    recurring:
-      - time: R/2022-04-09T14:00Z/P1D
-        message: 'gen:coda'
   255823892931805195:
     recurring:
       - time: R/2022-04-09T15:00Z/P1D

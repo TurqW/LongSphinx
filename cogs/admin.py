@@ -72,8 +72,8 @@ class AdminHelper(Cog):
         await no_role_link(message)
 
     @is_owner()
-    @slash_command(name='gdpr', description='A right to be forgotten',
-                   guild_ids=[494373430637101058])
+    @slash_command(name='gdpr', description='A right to be forgotten')#,
+                   #guild_ids=[494373430637101058])
     async def generate(self, ctx,
                        server: Option(str, 'Guild ID'),
                        user: Option(str, 'User ID')

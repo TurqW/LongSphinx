@@ -66,7 +66,7 @@ class MiscCommands(Cog):
     @slash_command(name='ban', description='Ban a user from this guild. Only works if you have ban permissions.')
     async def ban(self, ctx,
                   member: Option(Member, 'Ban a member of the server.', required=False),
-                  userid: Option(int, 'Ban any user by id.', required=False)
+                  userid: Option(str, 'Ban any user by id.', required=False)
     ):
         if not ctx.user.guild_permissions.ban_members:
             await ctx.respond(conf.get_string(ctx.user, 'insufficientUserPermissions'), ephemeral=True)
