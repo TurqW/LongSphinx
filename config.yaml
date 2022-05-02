@@ -371,9 +371,9 @@ servers:
     - tims-room
     - 570800943529197578
     recurring:
-    - time: R10/2021-02-25T03:00Z/P1D
+    - time: R9/2021-05-02T01:00Z/P1D
       channel: 813476540628074586
-      message:  <@&813476385032372294>, your 10 words are due in one hour!
+      message:  <@&813476385032372294>, don't forget your 10 words for the day!
     <<: *defaults
   '566868285791010827':
     name: Kittens & Unicorns
