@@ -371,7 +371,7 @@ servers:
     - tims-room
     - 570800943529197578
     recurring:
-    - time: R9/2022-05-02T01:00Z/P1D
+    - time: R10/2022-05-02T01:00Z/P1D
       channel: 813476540628074586
       message:  <@&813476385032372294>, don't forget your 10 words for the day!
     <<: *defaults
