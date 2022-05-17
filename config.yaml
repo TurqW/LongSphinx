@@ -675,12 +675,13 @@ servers:
           Changeling:
           Command:
           Denobulan:
-          Fae/faer:
+          Fae/Faer:
           Ferengi:
           Gay:
-          He/him:
+          He/Him:
+          He/They:
           Human:
-          It/its:
+          It/Its:
           Jem'Hadar:
           Kazon:
           Klingon:
@@ -694,8 +695,11 @@ servers:
           Questioning:
           Romulan:
           Science:
-          She/her:
-          They/them:
+          She/Her:
+          She/They:
+          They/He:
+          They/She:
+          They/Them:
           Transgender:
           Tribble:
           Trill:
