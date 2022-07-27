@@ -1,22 +1,21 @@
 import asyncio
-from math import floor
-
-import dateparser
 import datetime
 import logging
+from uuid import uuid4
 
+import dateparser
 from discord import Cog, Option, SlashCommandGroup, SelectOption, Interaction
 from discord.ui import View
+from metomi.isodatetime.data import get_timepoint_for_now
 from metomi.isodatetime.parsers import TimeRecurrenceParser
-from metomi.isodatetime.data import get_timepoint_for_now, Duration
-from uuid import uuid4
 from w2n import numwords_in_sentence
 
-from discordclasses.utils import time_delta_to_parts, find_channel, grammatical_number, round_time_dict_to_minutes
 from discordclasses.deletable import DeletableListView
-from persistence.botdb import BotDB
-from persistence import botconfig as conf
+from discordclasses.utils import time_delta_to_parts, find_channel, grammatical_number, round_time_dict_to_minutes
 from generators import generator
+from persistence import botconfig as conf
+from persistence.botdb import BotDB
+
 log = logging.getLogger('LongSphinx.Reminder')
 is_reminder_set = False
 
@@ -58,8 +57,7 @@ def delete_reminder(reminder_id):
 
 async def set_all_saved_reminders(bot):
     for reminder_id, reminder in load_reminders().items():
-        if reminder[1] and reminder[1] > datetime.datetime.utcnow():
-            print(reminder[0])
+        if reminder[1] and reminder[1] > datetime.datetime.now(datetime.timezone.utc):
             user = bot.get_user(reminder[0])
             channel = user.dm_channel
             if channel is None:
@@ -70,7 +68,7 @@ async def set_all_saved_reminders(bot):
 
 
 async def send_message(reminder_id, channel, msg, time):
-    if (time - window) <= datetime.datetime.utcnow() <= (
+    if (time - window) <= datetime.datetime.now(datetime.timezone.utc) <= (
             time + window):  # extra check to avoid random mistimed messages
         await channel.send(msg)
     else:
@@ -80,23 +78,18 @@ async def send_message(reminder_id, channel, msg, time):
 
 def parse_time(time):
     time = numwords_in_sentence(time)
-    when_time = dateparser.parse(time, settings={'TIMEZONE': 'UTC'})
+    when_time = dateparser.parse(time, settings={'TIMEZONE': 'UTC', 'PREFER_DATES_FROM': 'future'})
     if when_time and (when_time.tzinfo is None or when_time.tzinfo.utcoffset(when_time) is None):
         when_time = when_time.replace(tzinfo=datetime.timezone.utc)
-    if when_time < datetime.datetime.now(datetime.timezone.utc):
-        # Maybe they're trolling, or maybe they didn't put "in"
-        when_time = dateparser.parse('in' + time, settings={'TIMEZONE': 'UTC'})
     if not when_time or when_time < datetime.datetime.now(datetime.timezone.utc):
         # if that didn't work, just fail it.
         return None
-    if when_time.tzinfo is not None:
-        when_time = when_time.astimezone(datetime.timezone.utc).replace(tzinfo=None)
     return when_time
 
 
 async def set_reminder(reminder_id, when_time, channel, msg):
-    if when_time > datetime.datetime.utcnow():
-        delay = when_time.timestamp() - datetime.datetime.utcnow().timestamp()
+    if when_time > datetime.datetime.now(datetime.timezone.utc):
+        delay = (when_time - datetime.datetime.now(datetime.timezone.utc)).total_seconds()
         loop = asyncio.get_running_loop()
         handle = loop.call_later(delay, lambda: loop.create_task(send_message(reminder_id, channel, msg, when_time)))
         scheduled_tasks[reminder_id] = handle
@@ -105,12 +98,12 @@ async def set_reminder(reminder_id, when_time, channel, msg):
 
 
 def friendly_until_string(when, with_prepositions=False):
-    if when - datetime.datetime.utcnow() > datetime.timedelta(days=100):
+    if when - datetime.datetime.now(datetime.timezone.utc) > datetime.timedelta(days=100):
         # If the days part would be 3 digits, show a date instead
         return ('on ' if with_prepositions else '') + \
-               (when + (datetime.datetime.now() - datetime.datetime.utcnow())).strftime('%B %d, %Y')
+               (when).strftime('%B %d, %Y')
     # The other case gets a bit weird, because there's no timedelta.format method.
-    time_dict = time_delta_to_parts(when - datetime.datetime.utcnow())
+    time_dict = time_delta_to_parts(when - datetime.datetime.now(datetime.timezone.utc))
     if time_dict['day'] == 0 and time_dict['hour'] == 0 and time_dict['minute'] == 0:
         # If there's nothing but seconds, show seconds
         return ('in ' if with_prepositions else '') + f'{time_dict["second"]} seconds'
@@ -122,31 +115,12 @@ def friendly_until_string(when, with_prepositions=False):
     return ('in ' if with_prepositions else '') + ', '.join(friendly_strings)
 
 
-# see https://github.com/metomi/isodatetime/pull/202
-def get_next_after(recurrence, timepoint):
-    if recurrence._get_is_in_bounds(timepoint):
-        if recurrence.duration is not None and not (recurrence.duration.years or recurrence.duration.months):
-            # Since it's exact, we can do maths instead of iterating
-            iterations, seconds_since = divmod((timepoint - recurrence.start_point).get_seconds(),
-                                               recurrence.duration.get_seconds())
-            return timepoint + (recurrence.duration - Duration(seconds=floor(seconds_since)))
-        else:
-            # Since duration is inexact, we have to iterate
-            current = recurrence.start_point
-            while current is not None and current <= timepoint:
-                current = recurrence.get_next(current)
-            return current
-    elif timepoint < recurrence.start_point:
-        return recurrence.start_point
-    return None
-
-
 async def set_recurring_message(recur_string, channel, msg):
     recurrence = TimeRecurrenceParser().parse(recur_string)
     now = get_timepoint_for_now()
-    when_time = get_next_after(recurrence, now)
+    when_time = recurrence.get_first_after(now)
     if when_time is not None:
-        delay = float(when_time.get("seconds_since_unix_epoch")) - datetime.datetime.now().timestamp()
+        delay = float(when_time.seconds_since_unix_epoch) - datetime.datetime.now().timestamp()
         loop = asyncio.get_event_loop()
         loop.call_later(delay, lambda: loop.create_task(send_recurring_message(recur_string, channel, msg)))
 
@@ -243,7 +217,6 @@ class Reminders(Cog):
                         msg = event['message']
                         await set_recurring_message(event['time'], channel, msg)
             for dmid, dm in conf.get_dms().items():
-                print(dmid)
                 if 'recurring' in dm:
                     user = self.bot.get_user(dmid)
                     for event in dm['recurring']:

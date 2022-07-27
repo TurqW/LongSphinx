@@ -2,9 +2,8 @@ import re
 import asyncio
 from datetime import datetime, timezone
 
-from discord import Cog, Member, slash_command, CommandPermission, Option, Interaction, ChannelType
+from discord import Cog, Member, slash_command, Option, Interaction, ChannelType
 from discord.utils import find
-from discord.commands.permissions import is_owner
 
 from persistence import botconfig as conf
 from discordclasses import utils
@@ -71,10 +70,9 @@ class AdminHelper(Cog):
         await first_message_link(message)
         await no_role_link(message)
 
-    @is_owner()
-    @slash_command(name='gdpr', description='A right to be forgotten')#,
+    #@slash_command(name='gdpr', description='A right to be forgotten')#,
                    #guild_ids=[494373430637101058])
-    async def generate(self, ctx,
+    async def gdpr(self, ctx,
                        server: Option(str, 'Guild ID'),
                        user: Option(str, 'User ID')
                        ):

@@ -1,5 +1,4 @@
 from discord import ApplicationContext, Bot, Interaction
-from discord.utils import MISSING
 
 from persistence import botconfig as conf
 
@@ -22,7 +21,7 @@ class LongSphinxContext(ApplicationContext):
             return False
         return True
 
-    async def respond(self, content, *args, ephemeral=False, embed=MISSING, **kwargs):
+    async def respond(self, content, *args, ephemeral=False, embed=None, **kwargs):
         if embed and not embed.colour:
             embed.color = conf.get_object(self.interaction.guild, 'embedColor')
         if self.force_ephemeral and not ephemeral:

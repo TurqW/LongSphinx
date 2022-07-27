@@ -4,6 +4,10 @@ from discord import ButtonStyle, Interaction, Button, SelectOption
 from discord.ui import button, View, Select
 
 
+async def just_defer(interaction):
+    await interaction.response.defer()
+
+
 class DeletableListView(View):
     def __init__(self,
                  message_refresher: Callable[[Interaction, View], Coroutine],
@@ -26,6 +30,7 @@ class DeletableListView(View):
                 max_values=len(options),
                 options=options
             )
+            self.dropdown.callback = just_defer
             self.add_item(self.dropdown)
 
             this_button.label = 'Delete'
