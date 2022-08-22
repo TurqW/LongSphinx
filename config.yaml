@@ -313,7 +313,7 @@ servers:
       triggers:
       - \bwinds?\b
     recurring:
-      - time: R12/2022-01-08T23:48Z/PT1M
+      - time: R/2022-01-08T23:48Z/PT1M
         channel: 528792844731809792
         message: 'gen:coda'
     <<: *realm
@@ -746,7 +746,4 @@ servers:
       <<: *defaultStrings
     <<: *defaults
 dms:
-  255823892931805195:
-    recurring:
-      - time: R/2022-04-09T15:00Z/P1D
-        message: 'gen:coda'
+
