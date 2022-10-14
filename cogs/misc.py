@@ -1,4 +1,5 @@
 import logging
+import codecs
 from random import sample
 
 from discord import Cog, slash_command, AutocompleteContext, Option, Member, Object, NotFound, Forbidden, Role, Embed
@@ -67,7 +68,7 @@ class MiscCommands(Cog):
     async def ban(self, ctx,
                   member: Option(Member, 'Ban a member of the server.', required=False),
                   userid: Option(str, 'Ban any user by id.', required=False)
-    ):
+                  ):
         if not ctx.user.guild_permissions.ban_members:
             await ctx.respond(conf.get_string(ctx.user, 'insufficientUserPermissions'), ephemeral=True)
             return
@@ -88,11 +89,18 @@ class MiscCommands(Cog):
             return
         await ctx.respond(f'Banned user {user.id}.')
 
+    @slash_command(name='rot13', description='Encode or decode some text to rot13.')
+    async def rot(self, ctx, message: Option(str, 'Text to encode or decode.', required=True),
+                  include_orig: Option(bool, 'Should the reply include your original text under a spoiler tag?',
+                                           required=False) = False):
+        await ctx.respond((('||' + message + '||\n') if include_orig else '') + codecs.encode(message, 'rot_13'))
+
     @slash_command(name='pick', description='Makes a decision for you')
     async def pick(self, ctx,
                    number: Option(int, 'How many to pick of the given choices.', required=False) = 1,
                    options: Option(str, 'What to pick from. Separated by spaces or commas.', required=False) = None,
-                   role: Option(Role, 'Pick a random member that has a given role on this server.', required=False) = None):
+                   role: Option(Role, 'Pick a random member that has a given role on this server.',
+                                required=False) = None):
         embed = Embed()
         if options:
             if ',' in options:
@@ -115,7 +123,8 @@ class MiscCommands(Cog):
             return
         if number > len(optionset):
             number = len(optionset)
-        embed.insert_field_at(0, name='Chosen:', value='**' + '**\n**'.join(sample(optionset, number)) + '**', inline=False)
+        embed.insert_field_at(0, name='Chosen:', value='**' + '**\n**'.join(sample(optionset, number)) + '**',
+                              inline=False)
         await ctx.respond('I have chosen!', embed=embed)
 
     @Cog.listener('on_member_remove')
