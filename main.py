@@ -48,9 +48,11 @@ with open(token_file_name, 'r') as token_file:
 is_reminder_set = False
 
 intents = Intents.default()
-# PyCharm thinks Members doesn't exist and also that it's read-only. Both are false.
+# PyCharm thinks these fields don't exist and also that they're read-only. Both are false.
 # noinspection PyDunderSlots,PyUnresolvedReferences
 intents.members = True
+# noinspection PyDunderSlots,PyUnresolvedReferences
+intents.message_content = True
 
 
 class LongSphinx(Bot):
