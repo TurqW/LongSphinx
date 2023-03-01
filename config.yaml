@@ -617,6 +617,9 @@ servers:
           - snake
           - nood
           - pasta
+      - emoji: <:gowronbigeyes:1080368319070220288>
+        triggers:
+          - glory
     strings:
       welcome: |-
         <:emperor:637696072772222977> **Welcome aboard the USS Joshua Norton, {0}.** <:emperor:637696072772222977>
