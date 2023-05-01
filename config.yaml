@@ -72,18 +72,6 @@ servers:
         path: '/w/'
         pagePath: '/wiki/'
     strings: &defaultStrings
-      roleChange:
-        '{0}, you are now a {1}.'
-      roleClear:
-        '{0}, your {1} has been cleared.'
-      roleToggleOn:
-        '{0}, you have been granted role {1}.'
-      roleToggleOff:
-        '{0}, you have shed the role {1}.'
-      rerole:
-        'Another peek at my crystal ball... {0}, are you perhaps a {1}?'
-      invalidRole:
-        'Sorry, {1} does not seem to be in my list. If you think it should be added, contact an admin.'
       left:
         '{0} has left the server.'
       insufficientUserPermissions: |-
@@ -262,41 +250,22 @@ servers:
         type: toggle
         roles:
           Barbarian:
-            description: A warrior from the wilds who draws strength from his rage.
           Bard:
-            description: A performer of such skill that their performances can have magical effects.
           Brawler:
-            description: A fighter who relies on brawn and street smarts rather than grueling training.
           Cleric:
-            description: A priest of a specific deity or pantheon. Best known for their healing magic.
           Druid:
-            description: A magic user deeply in tune with nature. Can often transform into animals.
           Fighter:
           Mage:
-            description: A skilled magic user who has studied or been granted the arcane arts.
           Monk:
-            description: An agile warrior trained in the martial arts of a faraway land.
           Paladin:
-            description: A holy knight, gifted with both physical prowess and holy magic.
           Ranger:
-            description: A tracker, hunter, and/or woodsman. May know some relevant magic.
           Rogue:
-            description: A thief or assassin. Quick, sneaky, and best not let out of your sight.
           Soldier:
-            description: A disciplined warrior accustomed to fighting together with their comrades-in-arms.
           Sorceror:
           Warlock:
     strings:
-      invalidcreature:
-        '{0}, role {1} is not on the valid list. Perhaps have a look at my bestiary with `!creature`, or I can choose for you with `!rerole`.'
-      invalidclass:
-        '{0}, role {1} is not on the valid list. You can see the options with `!class`.'
       welcome:
         'Welcome to The Realm, {0}. You seem to be a ... {1}, perhaps? My crystal ball has been foggy of late. If I''m wrong, quest to the pinned message in <#445271158502457345> to change your character, adventurer!'
-      creatureRoleList:
-        'Have a look at my bestiary. You may be one of these, just say `!creature creaturename`. For instance, `!creature dragon`'
-      classRoleList:
-        'Looking for a career change, eh? {0}... Take your pick of these with `!class classname`. For instance, `!class soldier`'
       <<: *defaultStrings
     <<: *defaults
   '489197880809095168':
@@ -338,12 +307,6 @@ servers:
     strings:
       welcome:
         'Welcome, {0}. You have an aura of {1} magic around you. If you''d like to change it, see the pinned message in <#494374610545147905>.'
-      elementRoleList:
-        'The elements are as follows: {0}. You may choose your alignment with "!element elementname".'
-      jobRoleList:
-        'The jobs are as follows: {0}. You may choose your job with "!job jobname".'
-      rerole:
-        'Another peek at my crystal ball... {0}, are you attuned to {1} magic?'
       <<: *defaultStrings
     automod:
       channel: 'dungeon'
@@ -490,32 +453,14 @@ servers:
       - text: https://tenor.com/view/modern-family-spray-squirt-annoyed-irritated-gif-4445288
         triggers:
           - "\u300cstand\u300d" # only double-quoted strings allow escape sequences
-    lmgtfyDefault: d
     leavingChannel: rainbow
     embedColor: 0x843DA4
-    mwSites:
-      wiki: *wikipedia
-    strings:
-      roleRoleList:
-        'Set your color with `!role color`, such as `!role Purple`'
-      invalidrole:
-        '{0}, role {1} is not available. You can see the options with `!role`.'
-      pronounsRoleList: |-
-        You can toggle any of these pronoun roles, or multiple of them: {0}
-        For instance, `!pronouns he/him they/them`
-        You can also clear all your pronoun roles with `!pronouns none`
-        
-        If your pronouns aren't on this list, please contact <@255823892931805195>.
-      invalidpronouns: |-
-        I'm sorry, that pronoun hasn't been added to this server yet. Contact <@255823892931805195> if you want it added.
-      <<: *defaultStrings
     <<: *defaults
   '302519947005919232':
     name: USS Joshua Norton
     channelListBehavior: block
     channels:
       - none
-    lmgtfyDefault: d
     greetingChannel: lobby
     leavingChannel: holodeck
     embedColor: 0x81CE38
@@ -525,21 +470,10 @@ servers:
         description: '{0}'
         roles:
           VC:
-            description: The crew occasionally hops into voice chat to shoot the shit, and we'll ping this role when we do. If you wish to know when we do this so you can join us, please add this role.
           STO:
-            description: Some players chat about Star Trek Online in <#637024884685537292>, and will occasionally ping this role when there's something happening with the Emperor's fleet. Assign this role if you wish to be notified of STO and fleet activity.
           ghojwI':
-            description: This role is for people who attempting to learn Klingon on Duolingo or otherwise. We also chat about it in <#426516837816336396>. Assign this role if you want to be in the loop.
       pronouns:
         type: toggle
-        description: |-
-          You can toggle any of these pronoun roles, or multiple of them:
-          {0}
-          For instance, `!pronouns he/him they/them`
-          You can also clear all your pronoun roles with `!pronouns none`
-        
-          If your pronouns aren't on this list, please contact <@195543213212172288>.
-        invalid: I'm sorry, that pronoun hasn't been added to this server yet. Contact <@195543213212172288> if you want it added.
         roles:
           she/her:
           he/him:
@@ -626,24 +560,7 @@ servers:
 
         Please be sure to read <#575878931018809374> and let the <@&302521125198495747> know if you need any help.
 
-        <a:emperorbubblinghearts:981044178207244288> <:orionllaphand:394679026066784256> <:emperor:637696072772222977> <:cllaphand:441431194492469249> <:emperor:637696072772222977> <:bolianllaphand:394679014524190721> <:emperor:637696072772222977> <:androidllaphand:625569278245994509> <a:emperorbubblinghearts:981044178207244288>
-      roleRoleList: |-
-        `VC`
-        > The crew occasionally hops into voice chat to shoot the shit, and we'll ping this role when we do. If you wish to know when we do this so you can join us, please add this role.
-        `STO`
-        > Some players chat about Star Trek Online in <#637024884685537292>, and will occasionally ping this role when there's something happening with the Emperor's fleet. Assign this role if you wish to be notified of STO and fleet activity.
-        `ghojwI'`
-        > This role is for people who attempting to learn Klingon on Duolingo or otherwise. We also chat about it in <#426516837816336396>. Assign this role if you want to be in the loop.
-        `AmongUs`
-        > Sometimes we play Among Us. If you want to join, add this role. We'll ping you if you're not sus.
-      pronounsRoleList: |-
-        You can toggle any of these pronoun roles, or multiple of them: {0}
-        For instance, `!pronouns he/him they/them`
-        You can also clear all your pronoun roles with `!pronouns none`
-        
-        If your pronouns aren't on this list, please contact <@195543213212172288>.
-      invalidpronouns: |-
-        I'm sorry, that pronoun hasn't been added to this server yet. Contact <@195543213212172288> if you want it added.
+        <a:emperorbubblinghearts:981044178207244288> <:orionllaphand:394679026066784256> <:emperor:637696072772222977> <:cardassianllap:1080982848686788699> <:emperor:637696072772222977> <:bolianllaphand:394679014524190721> <:emperor:637696072772222977> <:androidllaphand:625569278245994509> <a:emperorbubblinghearts:981044178207244288>
       insufficientUserPermissions: |-
         Insufficient Security Clearance.
         No but seriously, you don't have permission to do that.
@@ -664,7 +581,6 @@ servers:
     rolesets:
       iam:
         type: toggle
-        description: '{0}'
         roles:
           Ace:
           Aenar:
@@ -722,7 +638,6 @@ servers:
         Pronouns:
         Favorite series:
         Other info:
-      iamRoleList: 'The self-assignable roles for this server are: {0}'
       <<: *defaultStrings
     <<: *defaults
   '405942024580104192':
@@ -737,16 +652,6 @@ servers:
           he/him:
           they/them:
           fae/faer:
-    strings:
-      pronounsRoleList: |-
-        You can toggle any of these pronoun roles, or multiple of them: {0}
-        For instance, `!pronouns he/him they/them`
-        You can also clear all your pronoun roles with `!pronouns none`
-        
-        If your pronouns aren't on this list, please contact <@255823892931805195>.
-      invalidpronouns: |-
-        I'm sorry, that pronoun hasn't been added to this server yet. Contact <@255823892931805195> if you want it added.
-      <<: *defaultStrings
     <<: *defaults
 dms:
   none: none
