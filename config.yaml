@@ -67,7 +67,7 @@ servers:
           - capsaicin
     autoreply: False
     mwSites:
-      wiki: &wikipedia
+      Wikipedia: &wikipedia
         url: 'en.wikipedia.org'
         path: '/w/'
         pagePath: '/wiki/'
@@ -271,11 +271,15 @@ servers:
   '489197880809095168':
     name: TEST
     mwSites:
-      wiki: *wikipedia
-      lcars:
+      Wikipedia: *wikipedia
+      LCARS:
         url: 'lcars.sfintel.space'
         path: '/'
         pagePath: '/w/'
+      Memory Alpha:
+        url: 'memory-alpha.fandom.com'
+        path: '/'
+        pagePath: '/wiki/'
     leavingChannel: test
     autoreact:
     - emoji: <:1pixel:568651578769145856>
@@ -487,11 +491,15 @@ servers:
       channel: 741130194399526963
       message: <@&873370750998962206> Almost time for the show!
     mwSites:
-      wiki: *wikipedia
-      lcars:
+      Wikipedia: *wikipedia
+      LCARS:
         url: lcars.sfintel.space
         path: /
         pagePath: /w/
+      Memory Alpha:
+        url: 'memory-alpha.fandom.com'
+        path: '/'
+        pagePath: '/wiki/'
     automod:
       channel: brig
       role: brig
