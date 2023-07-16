@@ -661,5 +661,10 @@ servers:
           they/them:
           fae/faer:
     <<: *defaults
+  '500077054570528778':
+    name: Emperor R&D
+    channelListBehavior: block
+    embedColor: 0x843DA4
+    <<: *defaults
 dms:
   none: none
