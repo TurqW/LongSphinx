@@ -483,6 +483,7 @@ servers:
           he/him:
           they/them:
           fae/faer:
+          it/its:
     recurring:
     - time: R/2022-01-07T23:59Z/PT6H
       channel: 652303689037512704
