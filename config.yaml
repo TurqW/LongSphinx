@@ -667,5 +667,24 @@ servers:
     channelListBehavior: block
     embedColor: 0x843DA4
     <<: *defaults
+  '1064577698460090388':
+    name: DorgaJohn D&D
+    channelListBehavior: allow
+    channels:
+    - 1135603999651922060
+    - tim-speaks
+    - 1064577698959196233
+    - general
+    embedColor: 0x8c031c
+    automod: False
+    autoreact: False
+    recurring:
+      - time: R1/2023-07-30T17:00Z/P14D
+        channel: 1135603999651922060
+        message: 'Reminder: tomorrow is a late start day! D&D will start at 1PM Eastern/Noon Central, 24 hours from this message.'
+      - time: R1/2023-07-30T16:00Z/P14D
+        channel: 1135603999651922060
+        message: 'Reminder: tomorrow is a normal start day! D&D will start at Noon Eastern/11AM Central, 24 hours from this message.'
+    <<: *defaults
 dms:
   none: none
