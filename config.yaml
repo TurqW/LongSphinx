@@ -682,7 +682,7 @@ servers:
       - time: R/2023-07-30T17:00Z/P14D
         channel: 1135603999651922060
         message: 'Reminder: tomorrow is a late start day! D&D will start at <t:1690822800:T>, 24 hours from this message.'
-      - time: R/2023-08-07T16:00Z/P14D
+      - time: R/2023-08-06T16:00Z/P14D
         channel: 1135603999651922060
         message: 'Reminder: tomorrow is a normal start day! D&D will start at <t:1691424000:T>, 24 hours from this message.'
     <<: *defaults
