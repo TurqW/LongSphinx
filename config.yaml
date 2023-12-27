@@ -531,6 +531,8 @@ servers:
           - caped crusader
           - dark knight
           - adam west
+          - spiderman
+          - spider-man
       - emoji: "\U0001F32E"
         triggers:
           - deadpool
@@ -678,13 +680,6 @@ servers:
     embedColor: 0x8c031c
     automod: False
     autoreact: False
-    recurring:
-      - time: R/2023-07-30T17:00Z/P14D
-        channel: 1135603999651922060
-        message: 'Reminder: tomorrow is a late start day! D&D will start at <t:1690822800:T>, 24 hours from this message.'
-      - time: R/2023-08-06T16:00Z/P14D
-        channel: 1135603999651922060
-        message: 'Reminder: tomorrow is a normal start day! D&D will start at <t:1691424000:T>, 24 hours from this message.'
     <<: *defaults
 dms:
   none: none
