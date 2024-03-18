@@ -18,6 +18,7 @@ from cogs.role_manager import RoleManager
 from cogs.userconfig import ConfigManager
 from cogs.admin import AdminHelper
 from cogs.writesprint import WriteSprint
+from cogs.rss import Feeds
 from discordclasses.context import LongSphinxContext
 
 utils.check_path('logs')
@@ -78,5 +79,6 @@ bot.add_cog(RoleManager(bot))
 bot.add_cog(RollCommands(bot))
 bot.add_cog(AdminHelper(bot))
 bot.add_cog(WriteSprint(bot))
+bot.add_cog(Feeds(bot))
 
 bot.run(TOKEN)

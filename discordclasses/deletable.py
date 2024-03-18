@@ -26,7 +26,7 @@ class DeletableListView(View):
             options = self.dropdown_populator(interaction)
 
             self.dropdown = Select(
-                placeholder="Delete which one?",
+                placeholder="Delete which one(s)?",
                 max_values=len(options),
                 options=options
             )
