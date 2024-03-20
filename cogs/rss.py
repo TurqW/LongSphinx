@@ -59,13 +59,11 @@ def delete_feed(feed_id):
 
 async def process_feed(channel, id, feed, force_backlog=0):
     NewsFeed = feedparser.parse(feed[URL_KEY])
-    print("Parsed feed")
     lastNew = len(NewsFeed.entries) - 1
     while datetime(*(NewsFeed.entries[lastNew].published_parsed[0:6]), tzinfo=timezone.utc) <= feed[PUBLISHED_KEY] and lastNew >= force_backlog:
         lastNew -= 1
     print(lastNew)
     if lastNew >= 0:
-        print("Publishing " + NewsFeed.feed.title)
         await publish(channel, NewsFeed.feed.title, NewsFeed.entries[0:lastNew + 1])
     feed = (feed[0], feed[1], datetime(*(NewsFeed.entries[0].published_parsed[0:6]), tzinfo=timezone.utc))
     update_feed(id, feed)
@@ -76,11 +74,7 @@ async def publish(channel, source, entries):
         embed = Embed()
         embed.title = entry.title
         embed.url = entry.link
-        # Not including timestamp for now because Nova does it wrong, see:
-        # https://github.com/anodyne/nova/issues/305
-        # and
-        # https://github.com/anodyne/nova/pull/307
-        #embed.timestamp = datetime(*(entry.published_parsed[0:6]), tzinfo=timezone.utc)
+        embed.timestamp = datetime(*(entry.published_parsed[0:6]), tzinfo=timezone.utc)
         embed.color = conf.get_object(channel.guild, 'embedColor')
         await channel.send(f"New post from {source}:", embed=embed)
 
