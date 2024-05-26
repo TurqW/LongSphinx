@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from uuid import uuid4
 
 from discord.ui import View
@@ -18,6 +19,7 @@ URL_KEY = 1
 PUBLISHED_KEY = 2
 NO_FEEDS_MESSAGE = "No feeds configured"
 scheduled_tasks = {}
+log = logging.getLogger('LongSphinx.Rep')
 
 
 def load_feeds():
@@ -58,15 +60,21 @@ def delete_feed(feed_id):
 
 
 async def process_feed(channel, id, feed, force_backlog=0):
-    NewsFeed = feedparser.parse(feed[URL_KEY])
-    lastNew = len(NewsFeed.entries) - 1
-    while datetime(*(NewsFeed.entries[lastNew].published_parsed[0:6]), tzinfo=timezone.utc) <= feed[PUBLISHED_KEY] and lastNew >= force_backlog:
-        lastNew -= 1
-    print(lastNew)
-    if lastNew >= 0:
-        await publish(channel, NewsFeed.feed.title, NewsFeed.entries[0:lastNew + 1])
-    feed = (feed[0], feed[1], datetime(*(NewsFeed.entries[0].published_parsed[0:6]), tzinfo=timezone.utc))
-    update_feed(id, feed)
+    try:
+        NewsFeed = feedparser.parse(feed[URL_KEY])
+        for entry in NewsFeed.entries:
+            if not hasattr(entry, 'published_parsed') and hasattr(entry, 'updated_parsed'):
+                entry.published_parsed = entry.updated_parsed
+        if len(NewsFeed.entries) > 0:
+            lastNew = len(NewsFeed.entries) - 1
+            while lastNew >= force_backlog and datetime(*(NewsFeed.entries[lastNew].published_parsed[0:6]), tzinfo=timezone.utc) <= feed[PUBLISHED_KEY]:
+                lastNew -= 1
+            if lastNew >= 0:
+                await publish(channel, NewsFeed.feed.title, NewsFeed.entries[0:lastNew + 1])
+            feed = (feed[0], feed[1], datetime(*(NewsFeed.entries[0].published_parsed[0:6]), tzinfo=timezone.utc))
+            update_feed(id, feed)
+    except Exception as e:
+        log.error("Failed to publish feed: " + str(feed) + " because " + str(e))
 
 
 async def publish(channel, source, entries):
@@ -136,13 +144,10 @@ class Feeds(Cog):
 
     async def process_feeds(self):
         while True:
-            print("Processing")
             for key, feed in load_feeds().items():
                 channel = self.bot.get_channel(feed[CHANNEL_KEY])
                 await process_feed(channel, key, feed)
-            print("Processed all")
             await asyncio.sleep(5)
-            print("Slept")
 
     @slash_command(name='rssadd', description='add an RSS feed to broadcast in the current channel.')
     async def add_rss_feed(
@@ -153,6 +158,10 @@ class Feeds(Cog):
         permissions = ctx.channel.permissions_for(ctx.user)
         if not permissions.manage_messages:
             await ctx.respond(conf.get_string(ctx.user, 'insufficientUserPermissions'), ephemeral=True)
+            return
+        permissions2 = ctx.channel.permissions_for(ctx.me)
+        if not permissions2.send_messages or not permissions2.embed_links:
+            await ctx.respond("I need permissions to both send messages and embed links in this channel in order to follow an RSS feed.", ephemeral=True)
             return
         confirm_view = Confirm(add_feed(ctx.channel, url, backlog))
         try:
