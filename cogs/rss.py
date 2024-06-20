@@ -144,10 +144,12 @@ class Feeds(Cog):
 
     async def process_feeds(self):
         while True:
-            for key, feed in load_feeds().items():
+            feeds = load_feeds()
+            feed_count = len(feeds)
+            for key, feed in feeds.items():
                 channel = self.bot.get_channel(feed[CHANNEL_KEY])
                 await process_feed(channel, key, feed)
-            await asyncio.sleep(5)
+                await asyncio.sleep(3600/feed_count)
 
     @slash_command(name='rssadd', description='add an RSS feed to broadcast in the current channel.')
     async def add_rss_feed(
