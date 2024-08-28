@@ -470,7 +470,6 @@ servers:
         description: '{0}'
         roles:
           VC:
-          STO:
           ghojwI':
     recurring:
     - time: R/2022-01-07T23:59Z/PT6H
