@@ -285,10 +285,6 @@ servers:
     - emoji: <:1pixel:568651578769145856>
       triggers:
       - \bwinds?\b
-    recurring:
-      - time: R/2022-01-08T23:48Z/PT1M
-        channel: 528792844731809792
-        message: 'gen:coda'
     <<: *realm
   '494373430637101058':
     name: The Turquarium
@@ -476,14 +472,6 @@ servers:
           VC:
           STO:
           ghojwI':
-      pronouns:
-        type: toggle
-        roles:
-          she/her:
-          he/him:
-          they/them:
-          fae/faer:
-          it/its:
     recurring:
     - time: R/2022-01-07T23:59Z/PT6H
       channel: 652303689037512704
