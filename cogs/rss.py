@@ -143,7 +143,7 @@ class Feeds(Cog):
         asyncio.get_event_loop().create_task(self.process_feeds())
 
     def check_can_publish(self, channel):
-        permissions2 = channel.permissions_for(self.bot)
+        permissions2 = channel.permissions_for(self.bot.user)
         if not permissions2.send_messages or not permissions2.embed_links:
             return False
         return True
@@ -154,9 +154,12 @@ class Feeds(Cog):
             feed_count = len(feeds)
             for key, feed in feeds.items():
                 channel = self.bot.get_channel(feed[CHANNEL_KEY])
-                if channel and self.check_can_publish(channel):
-                    await process_feed(channel, key, feed)
-                    await asyncio.sleep(3600/feed_count)
+                if channel:
+                    if self.check_can_publish(channel):
+                        await process_feed(channel, key, feed)
+                        await asyncio.sleep(3600/feed_count)
+                    else:
+                        log.error(f"Cannot write to channel {feed[CHANNEL_KEY]}")
 
     @slash_command(name='rssadd', description='add an RSS feed to broadcast in the current channel.')
     async def add_rss_feed(
