@@ -111,7 +111,7 @@ def feeds_for_dropdown(interaction: Interaction):
      @param interaction:
      @return: list of SelectOptions with that user's reminders
      """
-    return [SelectOption(label=feed[URL_KEY], value=key) for (key, feed) in
+    return [SelectOption(label=feed[URL_KEY][:98], value=key) for (key, feed) in
             load_feeds().items() if feed[CHANNEL_KEY] == interaction.channel.id]
 
 
@@ -142,14 +142,21 @@ class Feeds(Cog):
     async def on_ready(self):
         asyncio.get_event_loop().create_task(self.process_feeds())
 
+    def check_can_publish(self, channel):
+        permissions2 = channel.permissions_for(self.bot)
+        if not permissions2.send_messages or not permissions2.embed_links:
+            return False
+        return True
+
     async def process_feeds(self):
         while True:
             feeds = load_feeds()
             feed_count = len(feeds)
             for key, feed in feeds.items():
                 channel = self.bot.get_channel(feed[CHANNEL_KEY])
-                await process_feed(channel, key, feed)
-                await asyncio.sleep(3600/feed_count)
+                if channel and self.check_can_publish(channel):
+                    await process_feed(channel, key, feed)
+                    await asyncio.sleep(3600/feed_count)
 
     @slash_command(name='rssadd', description='add an RSS feed to broadcast in the current channel.')
     async def add_rss_feed(
@@ -161,8 +168,7 @@ class Feeds(Cog):
         if not permissions.manage_messages:
             await ctx.respond(conf.get_string(ctx.user, 'insufficientUserPermissions'), ephemeral=True)
             return
-        permissions2 = ctx.channel.permissions_for(ctx.me)
-        if not permissions2.send_messages or not permissions2.embed_links:
+        if not self.check_can_publish(ctx.channel):
             await ctx.respond("I need permissions to both send messages and embed links in this channel in order to follow an RSS feed.", ephemeral=True)
             return
         confirm_view = Confirm(add_feed(ctx.channel, url, backlog))
