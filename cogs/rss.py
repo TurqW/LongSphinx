@@ -143,7 +143,7 @@ class Feeds(Cog):
         asyncio.get_event_loop().create_task(self.process_feeds())
 
     def check_can_publish(self, channel):
-        permissions2 = channel.permissions_for(self.bot.user)
+        permissions2 = channel.permissions_for(channel.guild.me)
         if not permissions2.send_messages or not permissions2.embed_links:
             return False
         return True
