@@ -1,3 +1,4 @@
+import asyncio
 import os
 
 fullGaugeChar = '='
@@ -55,3 +56,15 @@ def grammatical_number(word, count):
     if count == 1 or count == -1:
         return word
     return word + 's'
+
+def run_only_one(func):
+    if 'threads' not in run_only_one.__dict__:
+        run_only_one.threads = {}
+    def inner1(*args, **kwargs):
+        thread = None
+        if func in run_only_one.threads:
+            thread = run_only_one.threads[func]
+        if not thread or thread.done():
+            run_only_one.threads[func] = asyncio.get_event_loop().create_task(func(*args, **kwargs))
+
+    return inner1

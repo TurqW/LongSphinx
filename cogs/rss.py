@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from discord import slash_command, Option, Interaction, Embed, Cog, Member, ButtonStyle, SelectOption
 from discordclasses.confirm import Confirm
 from discordclasses.deletable import DeletableListView
+from discordclasses.utils import run_only_one
 
 from persistence import botconfig as conf
 from persistence.botdb import BotDB
@@ -140,7 +141,7 @@ class Feeds(Cog):
 
     @Cog.listener()
     async def on_ready(self):
-        asyncio.get_event_loop().create_task(self.process_feeds())
+        self.process_feeds()
 
     def check_can_publish(self, channel):
         permissions2 = channel.permissions_for(channel.guild.me)
@@ -148,6 +149,7 @@ class Feeds(Cog):
             return False
         return True
 
+    @run_only_one
     async def process_feeds(self):
         while True:
             feeds = load_feeds()
@@ -158,7 +160,7 @@ class Feeds(Cog):
                 if channel:
                     if self.check_can_publish(channel):
                         await process_feed(channel, key, latest[key])
-                        await asyncio.sleep(3600/feed_count)
+                        await asyncio.sleep(60/feed_count)
                     else:
                         log.error(f"Cannot write to channel {latest[key][CHANNEL_KEY]}")
 
