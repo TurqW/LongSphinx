@@ -152,14 +152,15 @@ class Feeds(Cog):
         while True:
             feeds = load_feeds()
             feed_count = len(feeds)
-            for key, feed in feeds.items():
-                channel = self.bot.get_channel(feed[CHANNEL_KEY])
+            for key in feeds.keys():
+                latest = load_feeds()
+                channel = self.bot.get_channel(latest[key][CHANNEL_KEY])
                 if channel:
                     if self.check_can_publish(channel):
-                        await process_feed(channel, key, feed)
+                        await process_feed(channel, key, latest[key])
                         await asyncio.sleep(3600/feed_count)
                     else:
-                        log.error(f"Cannot write to channel {feed[CHANNEL_KEY]}")
+                        log.error(f"Cannot write to channel {latest[key][CHANNEL_KEY]}")
 
     @slash_command(name='rssadd', description='add an RSS feed to broadcast in the current channel.')
     async def add_rss_feed(
