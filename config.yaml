@@ -471,13 +471,7 @@ servers:
         roles:
           VC:
           ghojwI':
-    recurring:
-    - time: R/2022-01-07T23:59Z/PT6H
-      channel: 652303689037512704
-      message: bump <https://discord.me/dashboard>
-    - time: R1/2021-08-14T17:55Z/P7D
-      channel: 741130194399526963
-      message: <@&873370750998962206> Almost time for the show!
+    recurring: False
     mwSites:
       Wikipedia: *wikipedia
       LCARS:
