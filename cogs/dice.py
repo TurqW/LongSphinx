@@ -44,7 +44,7 @@ class RollsetTransformer(Transformer):
             while key in results:
                 iterator += 1
                 key = item['name'] + ' (' + str(iterator) + ')'
-            if '+' not in item['description']:
+            if '+' not in item['description'] and '-' not in item['description']:
                 results[key] = '**' + str(item['value']) + '**'
             else:
                 results[key] = item['description'] + ' = **' + str(item['value']) + '**'
@@ -97,22 +97,17 @@ class RollsetTransformer(Transformer):
 def roll_command(user, command):
     if not command:
         command = 'd20'
-    name = ''
-    if ':' in command:
-        command, name = command.split(':')
-        name = name.strip()
-    else:
-        with BotDB(conf.bot_name(), DB_NAME) as db:
-            if user in db:
-                macros = db[user]
-                for key in sorted(macros.keys(), key=len):
-                    # For prefix matching, you want to match to the shortest possible match so all matches can be hit
-                    if key.startswith(command.lower()):
-                        if not name:
-                            name = key
-                        command = macros[key]
-        # TODO this should be way more specific
-    return name, RollsetTransformer().transform(parser.parse(command))
+    with BotDB(conf.bot_name(), DB_NAME) as db:
+        if user in db:
+            macros = db[user]
+            for key in sorted(macros.keys(), key=len):
+                # For prefix matching, you want to match to the shortest possible match so all matches can be hit
+                if key.startswith(command.lower()):
+                    if not name:
+                        name = key
+                    command = macros[key]
+    # TODO this should be way more specific
+    return RollsetTransformer().transform(parser.parse(command))
 
 
 def stringy_mod(modifier):
@@ -209,6 +204,10 @@ def sanitize_suppress_save_config(user_id, suppress_until):
         userconfig.remove_key(user_id, SUPPRESS_SAVE_CONFIG_KEY)
 
 
+def sanitize_rolls(rolls):
+    return ''.join(c for c in rolls if c in '1234567890d+- ,')
+
+
 class RollCommands(Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -226,19 +225,17 @@ class RollCommands(Cog):
     async def roll_dice(self, ctx, rolls: str,
                         label: Option(str, 'Would you like to label this roll?', required=False)):
         embed = Embed()
-        command_name, results = roll_command(str(ctx.user.id), rolls)
+        rolls = sanitize_rolls(rolls)
+        results = roll_command(str(ctx.user.id), rolls)
         for key, value in results.items():
             embed.add_field(name=key, value=value)
         follow_up = False
         if label:
             embed.title = label
-            if not command_name and not any(char.isdigit() for char in label):
+            if not any(char.isdigit() for char in label):
                 follow_up = True
         else:
             label = rolls
-            if command_name:
-                embed.title = command_name
-                label = command_name
         msg = ctx.user.mention + ' rolled ' + label + '!'
         await ctx.respond(msg, embed=embed)
         if follow_up:
