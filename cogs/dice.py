@@ -205,7 +205,10 @@ def sanitize_suppress_save_config(user_id, suppress_until):
 
 
 def sanitize_rolls(rolls):
-    return ''.join(c for c in rolls if c in '1234567890d+- ,')
+    # Filter down to only usable characters
+    rolls = ''.join(c for c in rolls if c in '1234567890d+- ,')
+    # Consolidate consecutive whitespace
+    return ' '.join(rolls.split())
 
 
 class RollCommands(Cog):
@@ -226,7 +229,11 @@ class RollCommands(Cog):
                         label: Option(str, 'Would you like to label this roll?', required=False)):
         embed = Embed()
         rolls = sanitize_rolls(rolls)
-        results = roll_command(str(ctx.user.id), rolls)
+        try:
+            results = roll_command(str(ctx.user.id), rolls)
+        except:
+            await ctx.respond("I'm sorry, I don't quite understand. You attempted to roll: `" + rolls + "`", ephemeral=True)
+            return
         for key, value in results.items():
             embed.add_field(name=key, value=value)
         follow_up = False
