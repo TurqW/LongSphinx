@@ -33,9 +33,10 @@ class MiscCommands(Cog):
                        count: Option(int, 'How many? Default 1.', required=False) = 1,
                        public: Option(bool, 'Should others see output? Default false.', required=False) = False
                        ):
+        prefix = '* ' if count > 1 else ''
         if name in conf.get_object(ctx.guild, 'generators'):
             await ctx.respond(
-                '\n'.join([generator.extract_text(generator.generate(name)) for _ in range(count)]),
+                prefix + '\n* '.join([generator.extract_text(generator.generate(name)) for _ in range(count)]),
                 ephemeral=not public)
         else:
             await ctx.respond(f"{name} is not a recognized generator.")
