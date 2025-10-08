@@ -159,10 +159,13 @@ class Feeds(Cog):
                 channel = self.bot.get_channel(latest[key][CHANNEL_KEY])
                 if channel:
                     if self.check_can_publish(channel):
-                        await process_feed(channel, key, latest[key])
-                        await asyncio.sleep(60/feed_count)
+                        try:
+                            await asyncio.wait_for(process_feed(channel, key, latest[key]), 30)
+                        except TimeoutError:
+                            log.warning(f"Timed out while attempting to parse feed {latest[key][URL_KEY]} for channel {latest[key][CHANNEL_KEY]}.")
                     else:
                         log.error(f"Cannot write to channel {latest[key][CHANNEL_KEY]}")
+                    await asyncio.sleep(60 / feed_count)
 
     @slash_command(name='rssadd', description='add an RSS feed to broadcast in the current channel.')
     async def add_rss_feed(
@@ -179,13 +182,13 @@ class Feeds(Cog):
             return
         confirm_view = Confirm(add_feed(ctx.channel, url, backlog))
         try:
-            NewsFeed = feedparser.parse(url)
-            embed = Embed()
-            embed.title = NewsFeed.feed.title
-            embed.description = NewsFeed.feed.subtitle
-            embed.add_field(name="Latest Entry", value=NewsFeed.entries[0].title)
-            embed.url = NewsFeed.feed.link
-            await ctx.respond(f"Add feed {url} to this channel, publishing {backlog} recent entries?", embed=embed,
+            #NewsFeed = feedparser.parse(url)
+            #embed = Embed()
+            #embed.title = NewsFeed.feed.title
+            #embed.description = NewsFeed.feed.subtitle
+            #embed.add_field(name="Latest Entry", value=NewsFeed.entries[0].title)
+            #embed.url = NewsFeed.feed.link
+            await ctx.respond(f"Add feed {url} to this channel, publishing {backlog} recent entries?", #embed=embed,
                               view=confirm_view, ephemeral=True)
         except:
             await ctx.respond(

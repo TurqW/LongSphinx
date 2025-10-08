@@ -1,0 +1,8 @@
+help:
+  Generates a random french(ish) name.
+root:
+- text: 'Your generated frenchish name: {name}'
+  name: 'francename.name'
+name:
+- text: '{name}'
+  name: mc.france

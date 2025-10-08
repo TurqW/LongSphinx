@@ -1,0 +1,8 @@
+help:
+  Generates a random elvish name.
+root:
+- text: 'Your generated elvish name: {name}'
+  name: 'elfname.name'
+name:
+- text: '{name}'
+  name: mc.elf
