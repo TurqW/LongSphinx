@@ -500,6 +500,7 @@ servers:
       - bit.do
       - mcaf.ee
       - su.pr
+      - t.me
     autoreact:
       - emoji: <:emperor:637696072772222977>
         triggers:
